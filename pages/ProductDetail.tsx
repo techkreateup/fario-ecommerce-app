@@ -13,7 +13,7 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { EnhancedProduct } from '../constants';
+import { EnhancedProduct, ASSETS } from '../constants';
 import PageNav from '../components/PageNav';
 import Button from '../components/Button';
 import QuickViewModal from '../components/QuickViewModal';
