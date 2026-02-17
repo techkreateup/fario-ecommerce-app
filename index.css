@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased bg-white text-slate-900;
+  }
+}
+
+@layer utilities {
+  .line-clamp-1 {
+    line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    line-clamp: 3;
+  }
+
+  .line-clamp-4 {
+    line-clamp: 4;
+  }
+
+  .line-clamp-5 {
+    line-clamp: 5;
+  }
+
+  .line-clamp-6 {
+    line-clamp: 6;
+  }
+
+  .appearance-none {
+    appearance: none;
+  }
+}
