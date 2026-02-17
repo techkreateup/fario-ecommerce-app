@@ -73,9 +73,11 @@ const Header: React.FC = () => {
       setIsProfileMenuOpen(false);
       await signOut();
       console.log('👋 LOGOUT SUCCESSFUL');
-      // Force navigation to home with hash
-      window.location.hash = '#/';
-      window.location.reload();
+      // If on protected page, App.tsx will redirect.
+      // If on public page, stay there.
+      if (isAdminPage) {
+        navigate('/');
+      }
     } catch (err) {
       console.error('🔥 LOGOUT ATTEMPT FAILED:', err);
       alert('Sign out encountered an error. Please refresh the page.');

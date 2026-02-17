@@ -29,7 +29,8 @@ const Sidebar: React.FC<any> = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    window.location.href = '/';
+    await signOut();
+    navigate('/');
   };
 
   const menuItems = [

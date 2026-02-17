@@ -139,7 +139,7 @@ const AuthHandler = () => {
       if (event === 'SIGNED_OUT') {
         const protectedPaths = ['/admin', '/profile', '/orders', '/checkout'];
         if (protectedPaths.some(path => location.pathname.startsWith(path))) {
-          navigate('/login');
+          navigate('/');
         }
       }
     });
@@ -175,7 +175,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
   }
 
   if (!user) {
-    return <RouterDOM.Navigate to="/login" state={{ from: location }} replace />;
+    return <RouterDOM.Navigate to="/" state={{ from: location }} replace />;
   }
 
   if (adminOnly && !isAdmin) {
