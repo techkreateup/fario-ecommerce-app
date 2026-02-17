@@ -73,9 +73,19 @@ export const driveVideo = (idOrUrl: string): string => {
 // Helper to handle base path for images in GitHub Pages
 const getAssetPath = (path: string) => {
   if (path.startsWith('http')) return path;
+
   const base = import.meta.env.BASE_URL;
-  // Remove leading slash from path if base already ends with slash to avoid double slash
+  const isDev = import.meta.env.DEV;
+
+  // Clean the path to not have leading slash
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+
+  // In development or if base is root, return root path
+  if (isDev || base === '/') {
+    return `/${cleanPath}`;
+  }
+
+  // In production with subpath
   const cleanBase = base.endsWith('/') ? base : `${base}/`;
   return `${cleanBase}${cleanPath}`;
 };
