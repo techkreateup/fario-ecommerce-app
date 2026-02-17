@@ -70,22 +70,32 @@ export const driveVideo = (idOrUrl: string): string => {
   return idOrUrl;
 };
 
+// Helper to handle base path for images in GitHub Pages
+const getAssetPath = (path: string) => {
+  if (path.startsWith('http')) return path;
+  const base = import.meta.env.BASE_URL;
+  // Remove leading slash from path if base already ends with slash to avoid double slash
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  return `${cleanBase}${cleanPath}`;
+};
+
 export const ASSETS = {
   // Official Licensed Logo: F=White, BG=Purple Circle
-  logo: "/fario-logo.png",
+  logo: getAssetPath("fario-logo.png"),
   // Using LOCAL images for 100% reliability - no Google Drive issues!
-  heroShoe: "/shoe-edustep.jpg",
+  heroShoe: getAssetPath("shoe-edustep.jpg"),
   brandVideo: "https://drive.google.com/uc?export=download&id=1fuEGW4xFcdZUiKTrfRNEovuefrB0xqWx",
   products: {
     // All images now stored locally in /public folder
-    shoe1: "/shoe-velcro-2.png",
-    shoe2: "/shoe-lifestyle.jpg",
-    schoolShoe: "/shoe-lifestyle.jpg",
-    bag1: "/shoe-lifestyle.jpg", // Reusing until you provide bag image
-    socks1: "/shoe-lifestyle.jpg", // Reusing until you provide socks image
-    tags: "/shoe-edustep.jpg",
-    kidsVelcro: "/shoe-velcro-1.jpg",
-    extra: "/shoe-edustep.jpg",
+    shoe1: getAssetPath("shoe-velcro-2.png"),
+    shoe2: getAssetPath("shoe-lifestyle.jpg"),
+    schoolShoe: getAssetPath("shoe-lifestyle.jpg"),
+    bag1: getAssetPath("shoe-lifestyle.jpg"), // Reusing until you provide bag image
+    socks1: getAssetPath("shoe-lifestyle.jpg"), // Reusing until you provide socks image
+    tags: getAssetPath("shoe-edustep.jpg"),
+    kidsVelcro: getAssetPath("shoe-velcro-1.jpg"),
+    extra: getAssetPath("shoe-edustep.jpg"),
   }
 };
 
