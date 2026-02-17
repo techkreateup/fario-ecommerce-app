@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image URL Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; }
+        .test-item { margin: 20px 0; padding: 15px; background: #2a2a2a; border-radius: 8px; }
+        .url { color: #4CAF50; word-break: break-all; }
+        img { max-width: 200px; margin: 10px 0; border: 2px solid #444; }
+        .error { color: #f44336; }
+        .success { color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Google Drive Image URL Test</h1>
+    <p>Testing if the generated URLs work correctly...</p>
+    
+    <div id="results"></div>
+
+    <script>
+        const testUrls = [
+            {
+                name: "Hero Shoe",
+                original: "https://drive.google.com/file/d/1pc6UNVFR889igs7LbnQml_DpWpVd5AP2/view?usp=sharing",
+                id: "1pc6UNVFR889igs7LbnQml_DpWpVd5AP2"
+            },
+            {
+                name: "Shoe 1",
+                original: "https://drive.google.com/file/d/1JAkZKl652biLyzUdO5X05Y4s7a1AsqPU/view?usp=sharing",
+                id: "1JAkZKl652biLyzUdO5X05Y4s7a1AsqPU"
+            },
+            {
+                name: "Shoe 2",
+                original: "https://drive.google.com/file/d/19UKGRbcIZHffq1xs56MekmVpgF90H2kr/view?usp=sharing",
+                id: "19UKGRbcIZHffq1xs56MekmVpgF90H2kr"
+            },
+            {
+                name: "School Shoe",
+                original: "https://drive.google.com/file/d/1fm0yzmL6IQktGcvEZ34X3hF3YaVqcYoC/view?usp=sharing",
+                id: "1fm0yzmL6IQktGcvEZ34X3hF3YaVqcYoC"
+            },
+            {
+                name: "Bag",
+                original: "https://drive.google.com/file/d/1P2Rdo8iTmbVCLJ7bKG8SRiYdjoiEl5TZ/view?usp=sharing",
+                id: "1P2Rdo8iTmbVCLJ7bKG8SRiYdjoiEl5TZ"
+            },
+            {
+                name: "Socks",
+                original: "https://drive.google.com/file/d/1flbPCaMUvTIxbIV0F8ifxLEP1ySIgSwt/view?usp=sharing",
+                id: "1flbPCaMUvTIxbIV0F8ifxLEP1ySIgSwt"
+            }
+        ];
+
+        const resultsDiv = document.getElementById('results');
+
+        testUrls.forEach((item, index) => {
+            const directUrl = `https://drive.google.com/uc?export=view&id=${item.id}`;
+            
+            const div = document.createElement('div');
+            div.className = 'test-item';
+            div.innerHTML = `
+                <h3>${index + 1}. ${item.name}</h3>
+                <p><strong>File ID:</strong> ${item.id}</p>
+                <p><strong>Generated URL:</strong><br><span class="url">${directUrl}</span></p>
+                <p><strong>Status:</strong> <span id="status-${index}">Loading...</span></p>
+                <img id="img-${index}" src="${directUrl}" alt="${item.name}" 
+                     onload="document.getElementById('status-${index}').innerHTML = '✅ <span class=success>SUCCESS - Image loaded!</span>'"
+                     onerror="document.getElementById('status-${index}').innerHTML = '❌ <span class=error>FAILED - Check sharing settings</span>'; this.style.display='none';">
+                <br>
+                <a href="${directUrl}" target="_blank" style="color: #2196F3;">Open in new tab to test</a>
+            `;
+            resultsDiv.appendChild(div);
+        });
+
+        console.log('📋 Copy these URLs to test in browser:');
+        testUrls.forEach(item => {
+            console.log(`https://drive.google.com/uc?export=view&id=${item.id}`);
+        });
+    </script>
+</body>
+</html>
