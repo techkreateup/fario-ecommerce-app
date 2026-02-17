@@ -30,8 +30,8 @@ async function audit() {
     // 3. Check Product Stock (Limit 5)
     const { data: products, error: prodError } = await supabase
         .from('products')
-        .select('id, name, stock')
-        .gte('stock', 10)
+        .select('id, name, stockquantity')
+        .gte('stockquantity', 10)
         .limit(5);
 
     if (prodError) console.error('Product Query Error:', prodError);

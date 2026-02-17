@@ -4,8 +4,8 @@
 Ensure these variables are set in your **Vercel Project Settings**:
 
 ```bash
-VITE_SUPABASE_URL=https://qiylwsgjqwqhxwjwfbom.supabase.co
-VITE_SUPABASE_ANON_KEY=... (Get from Supabase Dashboard > Settings > API)
+VITE_SUPABASE_URL=https://csyiiksxpmbehiiovlbg.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4
 ```
 
 > ⚠️ **IMPORTANT**: Do not commit `.env` to GitHub.
