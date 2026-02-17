@@ -670,9 +670,9 @@ const ProductDetail: React.FC = () => {
                            <Camera size={14} /> User Gallery
                         </h3>
                         <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
-                           {[1, 7, 8].map(i => (
+                           {[ASSETS.products.shoe1, ASSETS.products.shoe2, ASSETS.products.schoolShoe].map((img, i) => (
                               <div key={i} className="w-20 h-20 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 cursor-pointer hover:scale-105 transition-transform">
-                                 <img src={`/reviews/review${i}.jpg`} alt={`User photo ${i}`} className="w-full h-full object-cover" />
+                                 <img src={img} alt={`User photo ${i}`} className="w-full h-full object-cover" />
                               </div>
                            ))}
                            <div className="w-20 h-20 flex-shrink-0 bg-fario-purple text-white rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-gray-900 transition-colors">
