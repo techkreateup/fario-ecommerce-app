@@ -20,6 +20,8 @@ const Home = () => {
       <Hero />
       <CategoryGrid />
       <FeaturedCollection />
+      <InfographicSection />
+      <VideoSection />
     </MotionDiv>
   );
 };
