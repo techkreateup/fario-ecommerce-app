@@ -1,164 +1,177 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 export default function AdminCoupons() {
     const [coupons, setCoupons] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({
         code: '',
         discounttype: 'percentage',
         discountvalue: '',
-        minordervalue: 0,
+        minordervalue: '',
         maxdiscount: '',
-        usagelimit: '',
-        validuntil: ''
+        usagelimit: ''
     });
 
-    // Fetch coupons from Supabase
+    // Fetch coupons
     const fetchCoupons = async () => {
+        console.log('🔍 Fetching coupons from Supabase...');
+        setLoading(true);
+        setError(null);
+
         try {
-            setLoading(true);
-            const { data, error } = await supabase
+            const { data, error: fetchError } = await supabase
                 .from('coupons')
                 .select('*')
                 .order('createdat', { ascending: false });
 
-            if (error) throw error;
-            setCoupons(data || []);
-            console.log('✅ Coupons loaded:', data?.length);
-        } catch (error: any) {
-            console.error('❌ Error fetching coupons:', error);
-            alert('Failed to load coupons: ' + error.message);
+            if (fetchError) {
+                console.error('❌ Supabase error:', fetchError);
+                setError(fetchError.message);
+                setCoupons([]);
+            } else {
+                console.log('✅ Coupons loaded:', data?.length);
+                setCoupons(data || []);
+            }
+        } catch (err: any) {
+            console.error('❌ Catch error:', err);
+            setError(err.message);
+            setCoupons([]);
         } finally {
             setLoading(false);
         }
     };
 
-    // Real-time subscription
+    // Initial load
     useEffect(() => {
         fetchCoupons();
-
-        // Subscribe to real-time changes
-        const subscription = supabase
-            .channel('coupons-channel')
-            .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'coupons' },
-                (payload) => {
-                    console.log('🔔 Real-time update:', payload);
-                    fetchCoupons(); // Refresh coupons on any change
-                }
-            )
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(subscription);
-        };
     }, []);
 
-    // Create new coupon
-    const handleSubmit = async (e: React.FormEvent) => {
+    // Create coupon
+    const handleCreate = async (e: any) => {
         e.preventDefault();
 
         if (!formData.code.trim()) {
-            alert('Coupon code is required');
+            alert('Coupon code is required!');
             return;
         }
 
         try {
-            const { error } = await supabase
+            const { error: insertError } = await supabase
                 .from('coupons')
-                .insert({
-                    code: formData.code.toUpperCase(),
+                .insert([{
+                    code: formData.code.toUpperCase().trim(),
                     discounttype: formData.discounttype,
-                    discountvalue: parseFloat(formData.discountvalue),
-                    minordervalue: parseFloat(formData.minordervalue.toString()) || 0,
+                    discountvalue: parseFloat(formData.discountvalue) || 0,
+                    minordervalue: parseFloat(formData.minordervalue) || 0,
                     maxdiscount: formData.maxdiscount ? parseFloat(formData.maxdiscount) : null,
                     usagelimit: formData.usagelimit ? parseInt(formData.usagelimit) : null,
-                    validuntil: formData.validuntil || null,
                     isactive: true,
                     usedcount: 0
-                });
+                }]);
 
-            if (error) throw error;
-
-            alert('✅ Coupon created successfully!');
-            setShowForm(false);
-            setFormData({
-                code: '',
-                discounttype: 'percentage',
-                discountvalue: '',
-                minordervalue: 0,
-                maxdiscount: '',
-                usagelimit: '',
-                validuntil: ''
-            });
-            fetchCoupons();
-        } catch (error: any) {
-            console.error('❌ Error creating coupon:', error);
-            if (error.code === '23505') {
-                alert('Coupon code already exists!');
+            if (insertError) {
+                console.error('Insert error:', insertError);
+                alert('Error: ' + insertError.message);
             } else {
-                alert('Failed to create coupon: ' + error.message);
+                alert('✅ Coupon created successfully!');
+                setShowForm(false);
+                setFormData({
+                    code: '',
+                    discounttype: 'percentage',
+                    discountvalue: '',
+                    minordervalue: '',
+                    maxdiscount: '',
+                    usagelimit: ''
+                });
+                fetchCoupons();
             }
+        } catch (err: any) {
+            console.error('Catch error:', err);
+            alert('Error: ' + err.message);
         }
     };
 
-    // Toggle coupon active status
+    // Toggle active status
     const toggleActive = async (id: string, currentStatus: boolean) => {
         try {
-            const { error } = await supabase
+            const { error: updateError } = await supabase
                 .from('coupons')
-                .update({
-                    isactive: !currentStatus,
-                    updatedat: new Date().toISOString()
-                })
+                .update({ isactive: !currentStatus })
                 .eq('id', id);
 
-            if (error) throw error;
-            console.log('✅ Coupon status toggled');
-            fetchCoupons();
-        } catch (error) {
-            console.error('❌ Error toggling status:', error);
-            alert('Failed to update status');
+            if (updateError) {
+                alert('Error: ' + updateError.message);
+            } else {
+                fetchCoupons();
+            }
+        } catch (err: any) {
+            alert('Error: ' + err.message);
         }
     };
 
     // Delete coupon
     const deleteCoupon = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this coupon?')) return;
+        if (!confirm('Delete this coupon?')) return;
 
         try {
-            const { error } = await supabase
+            const { error: deleteError } = await supabase
                 .from('coupons')
                 .delete()
                 .eq('id', id);
 
-            if (error) throw error;
-            console.log('✅ Coupon deleted');
-            fetchCoupons();
-        } catch (error) {
-            console.error('❌ Error deleting coupon:', error);
-            alert('Failed to delete coupon');
+            if (deleteError) {
+                alert('Error: ' + deleteError.message);
+            } else {
+                alert('Coupon deleted!');
+                fetchCoupons();
+            }
+        } catch (err: any) {
+            alert('Error: ' + err.message);
         }
     };
 
+    // Render loading state
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="text-xl">Loading coupons...</div>
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading coupons...</p>
+                </div>
             </div>
         );
     }
 
+    // Render error state
+    if (error) {
+        return (
+            <div className="p-8">
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    <h3 className="font-bold">Error Loading Coupons</h3>
+                    <p>{error}</p>
+                    <button
+                        onClick={fetchCoupons}
+                        className="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Main render
     return (
-        <div className="p-6">
+        <div className="p-6 max-w-7xl mx-auto">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-3xl font-bold">🎟️ Coupons Management</h1>
                     <p className="text-gray-600 mt-1">
-                        Total Coupons: {coupons.length} | Active: {coupons.filter(c => c.isactive).length}
+                        Total: {coupons.length} | Active: {coupons.filter(c => c.isactive).length}
                     </p>
                 </div>
                 <button
@@ -169,26 +182,24 @@ export default function AdminCoupons() {
                 </button>
             </div>
 
-            {/* Create Coupon Form */}
+            {/* Create Form */}
             {showForm && (
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg mb-6 border-2 border-blue-500">
+                <form onSubmit={handleCreate} className="bg-white p-6 rounded-lg shadow mb-6 border-2 border-blue-500">
                     <h2 className="text-xl font-bold mb-4">Create New Coupon</h2>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        {/* Coupon Code */}
+                    <div className="grid md:grid-cols-2 gap-4">
                         <div>
                             <label className="block mb-2 font-semibold">Coupon Code *</label>
                             <input
                                 type="text"
                                 value={formData.code}
                                 onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
-                                className="w-full border rounded px-3 py-2 uppercase"
+                                className="w-full border rounded px-3 py-2"
                                 placeholder="SAVE20"
                                 required
                             />
                         </div>
 
-                        {/* Discount Type */}
                         <div>
                             <label className="block mb-2 font-semibold">Discount Type *</label>
                             <select
@@ -201,35 +212,29 @@ export default function AdminCoupons() {
                             </select>
                         </div>
 
-                        {/* Discount Value */}
                         <div>
-                            <label className="block mb-2 font-semibold">
-                                Discount Value * {formData.discounttype === 'percentage' ? '(%)' : '(₹)'}
-                            </label>
+                            <label className="block mb-2 font-semibold">Discount Value *</label>
                             <input
                                 type="number"
                                 value={formData.discountvalue}
                                 onChange={(e) => setFormData({ ...formData, discountvalue: e.target.value })}
                                 className="w-full border rounded px-3 py-2"
-                                min="0"
-                                step="0.01"
+                                placeholder="20"
                                 required
                             />
                         </div>
 
-                        {/* Min Order Value */}
                         <div>
-                            <label className="block mb-2 font-semibold">Minimum Order Value (₹)</label>
+                            <label className="block mb-2 font-semibold">Min Order Value (₹)</label>
                             <input
                                 type="number"
                                 value={formData.minordervalue}
-                                onChange={(e) => setFormData({ ...formData, minordervalue: Number(e.target.value) })}
+                                onChange={(e) => setFormData({ ...formData, minordervalue: e.target.value })}
                                 className="w-full border rounded px-3 py-2"
-                                min="0"
+                                placeholder="1000"
                             />
                         </div>
 
-                        {/* Max Discount */}
                         {formData.discounttype === 'percentage' && (
                             <div>
                                 <label className="block mb-2 font-semibold">Max Discount (₹)</label>
@@ -238,12 +243,11 @@ export default function AdminCoupons() {
                                     value={formData.maxdiscount}
                                     onChange={(e) => setFormData({ ...formData, maxdiscount: e.target.value })}
                                     className="w-full border rounded px-3 py-2"
-                                    min="0"
+                                    placeholder="500"
                                 />
                             </div>
                         )}
 
-                        {/* Usage Limit */}
                         <div>
                             <label className="block mb-2 font-semibold">Usage Limit</label>
                             <input
@@ -251,55 +255,46 @@ export default function AdminCoupons() {
                                 value={formData.usagelimit}
                                 onChange={(e) => setFormData({ ...formData, usagelimit: e.target.value })}
                                 className="w-full border rounded px-3 py-2"
-                                min="1"
-                                placeholder="Leave empty for unlimited"
-                            />
-                        </div>
-
-                        {/* Valid Until */}
-                        <div>
-                            <label className="block mb-2 font-semibold">Valid Until</label>
-                            <input
-                                type="datetime-local"
-                                value={formData.validuntil}
-                                onChange={(e) => setFormData({ ...formData, validuntil: e.target.value })}
-                                className="w-full border rounded px-3 py-2"
+                                placeholder="100"
                             />
                         </div>
                     </div>
 
                     <button
                         type="submit"
-                        className="mt-4 bg-green-600 text-white px-8 py-2 rounded-lg hover:bg-green-700 transition"
+                        className="mt-4 bg-green-600 text-white px-8 py-2 rounded-lg hover:bg-green-700"
                     >
-                        ✅ Create Coupon
+                        Create Coupon
                     </button>
                 </form>
             )}
 
-            {/* Coupons List */}
+            {/* Coupons Table */}
             <div className="bg-white rounded-lg shadow overflow-hidden">
-                <table className="w-full">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="px-4 py-3 text-left">Code</th>
-                            <th className="px-4 py-3 text-left">Discount</th>
-                            <th className="px-4 py-3 text-left">Min Order</th>
-                            <th className="px-4 py-3 text-left">Usage</th>
-                            <th className="px-4 py-3 text-left">Valid Until</th>
-                            <th className="px-4 py-3 text-left">Status</th>
-                            <th className="px-4 py-3 text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {coupons.length === 0 ? (
+                {coupons.length === 0 ? (
+                    <div className="text-center py-12">
+                        <p className="text-gray-500 text-lg">No coupons created yet.</p>
+                        <button
+                            onClick={() => setShowForm(true)}
+                            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                        >
+                            Create Your First Coupon
+                        </button>
+                    </div>
+                ) : (
+                    <table className="w-full">
+                        <thead className="bg-gray-100">
                             <tr>
-                                <td colSpan={7} className="text-center py-8 text-gray-500">
-                                    No coupons created yet. Click "+ Create Coupon" to add one.
-                                </td>
+                                <th className="px-4 py-3 text-left">Code</th>
+                                <th className="px-4 py-3 text-left">Discount</th>
+                                <th className="px-4 py-3 text-left">Min Order</th>
+                                <th className="px-4 py-3 text-left">Usage</th>
+                                <th className="px-4 py-3 text-left">Status</th>
+                                <th className="px-4 py-3 text-left">Actions</th>
                             </tr>
-                        ) : (
-                            coupons.map(coupon => (
+                        </thead>
+                        <tbody>
+                            {coupons.map(coupon => (
                                 <tr key={coupon.id} className="border-b hover:bg-gray-50">
                                     <td className="px-4 py-3 font-bold">{coupon.code}</td>
                                     <td className="px-4 py-3">
@@ -312,11 +307,6 @@ export default function AdminCoupons() {
                                         {coupon.usedcount} / {coupon.usagelimit || '∞'}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {coupon.validuntil
-                                            ? new Date(coupon.validuntil).toLocaleDateString()
-                                            : 'No expiry'}
-                                    </td>
-                                    <td className="px-4 py-3">
                                         <span className={`px-2 py-1 rounded text-xs ${coupon.isactive
                                                 ? 'bg-green-100 text-green-800'
                                                 : 'bg-red-100 text-red-800'
@@ -324,10 +314,10 @@ export default function AdminCoupons() {
                                             {coupon.isactive ? '🟢 Active' : '🔴 Inactive'}
                                         </span>
                                     </td>
-                                    <td className="px-4 py-3">
+                                    <td className="px-4 py-3 space-x-2">
                                         <button
                                             onClick={() => toggleActive(coupon.id, coupon.isactive)}
-                                            className="text-blue-600 hover:underline mr-3"
+                                            className="text-blue-600 hover:underline"
                                         >
                                             {coupon.isactive ? 'Deactivate' : 'Activate'}
                                         </button>
@@ -339,16 +329,10 @@ export default function AdminCoupons() {
                                         </button>
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* Real-time indicator */}
-            <div className="mt-4 text-sm text-gray-500 flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                Real-time updates enabled
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </div>
     );
