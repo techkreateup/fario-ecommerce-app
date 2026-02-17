@@ -51,6 +51,7 @@ const AdminMarketing = React.lazy(() => import('./admin/Marketing'));
 const AdminReviews = React.lazy(() => import('./admin/Reviews'));
 const AdminCMS = React.lazy(() => import('./admin/CMS'));
 const AdminCoupons = React.lazy(() => import('./admin/Coupons'));
+const AdminCouponsDebug = React.lazy(() => import('./admin/CouponsDebug'));
 const StockManager = React.lazy(() => import('./admin/stock/StockManager'));
 const StockLayout = React.lazy(() => import('./admin/stock/StockLayout'));
 
@@ -212,6 +213,7 @@ const AppContent = () => {
                 <Route path="tracking" element={<Tracking />} />
                 <Route path="marketing" element={<AdminMarketing />} />
                 <Route path="coupons" element={<AdminCoupons />} />
+                <Route path="coupons-debug" element={<AdminCouponsDebug />} />
                 <Route path="cms" element={<AdminCMS />} />
                 <Route path="customers" element={<AdminCustomers />} />
                 <Route path="reviews" element={<AdminReviews />} />
