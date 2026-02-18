@@ -40,11 +40,13 @@ export default function AdminCoupons() {
         try {
             // Don't set loading to true on refresh to avoid flicker
             setError(null)
-            console.log('📡 [AdminCoupons] Fetching site promos via RPC (Stealth Mode)...');
+            console.log('📡 [AdminCoupons] Fetching from store_discounts_view (Safe GET)...');
 
-            // Use Stealth RPC function to avoid "coupon" keyword blocking
+            // Use View to ensure standard GET request + Safe URL
             const fetchPromise = supabase
-                .rpc('fetch_site_promos');
+                .from('store_discounts_view')
+                .select('*')
+                .order('createdat', { ascending: false });
 
             const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error(`Request timed out after ${timeoutDuration}ms`)), timeoutDuration)
@@ -55,10 +57,10 @@ export default function AdminCoupons() {
 
             if (fetchError) throw fetchError
 
-            console.log('✅ [AdminCoupons] Promos loaded:', data?.length);
+            console.log('✅ [AdminCoupons] View loaded:', data?.length);
             setCoupons(data || [])
         } catch (err: any) {
-            console.error('❌ [AdminCoupons] Error fetching promos:', err)
+            console.error('❌ [AdminCoupons] Error fetching view:', err)
             setError(err.message || 'Unknown error occurred')
         } finally {
             setLoading(false)
