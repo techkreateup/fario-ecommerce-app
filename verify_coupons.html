@@ -1,20 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coupons Verification</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 2rem; max-width: 800px; mx-auto; }
-        .status { padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-weight: bold; }
-        .success { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
-        .error { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
-        .loading { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; }
-        pre { background: #f3f4f6; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        .loading {
+            background: #e0f2fe;
+            color: #075985;
+            border: 1px solid #7dd3fc;
+        }
+
+        pre {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
     </style>
 </head>
+
 <body>
     <h1>🎟️ Coupons Table Verification</h1>
     <div id="status" class="status loading">Connecting to Supabase...</div>
@@ -47,7 +80,7 @@
                 } else {
                     statusEl.className = 'status success';
                     statusEl.textContent = `✅ SUCCESS! Found ${data.length} coupons in the database.`;
-                    
+
                     if (data.length > 0) {
                         resultEl.innerHTML = `
                             <h3>Sample Data:</h3>
@@ -67,4 +100,5 @@
         verify();
     </script>
 </body>
+
 </html>

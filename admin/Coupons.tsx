@@ -36,22 +36,31 @@ export default function AdminCoupons() {
 
     // Fetch coupons
     const fetchCoupons = async () => {
+        const timeoutDuration = 10000;
         try {
             // Don't set loading to true on refresh to avoid flicker
             setError(null)
+            console.log('📡 [AdminCoupons] Fetching coupons from Supabase...');
 
-            const { data, error: fetchError } = await supabase
+            const fetchPromise = supabase
                 .from('coupons')
                 .select('*')
-                .order('createdat', { ascending: false })
+                .order('createdat', { ascending: false });
+
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error(`Request timed out after ${timeoutDuration}ms`)), timeoutDuration)
+            );
+
+            // @ts-ignore
+            const { data, error: fetchError } = await Promise.race([fetchPromise, timeoutPromise]);
 
             if (fetchError) throw fetchError
 
+            console.log('✅ [AdminCoupons] Coupons loaded:', data?.length);
             setCoupons(data || [])
-            // console.log('✅ Coupons loaded:', data?.length)
         } catch (err: any) {
-            console.error('❌ Error fetching coupons:', err)
-            setError(err.message)
+            console.error('❌ [AdminCoupons] Error fetching coupons:', err)
+            setError(err.message || 'Unknown error occurred')
         } finally {
             setLoading(false)
         }
@@ -239,8 +248,8 @@ export default function AdminCoupons() {
                         setShowForm(!showForm)
                     }}
                     className={`px-6 py-2.5 rounded-lg font-medium transition shadow-sm ${showForm
-                            ? 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                        ? 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                        : 'bg-blue-600 text-white hover:bg-blue-700'
                         }`}
                 >
                     {showForm ? '✕ Cancel' : '+ Create Coupon'}
@@ -436,8 +445,8 @@ export default function AdminCoupons() {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${coupon.isactive
-                                                    ? 'bg-green-100 text-green-800'
-                                                    : 'bg-red-100 text-red-800'
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-red-100 text-red-800'
                                                 }`}>
                                                 {coupon.isactive ? 'Active' : 'Inactive'}
                                             </span>
