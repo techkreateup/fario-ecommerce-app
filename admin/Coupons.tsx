@@ -40,11 +40,15 @@ export default function AdminCoupons() {
         try {
             // Don't set loading to true on refresh to avoid flicker
             setError(null)
-            console.log('📡 [AdminCoupons] Fetching app manifest via RPC (Ultra Stealth 2.0)...');
+            console.log('📡 [AdminCoupons] Fetching from content_manifests view (GET Strategy)...');
 
-            // Use Ultra Stealth RPC function to avoid "promo" keyword blocking
+            // Use 'content_manifests' View. 
+            // This creates a GET request to /rest/v1/content_manifests
+            // This avoids "coupons", "promo", "discounts" in the URL, and avoids RPC (POST).
             const fetchPromise = supabase
-                .rpc('fetch_app_manifest');
+                .from('content_manifests')
+                .select('*')
+                .order('createdat', { ascending: false });
 
             const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error(`Request timed out after ${timeoutDuration}ms`)), timeoutDuration)
