@@ -1,41 +1,38 @@
 -- Ultra Stealth Mode: Rename functions to purely technical names to avoid Adblockers
--- "promo", "coupon", "discount" are often blocked. 
--- New Names:
--- fetch_site_promos -> fetch_app_manifest
--- verify_promo_access -> verify_access_token
+-- New Names: fetch_app_manifest, verify_access_token
 
--- 1. Drop previous "Stealth" functions
 DROP FUNCTION IF EXISTS fetch_site_promos();
 DROP FUNCTION IF EXISTS verify_promo_access(text);
 
--- 2. Create "Ultra Stealth" Admin Function
+-- Admin Function
 CREATE OR REPLACE FUNCTION fetch_app_manifest()
 RETURNS TABLE (
   id uuid,
   code text,
-  discount_percentage integer,
-  valid_from timestamptz,
-  valid_until timestamptz,
+  discounttype text,
+  discountvalue numeric,
+  minordervalue numeric,
+  maxdiscount numeric,
+  usagelimit integer,
+  usedcount integer,
   isactive boolean,
-  created_at timestamptz
+  validfrom timestamptz,
+  validuntil timestamptz,
+  createdat timestamptz,
+  updatedat timestamptz
 )
 LANGUAGE sql
 SECURITY DEFINER
 SET search_path = public
 AS $$
   SELECT 
-    id,
-    code,
-    discount_percentage,
-    valid_from,
-    valid_until,
-    isactive,
-    created_at
+    id, code, discounttype, discountvalue, minordervalue, maxdiscount, 
+    usagelimit, usedcount, isactive, validfrom, validuntil, createdat, updatedat
   FROM coupons
-  ORDER BY created_at DESC;
+  ORDER BY createdat DESC;
 $$;
 
--- 3. Create "Ultra Stealth" Cart Function
+-- Cart Function
 CREATE OR REPLACE FUNCTION verify_access_token(token_key text)
 RETURNS json
 LANGUAGE plpgsql
@@ -49,26 +46,27 @@ BEGIN
   FROM coupons
   WHERE code = token_key
   AND isactive = true
-  AND (valid_until IS NULL OR valid_until > now())
-  AND (valid_from IS NULL OR valid_from < now());
+  AND (validuntil IS NULL OR validuntil > now())
+  AND (validfrom IS NULL OR validfrom < now());
 
   IF FOUND THEN
-    RETURN json_build_object(
-      'success', true,
-      'data', json_build_object(
-        'code', record_data.code,
-        'discount_percentage', record_data.discount_percentage
-      )
-    );
+    -- Return exactly what the frontend needs
+    RETURN json_build_array(json_build_object(
+      'id', record_data.id,
+      'code', record_data.code,
+      'discounttype', record_data.discounttype,
+      'discountvalue', record_data.discountvalue,
+      'minordervalue', record_data.minordervalue,
+      'maxdiscount', record_data.maxdiscount,
+      'usagelimit', record_data.usagelimit,
+      'usedcount', record_data.usedcount,
+      'validuntil', record_data.validuntil
+    ));
   ELSE
-    RETURN json_build_object(
-      'success', false,
-      'message', 'Invalid or expired token'
-    );
+    RETURN '[]'::json;
   END IF;
 END;
 $$;
 
--- Grant permissions
 GRANT EXECUTE ON FUNCTION fetch_app_manifest() TO anon, authenticated, service_role;
 GRANT EXECUTE ON FUNCTION verify_access_token(text) TO anon, authenticated, service_role;
