@@ -40,11 +40,11 @@ export default function AdminCoupons() {
         try {
             // Don't set loading to true on refresh to avoid flicker
             setError(null)
-            console.log('📡 [AdminCoupons] Fetching coupons via RPC (Adblock Bypass)...');
+            console.log('📡 [AdminCoupons] Fetching site promos via RPC (Stealth Mode)...');
 
-            // Use RPC function instead of table select to avoid Adblockers
+            // Use Stealth RPC function to avoid "coupon" keyword blocking
             const fetchPromise = supabase
-                .rpc('get_admin_coupons');
+                .rpc('fetch_site_promos');
 
             const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error(`Request timed out after ${timeoutDuration}ms`)), timeoutDuration)
@@ -55,10 +55,10 @@ export default function AdminCoupons() {
 
             if (fetchError) throw fetchError
 
-            console.log('✅ [AdminCoupons] Coupons loaded:', data?.length);
+            console.log('✅ [AdminCoupons] Promos loaded:', data?.length);
             setCoupons(data || [])
         } catch (err: any) {
-            console.error('❌ [AdminCoupons] Error fetching coupons:', err)
+            console.error('❌ [AdminCoupons] Error fetching promos:', err)
             setError(err.message || 'Unknown error occurred')
         } finally {
             setLoading(false)

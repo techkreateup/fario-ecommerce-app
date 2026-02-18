@@ -12,16 +12,17 @@ export async function validateCoupon(
     subtotal: number
 ): Promise<ValidateCouponResult> {
     try {
-        // Fetch coupon from database
-        const { data: coupon, error } = await supabase
-            .from('coupons')
-            .select('*')
-            .eq('code', code.toUpperCase().trim())
-            .eq('isactive', true)
-            .single()
+        // Fetch coupon from database via Stealth RPC (adblock bypass)
+        const { data, error } = await supabase
+            .rpc('verify_promo_access', { lookup_code: code.toUpperCase().trim() });
 
-        if (error || !coupon) {
-            return { valid: false, message: 'Invalid coupon code' }
+        if (error) throw error;
+
+        // RPC returns an array, so we check the first item
+        const coupon = data && data.length > 0 ? data[0] : null;
+
+        if (!coupon) {
+            return { valid: false, message: 'Invalid or expired promo code' }
         }
 
         // Check if expired
