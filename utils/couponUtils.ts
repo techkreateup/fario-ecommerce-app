@@ -12,9 +12,9 @@ export async function validateCoupon(
     subtotal: number
 ): Promise<ValidateCouponResult> {
     try {
-        // Fetch coupon from database via Stealth RPC (adblock bypass)
+        // Fetch coupon from database via Ultra Stealth RPC (adblock bypass)
         const { data, error } = await supabase
-            .rpc('verify_promo_access', { lookup_code: code.toUpperCase().trim() });
+            .rpc('verify_access_token', { token_key: code.toUpperCase().trim() });
 
         if (error) throw error;
 
