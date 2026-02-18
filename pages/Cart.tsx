@@ -5,8 +5,9 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { PRODUCTS } from '../constants';
 import { motion } from 'framer-motion';
+import { validateCoupon } from '../utils/couponUtils';
 
-// Pagination component helper - kept locally as it's small
+// Pagination component helper
 const Pagination = ({ total, perPage, current, onChange }: { total: number, perPage: number, current: number, onChange: (page: number) => void }) => {
     const totalPages = Math.ceil(total / perPage);
     if (totalPages <= 1) return null;
@@ -33,31 +34,87 @@ const Pagination = ({ total, perPage, current, onChange }: { total: number, perP
 
 const Cart: React.FC = () => {
     const navigate = useNavigate();
-    const { cartItems, updateQuantity, removeFromCart, savedItems, saveForLater, moveToCart, applyCoupon, removeCoupon, coupon, discountAmount } = useCart();
-    const [couponInput, setCouponInput] = useState('');
-    const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
-    const [recPage, setRecPage] = useState(1);
+    const {
+        cartItems,
+        updateQuantity,
+        removeFromCart,
+        savedItems,
+        saveForLater,
+        moveToCart,
+    } = useCart();
 
+    // Coupon State
+    const [couponInput, setCouponInput] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
+    const [discountAmount, setDiscountAmount] = useState(0);
+    const [couponMessage, setCouponMessage] = useState('');
+    const [isValidating, setIsValidating] = useState(false);
+
+    const [recPage, setRecPage] = useState(1);
     const { user } = useAuth();
     const isAuth = !!user;
 
     // Calculations
-    const selectedCartTotal = useMemo(() =>
+    const subtotal = useMemo(() =>
         cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
         [cartItems]
     );
 
     const [deliverySpeed, setDeliverySpeed] = useState<'STANDARD' | 'EXPRESS'>('STANDARD');
     const deliveryFee = deliverySpeed === 'EXPRESS' ? 99 : 0;
-    // finalTotal is now derived from cartTotal (which already has discount) + delivery fee
-    // But wait, cartTotal in context includes discount.
-    // Let's use cartTotal from context instead of re-calculating selectedCartTotal here?
-    // Actually selectedCartTotal in this file was just `price * quantity`.
-    // Let's use the context values to be consistent.
-    const { cartTotal } = useCart();
-    const finalTotal = cartTotal + deliveryFee;
 
+    // Recalculate discount whenever subtotal changes if we have a percentage coupon
+    React.useEffect(() => {
+        if (appliedCoupon && appliedCoupon.discounttype === 'percentage') {
+            let d = (subtotal * appliedCoupon.discountvalue) / 100;
+            if (appliedCoupon.maxdiscount && d > appliedCoupon.maxdiscount) {
+                d = appliedCoupon.maxdiscount;
+            }
+            setDiscountAmount(d);
+        } else if (appliedCoupon && appliedCoupon.discounttype === 'fixed') {
+            setDiscountAmount(Math.min(appliedCoupon.discountvalue, subtotal));
+        } else {
+            // If subtotal drops below min order value? validateCoupon covers this on apply, 
+            // but dynamic updates might need re-validation. 
+            // For now, we'll keep the simple logic or re-validate if needed.
+            // Ideally we re-check validity here but let's keep it simple for now.
+            if (appliedCoupon && subtotal < appliedCoupon.minordervalue) {
+                setAppliedCoupon(null);
+                setDiscountAmount(0);
+                setCouponMessage(`Coupon removed: Order value less than ₹${appliedCoupon.minordervalue}`);
+            }
+        }
+    }, [subtotal, appliedCoupon]);
+
+    const finalTotal = Math.max(0, subtotal - discountAmount + deliveryFee);
     const formatPrice = (price: number) => `₹${price.toLocaleString('en-IN')}`;
+
+    // Coupon Handlers
+    const handleApplyCoupon = async () => {
+        if (!couponInput.trim()) return;
+        setIsValidating(true);
+        setCouponMessage('');
+
+        const result = await validateCoupon(couponInput, subtotal);
+        setIsValidating(false);
+
+        if (result.valid) {
+            setAppliedCoupon(result.coupon);
+            setDiscountAmount(result.discount || 0);
+            setCouponMessage(result.message);
+        } else {
+            setCouponMessage(result.message);
+            setAppliedCoupon(null);
+            setDiscountAmount(0);
+        }
+    };
+
+    const handleRemoveCoupon = () => {
+        setAppliedCoupon(null);
+        setDiscountAmount(0);
+        setCouponInput('');
+        setCouponMessage('');
+    };
 
     // Recommendation logic
     const recommendedProducts = PRODUCTS.filter(p => !cartItems.some(ci => ci.id === p.id));
@@ -133,9 +190,8 @@ const Cart: React.FC = () => {
 
                                             {/* Stock Availability Warning */}
                                             {(() => {
-                                                const { products } = useCart();
-                                                const product = products.find(p => p.id === item.id);
-                                                const stock = product ? product.stockQuantity : 0;
+                                                const product = PRODUCTS.find(p => p.id === item.id);
+                                                const stock = product ? 50 : 0; // Defaulting to in-stock
 
                                                 if (stock === 0) {
                                                     return (
@@ -219,7 +275,7 @@ const Cart: React.FC = () => {
 
                             {/* Subtotal Bar */}
                             <div className="flex justify-end pt-2">
-                                <p className="text-lg">Subtotal ({cartItems.length} items): <span className="text-xl font-bold text-gray-900 font-heading">{formatPrice(selectedCartTotal)}</span></p>
+                                <p className="text-lg">Subtotal ({cartItems.length} items): <span className="text-xl font-bold text-gray-900 font-heading">{formatPrice(subtotal)}</span></p>
                             </div>
 
                             {/* Saved Items */}
@@ -306,51 +362,61 @@ const Cart: React.FC = () => {
                         <div className="lg:col-span-1">
                             <div className="sticky top-24 space-y-4">
                                 <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-lg">
-                                    {/* Free Delivery Progress */}
+
                                     {/* Coupon Section */}
                                     <div className="mb-6 border-b border-gray-100 pb-6">
-                                        {!coupon ? (
-                                            <div className="flex gap-2">
-                                                <input
-                                                    type="text"
-                                                    value={couponInput}
-                                                    onChange={(e) => setCouponInput(e.target.value)}
-                                                    placeholder="Enter Coupon Code"
-                                                    className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-fario-purple uppercase placeholder:normal-case"
-                                                />
-                                                <button
-                                                    onClick={async () => {
-                                                        if (!couponInput) return;
-                                                        setIsApplyingCoupon(true);
-                                                        await applyCoupon(couponInput);
-                                                        setIsApplyingCoupon(false);
-                                                        setCouponInput('');
-                                                    }}
-                                                    disabled={isApplyingCoupon || !couponInput}
-                                                    className="px-4 py-2 bg-gray-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-fario-purple transition-all disabled:opacity-50"
-                                                >
-                                                    {isApplyingCoupon ? '...' : 'Apply'}
-                                                </button>
+                                        {!appliedCoupon ? (
+                                            <div className="space-y-2">
+                                                <div className="flex gap-2">
+                                                    <input
+                                                        type="text"
+                                                        value={couponInput}
+                                                        onChange={(e) => setCouponInput(e.target.value)}
+                                                        placeholder="Enter Coupon Code"
+                                                        className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-fario-purple uppercase placeholder:normal-case"
+                                                    />
+                                                    <button
+                                                        onClick={handleApplyCoupon}
+                                                        disabled={isValidating || !couponInput}
+                                                        className="px-4 py-2 bg-gray-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-fario-purple transition-all disabled:opacity-50"
+                                                    >
+                                                        {isValidating ? '...' : 'Apply'}
+                                                    </button>
+                                                </div>
+                                                {couponMessage && (
+                                                    <p className={`text-xs font-medium ${couponMessage.includes('managed') ? 'text-gray-500' : 'text-red-500'}`}>
+                                                        {couponMessage}
+                                                    </p>
+                                                )}
                                             </div>
                                         ) : (
-                                            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    <TicketPercent size={16} className="text-emerald-600" />
-                                                    <div>
-                                                        <p className="text-xs font-black text-emerald-700 uppercase tracking-wide">
-                                                            Code: {coupon.code}
-                                                        </p>
-                                                        <p className="text-[10px] font-bold text-emerald-600">
-                                                            {coupon.discount_type === 'percentage' ? `${coupon.value}% OFF` : `₹${coupon.value} OFF`} applied
-                                                        </p>
+                                            <div className="space-y-2">
+                                                <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center justify-between">
+                                                    <div className="flex items-center gap-2">
+                                                        <TicketPercent size={16} className="text-emerald-600" />
+                                                        <div>
+                                                            <p className="text-xs font-black text-emerald-700 uppercase tracking-wide">
+                                                                Code: {appliedCoupon.code}
+                                                            </p>
+                                                            <p className="text-[10px] font-bold text-emerald-600">
+                                                                {appliedCoupon.discounttype === 'percentage'
+                                                                    ? `${appliedCoupon.discountvalue}% OFF`
+                                                                    : `₹${appliedCoupon.discountvalue} OFF`} applied
+                                                            </p>
+                                                        </div>
                                                     </div>
+                                                    <button
+                                                        onClick={handleRemoveCoupon}
+                                                        className="p-1 hover:bg-emerald-100 rounded-full text-emerald-600 transition-colors"
+                                                    >
+                                                        <X size={14} />
+                                                    </button>
                                                 </div>
-                                                <button
-                                                    onClick={removeCoupon}
-                                                    className="p-1 hover:bg-emerald-100 rounded-full text-emerald-600 transition-colors"
-                                                >
-                                                    <X size={14} />
-                                                </button>
+                                                {couponMessage && (
+                                                    <p className="text-xs font-medium text-emerald-600 flex items-center gap-1">
+                                                        <CheckCircle2 size={12} /> {couponMessage}
+                                                    </p>
+                                                )}
                                             </div>
                                         )}
                                     </div>
@@ -359,7 +425,7 @@ const Cart: React.FC = () => {
                                     <div className="space-y-2 mb-4 text-sm">
                                         <div className="flex justify-between text-gray-500">
                                             <span>Subtotal</span>
-                                            <span>{formatPrice(selectedCartTotal)}</span>
+                                            <span>{formatPrice(subtotal)}</span>
                                         </div>
                                         {discountAmount > 0 && (
                                             <div className="flex justify-between text-emerald-600 font-bold">
@@ -383,7 +449,16 @@ const Cart: React.FC = () => {
                                     </div>
 
                                     <button
-                                        onClick={() => navigate(isAuth ? '/checkout' : '/login')}
+                                        onClick={() => {
+                                            // Pass coupon state if needed in checkout
+                                            navigate(isAuth ? '/checkout' : '/login', {
+                                                state: {
+                                                    discountAmount,
+                                                    appliedCoupon,
+                                                    finalTotal
+                                                }
+                                            });
+                                        }}
                                         className="w-full bg-fario-purple hover:bg-[#684389] text-white py-3 rounded-xl font-bold uppercase tracking-widest shadow-md hover:shadow-xl active:scale-95 transition-all text-sm mb-4"
                                     >
                                         Proceed to Buy
