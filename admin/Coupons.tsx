@@ -40,12 +40,11 @@ export default function AdminCoupons() {
         try {
             // Don't set loading to true on refresh to avoid flicker
             setError(null)
-            console.log('📡 [AdminCoupons] Fetching coupons from Supabase...');
+            console.log('📡 [AdminCoupons] Fetching coupons via RPC (Adblock Bypass)...');
 
+            // Use RPC function instead of table select to avoid Adblockers
             const fetchPromise = supabase
-                .from('coupons')
-                .select('*')
-                .order('createdat', { ascending: false });
+                .rpc('get_admin_coupons');
 
             const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error(`Request timed out after ${timeoutDuration}ms`)), timeoutDuration)
