@@ -7,7 +7,7 @@ import {
   AlertTriangle, ArrowRight, Plus
 } from 'lucide-react';
 import AddProductModal from './AddProductModal';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 import StockStats from './StockStats';
 import StockTable from './StockTable';
 import BulkModal from './BulkModal';

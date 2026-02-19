@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Check, Loader2, Image as ImageIcon, Link as LinkIcon, AlertTriangle, Palette, Ruler } from 'lucide-react';
 import { EnhancedProduct, ASSETS, drive } from '../../constants';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 
 interface AddProductModalProps {
     isOpen: boolean;

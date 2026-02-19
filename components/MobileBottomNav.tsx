@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Home, Search, ShoppingBag, Heart, User } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
 
 const MobileBottomNav: React.FC = () => {

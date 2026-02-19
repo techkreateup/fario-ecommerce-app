@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ShoppingBag, Trash2, ArrowRight, Star, Bell, BellRing, Award } from 'lucide-react';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 import { PRODUCTS } from '../../constants';
 
 export const ProfileVault: React.FC = () => {

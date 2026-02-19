@@ -9,7 +9,7 @@ import {
    AlertTriangle, ArrowLeft, RotateCcw, AlertCircle,
    Camera, ThumbsUp, X, Plus
 } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';

@@ -27,7 +27,7 @@ import {
   MousePointer2
 } from 'lucide-react';
 import * as RouterDOM from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { orderService } from '../services/orderService';
 
 const { useNavigate } = RouterDOM as any;

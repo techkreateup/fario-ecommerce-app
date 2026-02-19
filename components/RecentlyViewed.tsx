@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as RouterDOM from 'react-router-dom';
 import { EnhancedProduct, PRODUCTS } from '../constants';
 import ProductCard from './ProductCard';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 
 const { useNavigate } = RouterDOM as any;
 

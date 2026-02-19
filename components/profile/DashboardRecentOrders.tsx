@@ -3,7 +3,7 @@ import { Truck, ChevronRight, PackageCheck, Star, RefreshCw, X, FileText, Messag
 import { PRODUCTS } from '../../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 
 interface RecentOrdersProps {
     setActiveTab: (tab: string) => void;

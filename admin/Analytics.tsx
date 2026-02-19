@@ -7,7 +7,7 @@ import {
    Package, PieChart, RefreshCw, Loader2
 } from 'lucide-react';
 import { orderService } from '../services/orderService';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 
 const AdminAnalytics: React.FC = () => {
    const { products } = useCart();

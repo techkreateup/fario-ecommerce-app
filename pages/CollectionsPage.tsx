@@ -4,7 +4,7 @@ import {
   Filter, X, Search, Star, Package, ArrowRight, ArrowUpRight
 } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import PageNav from '../components/PageNav';
 import * as RouterDOM from 'react-router-dom';
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import PremiumProductCard from './PremiumProductCard';
-import { useCart } from '@/context/CartContext';
+import { useCart } from '@/context/CartProvider';
 
 export default function FeaturedProducts() {
     const { products } = useCart();

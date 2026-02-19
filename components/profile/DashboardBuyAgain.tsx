@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus, Clock } from 'lucide-react';
 import { PRODUCTS } from '../../constants';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 
 export const DashboardBuyAgain: React.FC = () => {
     const navigate = useNavigate();

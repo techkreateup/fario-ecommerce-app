@@ -2,7 +2,7 @@ import React from 'react';
 import { Plus, Star, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PRODUCTS, EnhancedProduct } from '../../constants';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 
 export const ProfileRecommendations: React.FC = () => {
     const navigate = useNavigate();

@@ -3,7 +3,7 @@ import {
     Search, RefreshCw, ChevronRight, ChevronLeft, Package, Check, Truck, Star, Minus
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { useAuth } from '../context/AuthContext';
 import { orderService } from '../services/orderService';
 import { PRODUCTS } from '../constants';

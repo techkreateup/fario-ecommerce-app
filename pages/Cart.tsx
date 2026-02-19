@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { ShoppingBag, Heart, Trash2, ChevronRight, CheckCircle2, Gift, Star, ArrowRight, TicketPercent, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { PRODUCTS } from '../constants';
 import { motion } from 'framer-motion';
 import { validateCoupon } from '../utils/couponUtils';

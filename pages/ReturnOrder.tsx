@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, AlertCircle, PackageOpen, Wallet, CreditCard } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ReturnOrder: React.FC = () => {

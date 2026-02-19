@@ -29,7 +29,7 @@ import ReturnOrder from './pages/ReturnOrder';
 import MobileBottomNav from './components/MobileBottomNav';
 
 import { SearchProvider } from './context/SearchContext';
-import { CartProvider } from './context/CartContext';
+import { CartProvider } from './context/CartProvider';
 import { WishlistProvider } from './context/WishlistContext';
 import { ToastProvider } from './context/ToastContext';
 import { AuthProvider, useAuth } from './context/AuthContext';

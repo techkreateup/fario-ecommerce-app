@@ -5,7 +5,7 @@ import {
   Search, Plus, Edit2, Trash2, Check,
   LayoutGrid, List as ListIcon, Tag, Package
 } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { EnhancedProduct } from '../constants';
 import AddProductModal from './stock/AddProductModal';
 

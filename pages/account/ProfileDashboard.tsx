@@ -9,7 +9,7 @@ import {
     MoreVertical, Edit2, AlertCircle, Copy, ExternalLink, Calendar, RotateCcw,
     Gift, Home, Briefcase
 } from 'lucide-react';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 import { useToast } from '../../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import { PRODUCTS, EnhancedProduct } from '../../constants';

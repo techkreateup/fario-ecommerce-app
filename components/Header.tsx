@@ -10,7 +10,7 @@ import {
   ChevronDown, LayoutDashboard, PackageSearch,
   Menu, ArrowRight, Edit3, ClipboardList, Heart
 } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
 
 const { NavLink, useLocation, useNavigate } = RouterDOM as any;

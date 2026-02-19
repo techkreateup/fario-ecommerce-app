@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ShieldCheck, Lock, Check, CreditCard, Loader2, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { Order } from '../types';

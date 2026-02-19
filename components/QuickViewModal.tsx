@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Star, Check } from 'lucide-react';
 import Button from './Button';
 import { EnhancedProduct } from '../constants';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import * as RouterDOM from 'react-router-dom';
 
 const { useNavigate } = RouterDOM as any;

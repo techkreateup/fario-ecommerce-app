@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Package, ChevronRight, Truck, PackageCheck, Star, RefreshCw, X, Box, MessageSquare } from 'lucide-react';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/CartProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';

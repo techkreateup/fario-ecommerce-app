@@ -8,7 +8,7 @@ import {
   MapPin, DollarSign, ArrowUpRight, RotateCcw,
   MoreHorizontal, ChevronDown, Box
 } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { Order } from '../types';
 import { orderService } from '../services/orderService';
 

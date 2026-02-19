@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Plus, Check } from 'lucide-react';
 import { EnhancedProduct, PRODUCTS } from '../constants';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 
 import { useToast } from '../context/ToastContext';
 

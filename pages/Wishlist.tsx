@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useWishlist } from '../context/WishlistContext';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/CartProvider';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Trash2, Lock, Heart, Star, Bell, BellRing, Award } from 'lucide-react';
