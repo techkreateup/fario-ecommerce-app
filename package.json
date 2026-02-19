@@ -12,13 +12,16 @@
     "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.95.3",
     "dotenv": "^17.3.1",
-    "framer-motion": "^12.26.1",
+    "framer-motion": "^12.34.2",
+    "keen-slider": "^6.8.6",
     "lucide-react": "^0.562.0",
     "puppeteer": "^24.37.3",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.12.0",
-    "react-window": "1.8.10"
+    "react-window": "1.8.10",
+    "swiper": "^12.1.2"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

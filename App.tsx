@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import AnnouncementBar from './components/common/AnnouncementBar';
 import LeadPopup from './components/LeadPopup';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import CustomCursor from './components/CustomCursor';
@@ -193,6 +194,7 @@ const AppContent = () => {
     <div className={`flex flex-col min-h-screen font-sans text-gray-800 antialiased ${isAdmin ? 'bg-[#f8fafc]' : 'bg-white'} selection:bg-fario-purple/30 selection:text-white transition-colors duration-300`}>
       <ScrollToTop />
       <AuthHandler />
+      <AnnouncementBar />
       {!isAdmin && location.pathname !== '/login' && <CustomCursor />}
       {!isAdmin && location.pathname !== '/login' && <Header />}
 
