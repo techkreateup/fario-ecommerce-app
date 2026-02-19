@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import HeroCarousel from '../components/home/HeroCarousel';
-import CategoryGrid from '../components/home/CategoryGrid';
-import FeaturedProducts from '../components/home/FeaturedProducts';
-import Newsletter from '../components/Newsletter'; // Assuming this exists from previous viewed files
-import Footer from '../components/Footer'; // Assuming this exists
+import HeroCarousel from '@/components/home/HeroCarousel';
+import CategoryGrid from '@/components/home/CategoryGrid';
+import FeaturedProducts from '@/components/home/FeaturedProducts';
+import Newsletter from '@/components/Newsletter';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
