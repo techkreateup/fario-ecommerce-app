@@ -74,7 +74,7 @@ export const driveVideo = (idOrUrl: string): string => {
 const getAssetPath = (path: string) => {
   if (path.startsWith('http')) return path;
 
-  const base = import.meta.env.BASE_URL;
+  const base = (import.meta as any).env.BASE_URL;
   const isDev = import.meta.env.DEV;
 
   // Clean the path to not have leading slash

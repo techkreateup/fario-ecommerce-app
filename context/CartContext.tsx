@@ -129,7 +129,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         clearTimeout(fetchTimeout);
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch catalog: ${response.status}`);
+          console.error(`Failed to fetch catalog: ${response.status}`);
+          setIsLoading(false);
+          return;
         }
 
         const data = await response.json();
@@ -217,7 +219,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         .subscribe();
     };
 
-    syncCatalog();
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      syncCatalog();
+    }
 
     return () => {
       if (channel) channel.unsubscribe();
