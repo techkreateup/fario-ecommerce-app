@@ -40,10 +40,29 @@
       min-height: 100vh;
     }
   </style>
+  <script type="module" crossorigin src="/Fario_E-Commerce_Web_App/assets/index-CSh6C4Ty.js"></script>
+  <link rel="stylesheet" crossorigin href="/Fario_E-Commerce_Web_App/assets/index-BVZu7NBY.css">
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root"
+    style="min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: sans-serif; color: #666;">
+    Loading Fario...
+  </div>
+  <script>
+    window.onerror = function (message, source, lineno, colno, error) {
+      const root = document.getElementById('root');
+      root.innerHTML = `
+        <div style="color: red; padding: 20px; font-family: monospace; background: #fff0f0; border: 1px solid red; margin: 20px; text-align: left;">
+          <h3 style="margin-top:0">Runtime Error</h3>
+          <p><strong>Message:</strong> ${message}</p>
+          <p><strong>Source:</strong> ${source}:${lineno}:${colno}</p>
+          <pre style="background:#eee; padding:10px; overflow:auto">${error && error.stack ? error.stack : 'No stack trace'}</pre>
+        </div>
+      `;
+      console.error('Global Error Caught:', message, error);
+    };
+  </script>
 </body>
 
 </html>
