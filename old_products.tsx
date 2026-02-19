@@ -7,7 +7,7 @@ import {
   LayoutGrid, List, Heart, ShoppingCart, Star, ChevronDown, AlertCircle, Loader2, CreditCard
 } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
-import { useCart } from '../context/CartProvider';
+import { useCart } from './context/CartProvider';
 import { EnhancedProduct, PRODUCTS } from '../constants';
 import ProductCard from '../components/ProductCard';
 
@@ -227,7 +227,7 @@ const Products: React.FC = () => {
         </div>
         <div className="space-y-3">
           {['All', 'Budget', 'Mid', 'Premium'].map(range => {
-            const label = range === 'All' ? 'Any Price' : range === 'Budget' ? 'Under G�5,000' : range === 'Mid' ? 'G�5,000 - G�10,000' : 'Above G�10,000';
+            const label = range === 'All' ? 'Any Price' : range === 'Budget' ? 'Under Gé¦5,000' : range === 'Mid' ? 'Gé¦5,000 - Gé¦10,000' : 'Above Gé¦10,000';
             const isSelected = filters.priceRange === range;
             return (
               <button

@@ -342,7 +342,7 @@ const ProfileDashboard: React.FC = () => {
                                     {item.price > 1000 && <span className="text-xs text-gray-400 line-through">₹{(item.price * 1.2).toFixed(0)}</span>}
                                 </div>
                                 <div className="flex items-center gap-1 mt-2 text-xs font-bold text-yellow-500">
-                                    <Star size={12} fill="currentColor" /> {item.rating} <span className="text-gray-400">({item.reviews} reviews)</span>
+                                    <Star size={12} fill="currentColor" /> {item.rating} <span className="text-gray-400">({item.reviewsCount} reviews)</span>
                                 </div>
                             </div>
 

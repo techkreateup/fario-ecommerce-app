@@ -7,6 +7,7 @@ import {
    History, Globe, Layout, Sliders, ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCart } from '../context/CartProvider';
 import { driveVideo } from '../constants';
 
 const Settings: React.FC = () => {
@@ -273,7 +274,7 @@ const Settings: React.FC = () => {
                               </button>
 
                               <button
-                                 onClick={() => confirm("Purge platform cache?") && localStorage.clear() && window.location.reload()}
+                                 onClick={() => { if (window.confirm("Purge platform cache?")) { localStorage.clear(); window.location.reload(); } }}
                                  className="flex flex-col items-center justify-center gap-4 p-8 bg-white border border-slate-100 rounded-3xl hover:bg-rose-50 transition-all shadow-sm group"
                               >
                                  <div className="p-4 bg-rose-50 text-rose-500 rounded-2xl group-hover:scale-110 transition-transform">

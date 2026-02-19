@@ -2,6 +2,7 @@
   "name": "fario",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://techkreateup.github.io/Fario_E-Commerce_Web_App/",
   "type": "module",
   "scripts": {
     "dev": "vite",
