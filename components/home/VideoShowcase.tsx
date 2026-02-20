@@ -30,7 +30,7 @@ export default function VideoShowcase() {
                     playsInline
                     className="w-full h-full object-cover"
                 >
-                    <source src="https://videos.pexels.com/video-files/5309381/5309381-hd_1920_1080_25fps.mp4" type="video/mp4" />
+                    <source src="https://videos.pexels.com/video-files/4443657/4443657-hd_1920_1080_25fps.mp4" type="video/mp4" />
                 </video>
                 {/* Pure visual tint - no text */}
                 <div className="absolute inset-0 bg-black/10" />

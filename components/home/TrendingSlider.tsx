@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 
 const trendingProducts = [
     { id: 1, name: "The Classic Loafer", price: "₹4,999", img: "https://images.unsplash.com/photo-1533867617858-e7b97e0605df?w=500&q=80" },
-    { id: 2, name: "Urban Runner", price: "₹6,499", img: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&q=80" },
-    { id: 3, name: "Weekend Boot", price: "₹8,999", img: "https://images.unsplash.com/photo-1520639888713-7851188b63db?w=500&q=80" },
-    { id: 4, name: "Studio Sneaker", price: "₹5,299", img: "https://images.unsplash.com/photo-1628253747716-0c4f5c90fdda?w=500&q=80" },
+    { id: 2, name: "Urban Runner", price: "₹6,499", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80" }, // Red Nike
+    { id: 3, name: "Weekend Boot", price: "₹8,999", img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500&q=80" }, // Reebok
+    { id: 4, name: "Studio Sneaker", price: "₹5,299", img: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=500&q=80" }, // Nike Orange
 ];
 
 export default function TrendingSlider() {

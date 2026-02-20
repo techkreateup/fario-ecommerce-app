@@ -1,10 +1,11 @@
+```
 import React from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 const categories = [
-    { id: 1, image: "https://images.unsplash.com/photo-1488161628813-99425205adca?w=800&q=80", link: "/category/men" },
-    { id: 2, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80", link: "/category/women" }
+  { id: 1, image: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800&q=80", link: "/category/men" }, // Sneakers
+  { id: 2, image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80", link: "/category/women" } // High Heels
 ];
 
 function TiltCard({ cat, idx }) {

@@ -26,7 +26,7 @@ export default function Hero() {
           playsInline
           className="h-full w-full object-cover"
         >
-          <source src="/fario-ecommerce-app/fario-brand.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/6055536/6055536-hd_1920_1080_25fps.mp4" type="video/mp4" />
         </video>
       </motion.div>
 
