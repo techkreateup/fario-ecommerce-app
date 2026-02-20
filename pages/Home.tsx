@@ -5,7 +5,6 @@ import EditorialGrid from '@/components/home/EditorialGrid';
 import TrendingSlider from '@/components/home/TrendingSlider';
 import VideoShowcase from '@/components/home/VideoShowcase';
 import Newsletter from '@/components/Newsletter';
-import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -20,7 +19,7 @@ export default function Home() {
       <VideoShowcase />
       <TrendingSlider />
       <Newsletter />
-      <Footer />
+      <Newsletter />
     </motion.div>
   );
 }

@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 const categories = [
   { id: 1, image: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800&q=80", link: "/category/men" }, // Sneakers
-  { id: 2, image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80", link: "/category/women" } // High Heels
+  { id: 2, image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80", link: "/category/women" }, // High Heels
+  { id: 3, image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80", link: "/category/running" }, // Performance
+  { id: 4, image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80", link: "/category/boots" } // Boots
 ];
 
 function TiltCard({ cat, idx }: { cat: any, idx: number }) {
@@ -64,8 +66,8 @@ function TiltCard({ cat, idx }: { cat: any, idx: number }) {
 
 export default function EditorialGrid() {
   return (
-    <section className="py-0 bg-black">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+    <section className="py-0 bg-white">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
         {categories.map((cat, idx) => (
           <TiltCard key={cat.id} cat={cat} idx={idx} />
         ))}

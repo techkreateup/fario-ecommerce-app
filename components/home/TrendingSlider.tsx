@@ -10,7 +10,7 @@ const trendingProducts = [
 
 export default function TrendingSlider() {
     return (
-        <section className="py-24 bg-white border-t border-gray-100">
+        <section className="py-12 bg-white overflow-hidden">
             <div className="container mx-auto px-4">
                 <div className="flex justify-end mb-8">
                     <button className="text-xs uppercase tracking-widest hover:text-gray-500 transition-colors">
