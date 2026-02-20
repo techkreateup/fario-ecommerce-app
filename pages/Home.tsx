@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import Hero from '@/components/home/Hero';
 import CategoryGrid from '@/components/home/CategoryGrid';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
+import LookbookGrid from '@/components/home/LookbookGrid';
+import SocialFeed from '@/components/home/SocialFeed';
+import VideoShowcase from '@/components/home/VideoShowcase';
 import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
 
@@ -17,7 +20,7 @@ export default function Home() {
       {/* Premium Hero Section */}
       <Hero />
 
-      {/* Trust Badges - Mochi style */}
+      {/* Trust Badges - Mochi style - Kept Compact */}
       <section className="py-8 bg-black text-white border-y border-white/10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -41,16 +44,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Category Grid - Metro + Comet style */}
+      {/* Massive Visual Content Expansion Start */}
+
+      {/* 1. Category Grid (Visual Heavy) */}
       <CategoryGrid />
 
-      {/* Featured Products - Snitch style */}
+      {/* 2. Video Showcase Break */}
+      <VideoShowcase />
+
+      {/* 3. Featured Products */}
       <FeaturedProducts />
 
-      {/* Brand Story Segment - Comet style */}
-      <section className="py-24 bg-gray-50 overflow-hidden">
+      {/* 4. Lookbook Grid (Pinterest Style) */}
+      <LookbookGrid />
+
+      {/* 5. Brand Story (Refined) */}
+      <section className="py-32 bg-gray-50 overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-16">
+          <div className="flex flex-col md:flex-row items-center gap-24">
             <div className="w-full md:w-1/2">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -58,11 +69,11 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="relative"
               >
-                <div className="absolute -inset-4 bg-yellow-400 rotate-3 rounded-2xl -z-10" />
+                <div className="absolute -inset-6 bg-yellow-400 rotate-3 rounded-none -z-10" />
                 <img
-                  src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800"
+                  src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=1200&q=80"
                   alt="Fario Brand"
-                  className="rounded-2xl shadow-2xl w-full"
+                  className="shadow-2xl w-full h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 />
               </motion.div>
             </div>
@@ -72,12 +83,14 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <span className="text-yellow-600 font-bold uppercase tracking-[0.3em] text-xs mb-4 block">Our Legacy</span>
-                <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight uppercase italic tracking-tighter">Experience <br /> The Fario <br /> Difference</h2>
-                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                  Born from the intersection of high-fashion and street culture, Fario is more than just footwear. We craft experiences that elevate your every step. Each pair is a masterpiece of design, engineering, and passion.
+                <span className="text-yellow-600 font-bold uppercase tracking-[0.3em] text-xs mb-8 block">Our Legacy</span>
+                <h2 className="text-6xl md:text-8xl font-black mb-8 leading-none uppercase italic tracking-tighter">
+                  Define<br />Your<br /><span className="text-yellow-500">Path</span>
+                </h2>
+                <p className="text-gray-600 text-xl mb-12 leading-relaxed max-w-md">
+                  Born from street culture. Crafted for the ambitious. Each pair tells a story of design, engineering, and unstoppable energy.
                 </p>
-                <button className="bg-black text-white px-8 py-4 font-bold text-sm tracking-widest uppercase hover:bg-yellow-400 hover:text-black transition-all duration-500 rounded-full">
+                <button className="bg-black text-white px-10 py-5 font-bold text-sm tracking-widest uppercase hover:bg-yellow-400 hover:text-black transition-all duration-500">
                   Read Our Story
                 </button>
               </motion.div>
@@ -86,7 +99,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter - Comet style */}
+      {/* 6. Social Feed (Instagram Style) */}
+      <SocialFeed />
+
+      {/* Newsletter */}
       <Newsletter />
 
       {/* Footer */}
