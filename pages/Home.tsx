@@ -41,11 +41,12 @@ const HL3 = {
 };
 
 /* ─ DESIGN TOKENS ───────────────────────────────────────────── */
-const P = '#7a51a0';          // Fario Purple
-const L = '#d9f99d';          // Fario Lime
-const BK = '#080808';          // Deep black
-const OW = '#F2EDE8';          // Off-white
-const DM = 'rgba(122,81,160,0.18)'; // Purple dim border
+const P = '#7a51a0';           // Fario Purple
+const L = '#d9f99d';           // Fario Lime
+const BK = '#0f172a';           // Fario Dark (navy-purple base)
+const OW = '#F2EDE8';           // Off-white
+const DM = 'rgba(122,81,160,0.35)'; // Purple border (more visible)
+const PG = `linear-gradient(135deg, #0f172a 0%, #1e0f2e 50%, #0f172a 100%)`; // purple-tinted bg
 
 /* ─ EASING & VARIANTS ──────────────────────────────────────── */
 const E: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -216,19 +217,23 @@ const Hero = () => {
     <section className="relative h-screen overflow-hidden flex flex-col justify-end" style={{ background: BK }}>
       {/* VIDEO 1 */}
       <motion.div style={{ y: vY }} className="absolute inset-0 scale-110">
-        <VidEl src={V1} poster={HL3.a} className="opacity-55" />
+        <VidEl src={V1} poster={HL3.a} className="opacity-50" />
+        {/* Deep purple overlay — brand color */}
         <div className="absolute inset-0"
-          style={{ background: `linear-gradient(to top, ${BK} 0%, ${BK}55 45%, transparent 100%)` }}
+          style={{ background: 'linear-gradient(to top, #0f172a 0%, rgba(30,15,46,0.75) 40%, rgba(122,81,160,0.25) 100%)' }}
         />
-        {/* Purple side vignette */}
         <div className="absolute inset-0"
-          style={{ background: `linear-gradient(to right, ${BK}AA 0%, transparent 60%)` }}
+          style={{ background: 'linear-gradient(to right, rgba(15,23,42,0.85) 0%, transparent 55%)' }}
         />
       </motion.div>
 
       {/* Grain texture */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
+      <div className="absolute inset-0 pointer-events-none opacity-[0.05]"
         style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")', backgroundSize: '200px' }}
+      />
+      {/* Extra purple glow behind text */}
+      <div className="absolute bottom-0 left-0 w-[60%] h-[70%] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at bottom left, rgba(122,81,160,0.25) 0%, transparent 70%)' }}
       />
 
       {/* Floating purple orb */}
@@ -302,7 +307,7 @@ const Hero = () => {
 
 /* ── TICKER ─────────────────────────────────────────────────── */
 const Ticker = () => (
-  <div className="overflow-hidden py-5 border-y" style={{ borderColor: DM, background: BK }}>
+  <div className="overflow-hidden py-5 border-y" style={{ borderColor: DM, background: `linear-gradient(90deg, #1e0f2e, #2a1550, #1e0f2e)` }}>
     <motion.div
       animate={{ x: ['0%', '-50%'] }} transition={{ repeat: Infinity, duration: 28, ease: 'linear' }}
       className="flex gap-14 whitespace-nowrap w-max"
@@ -316,7 +321,7 @@ const Ticker = () => (
 
 /* ── STATS ──────────────────────────────────────────────────── */
 const Stats = () => (
-  <section className="py-24" style={{ background: BK }}>
+  <section className="py-24" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #1a0d2e 50%, #0f172a 100%)' }}>
     <div className="container mx-auto px-8 md:px-20">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-y py-16" style={{ borderColor: DM }}>
         {STATS.map(s => <Stat key={s.label} {...s} />)}
@@ -334,10 +339,12 @@ const VideoBreak = () => {
   return (
     <section ref={ref} className="relative h-[62vh] overflow-hidden flex items-center justify-center" style={{ background: BK }}>
       <motion.div style={{ scale: sc }} className="absolute inset-0">
-        <VidEl src={V1} poster={HL3.b} className="opacity-65" />
+        <VidEl src={V1} poster={HL3.b} className="opacity-60" />
         <div className="absolute inset-0"
-          style={{ background: `linear-gradient(to top, ${BK}EE, ${BK}55, ${BK}EE)` }}
+          style={{ background: 'linear-gradient(to top, rgba(15,23,42,0.97), rgba(30,15,46,0.65), rgba(15,23,42,0.97))' }}
         />
+        {/* Purple tint */}
+        <div className="absolute inset-0" style={{ background: 'rgba(122,81,160,0.12)' }} />
       </motion.div>
 
       <div className="relative z-10 text-center px-6">
@@ -367,7 +374,7 @@ const Editorial = () => {
   const y2 = useTransform(scrollYProgress, [0, 1], [-60, 60]);
 
   return (
-    <section ref={ref} className="py-32 overflow-hidden" style={{ background: BK }}>
+    <section ref={ref} className="py-32 overflow-hidden" style={{ background: 'linear-gradient(160deg, #0f172a 0%, #1e0f2e 40%, #0f172a 100%)' }}>
       <div className="container mx-auto px-8 md:px-20">
         <div className="grid grid-cols-12 gap-4 md:gap-6 items-end">
           {/* Left tall image */}
@@ -497,7 +504,7 @@ const Products = () => {
   };
 
   return (
-    <section className="py-32" style={{ background: BK }}>
+    <section className="py-32" style={{ background: '#0f172a' }}>
       <div className="container mx-auto px-8 md:px-20">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stagger}
           className="flex justify-between items-end mb-16"
@@ -546,12 +553,14 @@ const VideoSticky = () => {
   const ty = useTransform(scrollYProgress, [0, 1], [-60, 60]);
 
   return (
-    <section ref={ref} className="flex flex-col md:flex-row min-h-screen" style={{ background: BK }}>
+    <section ref={ref} className="flex flex-col md:flex-row min-h-screen" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #1a0d2e 100%)' }}>
       {/* Sticky video */}
       <div className="w-full md:w-1/2 h-[55vh] md:h-screen md:sticky md:top-0 overflow-hidden relative">
-        <VidEl src={V2} poster={HL3.e} className="opacity-75" />
+        <VidEl src={V2} poster={HL3.e} className="opacity-60" />
+        {/* Strong purple overlay */}
+        <div className="absolute inset-0" style={{ background: 'rgba(30,15,46,0.55)' }} />
         <div className="absolute inset-0"
-          style={{ background: `linear-gradient(to right, transparent 40%, ${BK}AA 100%)` }}
+          style={{ background: 'linear-gradient(to right, transparent 30%, rgba(15,23,42,0.9) 100%)' }}
         />
         {/* Purple scan line */}
         <motion.div className="absolute left-0 right-0 h-px pointer-events-none"
@@ -655,10 +664,10 @@ const VideoBanner = () => {
   return (
     <section ref={ref} className="relative h-[75vh] overflow-hidden flex items-center justify-center">
       <motion.div style={{ scale: sc }} className="absolute inset-0">
-        <VidEl src={V3} poster={HL3.f} className="opacity-65" />
-        <div className="absolute inset-0" style={{ background: `${BK}AA` }} />
-        {/* Purple tint */}
-        <div className="absolute inset-0" style={{ background: `${P}0D` }} />
+        <VidEl src={V3} poster={HL3.f} className="opacity-55" />
+        {/* Deep purple-dark overlay */}
+        <div className="absolute inset-0" style={{ background: 'rgba(15,23,42,0.72)' }} />
+        <div className="absolute inset-0" style={{ background: 'rgba(122,81,160,0.22)' }} />
       </motion.div>
 
       <motion.div style={{ y: ty }} className="relative z-10 text-center px-6">
@@ -689,7 +698,7 @@ const Newsletter = () => {
   const [email, setEmail] = useState('');
   const [done, setDone] = useState(false);
   return (
-    <section className="py-40 relative overflow-hidden" style={{ background: BK }}>
+    <section className="py-40 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #1a0d2e 50%, #0f172a 100%)' }}>
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none"
         style={{ background: `${P}18` }} />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[100px] pointer-events-none"
