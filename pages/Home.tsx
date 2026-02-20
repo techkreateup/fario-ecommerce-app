@@ -26,7 +26,7 @@ const BASE = (import.meta as any).env.BASE_URL as string;
 /* ─ VIDEOS (self-hosted in /public — guaranteed no CORS) ────── */
 const V1 = `${BASE}vid-blaze.mp4`;  // Hero + "Every Step Counts" break
 const V2 = `${BASE}vid-drive.mp4`;  // Editorial sticky side
-const V3 = `${BASE}vid-steel.mp4`;  // "Born to Move" banner
+const V3 = `${BASE}vid-drive.mp4`;  // "Born to Move" banner (vid-steel too large for git)
 
 /* ─ HL3 IMAGES ─────────────────────────────────────────────── */
 const d = (id: string) => `https://lh3.googleusercontent.com/d/${id}`;
