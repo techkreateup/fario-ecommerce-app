@@ -31,3 +31,8 @@ dist-ssr
 coverage/
 .vite/
 test-results/
+
+# Large binary assets — host via CDN or Supabase Storage instead
+public/*.mp4
+public/*.webm
+public/*.mov

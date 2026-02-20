@@ -1031,137 +1031,384 @@ const SpinWheel = () => {
   );
 };
 
+/* CINEMATIC GRID */
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   â‘¢ SHOE FEATURE HOTSPOTS â€” click-to-reveal engineering
+   â‘¡ CINEMATIC GRID â€” 3D interactive video gallery
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-const HOTSPOTS = [
-  { id: 'h1', x: '18%', y: '68%', label: 'Memory Foam Core', icon: 'ðŸ§¬', detail: '3-layer adaptive memory foam that molds to your foot in 72 hours. Never the same fit twice.' },
-  { id: 'h2', x: '50%', y: '42%', label: 'Carbon Arch Support', icon: 'âš¡', detail: 'Carbon-fibre reinforced arch bridge. 40% lighter than titanium. Zero fatigue on 10km+ runs.' },
-  { id: 'h3', x: '80%', y: '55%', label: 'AeroGrip Sole', icon: 'ðŸ”·', detail: 'Diamond-pattern hexagonal grip. 6Ã— tested on wet marble slabs. 0.4mm micro-channels drain water instantly.' },
-  { id: 'h4', x: '50%', y: '18%', label: 'Freshness Control', icon: 'ðŸŒ¿', detail: 'Nano-silver lining with bamboo charcoal. Eliminates 99.9% of odour-causing bacteria. Lasts 500+ washes.' },
-  { id: 'h5', x: '30%', y: '30%', label: 'Zero-Break-In', icon: 'âœ¨', detail: 'Pre-flexed premium leather that requires zero break-in period. Ready to perform from minute one.' },
+const CINEMATIC_ITEMS = [
+  { id: 1, title: 'Extreme Grip', detail: 'Hexagonal tread for wet marble', vid: V1 },
+  { id: 2, title: 'Carbon Core', detail: 'Featherlight arch plate', vid: V2 },
+  { id: 3, title: 'Ghost Mesh', detail: 'Zero-sweat breathability', vid: V1 },
+  { id: 4, title: 'Kinetic Foam', detail: '98% energy return', vid: V2 },
 ];
 
-const FeatureHotspot = () => {
-  const [active, setActive] = useState<string | null>('h2');
-  const activeSpot = HOTSPOTS.find(h => h.id === active);
+const CinematicCard = ({ item, i }: { item: any, i: number }) => {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-100, 100], [15, -15]);
+  const rotateY = useTransform(x, [-100, 100], [-15, 15]);
+
+  function handleMouse(e: React.MouseEvent) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width/2;
+    const centerY = rect.top + rect.height/2;
+    x.set(e.clientX - centerX);
+    y.set(e.clientY - centerY);
+  }
 
   return (
-    <section className="py-28" style={{ background: BG_MID }}>
-      <div className="container mx-auto px-8 md:px-20">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stg12}
-          className="text-center mb-16"
-        >
-          <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.4em] mb-3" style={{ color: PURPLE }}>
-            Engineering Deep-Dive
-          </motion.p>
-          <div className="overflow-hidden">
-            <motion.h2 variants={maskUp}
-              className="font-heading font-black uppercase tracking-tighter"
-              style={{ fontSize: 'clamp(36px, 5vw, 72px)', color: DARK_TXT }}
-            >Tap to Explore</motion.h2>
-          </div>
-          <motion.p variants={fadeUp} className="text-sm opacity-50 mt-4" style={{ color: DARK_TXT }}>
-            5 precision innovations in every pair
-          </motion.p>
-        </motion.div>
-
-        <div className="flex flex-col md:flex-row gap-12 items-center">
-          {/* Shoe image with hotspots */}
-          <motion.div className="flex-1 relative aspect-square max-w-xl mx-auto"
-            initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }} transition={{ duration: 0.8, ease: E }}
-          >
-            <img src={HL3.a} alt="AeroStride Pro Engineering" className="w-full h-full object-cover rounded-2xl"
-              onError={e => { (e.target as HTMLImageElement).src = HL3.b; }}
-            />
-            <div className="absolute inset-0 rounded-2xl"
-              style={{ background: 'linear-gradient(to bottom right, rgba(122,81,160,0.08), transparent)' }}
-            />
-            {HOTSPOTS.map(h => (
-              <motion.button key={h.id}
-                onClick={() => setActive(active === h.id ? null : h.id)}
-                className="absolute z-10 flex items-center justify-center"
-                style={{ left: h.x, top: h.y, transform: 'translate(-50%,-50%)' }}
-                whileHover={{ scale: 1.3 }} whileTap={{ scale: 0.85 }}
-              >
-                {/* Ping ring */}
-                {active !== h.id && (
-                  <motion.div className="absolute w-10 h-10 rounded-full border-2"
-                    style={{ borderColor: PURPLE }}
-                    animate={{ scale: [1, 1.8], opacity: [0.8, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.6, ease: 'easeOut' }}
-                  />
-                )}
-                <motion.div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shadow-lg"
-                  animate={{
-                    background: active === h.id ? PURPLE : BG_WHITE,
-                    scale: active === h.id ? 1.2 : 1,
-                    boxShadow: active === h.id ? `0 0 0 3px ${LIME}` : '0 4px 12px rgba(0,0,0,0.15)',
-                  }}
-                  transition={{ duration: 0.25 }}
-                >{h.icon}</motion.div>
-              </motion.button>
-            ))}
-          </motion.div>
-
-          {/* Feature detail panel */}
-          <div className="flex-shrink-0 w-full md:w-80 flex flex-col gap-4">
-            {/* Active feature */}
-            <AnimatePresence mode="wait">
-              {activeSpot && (
-                <motion.div key={activeSpot.id}
-                  initial={{ opacity: 0, x: 20, scale: 0.96 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: -20, scale: 0.96 }}
-                  transition={{ duration: 0.3, ease: E }}
-                  className="p-8 rounded-2xl"
-                  style={{ background: PURPLE, border: `1.5px solid ${LIME}` }}
-                >
-                  <span className="text-3xl block mb-4">{activeSpot.icon}</span>
-                  <h3 className="font-heading font-black uppercase text-xl tracking-wide mb-3" style={{ color: LIME }}>{activeSpot.label}</h3>
-                  <p className="text-sm leading-relaxed opacity-80" style={{ color: MILKY }}>{activeSpot.detail}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Feature list */}
-            <div className="flex flex-col gap-2">
-              {HOTSPOTS.map((h, i) => (
-                <motion.button key={h.id}
-                  onClick={() => setActive(h.id)}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.5 }}
-                  whileHover={{ x: 6 }}
-                  className="flex items-center gap-4 p-4 text-left rounded-xl transition-all"
-                  style={{
-                    background: active === h.id ? `${PURPLE}18` : BG_WHITE,
-                    border: `1px solid ${active === h.id ? PURPLE : PUR_BORDER}`,
-                  }}
-                >
-                  <span className="text-xl flex-shrink-0">{h.icon}</span>
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-wide" style={{ color: active === h.id ? PURPLE : DARK_TXT }}>{h.label}</p>
-                  </div>
-                  {active === h.id && (
-                    <motion.span layoutId="active-check"
-                      className="ml-auto text-xs font-black" style={{ color: LIME }}
-                    >âœ“</motion.span>
-                  )}
-                </motion.button>
-              ))}
-            </div>
-          </div>
-        </div>
+    <motion.div
+      onMouseMove={handleMouse}
+      onMouseLeave={() => { x.set(0); y.set(0); }}
+      style={{ rotateX, rotateY, perspective: 1000 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: i * 0.1, duration: 0.8, ease: E }}
+      className="relative aspect-[4/5] rounded-3xl overflow-hidden group cursor-pointer"
+    >
+      <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000">
+        <source src={item.vid} type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity" />
+      
+      <div className="absolute inset-0 p-8 flex flex-col justify-end translate-z-20">
+        <motion.p className="text-xs font-black uppercase tracking-[0.3em] mb-2" style={{ color: LIME }}>Feature 0{i+1}</motion.p>
+        <h3 className="font-heading font-black uppercase text-3xl leading-none mb-3" style={{ color: MILKY }}>{item.title}</h3>
+        <p className="text-sm opacity-60 line-clamp-2 leading-relaxed" style={{ color: MILKY }}>{item.detail}</p>
       </div>
-    </section>
+
+      <motion.div className="absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+        style={{ background: LIME, color: DARK_TXT }}
+      >
+        <ArrowUpRight size={20} />
+      </motion.div>
+    </motion.div>
   );
 };
 
-/* â”€â”€ CUSTOM CURSOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+const CinematicGrid = () => (
+  <section className="py-32" style={{ background: BG_DARK2 }}>
+    <div className="container mx-auto px-8 md:px-20">
+      <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+        <div className="max-w-xl">
+          <motion.p initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            className="text-xs font-black uppercase tracking-[0.5em] mb-4" style={{ color: LIME }}
+          >â€” Precision Engineering â€”</motion.p>
+          <div className="overflow-hidden">
+            <motion.h2 initial={{ y: '100%' }} whileInView={{ y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: E }}
+              className="font-heading font-black uppercase tracking-tighter leading-none"
+              style={{ fontSize: 'clamp(48px, 7vw, 96px)', color: MILKY }}
+            >Cinematic<br />Showcase</motion.h2>
+          </div>
+        </div>
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
+          <p className="max-w-xs text-sm opacity-50 mb-6" style={{ color: MILKY }}>Deep exploration of the Fario performance architecture. Every frame, a breakthrough.</p>
+        </motion.div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {CINEMATIC_ITEMS.map((item, i) => <CinematicCard key={item.id} item={item} i={i} />)}
+      </div>
+    </div>
+  </section>
+);
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PARALLAX VIDEO REEL â€” cinematic depth-scroll experience
+   3 video panels Â· counter-moving text Â· scroll-driven transforms
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+const PanelA = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const vidY = useTransform(scrollYProgress, [0, 1], ['-18%', '18%']);
+  const textY = useTransform(scrollYProgress, [0, 1], ['30%', '-30%']);
+  const textX = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
+  const op = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 1, 1, 1, 0]);
+  const sc = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [1.1, 1.0, 1.0, 1.1]);
+
+  return (
+    <div ref={ref} className="relative h-screen overflow-hidden" style={{ background: BG_DARK2 }}>
+      <motion.div style={{ y: vidY, scale: sc }} className="absolute inset-0">
+        <video autoPlay muted loop playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          onError={e => { (e.target as HTMLVideoElement).style.display = 'none'; }}
+        >
+          <source src={V1} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, rgba(15,8,32,0.73) 0%, rgba(122,81,160,0.25) 50%, rgba(15,8,32,0.66) 100%)' }}
+        />
+        <div className="absolute inset-x-0 top-0 h-40"
+          style={{ background: 'linear-gradient(to bottom, #0f0820, transparent)' }} />
+        <div className="absolute inset-x-0 bottom-0 h-40"
+          style={{ background: 'linear-gradient(to top, #0f0820, transparent)' }} />
+      </motion.div>
+
+      <motion.div style={{ y: textY, x: textX, opacity: op }}
+        className="absolute inset-0 flex flex-col items-start justify-center px-10 md:px-24 z-10"
+      >
+        <motion.div
+          initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.9, ease: E }}
+          className="inline-flex items-center gap-3 px-4 py-2 mb-8 text-xs font-bold uppercase tracking-[0.4em]"
+          style={{ background: 'rgba(217,249,157,0.09)', color: LIME, border: '1px solid rgba(217,249,157,0.27)' }}
+        >â¬¡ Chapter I Â· Movement</motion.div>
+
+        <h2 className="font-heading font-black uppercase tracking-tighter leading-none mb-6"
+          style={{ fontSize: 'clamp(60px, 11vw, 150px)', color: MILKY }}
+        >
+          {['Built', 'for the', 'Streets'].map((w, i) => (
+            <div key={w} className="overflow-hidden">
+              <motion.div
+                initial={{ y: '110%' }} whileInView={{ y: '0%' }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.85, ease: E, delay: i * 0.13 }}
+                style={{
+                  color: i === 1 ? 'transparent' : MILKY,
+                  WebkitTextStroke: i === 1 ? '2px #d9f99d' : undefined,
+                }}
+              >{w}</motion.div>
+            </div>
+          ))}
+        </h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ delay: 0.6, duration: 0.8 }}
+          className="max-w-sm text-base leading-loose opacity-60 mb-10" style={{ color: MILKY }}
+        >Every sole engineered for urban terrain. 14 prototype stages, zero compromises.</motion.p>
+
+        <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.92 }}>
+          <Link to="/products"
+            className="inline-flex items-center gap-3 px-10 py-4 font-black text-sm uppercase tracking-[0.2em]"
+            style={{ background: LIME, color: DARK_TXT }}
+          >Shop Shoes <ArrowRight size={14} /></Link>
+        </motion.div>
+      </motion.div>
+
+      <motion.div className="absolute right-8 top-1/2 -translate-y-1/2 w-px h-32 origin-top z-20"
+        style={{ background: LIME, scaleY: scrollYProgress }}
+      />
+    </div>
+  );
+};
+
+const PanelB = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const vidY = useTransform(scrollYProgress, [0, 1], ['15%', '-15%']);
+  const textY = useTransform(scrollYProgress, [0, 1], ['-25%', '25%']);
+  const textX = useTransform(scrollYProgress, [0, 1], ['6%', '-6%']);
+  const op = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 1, 1, 1, 0]);
+  const sc = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1.0, 1.08]);
+
+  return (
+    <div ref={ref} className="relative h-[80vh] overflow-hidden" style={{ background: BG_DARK }}>
+      <motion.div style={{ y: vidY, scale: sc }} className="absolute inset-0">
+        <video autoPlay muted loop playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+          onError={e => { (e.target as HTMLVideoElement).style.display = 'none'; }}
+        >
+          <source src={V2} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0" style={{ background: 'rgba(122,81,160,0.30)' }} />
+        <div className="absolute inset-x-0 top-0 h-32"
+          style={{ background: 'linear-gradient(to bottom, #1a0d2e, transparent)' }} />
+        <div className="absolute inset-x-0 bottom-0 h-32"
+          style={{ background: 'linear-gradient(to top, #1a0d2e, transparent)' }} />
+      </motion.div>
+
+      <motion.div style={{ y: textY, x: textX, opacity: op }}
+        className="absolute inset-0 flex flex-col items-end justify-center px-10 md:px-24 z-10"
+      >
+        <motion.div
+          initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.9, ease: E }}
+          className="inline-flex items-center gap-3 px-4 py-2 mb-8 text-xs font-bold uppercase tracking-[0.4em]"
+          style={{ background: 'rgba(122,81,160,0.27)', color: MILKY, border: '1px solid rgba(122,81,160,0.53)' }}
+        >â¬¡ Chapter II Â· Heritage</motion.div>
+
+        <h2 className="font-heading font-black uppercase tracking-tighter leading-none mb-6 text-right"
+          style={{ fontSize: 'clamp(52px, 9vw, 130px)', color: MILKY }}
+        >
+          {['Crafted', 'with', 'Pride'].map((w, i) => (
+            <div key={w} className="overflow-hidden">
+              <motion.div
+                initial={{ y: '110%' }} whileInView={{ y: '0%' }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.85, ease: E, delay: i * 0.11 }}
+                style={{ color: i === 2 ? LIME : MILKY }}
+              >{w}</motion.div>
+            </div>
+          ))}
+        </h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.8 }}
+          className="max-w-sm text-base leading-loose opacity-60 text-right mb-10" style={{ color: MILKY }}
+        >New Delhi heritage. Global ambition. Made by hands that care.</motion.p>
+
+        <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.92 }}>
+          <Link to="/story"
+            className="inline-flex items-center gap-3 px-10 py-4 font-black text-sm uppercase tracking-[0.2em] transition"
+            style={{ border: '1.5px solid rgba(255,254,245,0.27)', color: MILKY }}
+          >Our Story <ArrowUpRight size={14} /></Link>
+        </motion.div>
+      </motion.div>
+
+      <motion.div className="absolute left-0 right-0 h-px pointer-events-none z-20"
+        style={{ background: 'linear-gradient(to right, transparent, rgba(217,249,157,0.38), transparent)' }}
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ repeat: Infinity, duration: 3.5, ease: 'linear' }}
+      />
+    </div>
+  );
+};
+
+const PanelC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const vidY = useTransform(scrollYProgress, [0, 1], ['-20%', '20%']);
+  const textY = useTransform(scrollYProgress, [0, 1], ['20%', '-20%']);
+  const op = useTransform(scrollYProgress, [0, 0.15, 0.6, 0.9, 1], [0, 1, 1, 0.6, 0]);
+  const blur = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [12, 0, 0, 8]);
+  const sc = useTransform(scrollYProgress, [0, 0.4, 1], [1.15, 1.0, 1.12]);
+
+  return (
+    <div ref={ref} className="relative h-[90vh] overflow-hidden" style={{ background: BG_DARK2 }}>
+      <motion.div style={{ y: vidY, scale: sc }} className="absolute inset-0">
+        <video autoPlay muted loop playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-55"
+          onError={e => { (e.target as HTMLVideoElement).style.display = 'none'; }}
+        >
+          <source src={V1} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, rgba(15,8,32,0.80) 0%, rgba(26,13,46,0.50) 50%, rgba(15,8,32,0.93) 100%)' }}
+        />
+      </motion.div>
+
+      <motion.div style={{ y: textY, opacity: op }}
+        className="absolute inset-0 flex flex-col items-center justify-center z-10 px-6 text-center"
+      >
+        <motion.div style={{ filter: `blur(${blur}px)` }}>
+          <motion.p
+            initial={{ opacity: 0, letterSpacing: '1.5em' }}
+            whileInView={{ opacity: 1, letterSpacing: '0.4em' }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, ease: E }}
+            className="text-xs font-bold uppercase mb-10" style={{ color: LIME }}
+          >â¬¡ Chapter III Â· Future</motion.p>
+
+          <h2 className="font-heading font-black uppercase tracking-tighter leading-none mb-10"
+            style={{ fontSize: 'clamp(56px, 12vw, 160px)', color: MILKY }}
+          >
+            {['Next', 'Level', 'Gear'].map((w, i) => (
+              <div key={w} className="overflow-hidden">
+                <motion.div
+                  initial={{ y: '110%', skewX: -8 }} whileInView={{ y: '0%', skewX: 0 }}
+                  viewport={{ once: true, amount: 0.05 }}
+                  transition={{ duration: 1.0, ease: E, delay: i * 0.15 }}
+                  style={{
+                    display: 'block',
+                    color: i === 1 ? 'transparent' : MILKY,
+                    WebkitTextStroke: i === 1 ? '3px #d9f99d' : undefined,
+                  }}
+                >{w}</motion.div>
+              </div>
+            ))}
+          </h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ delay: 0.7, duration: 0.9 }}
+            className="flex justify-center gap-6"
+          >
+            <motion.div whileHover={{ scale: 1.1, boxShadow: '0 0 50px rgba(217,249,157,0.33)' }} whileTap={{ scale: 0.9 }}>
+              <Link to="/products"
+                className="inline-flex items-center gap-3 px-14 py-5 font-black text-sm uppercase tracking-[0.25em]"
+                style={{ background: LIME, color: DARK_TXT }}
+              >Explore All <ArrowRight size={15} /></Link>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-20">
+        {[0, 1, 2].map(i => (
+          <motion.div key={i}
+            className="rounded-full"
+            style={{ background: i === 2 ? LIME : 'rgba(217,249,157,0.25)' }}
+            animate={{ width: i === 2 ? 12 : 6, height: i === 2 ? 12 : 6 }}
+            initial={{ width: 6, height: 6, opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.2 }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ChapterDivider = ({ n, label }: { n: string; label: string }) => (
+  <motion.div
+    initial={{ opacity: 0, scaleX: 0 }} whileInView={{ opacity: 1, scaleX: 1 }}
+    viewport={{ once: true }} transition={{ duration: 0.7, ease: E }}
+    className="flex items-center gap-6 px-10 md:px-24 py-6 origin-left"
+    style={{ background: PURPLE, borderTop: '1px solid rgba(217,249,157,0.13)', borderBottom: '1px solid rgba(217,249,157,0.13)' }}
+  >
+    <span className="font-heading font-black text-5xl opacity-20" style={{ color: LIME }}>{n}</span>
+    <div className="w-px h-8 opacity-30" style={{ background: LIME }} />
+    <div className="flex-1 overflow-hidden">
+      <motion.p
+        initial={{ x: '-100%' }} whileInView={{ x: '0%' }}
+        viewport={{ once: true }} transition={{ duration: 0.9, ease: E, delay: 0.2 }}
+        className="text-xs font-black uppercase tracking-[0.45em]" style={{ color: LIME }}
+      >â˜… {label} â˜…</motion.p>
+    </div>
+    <motion.div
+      animate={{ x: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.0 }}
+    >
+      <ArrowRight size={18} style={{ color: LIME, opacity: 0.7 }} />
+    </motion.div>
+  </motion.div>
+);
+
+const ParallaxVideoReel = () => (
+  <section style={{ background: BG_DARK2 }}>
+    <motion.div
+      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+      viewport={{ once: true }} transition={{ duration: 1 }}
+      className="py-16 text-center"
+    >
+      <motion.p
+        initial={{ y: 20, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true }} transition={{ duration: 0.7 }}
+        className="text-xs font-bold uppercase tracking-[0.5em] mb-4" style={{ color: LIME }}
+      >â€” Fario Film Reel â€”</motion.p>
+      <div className="overflow-hidden">
+        <motion.h2
+          initial={{ y: '100%' }} whileInView={{ y: '0%' }}
+          viewport={{ once: true }} transition={{ duration: 0.9, ease: E }}
+          className="font-heading font-black uppercase tracking-tighter"
+          style={{ fontSize: 'clamp(44px, 8vw, 110px)', color: MILKY, lineHeight: 0.9 }}
+        >The Fario<br /><span style={{ color: LIME }}>Universe</span></motion.h2>
+      </div>
+    </motion.div>
+
+    <PanelA />
+    <ChapterDivider n="01" label="Movement is Everything Â· AeroStride Pro Â· New Delhi 2026" />
+    <PanelB />
+    <ChapterDivider n="02" label="Heritage Â· Craftsmanship Â· 14 Prototype Stages" />
+    <PanelC />
+  </section>
+);
+
 function CursorDot() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -1179,9 +1426,6 @@ function CursorDot() {
   );
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   PAGE ROOT
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 export default function Home() {
   const { scrollYProgress } = useScroll();
   const bar = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
@@ -1208,8 +1452,8 @@ export default function Home() {
       <VideoSticky />
       <Gallery />
       <SocialProof />
-      <SpinWheel />
-      <FeatureHotspot />
+      <CinematicGrid />
+      <ParallaxVideoReel />
     </motion.div>
   );
 }
