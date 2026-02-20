@@ -1,39 +1,17 @@
 /*
- * ═══════════════════════════════════════════════════════════════════════════════
- * FARIO LUXURY FOOTWEAR — HOMEPAGE (DEFINITIVE EDITION)
- * ═══════════════════════════════════════════════════════════════════════════════
- * 
- * Architecture: Monolithic (All components embedded — no external imports)
- * Sections:     Hero | Marquee | Category Grid | Product Carousel | Editorial
- *               | Testimonials | Newsletter | Footer
- * Motion:       Framer Motion (useScroll + useTransform — parallax on every section)
- * Style:        Glassmorphism · Neon Glow · Smooth Transitions · Hover States
- * Assets:       ✅ VERIFIED — YouTube embeds (video) + Unsplash IDs (images)
- * Ratio:        20% Text · 40% Video · 40% Image
- *
- * ─────────────────── VERIFIED ASSET MANIFEST ─────────────────────────────────
- * IMAGES (All 200 OK):
- *  · photo-1542291026-7eec264c27ff  → Nike Air — Black shoe side
- *  · photo-1608231387042-66d1773070a5 → Boot close-up detail
- *  · photo-1560769629-975ec94e6a86  → Colorful multi-sneaker
- *  · photo-1595950653106-6c9ebd614d3a → Clean white sneaker
- *  · photo-1543163521-1bf539c55dd2  → Blue strappy heels
- *  · photo-1611312449408-fcece27cdbb7 → Fashion editorial jacket
- *
- * VIDEOS (YouTube — autoplay + muted + loop via iframe API):
- *  · YT: ?v=dQw4w9WgXcQ  (replaced with fashion walks below)
- * ─────────────────────────────────────────────────────────────────────────────
+ * FARIO LUXURY FOOTWEAR — HOMEPAGE (LIGHT EDITION)
+ * ─────────────────────────────────────────────────
+ * Palette: White · Cream · Stone · Purple accent
+ * NO header / footer code here — global layout handles both.
  */
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   motion,
   useScroll,
   useTransform,
   useSpring,
-  useMotionValue,
   AnimatePresence,
-  useInView,
   Variants,
 } from 'framer-motion';
 import {
@@ -44,8 +22,6 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  ChevronDown,
-  Play,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -53,7 +29,6 @@ import { Link } from 'react-router-dom';
 // 1. VERIFIED ASSET VAULT
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** All image IDs verified 200 OK via live test on 2026-02-20 */
 const IMG = {
   hero: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1920&q=90',
   shoe1: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
@@ -62,22 +37,12 @@ const IMG = {
   shoe4: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80',
   shoe5: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80',
   editorial: 'https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=1200&q=80',
-  // Extra shoes from verified alternate IDs
-  shoe6: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80&sat=-50', // desaturated variant
   shoe7: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80',
 };
 
-/**
- * YouTube Video Embeds — autoplay + muted + loop
- * These work cross-origin and bypass hotlink protection.
- * Usage: <iframe src={YT.hero} ... />
- */
 const YT = {
-  // Fashion walk — YouTube ID: rBmRnCp7QRY (runway walk)
   hero: 'https://www.youtube.com/embed/rBmRnCp7QRY?autoplay=1&mute=1&loop=1&controls=0&playlist=rBmRnCp7QRY&showinfo=0&rel=0&modestbranding=1',
-  // Shoe close-up — YouTube ID: sP-D1CTSQOE
   editorial: 'https://www.youtube.com/embed/OQ9B2MnzJkY?autoplay=1&mute=1&loop=1&controls=0&playlist=OQ9B2MnzJkY&showinfo=0&rel=0',
-  // Urban sneaker campaign — YouTube ID: I8dh3yoHXaQ
   campaign: 'https://www.youtube.com/embed/I8dh3yoHXaQ?autoplay=1&mute=1&loop=1&controls=0&playlist=I8dh3yoHXaQ&showinfo=0&rel=0',
 };
 
@@ -86,68 +51,32 @@ const YT = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-const EASE2 = [0.25, 0.46, 0.45, 0.94] as const;
 
 const v: Record<string, Variants> = {
   fadeUp: {
-    hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: EASE as any } },
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE as any } },
   },
   fadeIn: {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.8 } },
-  },
-  slideLeft: {
-    hidden: { opacity: 0, x: 80 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1, ease: EASE as any } },
-  },
-  stagger: {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+    visible: { opacity: 1, transition: { duration: 0.7 } },
   },
   maskReveal: {
     hidden: { clipPath: 'inset(100% 0 0 0)' },
     visible: { clipPath: 'inset(0% 0 0 0)', transition: { duration: 1.2, ease: EASE as any } },
   },
-  scaleIn: {
-    hidden: { scale: 1.1, opacity: 0 },
-    visible: { scale: 1, opacity: 1, transition: { duration: 1.2, ease: EASE as any } },
+  stagger: {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
   },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 3. DATA MODELS
+// 3. DATA
 // ─────────────────────────────────────────────────────────────────────────────
 
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  badge?: string;
-  image: string;
-  altImage: string;
-};
-
-type Category = {
-  id: string;
-  label: string;
-  image: string;
-  count: number;
-};
-
-type Testimonial = {
-  id: string;
-  name: string;
-  role: string;
-  text: string;
-  rating: number;
-  avatar: string;
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 4. DATA LAYER
-// ─────────────────────────────────────────────────────────────────────────────
+type Product = { id: string; name: string; price: number; category: string; badge?: string; image: string; altImage: string; };
+type Testimonial = { id: string; name: string; role: string; text: string; rating: number; avatar: string; };
 
 const PRODUCTS: Product[] = [
   { id: 'p1', name: 'Phantom Air', price: 12_500, category: 'Sneakers', badge: 'New', image: IMG.shoe1, altImage: IMG.shoe4 },
@@ -158,20 +87,7 @@ const PRODUCTS: Product[] = [
   { id: 'p6', name: 'Velvet Loafer', price: 11_200, category: 'Formal', image: IMG.shoe7, altImage: IMG.shoe5 },
 ];
 
-const CATEGORIES: Category[] = [
-  { id: 'c1', label: 'Sneakers', image: IMG.shoe3, count: 48 },
-  { id: 'c2', label: 'Boots', image: IMG.shoe2, count: 22 },
-  { id: 'c3', label: 'Heels', image: IMG.shoe5, count: 30 },
-  { id: 'c4', label: 'Casual', image: IMG.shoe4, count: 35 },
-];
-
-const MARQUEE_ITEMS = [
-  'Free Shipping on ₹999+',
-  'New Collection Dropped',
-  'Handcrafted Luxury',
-  'Carbon-Neutral Packaging',
-  'Exclusive Members Sale',
-];
+const MARQUEE_ITEMS = ['Free Shipping on ₹999+', 'New Collection Dropped', 'Handcrafted Luxury', 'Carbon-Neutral Packaging', 'Exclusive Members Sale'];
 
 const TESTIMONIALS: Testimonial[] = [
   { id: 't1', name: 'Aisha K.', role: 'Fashion Stylist', rating: 5, avatar: IMG.shoe5, text: 'The Phantom Air changed how I approach street style. Unmatched comfort, zero compromise on aesthetics.' },
@@ -179,59 +95,38 @@ const TESTIMONIALS: Testimonial[] = [
   { id: 't3', name: 'Sophie L.', role: 'Creative Director', rating: 4, avatar: IMG.shoe4, text: 'Fario understands wide feet without sacrificing the silhouette. Finally, a luxury brand that listens.' },
 ];
 
+const FEATURES = [
+  { icon: '⚡', title: 'Kinetic Technology', desc: 'Energy-return sole technology for all-day comfort.' },
+  { icon: '♻️', title: 'Ethical Materials', desc: 'Sourced from certified sustainable tanneries.' },
+  { icon: '🎁', title: 'Luxury Packaging', desc: 'Every pair arrives in a hand-stitched keepsake box.' },
+  { icon: '🚚', title: 'Free Delivery', desc: 'Complimentary shipping on all orders above ₹999.' },
+];
+
 // ─────────────────────────────────────────────────────────────────────────────
-// 5. ATOMIC UI COMPONENTS
+// 4. ATOMS
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Neon ring glowing button */
-const GlowButton = ({
-  children, onClick, variant = 'solid', className = '',
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  variant?: 'solid' | 'outline' | 'ghost';
-  className?: string;
-}) => {
-  const base = 'group relative inline-flex items-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 overflow-hidden';
-  const styles = {
-    solid: 'bg-white text-black hover:bg-fario-purple hover:text-white hover:ring-2 hover:ring-purple-500 hover:shadow-[0_0_20px_rgba(139,92,246,0.6)]',
-    outline: 'border border-white text-white hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]',
-    ghost: 'text-white border-b border-white/40 px-0 pb-1 hover:border-white hover:text-white/80',
-  };
-  return (
-    <button className={`${base} ${styles[variant]} ${className}`} onClick={onClick}>
-      {children}
-    </button>
-  );
-};
-
-/** Star rating display */
 const Stars = ({ count }: { count: number }) => (
   <div className="flex gap-0.5">
     {[1, 2, 3, 4, 5].map(i => (
-      <Star key={i} size={12} className={i <= count ? 'text-yellow-400 fill-yellow-400' : 'text-zinc-600'} />
+      <Star key={i} size={12} className={i <= count ? 'text-amber-400 fill-amber-400' : 'text-gray-300'} />
     ))}
   </div>
 );
 
-
-
 // ─────────────────────────────────────────────────────────────────────────────
-// 7. HERO SECTION — Full viewport, YouTube video background
+// 5. HERO — keeps dark overlay only so text is readable over video
 // ─────────────────────────────────────────────────────────────────────────────
 
 const Hero = () => {
-  const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-  // Parallax: video moves slower than scroll
   const bgY = useTransform(scrollY, [0, 800], ['0%', '25%']);
   const textY = useTransform(scrollY, [0, 600], ['0%', '60%']);
   const opacity = useTransform(scrollY, [0, 600], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-screen w-full overflow-hidden bg-black flex items-end pb-28 md:pb-40">
-
-      {/* ── VIDEO BACKGROUND (YouTube iframe + CSS scale trick) ── */}
+    <section className="relative h-screen w-full overflow-hidden bg-stone-100 flex items-end pb-28 md:pb-40">
+      {/* Video layer (dark overlay stays for contrast) */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 z-0 pointer-events-none scale-110">
         <iframe
           src={YT.hero}
@@ -241,53 +136,55 @@ const Hero = () => {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{ width: '177.78vh', height: '100vh', minWidth: '100%', border: 'none' }}
         />
-        {/* Dark overlay — cinematic feel */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/20" />
-        {/* Noise grain texture */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }} />
+        {/* Lighter overlay compared to dark edition */}
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-stone-900/20 to-transparent" />
       </motion.div>
 
-      {/* ── HERO CONTENT ── */}
+      {/* Hero text */}
       <motion.div style={{ y: textY, opacity }} className="relative z-10 w-full px-6 md:px-16">
         <motion.div initial="hidden" animate="visible" variants={v.stagger}>
 
-          {/* Pill badge */}
-          <motion.span variants={v.fadeUp} className="inline-block mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur border border-white/20 text-white/70 text-[10px] font-bold uppercase tracking-widest">
+          <motion.span variants={v.fadeUp}
+            className="inline-block mb-6 px-4 py-2 rounded-full bg-white/20 backdrop-blur border border-white/30 text-white text-[10px] font-bold uppercase tracking-widest"
+          >
             ✦ Collection 2026 — Motion
           </motion.span>
 
-          {/* Headline */}
           <div className="overflow-hidden mb-2">
-            <motion.h1 variants={v.maskReveal} className="text-[14vw] md:text-[11vw] font-black uppercase tracking-tighter leading-[0.85] text-white">
-              WALK
-            </motion.h1>
+            <motion.h1 variants={v.maskReveal}
+              className="text-[14vw] md:text-[11vw] font-black uppercase tracking-tighter leading-[0.85] text-white"
+            >WALK</motion.h1>
           </div>
           <div className="overflow-hidden">
-            <motion.h1 variants={v.maskReveal} className="text-[14vw] md:text-[11vw] font-black uppercase tracking-tighter leading-[0.85] text-transparent" style={{ WebkitTextStroke: '2px rgba(255,255,255,0.4)' }}>
-              DIFFERENT
-            </motion.h1>
+            <motion.h1 variants={v.maskReveal}
+              className="text-[14vw] md:text-[11vw] font-black uppercase tracking-tighter leading-[0.85] text-white/40"
+              style={{ WebkitTextStroke: '2px rgba(255,255,255,0.6)' }}
+            >DIFFERENT</motion.h1>
           </div>
 
-          {/* Sub-text */}
-          <motion.p variants={v.fadeUp} className="mt-6 text-white/60 text-sm md:text-base max-w-md font-light leading-relaxed">
+          <motion.p variants={v.fadeUp} className="mt-6 text-white/80 text-sm md:text-base max-w-md font-light leading-relaxed">
             Handcrafted luxury footwear for the body in motion.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div variants={v.fadeUp} className="mt-10 flex flex-wrap gap-4">
-            <GlowButton variant="solid">Shop Now <ArrowRight size={14} /></GlowButton>
-            <GlowButton variant="outline">View Lookbook</GlowButton>
+            <Link to="/shop"
+              className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-all duration-300"
+            >
+              Shop Now <ArrowRight size={14} />
+            </Link>
+            <button className="border border-white text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-all duration-300">
+              View Lookbook
+            </button>
           </motion.div>
         </motion.div>
       </motion.div>
 
       {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-white"
       >
-        <span className="text-[9px] uppercase tracking-widest opacity-50">Scroll</span>
-        <div className="w-px h-10 bg-white/20 overflow-hidden">
+        <span className="text-[9px] uppercase tracking-widest opacity-60">Scroll</span>
+        <div className="w-px h-10 bg-white/30 overflow-hidden">
           <motion.div animate={{ y: ['-100%', '100%'] }} transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }} className="w-full h-full bg-white" />
         </div>
       </motion.div>
@@ -296,11 +193,11 @@ const Hero = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 8. MARQUEE BAND
+// 6. MARQUEE BAND — soft purple on light
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MarqueeBand = () => (
-  <div className="relative bg-fario-purple py-4 overflow-hidden border-y border-purple-400/30">
+  <div className="relative bg-purple-600 py-4 overflow-hidden border-y border-purple-300/30">
     <motion.div
       animate={{ x: ['0%', '-50%'] }}
       transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
@@ -316,69 +213,72 @@ const MarqueeBand = () => (
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 9. CATEGORY GRID — Asymmetric masonry
+// 7. CATEGORY GRID — light backgrounds, dark labels
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CategoryGrid = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  // Individually staggered parallax per column
   const col1y = useTransform(scrollYProgress, [0, 1], [40, -40]);
   const col2y = useTransform(scrollYProgress, [0, 1], [-40, 40]);
 
   return (
-    <section ref={ref} className="py-32 bg-zinc-950">
+    <section ref={ref} className="py-32 bg-white">
       <div className="container mx-auto px-4 md:px-12">
+
         {/* Heading */}
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={v.stagger} className="mb-20 flex justify-between items-end">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={v.stagger}
+          className="mb-20 flex justify-between items-end"
+        >
           <div>
-            <motion.p variants={v.fadeUp} className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-3">Shop by Category</motion.p>
-            <motion.h2 variants={v.fadeUp} className="text-white text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none">
+            <motion.p variants={v.fadeUp} className="text-purple-600 text-xs font-bold uppercase tracking-widest mb-3">Shop by Category</motion.p>
+            <motion.h2 variants={v.fadeUp} className="text-gray-900 text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none">
               The<br />Collection
             </motion.h2>
           </div>
-          <motion.a href="#" variants={v.fadeIn} className="hidden md:flex items-center gap-2 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">
+          <motion.a href="#" variants={v.fadeIn}
+            className="hidden md:flex items-center gap-2 text-gray-400 hover:text-purple-600 text-xs font-bold uppercase tracking-widest transition-colors"
+          >
             View All <ArrowUpRight size={14} />
           </motion.a>
         </motion.div>
 
         {/* 4-cell asymmetric grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 h-[80vh]">
+
           {/* Tall left */}
-          <motion.div style={{ y: col1y }} className="row-span-2 relative group overflow-hidden bg-zinc-800 cursor-pointer">
+          <motion.div style={{ y: col1y }} className="row-span-2 relative group overflow-hidden bg-gray-100 cursor-pointer">
             <img src={IMG.shoe3} alt="Sneakers" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            {/* Neon glow ring on hover */}
-            <div className="absolute inset-0 ring-0 group-hover:ring-2 ring-purple-500 transition-all duration-300 shadow-[inset_0_0_30px_rgba(139,92,246,0)] group-hover:shadow-[inset_0_0_30px_rgba(139,92,246,0.3)]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 ring-0 group-hover:ring-2 ring-purple-500 transition-all duration-300" />
             <div className="absolute bottom-6 left-6">
-              <span className="text-white font-black uppercase tracking-tighter text-xl">Sneakers</span>
-              <p className="text-white/60 text-xs">{CATEGORIES[0].count} styles</p>
+              <span className="text-white font-black uppercase tracking-tighter text-xl drop-shadow">Sneakers</span>
+              <p className="text-white/70 text-xs">48 styles</p>
             </div>
           </motion.div>
 
           {/* Top-right */}
-          <motion.div style={{ y: col2y }} className="relative group overflow-hidden bg-zinc-800 cursor-pointer">
+          <motion.div style={{ y: col2y }} className="relative group overflow-hidden bg-gray-100 cursor-pointer">
             <img src={IMG.shoe2} alt="Boots" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
             <div className="absolute inset-0 ring-0 group-hover:ring-2 ring-purple-500 transition-all duration-300" />
             <div className="absolute bottom-4 left-4">
-              <span className="text-white font-black uppercase tracking-tight">Boots</span>
+              <span className="text-white font-black uppercase tracking-tight drop-shadow">Boots</span>
             </div>
           </motion.div>
 
           {/* Bottom-right */}
-          <motion.div style={{ y: col1y }} className="relative group overflow-hidden bg-zinc-800 cursor-pointer">
+          <motion.div style={{ y: col1y }} className="relative group overflow-hidden bg-gray-100 cursor-pointer">
             <img src={IMG.shoe5} alt="Heels" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
             <div className="absolute inset-0 ring-0 group-hover:ring-2 ring-purple-500 transition-all duration-300" />
             <div className="absolute bottom-4 left-4">
-              <span className="text-white font-black uppercase tracking-tight">Heels</span>
+              <span className="text-white font-black uppercase tracking-tight drop-shadow">Heels</span>
             </div>
           </motion.div>
 
-          {/* Wide bottom (video embedded) */}
-          <motion.div style={{ y: col2y }} className="col-span-1 md:col-span-2 relative group overflow-hidden bg-zinc-800 cursor-pointer">
-            {/* YouTube inlined video for category */}
+          {/* Video cell */}
+          <motion.div style={{ y: col2y }} className="col-span-1 md:col-span-2 relative group overflow-hidden bg-gray-100 cursor-pointer">
             <iframe
               src={YT.campaign}
               allow="autoplay; encrypted-media"
@@ -386,10 +286,10 @@ const CategoryGrid = () => {
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               style={{ width: '200%', height: '200%', border: 'none' }}
             />
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors" />
             <div className="absolute inset-0 ring-0 group-hover:ring-2 ring-purple-500 transition-all duration-300" />
             <div className="absolute bottom-4 left-4">
-              <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-full">
+              <span className="bg-white/90 backdrop-blur text-gray-900 border border-white/60 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-full">
                 Casual — 35 Styles
               </span>
             </div>
@@ -401,7 +301,7 @@ const CategoryGrid = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 10. PRODUCT CAROUSEL — "New Arrivals" drag-to-scroll
+// 8. PRODUCT CAROUSEL — white cards, light gray stage
 // ─────────────────────────────────────────────────────────────────────────────
 
 const ProductCard = ({ product }: { product: Product }) => {
@@ -409,49 +309,41 @@ const ProductCard = ({ product }: { product: Product }) => {
   const [wishlisted, setWishlisted] = useState(false);
 
   return (
-    <div
-      className="min-w-[280px] md:min-w-[340px] group"
+    <div className="min-w-[280px] md:min-w-[320px] group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Image stage */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-zinc-900 mb-4">
+      <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
         {product.badge && (
           <span className="absolute top-3 left-3 z-20 bg-purple-600 text-white text-[9px] font-bold uppercase px-2 py-1 tracking-wider">
             {product.badge}
           </span>
         )}
 
-        {/* Primary image */}
-        <img
-          src={product.image}
-          alt={product.name}
+        <img src={product.image} alt={product.name}
           className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${hovered ? 'opacity-0 scale-110' : 'opacity-100 scale-100'}`}
         />
-        {/* Alt image on hover */}
-        <img
-          src={product.altImage}
-          alt={product.name + ' alt'}
+        <img src={product.altImage} alt={product.name + ' alt'}
           className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${hovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
         />
 
-        {/* Neon glow on hover */}
-        <div className={`absolute inset-0 transition-all duration-300 ${hovered ? 'ring-2 ring-purple-500 shadow-[inset_0_0_40px_rgba(139,92,246,0.2)]' : ''}`} />
+        {/* Neon ring */}
+        <div className={`absolute inset-0 transition-all duration-300 ${hovered ? 'ring-2 ring-purple-500 shadow-[inset_0_0_30px_rgba(139,92,246,0.15)]' : ''}`} />
 
         {/* Wishlist */}
-        <button
-          onClick={() => setWishlisted(!wishlisted)}
-          className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/40 backdrop-blur flex items-center justify-center transition-colors hover:bg-black/70"
+        <button onClick={() => setWishlisted(!wishlisted)}
+          className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center hover:bg-white transition-colors shadow"
         >
-          <Heart size={14} className={wishlisted ? 'fill-red-500 text-red-500' : 'text-white'} />
+          <Heart size={14} className={wishlisted ? 'fill-red-500 text-red-500' : 'text-gray-500'} />
         </button>
 
         {/* Add to cart CTA */}
         <motion.div
-          initial={{ y: '100%' }} animate={{ y: hovered ? '0%' : '100%' }} transition={{ duration: 0.3, ease: EASE2 as any }}
+          initial={{ y: '100%' }} animate={{ y: hovered ? '0%' : '100%' }} transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] as any }}
           className="absolute bottom-0 inset-x-0 z-20"
         >
-          <button className="w-full bg-white text-black py-3 text-xs font-bold uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-colors flex items-center justify-center gap-2">
+          <button className="w-full bg-gray-900 text-white py-3 text-xs font-bold uppercase tracking-widest hover:bg-purple-600 transition-colors flex items-center justify-center gap-2">
             <ShoppingBag size={14} /> Add to Cart
           </button>
         </motion.div>
@@ -459,9 +351,9 @@ const ProductCard = ({ product }: { product: Product }) => {
 
       {/* Info */}
       <div>
-        <p className="text-zinc-500 text-[10px] uppercase tracking-widest mb-1">{product.category}</p>
-        <h3 className="text-white font-bold uppercase text-sm tracking-wide">{product.name}</h3>
-        <p className="text-white/80 font-medium mt-1">₹{product.price.toLocaleString('en-IN')}</p>
+        <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-1">{product.category}</p>
+        <h3 className="text-gray-900 font-bold uppercase text-sm tracking-wide">{product.name}</h3>
+        <p className="text-gray-600 font-medium mt-1">₹{product.price.toLocaleString('en-IN')}</p>
       </div>
     </div>
   );
@@ -473,8 +365,7 @@ const ProductCarousel = () => {
   const [canRight, setCanRight] = useState(true);
 
   const scroll = (dir: 'left' | 'right') => {
-    if (!trackRef.current) return;
-    trackRef.current.scrollBy({ left: dir === 'left' ? -380 : 380, behavior: 'smooth' });
+    trackRef.current?.scrollBy({ left: dir === 'left' ? -360 : 360, behavior: 'smooth' });
   };
 
   const onScroll = () => {
@@ -485,39 +376,31 @@ const ProductCarousel = () => {
   };
 
   return (
-    <section className="py-32 bg-black overflow-hidden">
+    <section className="py-32 bg-stone-50 overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
-        {/* Header */}
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={v.stagger}
           className="flex justify-between items-end mb-14"
         >
           <div>
-            <motion.p variants={v.fadeUp} className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-2">Just In</motion.p>
-            <motion.h2 variants={v.fadeUp} className="text-white text-4xl md:text-6xl font-black uppercase tracking-tighter">
-              New Arrivals
-            </motion.h2>
+            <motion.p variants={v.fadeUp} className="text-purple-600 text-xs font-bold uppercase tracking-widest mb-2">Just In</motion.p>
+            <motion.h2 variants={v.fadeUp} className="text-gray-900 text-4xl md:text-6xl font-black uppercase tracking-tighter">New Arrivals</motion.h2>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => scroll('left')} disabled={!canLeft} className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 disabled:opacity-30 transition">
-              <ChevronLeft size={16} />
-            </button>
-            <button onClick={() => scroll('right')} disabled={!canRight} className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 disabled:opacity-30 transition">
-              <ChevronRight size={16} />
-            </button>
+            <button onClick={() => scroll('left')} disabled={!canLeft}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-100 disabled:opacity-30 transition"
+            ><ChevronLeft size={16} /></button>
+            <button onClick={() => scroll('right')} disabled={!canRight}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-100 disabled:opacity-30 transition"
+            ><ChevronRight size={16} /></button>
           </div>
         </motion.div>
 
-        {/* Scroll track */}
-        <div
-          ref={trackRef}
-          onScroll={onScroll}
-          className="flex gap-6 overflow-x-auto pb-4 scroll-smooth snap-x scrollbar-none"
-          style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
+        <div ref={trackRef} onScroll={onScroll}
+          className="flex gap-6 overflow-x-auto pb-4 scroll-smooth snap-x"
+          style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' } as React.CSSProperties}
         >
           {PRODUCTS.map(p => (
-            <div key={p.id} className="snap-start">
-              <ProductCard product={p} />
-            </div>
+            <div key={p.id} className="snap-start"><ProductCard product={p} /></div>
           ))}
         </div>
       </div>
@@ -526,7 +409,7 @@ const ProductCarousel = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 11. EDITORIAL / SPLIT STORY — Sticky video + scroll text
+// 9. EDITORIAL — cream background, dark text
 // ─────────────────────────────────────────────────────────────────────────────
 
 const Editorial = () => {
@@ -535,49 +418,49 @@ const Editorial = () => {
   const textY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
 
   return (
-    <section ref={ref} className="flex flex-col md:flex-row min-h-screen bg-zinc-950">
-      {/* Sticky video side */}
-      <div className="w-full md:w-1/2 h-[60vh] md:h-screen md:sticky md:top-0 overflow-hidden">
+    <section ref={ref} className="flex flex-col md:flex-row min-h-screen bg-white">
+      {/* Sticky video */}
+      <div className="w-full md:w-1/2 h-[60vh] md:h-screen md:sticky md:top-0 overflow-hidden relative">
         <iframe
           src={YT.editorial}
           allow="autoplay; encrypted-media"
           title="Editorial video"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           style={{ width: '177.78vh', height: '100vh', minWidth: '100%', border: 'none', position: 'relative' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         />
-        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+        <div className="absolute inset-0 bg-white/10 pointer-events-none" />
       </div>
 
-      {/* Scrolling text side */}
-      <motion.div style={{ y: textY }} className="w-full md:w-1/2 flex items-center justify-center p-10 md:p-20">
+      {/* Text side */}
+      <motion.div style={{ y: textY }} className="w-full md:w-1/2 flex items-center justify-center p-10 md:p-20 bg-stone-50">
         <div className="max-w-md">
           <motion.span initial="hidden" whileInView="visible" variants={v.fadeUp} viewport={{ once: true }}
-            className="text-purple-400 text-xs font-bold uppercase tracking-[0.3em] block mb-6"
-          >
-            — The Philosophy
-          </motion.span>
+            className="text-purple-600 text-xs font-bold uppercase tracking-[0.3em] block mb-6"
+          >— The Philosophy</motion.span>
+
           <motion.h2 initial="hidden" whileInView="visible" variants={v.fadeUp} viewport={{ once: true }}
-            className="text-white text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-8"
-          >
-            Art of<br />Motion
-          </motion.h2>
+            className="text-gray-900 text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-8"
+          >Art of<br />Motion</motion.h2>
+
           <motion.p initial="hidden" whileInView="visible" variants={v.fadeUp} viewport={{ once: true }}
-            className="text-zinc-400 text-base md:text-lg leading-relaxed font-light mb-8"
+            className="text-gray-500 text-base md:text-lg leading-relaxed font-light mb-6"
           >
-            We design from movement outward. Each silhouette begins as a study
-            in kinetics — how the human foot strikes the earth, how momentum
-            transfers through leather and sole.
+            We design from movement outward. Each silhouette begins as a study in kinetics —
+            how the human foot strikes the earth, how momentum transfers through leather and sole.
           </motion.p>
+
           <motion.p initial="hidden" whileInView="visible" variants={v.fadeUp} viewport={{ once: true }}
-            className="text-zinc-500 text-base leading-relaxed font-light mb-12"
+            className="text-gray-400 text-base leading-relaxed font-light mb-12"
           >
-            The result is not just a shoe. It is architecture for the body.
-            Precision without pretension. Craft that endures.
+            The result is not just a shoe. It is architecture for the body. Precision without pretension.
           </motion.p>
+
           <motion.div initial="hidden" whileInView="visible" variants={v.fadeUp} viewport={{ once: true }}>
-            <GlowButton variant="outline">
+            <Link to="/about"
+              className="inline-flex items-center gap-2 border-b border-gray-900 pb-1 text-xs font-bold uppercase tracking-widest text-gray-900 hover:text-purple-600 hover:border-purple-600 transition-colors"
+            >
               Our Story <ArrowRight size={14} />
-            </GlowButton>
+            </Link>
           </motion.div>
         </div>
       </motion.div>
@@ -586,28 +469,21 @@ const Editorial = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 12. FEATURES — HyperUI-style 3-col icon section
+// 10. FEATURES — light gray cards
 // ─────────────────────────────────────────────────────────────────────────────
 
-const FEATURES = [
-  { icon: '⚡', title: 'Kinetic Technology', desc: 'Energy-return sole technology for all-day comfort.' },
-  { icon: '♻️', title: 'Ethical Materials', desc: 'Sourced from certified sustainable tanneries.' },
-  { icon: '🎁', title: 'Luxury Packaging', desc: 'Every pair arrives in a hand-stitched keepsake box.' },
-  { icon: '🚚', title: 'Free Delivery', desc: 'Complimentary shipping on all orders above ₹999.' },
-];
-
 const Features = () => (
-  <section className="py-24 bg-black border-y border-white/5">
+  <section className="py-24 bg-white border-y border-gray-100">
     <div className="container mx-auto px-6 md:px-12">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {FEATURES.map((f, i) => (
           <motion.div key={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={v.fadeUp}
             transition={{ delay: i * 0.1 } as any}
-            className="group p-6 border border-white/5 hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300 rounded-sm"
+            className="group p-6 border border-gray-100 hover:border-purple-300 hover:bg-purple-50/50 transition-all duration-300 rounded-sm"
           >
             <span className="text-3xl mb-4 block">{f.icon}</span>
-            <h3 className="text-white font-bold uppercase text-sm tracking-wide mb-2">{f.title}</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">{f.desc}</p>
+            <h3 className="text-gray-900 font-bold uppercase text-sm tracking-wide mb-2">{f.title}</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
           </motion.div>
         ))}
       </div>
@@ -616,35 +492,35 @@ const Features = () => (
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 13. TESTIMONIALS — Glassmorphism cards
+// 11. TESTIMONIALS — light glass cards on cream
 // ─────────────────────────────────────────────────────────────────────────────
 
 const Testimonials = () => (
-  <section className="py-32 bg-zinc-950 relative overflow-hidden">
-    {/* Background image */}
-    <div className="absolute inset-0 opacity-10 pointer-events-none">
+  <section className="py-32 bg-stone-50 relative overflow-hidden">
+    {/* Faint bg image */}
+    <div className="absolute inset-0 opacity-5 pointer-events-none">
       <img src={IMG.editorial} className="w-full h-full object-cover" alt="" />
     </div>
 
     <div className="container mx-auto px-6 md:px-12 relative z-10">
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={v.stagger} className="text-center mb-16">
-        <motion.p variants={v.fadeUp} className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-3">Community</motion.p>
-        <motion.h2 variants={v.fadeUp} className="text-white text-4xl md:text-6xl font-black uppercase tracking-tighter">What They Say</motion.h2>
+        <motion.p variants={v.fadeUp} className="text-purple-600 text-xs font-bold uppercase tracking-widest mb-3">Community</motion.p>
+        <motion.h2 variants={v.fadeUp} className="text-gray-900 text-4xl md:text-6xl font-black uppercase tracking-tighter">What They Say</motion.h2>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {TESTIMONIALS.map((t, i) => (
           <motion.div key={t.id} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={v.fadeUp}
             transition={{ delay: i * 0.12 } as any}
-            className="p-8 rounded-sm bg-white/5 backdrop-blur-xl border border-white/10 hover:border-purple-500/40 hover:bg-white/8 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all duration-400 group"
+            className="p-8 rounded-sm bg-white border border-gray-100 hover:border-purple-200 hover:shadow-md hover:shadow-purple-100/50 transition-all duration-400 group"
           >
             <Stars count={t.rating} />
-            <p className="text-white/80 text-base leading-relaxed my-6">"{t.text}"</p>
+            <p className="text-gray-600 text-base leading-relaxed my-6">"{t.text}"</p>
             <div className="flex items-center gap-4">
-              <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover border border-white/20" />
+              <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover border border-gray-200" />
               <div>
-                <p className="text-white text-sm font-bold">{t.name}</p>
-                <p className="text-zinc-500 text-xs">{t.role}</p>
+                <p className="text-gray-900 text-sm font-bold">{t.name}</p>
+                <p className="text-gray-400 text-xs">{t.role}</p>
               </div>
             </div>
           </motion.div>
@@ -655,7 +531,7 @@ const Testimonials = () => (
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 14. NEWSLETTER — Glassmorphism full-width
+// 12. NEWSLETTER — soft purple gradient, light
 // ─────────────────────────────────────────────────────────────────────────────
 
 const Newsletter = () => {
@@ -668,20 +544,19 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="relative py-36 overflow-hidden bg-black">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0">
-        <img src={IMG.shoe1} alt="" className="w-full h-full object-cover opacity-20 scale-110" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/50" />
+    <section className="relative py-36 overflow-hidden bg-gradient-to-br from-purple-50 via-white to-stone-50">
+      {/* Faint edge image */}
+      <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10 pointer-events-none">
+        <img src={IMG.shoe1} alt="" className="w-full h-full object-cover" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 md:px-12 text-center max-w-2xl">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={v.stagger}>
-          <motion.p variants={v.fadeUp} className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-4">Inner Circle</motion.p>
-          <motion.h2 variants={v.fadeUp} className="text-white text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
+          <motion.p variants={v.fadeUp} className="text-purple-600 text-xs font-bold uppercase tracking-widest mb-4">Inner Circle</motion.p>
+          <motion.h2 variants={v.fadeUp} className="text-gray-900 text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
             Join the Movement
           </motion.h2>
-          <motion.p variants={v.fadeUp} className="text-zinc-400 mb-12">Early access. Exclusive drops. Member pricing.</motion.p>
+          <motion.p variants={v.fadeUp} className="text-gray-500 mb-12">Early access. Exclusive drops. Member pricing.</motion.p>
 
           <motion.form variants={v.fadeUp} onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
             {!submitted ? (
@@ -689,14 +564,16 @@ const Newsletter = () => {
                 <input
                   type="email" value={email} onChange={e => setEmail(e.target.value)}
                   placeholder="Your email address"
-                  className="flex-1 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-zinc-500 px-6 py-4 text-sm outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                  className="flex-1 bg-white border border-gray-200 text-gray-900 placeholder:text-gray-400 px-6 py-4 text-sm outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition shadow-sm"
                 />
-                <button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors hover:shadow-[0_0_25px_rgba(139,92,246,0.5)]">
+                <button type="submit"
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors hover:shadow-lg hover:shadow-purple-200"
+                >
                   Subscribe
                 </button>
               </>
             ) : (
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-white text-lg font-medium">
+              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-gray-900 text-lg font-medium">
                 ✓ You're in. Welcome to the circle.
               </motion.p>
             )}
@@ -707,10 +584,8 @@ const Newsletter = () => {
   );
 };
 
-
-
 // ─────────────────────────────────────────────────────────────────────────────
-// 16. PAGE — ORCHESTRATION
+// 13. PAGE ORCHESTRATION — NO Header, NO Footer
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Home() {
@@ -722,12 +597,12 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-black min-h-screen font-sans selection:bg-purple-600 selection:text-white"
+      className="bg-white min-h-screen font-sans selection:bg-purple-600 selection:text-white"
     >
-      {/* Sticky progress bar */}
+      {/* Scroll progress bar */}
       <motion.div
         style={{ scaleX, transformOrigin: '0%' }}
-        className="fixed top-0 left-0 right-0 h-[2px] bg-purple-500 z-[100] shadow-[0_0_10px_rgba(139,92,246,0.8)]"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-purple-500 z-[100] shadow-[0_0_8px_rgba(139,92,246,0.6)]"
       />
 
       <Hero />
