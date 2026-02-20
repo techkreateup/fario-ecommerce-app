@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Hero from '@/components/home/Hero';
 import EditorialGrid from '@/components/home/EditorialGrid';
 import TrendingSlider from '@/components/home/TrendingSlider';
+import VideoShowcase from '@/components/home/VideoShowcase';
 import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
 
