@@ -24,9 +24,11 @@ export default function Hero() {
           muted
           loop
           playsInline
+          poster="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=1920&q=80"
           className="h-full w-full object-cover"
         >
-          <source src="https://videos.pexels.com/video-files/6055536/6055536-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          {/* Fashion Footwear Walk - Alternative Source */}
+          <source src="https://cdn.pixabay.com/video/2019/05/29/24036-339232938_large.mp4" type="video/mp4" />
         </video>
       </motion.div>
 

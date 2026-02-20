@@ -28,9 +28,11 @@ export default function VideoShowcase() {
                     muted
                     loop
                     playsInline
+                    poster="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1920&q=80"
                     className="w-full h-full object-cover"
                 >
-                    <source src="https://videos.pexels.com/video-files/4443657/4443657-hd_1920_1080_25fps.mp4" type="video/mp4" />
+                    {/* Slow motion fashion/shoe reveal */}
+                    <source src="https://cdn.pixabay.com/video/2024/02/09/200021-912204990_large.mp4" type="video/mp4" />
                 </video>
                 {/* Pure visual tint - no text */}
                 <div className="absolute inset-0 bg-black/10" />
