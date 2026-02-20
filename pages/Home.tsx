@@ -1,5 +1,5 @@
-/**
- * FARIO HOME — Light Purple Luxury Edition
+﻿/**
+ * FARIO HOME â€” Light Purple Luxury Edition
  * Colors: Light Lavender bg + Fario Purple #7a51a0 + Lime #d9f99d + Milky White #FFFEF5
  * Fixes: pt-[104px] on hero so content never hides behind AnnouncementBar+Header
  * Videos: vid-blaze + vid-drive (self-hosted, committed to /public)
@@ -15,14 +15,14 @@ import {
   ChevronLeft, ChevronRight, Truck, ShieldCheck, RefreshCcw, Award, Zap, Star,
 } from 'lucide-react';
 
-/* ─ BASE PATH ────────────────────────────────────────────── */
+/* â”€ BASE PATH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const BASE = (import.meta as any).env.BASE_URL as string;
 
-/* ─ VIDEOS (self-hosted, 100% reliable) ─────────────────── */
+/* â”€ VIDEOS (self-hosted, 100% reliable) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const V1 = `${BASE}vid-blaze.mp4`;
 const V2 = `${BASE}vid-drive.mp4`;
 
-/* ─ IMAGES ────────────────────────────────────────────────── */
+/* â”€ IMAGES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const d = (id: string) => `https://lh3.googleusercontent.com/d/${id}`;
 const HL3 = {
   a: d('1tEuedCwZYRWL-aYCOXY46bXCBcnyVuU-'),
@@ -34,7 +34,7 @@ const HL3 = {
   h: d('1BB5uMVdb66bRJLUgle-vUkLaKyK1gC-i'),
 };
 
-/* ─ DESIGN TOKENS ─────────────────────────────────────────── */
+/* â”€ DESIGN TOKENS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 // Light sections
 const BG_LIGHT = '#F5F0FF';         // Very light lavender
 const BG_MID = '#EDE7F6';         // Slightly deeper lavender
@@ -49,7 +49,7 @@ const MILKY = '#FFFEF5';          // Milky text on dark
 const DARK_TXT = '#1a0d2e';         // Dark text on light
 const PUR_BORDER = 'rgba(122,81,160,0.25)';
 
-/* ─ EASING + VARIANTS ─────────────────────────────────────── */
+/* â”€ EASING + VARIANTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const E: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const maskUp = {
   hidden: { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
@@ -60,7 +60,7 @@ const fadeIn = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { du
 const stg60 = { hidden: {}, visible: { transition: { staggerChildren: 0.06 } } };
 const stg12 = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
 
-/* ─ PRODUCTS ──────────────────────────────────────────────── */
+/* â”€ PRODUCTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const PRODUCTS = [
   { id: 'p1', name: 'AeroStride Pro', sub: 'Performance Shoe', price: 12999, orig: 15999, img: HL3.a, alt: HL3.c, tag: 'NEW' },
   { id: 'p2', name: 'Urban Glide', sub: 'Street Edition', price: 8499, orig: 10999, img: HL3.b, alt: HL3.e, tag: 'HOT' },
@@ -71,7 +71,7 @@ const PRODUCTS = [
   { id: 'p7', name: 'Tech Sling', sub: 'Daily Essential', price: 2999, orig: 3999, img: HL3.h, alt: HL3.a },
 ];
 
-const TICKER = ['HANDCRAFTED SINCE 2024', 'FREE SHIPPING ₹999+', 'NEW COLLECTION 2026', '30-DAY RETURNS', 'CARBON NEUTRAL', 'MEMBERS EXCLUSIVE'];
+const TICKER = ['HANDCRAFTED SINCE 2024', 'FREE SHIPPING â‚¹999+', 'NEW COLLECTION 2026', '30-DAY RETURNS', 'CARBON NEUTRAL', 'MEMBERS EXCLUSIVE'];
 
 const STATS = [
   { val: 50000, suf: '+', label: 'Pairs Sold', icon: <Star size={22} /> },
@@ -81,13 +81,13 @@ const STATS = [
 ];
 
 const TRUST = [
-  { icon: <Truck size={28} />, title: 'Free Delivery', sub: 'On orders ₹999+' },
+  { icon: <Truck size={28} />, title: 'Free Delivery', sub: 'On orders â‚¹999+' },
   { icon: <ShieldCheck size={28} />, title: '2-Year Warranty', sub: 'Genuine craftsmanship' },
   { icon: <RefreshCcw size={28} />, title: '30-Day Returns', sub: 'Hassle-free' },
   { icon: <Award size={28} />, title: 'ISO Certified', sub: 'Master artisans' },
 ];
 
-/* ─ HOOKS ─────────────────────────────────────────────────── */
+/* â”€ HOOKS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function useCounter(target: number, active: boolean) {
   const [v, setV] = useState(0);
   useEffect(() => {
@@ -100,7 +100,7 @@ function useCounter(target: number, active: boolean) {
   return v;
 }
 
-/* ─ REUSABLE COMPONENTS ───────────────────────────────────── */
+/* â”€ REUSABLE COMPONENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /** 3D tilt on mouse move */
 const Tilt = ({ children, cls = '' }: { children: React.ReactNode; cls?: string }) => {
@@ -209,12 +209,12 @@ const VidEl = ({ src, poster, cls }: { src: string; poster: string; cls?: string
   </video>
 );
 
-/* ═══════════════════════════════════════════════════════════════
-   SECTION 1 — HERO
-   • Clears header (AnnouncementBar ~40px + Header ~64px = 104px)
-   • Dark video background with purple tint
-   • Milky white + Lime text
-═══════════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   SECTION 1 â€” HERO
+   â€¢ Clears header (AnnouncementBar ~40px + Header ~64px = 104px)
+   â€¢ Dark video background with purple tint
+   â€¢ Milky white + Lime text
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const Hero = () => {
   const { scrollY } = useScroll();
   const vY = useTransform(scrollY, [0, 800], ['0%', '25%']);
@@ -266,7 +266,7 @@ const Hero = () => {
           transition={{ duration: 1.5, ease: E }}
           className="text-xs font-bold uppercase mb-10 inline-flex items-center gap-3 px-4 py-2 rounded-full"
           style={{ background: `${LIME}22`, color: LIME, border: `1px solid ${LIME}44` }}
-        >✦ New Delhi · Est. 2024 · Collection 2026</motion.div>
+        >âœ¦ New Delhi Â· Est. 2024 Â· Collection 2026</motion.div>
 
         <h1 className="font-heading font-black uppercase tracking-tighter leading-[0.85] mb-8"
           style={{ fontSize: 'clamp(68px, 13vw, 170px)', color: MILKY }}
@@ -319,7 +319,7 @@ const Hero = () => {
   );
 };
 
-/* ── TICKER ───────────────────────────────────────────────── */
+/* â”€â”€ TICKER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const Ticker = () => (
   <div className="overflow-hidden py-4 border-y" style={{ background: PURPLE, borderColor: `${PURPLE}AA` }}>
     <motion.div
@@ -327,13 +327,13 @@ const Ticker = () => (
       className="flex gap-12 whitespace-nowrap w-max"
     >
       {[...TICKER, ...TICKER].map((t, i) => (
-        <span key={i} className="text-xs font-black uppercase tracking-[0.3em]" style={{ color: LIME }}>★ {t}</span>
+        <span key={i} className="text-xs font-black uppercase tracking-[0.3em]" style={{ color: LIME }}>â˜… {t}</span>
       ))}
     </motion.div>
   </div>
 );
 
-/* ── STATS ────────────────────────────────────────────────── */
+/* â”€â”€ STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const Stats = () => (
   <section className="py-28" style={{ background: BG_LIGHT }}>
     <div className="container mx-auto px-8 md:px-20">
@@ -364,7 +364,7 @@ const Stats = () => (
   </section>
 );
 
-/* ── VIDEO BREAK 1 ────────────────────────────────────────── */
+/* â”€â”€ VIDEO BREAK 1 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const VideoBreak1 = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
@@ -388,7 +388,7 @@ const VideoBreak1 = () => {
           style={{ background: `${LIME}18`, color: LIME, border: `1px solid ${LIME}40` }}
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-        >★ The Fario Standard</motion.div>
+        >â˜… The Fario Standard</motion.div>
 
         <h2 className="font-heading font-black uppercase tracking-tighter leading-none"
           style={{ fontSize: 'clamp(48px, 9vw, 120px)', color: MILKY }}
@@ -402,7 +402,7 @@ const VideoBreak1 = () => {
   );
 };
 
-/* ── EDITORIAL — layered scroll ───────────────────────────── */
+/* â”€â”€ EDITORIAL â€” layered scroll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const Editorial = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
@@ -424,7 +424,7 @@ const Editorial = () => {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
             >
               <span className="text-xs uppercase tracking-widest" style={{ color: LIME }}>AeroStride Pro</span>
-              <p className="font-heading font-black uppercase text-xl" style={{ color: MILKY }}>₹12,999</p>
+              <p className="font-heading font-black uppercase text-xl" style={{ color: MILKY }}>â‚¹12,999</p>
             </motion.div>
           </motion.div>
 
@@ -467,7 +467,7 @@ const Editorial = () => {
   );
 };
 
-/* ── PRODUCT CARD ─────────────────────────────────────────── */
+/* â”€â”€ PRODUCT CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
   const [hov, setHov] = useState(false);
   const [wish, setWish] = useState(false);
@@ -529,8 +529,8 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
             <p className="text-[10px] uppercase tracking-[0.25em] mb-1" style={{ color: PURPLE }}>{p.sub}</p>
             <h3 className="font-heading font-black uppercase text-sm tracking-wide mb-2" style={{ color: DARK_TXT }}>{p.name}</h3>
             <div className="flex items-center gap-2">
-              <span className="font-bold" style={{ color: DARK_TXT }}>₹{p.price.toLocaleString('en-IN')}</span>
-              <span className="line-through text-xs opacity-40" style={{ color: DARK_TXT }}>₹{p.orig.toLocaleString('en-IN')}</span>
+              <span className="font-bold" style={{ color: DARK_TXT }}>â‚¹{p.price.toLocaleString('en-IN')}</span>
+              <span className="line-through text-xs opacity-40" style={{ color: DARK_TXT }}>â‚¹{p.orig.toLocaleString('en-IN')}</span>
             </div>
           </div>
         </div>
@@ -595,7 +595,7 @@ const Products = () => {
   );
 };
 
-/* ── TRUST STRIP ─────────────────────────────────────────── */
+/* â”€â”€ TRUST STRIP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const TrustStrip = () => (
   <div style={{ background: BG_WHITE, borderTop: `1px solid ${PUR_BORDER}`, borderBottom: `1px solid ${PUR_BORDER}` }}>
     <div className="container mx-auto px-8 md:px-20 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -619,7 +619,7 @@ const TrustStrip = () => (
   </div>
 );
 
-/* ── VIDEO STICKY ─────────────────────────────────────────── */
+/* â”€â”€ VIDEO STICKY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const VideoSticky = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
@@ -653,7 +653,7 @@ const VideoSticky = () => {
         <motion.span
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
           className="text-xs font-bold uppercase tracking-[0.4em] mb-10 block" style={{ color: LIME }}
-        >— Craftsmanship</motion.span>
+        >â€” Craftsmanship</motion.span>
 
         {['Engineered', 'for the', 'Bold'].map((w, i) => (
           <div key={w} className="overflow-hidden">
@@ -688,7 +688,7 @@ const VideoSticky = () => {
   );
 };
 
-/* ── GALLERY ─────────────────────────────────────────────── */
+/* â”€â”€ GALLERY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const GALLERY = [
   { img: HL3.a, label: 'AeroStride Pro', cls: 'col-span-2 row-span-2' },
   { img: HL3.b, label: 'Urban Glide', cls: 'col-span-1 row-span-1' },
@@ -743,104 +743,425 @@ const Gallery = () => (
   </section>
 );
 
-/* ── VIDEO BANNER 2 ──────────────────────────────────────── */
-const VideoBanner = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const sc = useTransform(scrollYProgress, [0, 1], [1.22, 1.0]);
-  const ty = useTransform(scrollYProgress, [0, 1], [-28, 28]);
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   â‘  LIVE SOCIAL PROOF â€” animated purchase activity feed
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+const ACTIVITY = [
+  { city: 'Mumbai', product: 'AeroStride Pro', time: '2 min ago', avatar: 'ðŸƒ', qty: 1 },
+  { city: 'Delhi', product: 'Urban Glide', time: '5 min ago', avatar: 'ðŸ›¹', qty: 2 },
+  { city: 'Bangalore', product: 'Midnight Force', time: '8 min ago', avatar: 'ðŸ’¼', qty: 1 },
+  { city: 'Hyderabad', product: 'Velocity Elite', time: '12 min ago', avatar: 'âš¡', qty: 1 },
+  { city: 'Chennai', product: 'Modular Tote', time: '14 min ago', avatar: 'ðŸŽ’', qty: 3 },
+  { city: 'Pune', product: 'Tech Sling', time: '18 min ago', avatar: 'ðŸ“±', qty: 1 },
+  { city: 'Kolkata', product: 'Stealth Commuter', time: '21 min ago', avatar: 'ðŸ™ï¸', qty: 2 },
+  { city: 'Ahmedabad', product: 'AeroStride Pro', time: '25 min ago', avatar: 'ðŸ†', qty: 1 },
+];
+
+const LiveFeed = () => {
+  const [visible, setVisible] = useState(0);
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    const cycle = setInterval(() => {
+      setShow(false);
+      setTimeout(() => {
+        setVisible(v => (v + 1) % ACTIVITY.length);
+        setShow(true);
+      }, 500);
+    }, 3200);
+    return () => clearInterval(cycle);
+  }, []);
+
+  const a = ACTIVITY[visible];
 
   return (
-    <section ref={ref} className="relative h-[72vh] overflow-hidden flex items-center justify-center"
-      style={{ background: BG_DARK2 }}
-    >
-      <motion.div style={{ scale: sc }} className="absolute inset-0">
-        <VidEl src={V2} poster={HL3.f} cls="opacity-60" />
-        <div className="absolute inset-0" style={{ background: 'rgba(26,13,46,0.70)' }} />
-        <div className="absolute inset-0" style={{ background: 'rgba(122,81,160,0.20)' }} />
-      </motion.div>
-
-      <motion.div style={{ y: ty }} className="relative z-10 text-center px-6">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stg12}>
-          <motion.div variants={fadeUp}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.35em] mb-8"
-            style={{ background: `${LIME}18`, color: LIME, border: `1px solid ${LIME}40` }}
-          >✦ Fario · Est. 2024 · New Delhi</motion.div>
-
-          <h2 className="font-heading font-black uppercase tracking-tighter leading-none mb-10"
-            style={{ fontSize: 'clamp(56px, 11vw, 140px)', color: MILKY }}
-          >
-            <div className="overflow-hidden"><SplitText text="Born to" cls="block" /></div>
-            <div className="overflow-hidden"><SplitText text="Move" cls="block" delay={0.28} stroke={LIME} /></div>
-          </h2>
-
-          <motion.div variants={fadeUp} whileHover={{ scale: 1.08, boxShadow: `0 0 40px ${LIME}55` }} whileTap={{ scale: 0.94 }}>
-            <Link to="/products"
-              className="inline-flex items-center gap-3 px-12 py-5 font-black text-sm uppercase tracking-[0.25em]"
-              style={{ background: LIME, color: DARK_TXT }}
-            >Shop All <ArrowRight size={16} /></Link>
-          </motion.div>
+    <AnimatePresence mode="wait">
+      {show && (
+        <motion.div key={visible}
+          initial={{ x: -60, opacity: 0, scale: 0.92 }}
+          animate={{ x: 0, opacity: 1, scale: 1 }}
+          exit={{ x: 60, opacity: 0, scale: 0.92 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+          className="flex items-center gap-4 px-5 py-4 rounded-2xl max-w-xs"
+          style={{ background: BG_WHITE, border: `1.5px solid ${PUR_BORDER}`, boxShadow: '0 8px 32px rgba(122,81,160,0.12)' }}
+        >
+          <span className="text-2xl flex-shrink-0">{a.avatar}</span>
+          <div className="min-w-0">
+            <p className="text-xs font-black uppercase tracking-wide truncate" style={{ color: DARK_TXT }}>
+              {a.qty > 1 ? `${a.qty}Ã—` : ''} {a.product}
+            </p>
+            <p className="text-[10px] opacity-50 truncate" style={{ color: DARK_TXT }}>{a.city} Â· {a.time}</p>
+          </div>
+          <motion.span className="flex-shrink-0 text-[9px] font-black uppercase px-2 py-1 rounded-full"
+            style={{ background: LIME, color: DARK_TXT }}
+            animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}
+          >LIVE</motion.span>
         </motion.div>
-      </motion.div>
-    </section>
+      )}
+    </AnimatePresence>
   );
 };
 
-/* ── NEWSLETTER ──────────────────────────────────────────── */
-const Newsletter = () => {
-  const [email, setEmail] = useState('');
-  const [done, setDone] = useState(false);
-  return (
-    <section className="py-40 relative overflow-hidden" style={{ background: PURPLE }}>
-      {/* Light orbs */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none"
-        style={{ background: 'rgba(217,249,157,0.12)' }} />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[100px] pointer-events-none"
-        style={{ background: 'rgba(255,254,245,0.08)' }} />
+const SocialProof = () => {
+  const REVIEWS = [
+    { name: 'Arjun S.', city: 'Mumbai', stars: 5, text: 'Absolute beast shoes. Wore them for a full marathon.', avatar: 'A' },
+    { name: 'Priya M.', city: 'Delhi', stars: 5, text: 'The quality blew me away. Never going back to brands.', avatar: 'P' },
+    { name: 'Karan T.', city: 'Bangalore', stars: 5, text: 'My 3rd Fario purchase this year. Speaks for itself.', avatar: 'K' },
+    { name: 'Sneha R.', city: 'Pune', stars: 5, text: 'Perfect fit, amazing design. Got compliments everywhere.', avatar: 'S' },
+    { name: 'Ravi K.', city: 'Chennai', stars: 5, text: '14 prototype stages â€” you can feel every one of them.', avatar: 'R' },
+    { name: 'Anika B.', city: 'Hyderabad', stars: 5, text: 'Finally shoes that look premium AND feel premium.', avatar: 'N' },
+  ];
 
-      <div className="relative z-10 container mx-auto px-8 max-w-2xl text-center">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }} variants={stg12}>
-          <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.45em] mb-6" style={{ color: LIME }}>
-            Inner Circle
-          </motion.p>
-          <div className="overflow-hidden mb-6">
-            <motion.h2 variants={maskUp}
-              className="font-heading font-black uppercase tracking-tighter"
-              style={{ fontSize: 'clamp(42px, 7vw, 88px)', color: MILKY, lineHeight: 0.9 }}
-            >Join the<br />Movement</motion.h2>
-          </div>
-          <motion.p variants={fadeUp} className="text-base opacity-60 mb-12 leading-loose" style={{ color: MILKY }}>
-            Early access. Exclusive drops. Member pricing.
-          </motion.p>
-          <motion.form variants={fadeUp}
-            onSubmit={e => { e.preventDefault(); if (email) setDone(true); }}
-            className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
+  return (
+    <section className="py-28 overflow-hidden" style={{ background: BG_LIGHT }}>
+      <div className="container mx-auto px-8 md:px-20">
+        <div className="flex flex-col md:flex-row gap-16 items-start">
+          {/* Left â€” live feed */}
+          <motion.div className="flex-shrink-0 flex flex-col gap-6"
+            initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
           >
-            {!done ? (<>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="Your email address"
-                className="flex-1 px-6 py-4 text-sm outline-none rounded-none"
-                style={{ background: 'rgba(255,254,245,0.15)', border: `1px solid rgba(255,254,245,0.30)`, color: MILKY }}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.4em] mb-3" style={{ color: PURPLE }}>Happening Now</p>
+              <h2 className="font-heading font-black uppercase tracking-tighter text-4xl md:text-5xl mb-2" style={{ color: DARK_TXT }}>Live Activity</h2>
+              <p className="text-sm opacity-50" style={{ color: DARK_TXT }}>Real orders happening right now</p>
+            </div>
+            {/* Live green dot */}
+            <div className="flex items-center gap-2">
+              <motion.div className="w-3 h-3 rounded-full" style={{ background: LIME }}
+                animate={{ scale: [1, 1.6, 1], opacity: [1, 0.5, 1] }}
+                transition={{ repeat: Infinity, duration: 1.4 }}
               />
-              <motion.button type="submit"
-                whileHover={{ scale: 1.06, boxShadow: `0 0 30px ${LIME}66` }}
-                whileTap={{ scale: 0.93 }}
-                className="px-10 py-4 text-xs font-black uppercase tracking-[0.25em]"
-                style={{ background: LIME, color: DARK_TXT }}
-              >Subscribe</motion.button>
-            </>) : (
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                className="text-lg font-bold" style={{ color: LIME }}
-              >✓ Welcome to Fario Inner Circle!</motion.p>
-            )}
-          </motion.form>
-        </motion.div>
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: PURPLE }}>
+                {147 + Math.floor(Date.now() / 60000) % 30} people shopping now
+              </span>
+            </div>
+            <LiveFeed />
+            {/* Mini bar chart â€” orders over 7 days */}
+            <div className="flex items-end gap-2 h-16 mt-2">
+              {[40, 65, 55, 80, 92, 87, 100].map((h, i) => (
+                <motion.div key={i}
+                  className="flex-1 rounded-sm"
+                  style={{ background: i === 6 ? PURPLE : `${PURPLE}40` }}
+                  initial={{ height: 0 }}
+                  whileInView={{ height: `${h}%` }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08, duration: 0.5, ease: E }}
+                />
+              ))}
+            </div>
+            <p className="text-[10px] uppercase tracking-widest opacity-40" style={{ color: DARK_TXT }}>Orders Â· Last 7 days</p>
+          </motion.div>
+
+          {/* Right â€” review cards */}
+          <div className="flex-1 overflow-hidden">
+            <p className="text-xs font-bold uppercase tracking-[0.4em] mb-8" style={{ color: PURPLE }}>What People Say</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {REVIEWS.map((r, i) => (
+                <motion.div key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ delay: i * 0.07, duration: 0.55, ease: E }}
+                  whileHover={{ y: -6, boxShadow: `0 20px 40px rgba(122,81,160,0.14)` }}
+                  className="p-6 rounded-2xl cursor-default"
+                  style={{ background: BG_WHITE, border: `1px solid ${PUR_BORDER}` }}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center font-black text-sm"
+                      style={{ background: PURPLE, color: LIME }}
+                    >{r.avatar}</div>
+                    <div>
+                      <p className="font-bold text-sm" style={{ color: DARK_TXT }}>{r.name}</p>
+                      <p className="text-[10px] opacity-50" style={{ color: DARK_TXT }}>{r.city}</p>
+                    </div>
+                    <div className="ml-auto flex gap-0.5">
+                      {[...Array(r.stars)].map((_, si) => (
+                        <motion.span key={si} style={{ color: LIME }}
+                          initial={{ scale: 0 }} whileInView={{ scale: 1 }}
+                          transition={{ delay: i * 0.07 + si * 0.05 }}
+                        >â˜…</motion.span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-sm leading-relaxed opacity-70 italic" style={{ color: DARK_TXT }}>"{r.text}"</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 };
 
-/* ── CUSTOM CURSOR ───────────────────────────────────────── */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   â‘¡ SPIN-TO-WIN OFFER WHEEL â€” gamified discount
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+const WHEEL_SLICES = [
+  { label: '5% OFF', color: PURPLE, text: MILKY },
+  { label: 'FREE BAG', color: LIME, text: DARK_TXT },
+  { label: '10% OFF', color: '#5a3a7a', text: MILKY },
+  { label: 'â‚¹200 OFF', color: '#c9f99d', text: DARK_TXT },
+  { label: 'TRY AGAIN', color: '#3a2060', text: MILKY },
+  { label: '15% OFF', color: '#7a51a0cc', text: MILKY },
+  { label: 'FREE SHIP', color: LIME, text: DARK_TXT },
+  { label: 'â‚¹500 OFF', color: PURPLE, text: MILKY },
+];
+const N = WHEEL_SLICES.length;
+const ARC = 360 / N;
+
+const SpinWheel = () => {
+  const [angle, setAngle] = useState(0);
+  const [spinning, setSpinning] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+  const [spun, setSpun] = useState(false);
+
+  const spin = () => {
+    if (spinning || spun) return;
+    const extra = 360 * 5 + Math.floor(Math.random() * 360);
+    const finalAngle = angle + extra;
+    setAngle(finalAngle);
+    setSpinning(true);
+    setResult(null);
+    setTimeout(() => {
+      setSpinning(false);
+      setSpun(true);
+      const normalised = ((finalAngle % 360) + 360) % 360;
+      const idx = Math.floor(((360 - normalised + ARC / 2) % 360) / ARC) % N;
+      setResult(WHEEL_SLICES[idx].label);
+    }, 4200);
+  };
+
+  return (
+    <section className="py-28" style={{ background: BG_DARK }}>
+      <div className="container mx-auto px-8 md:px-20">
+        <div className="flex flex-col md:flex-row gap-16 items-center">
+          {/* Wheel */}
+          <motion.div className="flex-shrink-0 relative"
+            initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }} transition={{ duration: 0.8, ease: E }}
+          >
+            {/* Pointer */}
+            <div className="absolute left-1/2 -top-5 -translate-x-1/2 z-20 flex flex-col items-center">
+              <div className="w-0 h-0"
+                style={{ borderLeft: '10px solid transparent', borderRight: '10px solid transparent', borderBottom: `20px solid ${LIME}` }}
+              />
+            </div>
+
+            <motion.svg width="280" height="280" viewBox="0 0 280 280"
+              animate={{ rotate: angle }}
+              transition={{ duration: 4, ease: [0.17, 0.67, 0.22, 1.0] }}
+              style={{ display: 'block' }}
+            >
+              {WHEEL_SLICES.map((s, i) => {
+                const startAngle = (i * ARC - 90) * (Math.PI / 180);
+                const endAngle = ((i + 1) * ARC - 90) * (Math.PI / 180);
+                const cx = 140, cy = 140, r = 130;
+                const x1 = cx + r * Math.cos(startAngle);
+                const y1 = cy + r * Math.sin(startAngle);
+                const x2 = cx + r * Math.cos(endAngle);
+                const y2 = cy + r * Math.sin(endAngle);
+                const midAngle = ((i + 0.5) * ARC - 90) * (Math.PI / 180);
+                const tx = cx + (r * 0.65) * Math.cos(midAngle);
+                const ty = cy + (r * 0.65) * Math.sin(midAngle);
+                return (
+                  <g key={i}>
+                    <path d={`M ${cx},${cy} L ${x1},${y1} A ${r},${r} 0 0,1 ${x2},${y2} Z`}
+                      fill={s.color} stroke={BG_DARK} strokeWidth="1.5" />
+                    <text x={tx} y={ty}
+                      textAnchor="middle" dominantBaseline="middle"
+                      fontSize="9" fontWeight="900" fill={s.text}
+                      transform={`rotate(${(i + 0.5) * ARC}, ${tx}, ${ty})`}
+                      style={{ textTransform: 'uppercase', letterSpacing: '1px' }}
+                    >{s.label}</text>
+                  </g>
+                );
+              })}
+              {/* Center cap */}
+              <circle cx="140" cy="140" r="22" fill={PURPLE} />
+              <circle cx="140" cy="140" r="14" fill={LIME} />
+            </motion.svg>
+          </motion.div>
+
+          {/* Text + button */}
+          <motion.div className="flex-1"
+            initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.8 }}
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.4em] mb-4" style={{ color: LIME }}>Members Only</p>
+            <h2 className="font-heading font-black uppercase tracking-tighter text-4xl md:text-6xl leading-none mb-6" style={{ color: MILKY }}>
+              Spin &<br />Win Big
+            </h2>
+            <p className="text-base opacity-50 mb-10 max-w-sm leading-loose" style={{ color: MILKY }}>
+              One spin. Real discounts. No tricks. Everyone wins something on their first order.
+            </p>
+
+            <AnimatePresence mode="wait">
+              {result ? (
+                <motion.div key="result"
+                  initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }}
+                  className="inline-flex flex-col gap-3 p-8 rounded-2xl"
+                  style={{ background: `${LIME}18`, border: `2px solid ${LIME}` }}
+                >
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: LIME }}>You won!</span>
+                  <span className="font-heading font-black uppercase text-4xl" style={{ color: LIME }}>{result}</span>
+                  <Link to="/products"
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mt-2"
+                    style={{ color: MILKY }}
+                  >Use it now <ArrowRight size={12} /></Link>
+                </motion.div>
+              ) : (
+                <motion.button key="spin"
+                  onClick={spin}
+                  disabled={spinning || spun}
+                  whileHover={!spinning && !spun ? { scale: 1.08, boxShadow: `0 0 40px ${LIME}55` } : {}}
+                  whileTap={!spinning ? { scale: 0.93 } : {}}
+                  className="px-14 py-5 font-black text-sm uppercase tracking-[0.25em] disabled:opacity-40 transition-all"
+                  style={{ background: LIME, color: DARK_TXT }}
+                >
+                  {spinning ? 'ðŸŒ€ Spinning...' : 'ðŸŽ¯ Spin Now â€” Free!'}
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   â‘¢ SHOE FEATURE HOTSPOTS â€” click-to-reveal engineering
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+const HOTSPOTS = [
+  { id: 'h1', x: '18%', y: '68%', label: 'Memory Foam Core', icon: 'ðŸ§¬', detail: '3-layer adaptive memory foam that molds to your foot in 72 hours. Never the same fit twice.' },
+  { id: 'h2', x: '50%', y: '42%', label: 'Carbon Arch Support', icon: 'âš¡', detail: 'Carbon-fibre reinforced arch bridge. 40% lighter than titanium. Zero fatigue on 10km+ runs.' },
+  { id: 'h3', x: '80%', y: '55%', label: 'AeroGrip Sole', icon: 'ðŸ”·', detail: 'Diamond-pattern hexagonal grip. 6Ã— tested on wet marble slabs. 0.4mm micro-channels drain water instantly.' },
+  { id: 'h4', x: '50%', y: '18%', label: 'Freshness Control', icon: 'ðŸŒ¿', detail: 'Nano-silver lining with bamboo charcoal. Eliminates 99.9% of odour-causing bacteria. Lasts 500+ washes.' },
+  { id: 'h5', x: '30%', y: '30%', label: 'Zero-Break-In', icon: 'âœ¨', detail: 'Pre-flexed premium leather that requires zero break-in period. Ready to perform from minute one.' },
+];
+
+const FeatureHotspot = () => {
+  const [active, setActive] = useState<string | null>('h2');
+  const activeSpot = HOTSPOTS.find(h => h.id === active);
+
+  return (
+    <section className="py-28" style={{ background: BG_MID }}>
+      <div className="container mx-auto px-8 md:px-20">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stg12}
+          className="text-center mb-16"
+        >
+          <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.4em] mb-3" style={{ color: PURPLE }}>
+            Engineering Deep-Dive
+          </motion.p>
+          <div className="overflow-hidden">
+            <motion.h2 variants={maskUp}
+              className="font-heading font-black uppercase tracking-tighter"
+              style={{ fontSize: 'clamp(36px, 5vw, 72px)', color: DARK_TXT }}
+            >Tap to Explore</motion.h2>
+          </div>
+          <motion.p variants={fadeUp} className="text-sm opacity-50 mt-4" style={{ color: DARK_TXT }}>
+            5 precision innovations in every pair
+          </motion.p>
+        </motion.div>
+
+        <div className="flex flex-col md:flex-row gap-12 items-center">
+          {/* Shoe image with hotspots */}
+          <motion.div className="flex-1 relative aspect-square max-w-xl mx-auto"
+            initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }} transition={{ duration: 0.8, ease: E }}
+          >
+            <img src={HL3.a} alt="AeroStride Pro Engineering" className="w-full h-full object-cover rounded-2xl"
+              onError={e => { (e.target as HTMLImageElement).src = HL3.b; }}
+            />
+            <div className="absolute inset-0 rounded-2xl"
+              style={{ background: 'linear-gradient(to bottom right, rgba(122,81,160,0.08), transparent)' }}
+            />
+            {HOTSPOTS.map(h => (
+              <motion.button key={h.id}
+                onClick={() => setActive(active === h.id ? null : h.id)}
+                className="absolute z-10 flex items-center justify-center"
+                style={{ left: h.x, top: h.y, transform: 'translate(-50%,-50%)' }}
+                whileHover={{ scale: 1.3 }} whileTap={{ scale: 0.85 }}
+              >
+                {/* Ping ring */}
+                {active !== h.id && (
+                  <motion.div className="absolute w-10 h-10 rounded-full border-2"
+                    style={{ borderColor: PURPLE }}
+                    animate={{ scale: [1, 1.8], opacity: [0.8, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.6, ease: 'easeOut' }}
+                  />
+                )}
+                <motion.div
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shadow-lg"
+                  animate={{
+                    background: active === h.id ? PURPLE : BG_WHITE,
+                    scale: active === h.id ? 1.2 : 1,
+                    boxShadow: active === h.id ? `0 0 0 3px ${LIME}` : '0 4px 12px rgba(0,0,0,0.15)',
+                  }}
+                  transition={{ duration: 0.25 }}
+                >{h.icon}</motion.div>
+              </motion.button>
+            ))}
+          </motion.div>
+
+          {/* Feature detail panel */}
+          <div className="flex-shrink-0 w-full md:w-80 flex flex-col gap-4">
+            {/* Active feature */}
+            <AnimatePresence mode="wait">
+              {activeSpot && (
+                <motion.div key={activeSpot.id}
+                  initial={{ opacity: 0, x: 20, scale: 0.96 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -20, scale: 0.96 }}
+                  transition={{ duration: 0.3, ease: E }}
+                  className="p-8 rounded-2xl"
+                  style={{ background: PURPLE, border: `1.5px solid ${LIME}` }}
+                >
+                  <span className="text-3xl block mb-4">{activeSpot.icon}</span>
+                  <h3 className="font-heading font-black uppercase text-xl tracking-wide mb-3" style={{ color: LIME }}>{activeSpot.label}</h3>
+                  <p className="text-sm leading-relaxed opacity-80" style={{ color: MILKY }}>{activeSpot.detail}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Feature list */}
+            <div className="flex flex-col gap-2">
+              {HOTSPOTS.map((h, i) => (
+                <motion.button key={h.id}
+                  onClick={() => setActive(h.id)}
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08, duration: 0.5 }}
+                  whileHover={{ x: 6 }}
+                  className="flex items-center gap-4 p-4 text-left rounded-xl transition-all"
+                  style={{
+                    background: active === h.id ? `${PURPLE}18` : BG_WHITE,
+                    border: `1px solid ${active === h.id ? PURPLE : PUR_BORDER}`,
+                  }}
+                >
+                  <span className="text-xl flex-shrink-0">{h.icon}</span>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-wide" style={{ color: active === h.id ? PURPLE : DARK_TXT }}>{h.label}</p>
+                  </div>
+                  {active === h.id && (
+                    <motion.span layoutId="active-check"
+                      className="ml-auto text-xs font-black" style={{ color: LIME }}
+                    >âœ“</motion.span>
+                  )}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* â”€â”€ CUSTOM CURSOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function CursorDot() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -858,9 +1179,9 @@ function CursorDot() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PAGE ROOT
-═══════════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 export default function Home() {
   const { scrollYProgress } = useScroll();
   const bar = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
@@ -871,7 +1192,6 @@ export default function Home() {
       style={{ background: BG_LIGHT, minHeight: '100vh' }}
       className="font-sans selection:bg-purple-200 selection:text-purple-900"
     >
-      {/* Lime scroll progress bar */}
       <motion.div
         style={{ scaleX: bar, transformOrigin: '0%', background: LIME }}
         className="fixed top-0 left-0 right-0 h-[3px] z-[999] shadow-[0_0_12px_rgba(217,249,157,0.6)]"
@@ -887,8 +1207,9 @@ export default function Home() {
       <TrustStrip />
       <VideoSticky />
       <Gallery />
-      <VideoBanner />
-      <Newsletter />
+      <SocialProof />
+      <SpinWheel />
+      <FeatureHotspot />
     </motion.div>
   );
 }
