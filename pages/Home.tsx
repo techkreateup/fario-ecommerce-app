@@ -45,10 +45,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Instagram,
-  Twitter,
-  Youtube,
-  Mail,
   Play,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -711,73 +707,7 @@ const Newsletter = () => {
   );
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 15. FOOTER — Cinematic with video background
-// ─────────────────────────────────────────────────────────────────────────────
 
-const Footer = () => (
-  <footer className="relative bg-black pt-20 pb-10 overflow-hidden border-t border-white/5">
-    {/* Subtle video BG */}
-    <div className="absolute inset-0 opacity-10 pointer-events-none">
-      <iframe
-        src={YT.hero}
-        allow="autoplay; encrypted-media"
-        title="Footer video"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none grayscale"
-        style={{ width: '177.78vh', height: '100vh', minWidth: '100%', border: 'none' }}
-      />
-    </div>
-
-    <div className="container mx-auto px-6 md:px-12 relative z-10">
-      {/* Wordmark */}
-      <h2 className="text-white/10 text-[15vw] font-black uppercase tracking-tighter leading-none mb-16 select-none">
-        FARIO
-      </h2>
-
-      {/* Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
-        <div>
-          <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-5">Shop</h4>
-          {['Men', 'Women', 'New Arrivals', 'Best Sellers', 'Sale'].map(l => (
-            <div key={l} className="mb-3"><a href="#" className="text-zinc-400 hover:text-white text-sm transition-colors">{l}</a></div>
-          ))}
-        </div>
-        <div>
-          <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-5">Help</h4>
-          {['FAQ', 'Shipping', 'Returns', 'Size Guide', 'Contact'].map(l => (
-            <div key={l} className="mb-3"><a href="#" className="text-zinc-400 hover:text-white text-sm transition-colors">{l}</a></div>
-          ))}
-        </div>
-        <div>
-          <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-5">Brand</h4>
-          {['Story', 'Sustainability', 'Careers', 'Press', 'Affiliates'].map(l => (
-            <div key={l} className="mb-3"><a href="#" className="text-zinc-400 hover:text-white text-sm transition-colors">{l}</a></div>
-          ))}
-        </div>
-        <div>
-          <h4 className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-5">Connect</h4>
-          <div className="flex gap-4 mb-6">
-            <Instagram size={18} className="text-zinc-400 hover:text-white cursor-pointer transition-colors" />
-            <Twitter size={18} className="text-zinc-400 hover:text-white cursor-pointer transition-colors" />
-            <Youtube size={18} className="text-zinc-400 hover:text-white cursor-pointer transition-colors" />
-            <Mail size={18} className="text-zinc-400 hover:text-white cursor-pointer transition-colors" />
-          </div>
-          <p className="text-zinc-600 text-xs leading-relaxed">Est. 2026 · New Delhi, India</p>
-        </div>
-      </div>
-
-      {/* Bottom */}
-      <div className="flex flex-col md:flex-row justify-between items-center border-t border-white/5 pt-8 gap-4">
-        <p className="text-zinc-600 text-xs">© 2026 Fario Luxury Footwear. All rights reserved.</p>
-        <div className="flex gap-6">
-          {['Privacy', 'Terms', 'Cookies'].map(l => (
-            <a key={l} href="#" className="text-zinc-600 hover:text-white text-xs transition-colors">{l}</a>
-          ))}
-        </div>
-      </div>
-    </div>
-  </footer>
-);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 16. PAGE — ORCHESTRATION
@@ -808,7 +738,6 @@ export default function Home() {
       <Features />
       <Testimonials />
       <Newsletter />
-      <Footer />
     </motion.div>
   );
 }
