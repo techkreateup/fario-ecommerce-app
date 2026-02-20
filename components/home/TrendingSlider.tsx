@@ -12,10 +12,9 @@ export default function TrendingSlider() {
     return (
         <section className="py-24 bg-white border-t border-gray-100">
             <div className="container mx-auto px-4">
-                <div className="flex justify-between items-end mb-12">
-                    <h2 className="text-3xl font-light tracking-tight">Trending Now</h2>
-                    <button className="text-sm font-medium uppercase tracking-widest border-b border-black pb-1 hover:text-gray-600 transition-colors">
-                        View All
+                <div className="flex justify-end mb-8">
+                    <button className="text-xs uppercase tracking-widest hover:text-gray-500 transition-colors">
+                        + View All
                     </button>
                 </div>
 
@@ -29,15 +28,13 @@ export default function TrendingSlider() {
                             transition={{ delay: i * 0.1 }}
                             className="group cursor-pointer"
                         >
-                            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
+                            <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
                                 <img
                                     src={p.img}
                                     alt={p.name}
                                     className="w-full h-full object-cover mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
                                 />
                             </div>
-                            <h3 className="text-sm font-medium text-gray-900 group-hover:underline decoration-1 underline-offset-4">{p.name}</h3>
-                            <p className="text-sm text-gray-500 mt-1">{p.price}</p>
                         </motion.div>
                     ))}
                 </div>
