@@ -41,10 +41,7 @@ import {
   ArrowUpRight,
   ShoppingBag,
   Heart,
-  Menu,
-  X,
   Star,
-  Search,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
@@ -221,79 +218,7 @@ const Stars = ({ count }: { count: number }) => (
   </div>
 );
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 6. HEADER
-// ─────────────────────────────────────────────────────────────────────────────
 
-const Header = () => {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', fn);
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
-
-  const navLinks = ['Shop', 'Collections', 'About', 'Stories'];
-
-  return (
-    <>
-      <motion.header
-        initial={{ y: -80 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: EASE2 as any }}
-        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 md:px-12 transition-all duration-500 ${scrolled ? 'py-4 bg-black/80 backdrop-blur-xl border-b border-white/10' : 'py-6 bg-transparent'}`}
-      >
-        {/* Left */}
-        <div className="flex items-center gap-6">
-          <button onClick={() => setOpen(true)} className="text-white hover:opacity-70 md:hidden">
-            <Menu size={22} />
-          </button>
-          <nav className="hidden md:flex gap-8">
-            {navLinks.map(l => (
-              <a key={l} href="#" className="text-white/80 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">
-                {l}
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        {/* Logo */}
-        <Link to="/" className="text-white text-2xl font-black uppercase tracking-tight select-none">
-          FARIO
-        </Link>
-
-        {/* Right */}
-        <div className="flex items-center gap-5 text-white">
-          <Search size={18} className="cursor-pointer hover:opacity-70 hidden md:block" />
-          <Link to="/cart" className="relative hover:opacity-70">
-            <ShoppingBag size={20} />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-purple-500 rounded-full text-[9px] font-bold flex items-center justify-center">0</span>
-          </Link>
-        </div>
-      </motion.header>
-
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {open && (
-          <motion.div initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} transition={{ duration: 0.4, ease: EASE2 as any }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col px-8 py-10"
-          >
-            <button onClick={() => setOpen(false)} className="self-end text-white mb-12"><X size={24} /></button>
-            <nav className="flex flex-col gap-8">
-              {navLinks.map(l => (
-                <a key={l} href="#" onClick={() => setOpen(false)} className="text-white text-4xl font-black uppercase tracking-tighter hover:text-purple-400 transition-colors">
-                  {l}
-                </a>
-              ))}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 7. HERO SECTION — Full viewport, YouTube video background
@@ -875,7 +800,6 @@ export default function Home() {
         className="fixed top-0 left-0 right-0 h-[2px] bg-purple-500 z-[100] shadow-[0_0_10px_rgba(139,92,246,0.8)]"
       />
 
-      <Header />
       <Hero />
       <MarqueeBand />
       <CategoryGrid />
