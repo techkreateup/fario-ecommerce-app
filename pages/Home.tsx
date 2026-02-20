@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import HeroCarousel from '@/components/home/HeroCarousel';
+import Hero from '@/components/home/Hero';
 import CategoryGrid from '@/components/home/CategoryGrid';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import Newsletter from '@/components/Newsletter';
@@ -15,8 +14,8 @@ export default function Home() {
       exit={{ opacity: 0 }}
       className="bg-white"
     >
-      {/* Hero Section - Metro Shoes style */}
-      <HeroCarousel />
+      {/* Premium Hero Section */}
+      <Hero />
 
       {/* Trust Badges - Mochi style */}
       <section className="py-8 bg-black text-white border-y border-white/10">
