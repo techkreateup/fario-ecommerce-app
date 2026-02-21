@@ -24,7 +24,7 @@ const AdminCMS: React.FC = () => {
          } else {
             // Default structure
             setSettings({
-               bannerText: "Free Delivery on all orders above ₹999",
+               bannerText: "Free Delivery on all orders above Rs. 999",
                heroTitle: "Step into the Future",
                heroSubtitle: "Engineered for elite performance and everyday comfort."
             });

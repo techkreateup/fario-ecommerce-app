@@ -91,7 +91,7 @@ const Customers: React.FC = () => {
       return [
          { label: 'Total Customers', value: total, sub: 'Registered Accounts', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
          { label: 'Active Users', value: active, sub: 'Currently Active', icon: Activity, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-         { label: 'Avg LTV', value: `₹${avgLtv.toFixed(0)}`, sub: 'Revenue Per User', icon: TrendingUp, color: 'text-fario-purple', bg: 'bg-fario-purple/5' },
+         { label: 'Avg LTV', value: `Rs. ${avgLtv.toFixed(0)}`, sub: 'Revenue Per User', icon: TrendingUp, color: 'text-fario-purple', bg: 'bg-fario-purple/5' },
          { label: 'High Value %', value: `${highValuePct}%`, sub: 'Spend > 10k', icon: Crown, color: 'text-amber-600', bg: 'bg-amber-50' },
       ];
    }, [customers]);
@@ -322,7 +322,7 @@ const Customers: React.FC = () => {
                         <div className="flex items-center gap-8 w-full lg:w-[25%]">
                            <div>
                               <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Lifetime Val</p>
-                              <p className="text-sm font-black text-slate-900">₹{c.totalSpent.toLocaleString()}</p>
+                              <p className="text-sm font-black text-slate-900">Rs. {c.totalSpent.toLocaleString()}</p>
                            </div>
                            <div>
                               <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Orders</p>
@@ -444,7 +444,7 @@ const Customers: React.FC = () => {
                         <div className="grid grid-cols-2 gap-4">
                            <div className="p-4 rounded-xl bg-slate-50 border border-gray-100">
                               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Lifetime Value</p>
-                              <p className="text-xl font-black text-slate-900 mt-1">₹{selectedCustomer.totalSpent.toLocaleString()}</p>
+                              <p className="text-xl font-black text-slate-900 mt-1">Rs. {selectedCustomer.totalSpent.toLocaleString()}</p>
                            </div>
                            <div className="p-4 rounded-xl bg-slate-50 border border-gray-100">
                               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Orders</p>

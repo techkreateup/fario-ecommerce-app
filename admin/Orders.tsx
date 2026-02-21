@@ -59,7 +59,7 @@ const AdminOrders: React.FC = () => {
     const pendingCount = orders.filter(o => o.status === 'Processing').length;
     const deliveredCount = orders.filter(o => o.status === 'Delivered').length;
     return [
-      { label: 'Total Volume', value: `₹${(totalRevenue / 1000).toFixed(1)}k`, icon: DollarSign, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+      { label: 'Total Volume', value: `Rs. ${(totalRevenue / 1000).toFixed(1)}k`, icon: DollarSign, color: 'text-emerald-600', bg: 'bg-emerald-50' },
       { label: 'Pending Dispatch', value: pendingCount, icon: Package, color: 'text-blue-600', bg: 'bg-blue-50' },
       { label: 'Completed', value: deliveredCount, icon: CheckCircle2, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     ];
@@ -234,7 +234,7 @@ const AdminOrders: React.FC = () => {
                       </td>
 
                       <td className="px-6 py-5">
-                        <span className="text-sm font-black text-slate-900 italic">₹{order.total.toLocaleString()}</span>
+                        <span className="text-sm font-black text-slate-900 italic">Rs. {order.total.toLocaleString()}</span>
                         <p className="text-[9px] font-bold text-gray-400 uppercase mt-0.5">{order.items.length} Units</p>
                       </td>
 

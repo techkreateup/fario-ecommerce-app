@@ -18,7 +18,7 @@ const StockStats: React.FC<StockStatsProps> = ({ products }) => {
   const cards = [
     {
       label: 'Inventory Value',
-      value: `₹${totalValue.toLocaleString()}`,
+      value: `Rs. ${totalValue.toLocaleString()}`,
       sub: 'Total Asset Worth',
       icon: TrendingUp,
       bg: 'bg-emerald-50',

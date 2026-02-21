@@ -118,7 +118,7 @@ export const ProfileSidebar: React.FC<SidebarProps> = ({
                         </div>
                         <span className="text-xs font-bold text-gray-900 uppercase tracking-wider">Fario Pay Balance</span>
                     </div>
-                    <p className="text-xl font-black text-gray-900 tracking-tight">₹0.00</p>
+                    <p className="text-xl font-black text-gray-900 tracking-tight">Rs. 0.00</p>
                     <p className="text-[10px] text-gray-500 font-medium mt-1 group-hover:text-fario-purple transition-colors">Tap to manage wallet</p>
                 </div>
             </div>

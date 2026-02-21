@@ -65,7 +65,7 @@ export const DashboardRecentOrders: React.FC<RecentOrdersProps> = ({ setActiveTa
                         </div>
                         <div>
                             <p className="uppercase tracking-wider font-bold text-gray-400">Total</p>
-                            <p className="font-bold text-gray-900 mt-0.5">₹{recentOrder.total.toLocaleString()}</p>
+                            <p className="font-bold text-gray-900 mt-0.5">Rs. {recentOrder.total.toLocaleString()}</p>
                         </div>
                     </div>
                     <div className="flex flex-col sm:items-end gap-1">

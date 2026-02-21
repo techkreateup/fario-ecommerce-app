@@ -80,8 +80,8 @@ export const ProfileRecommendations: React.FC = () => {
                             {/* Price Block */}
                             <div className="mt-auto pt-2 border-t border-gray-50">
                                 <div className="flex items-baseline gap-2 mb-1">
-                                    <span className="text-lg font-black text-gray-900 tracking-tight">₹{product.price}</span>
-                                    <span className="text-xs text-gray-400 font-medium line-through">₹{product.originalPrice}</span>
+                                    <span className="text-lg font-black text-gray-900 tracking-tight">Rs. {product.price}</span>
+                                    <span className="text-xs text-gray-400 font-medium line-through">Rs. {product.originalPrice}</span>
                                 </div>
 
                                 {/* Prime & Delivery - The "Amazon Density" */}

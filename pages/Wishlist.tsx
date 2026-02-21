@@ -140,10 +140,10 @@ const Wishlist = () => {
                                         {/* Price & Prime */}
                                         <div className="mt-4">
                                             <div className="flex items-baseline gap-3">
-                                                <span className="text-3xl font-black text-gray-900">₹{item.price}</span>
+                                                <span className="text-3xl font-black text-gray-900">Rs. {item.price}</span>
                                                 {item.originalPrice && (
                                                     <>
-                                                        <span className="text-lg text-gray-500 line-through">₹{item.originalPrice}</span>
+                                                        <span className="text-lg text-gray-500 line-through">Rs. {item.originalPrice}</span>
                                                         <span className="text-sm font-bold text-red-600 bg-red-50 px-2 py-1 rounded">-{Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}%</span>
                                                     </>
                                                 )}

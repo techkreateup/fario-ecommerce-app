@@ -89,7 +89,7 @@ export const ProfileOrders: React.FC = () => {
                                 </div>
                                 <div>
                                     <span className="block text-xs uppercase font-bold tracking-wider mb-0.5">Total</span>
-                                    <span className="font-bold text-gray-900">₹{order.total.toLocaleString()}</span>
+                                    <span className="font-bold text-gray-900">Rs. {order.total.toLocaleString()}</span>
                                 </div>
                                 <div>
                                     <span className="block text-xs uppercase font-bold tracking-wider mb-0.5">Ship To</span>

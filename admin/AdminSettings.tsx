@@ -506,7 +506,7 @@ const AdminSettings: React.FC = () => {
                                             <div className="space-y-4">
                                                 <Field label="Flat Rate Shipping Cost">
                                                     <div className="relative">
-                                                        <span className="absolute left-3 top-2.5 text-slate-400 font-bold">₹</span>
+                                                        <span className="absolute left-3 top-2.5 text-slate-400 font-bold">Rs.</span>
                                                         <Input
                                                             type="number"
                                                             className="pl-8"
@@ -517,7 +517,7 @@ const AdminSettings: React.FC = () => {
                                                 </Field>
                                                 <Field label="Free Shipping Threshold">
                                                     <div className="relative">
-                                                        <span className="absolute left-3 top-2.5 text-slate-400 font-bold">₹</span>
+                                                        <span className="absolute left-3 top-2.5 text-slate-400 font-bold">Rs.</span>
                                                         <Input
                                                             type="number"
                                                             className="pl-8"

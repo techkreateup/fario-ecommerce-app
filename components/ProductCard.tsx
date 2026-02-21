@@ -114,11 +114,11 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                         <div className="md:w-64 border-l border-gray-100 md:pl-6 flex flex-col justify-between">
                             <div className="space-y-1">
                                 <div className="flex items-baseline gap-2">
-                                    <span className="text-3xl font-black text-black tracking-tighter">Γé╣{price.toLocaleString()}</span>
+                                    <span className="text-3xl font-black text-black tracking-tighter">Rs. {price.toLocaleString()}</span>
                                 </div>
                                 {originalPrice && (
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[11px] text-gray-400 line-through">M.R.P: Γé╣{originalPrice.toLocaleString()}</span>
+                                        <span className="text-[11px] text-gray-400 line-through">M.R.P: Rs. {originalPrice.toLocaleString()}</span>
                                         <span className="text-[11px] font-bold text-rose-600">({Math.round(((originalPrice - price) / originalPrice) * 100)}% off)</span>
                                     </div>
                                 )}
@@ -237,10 +237,10 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                     {/* High Density Pricing */}
                     <div className="mt-auto space-y-1.5">
                         <div className="flex items-baseline flex-wrap gap-x-2">
-                            <span className="text-2xl font-black text-black tracking-tight">Γé╣{price.toLocaleString()}</span>
+                            <span className="text-2xl font-black text-black tracking-tight">Rs. {price.toLocaleString()}</span>
                             {originalPrice && (
                                 <>
-                                    <span className="text-xs text-gray-400 line-through">M.R.P: Γé╣{originalPrice.toLocaleString()}</span>
+                                    <span className="text-xs text-gray-400 line-through">M.R.P: Rs. {originalPrice.toLocaleString()}</span>
                                     <span className="text-xs font-bold text-rose-600">({Math.round(((originalPrice - price) / originalPrice) * 100)}% off)</span>
                                 </>
                             )}

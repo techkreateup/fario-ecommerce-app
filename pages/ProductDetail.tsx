@@ -447,10 +447,10 @@ const ProductDetail: React.FC = () => {
                   {/* Price Block */}
                   <div className="mb-6">
                      <div className="flex items-baseline gap-3">
-                        <span className="text-4xl font-black text-gray-900 tracking-tight">₹{product.price}</span>
+                        <span className="text-4xl font-black text-gray-900 tracking-tight">Rs. {product.price}</span>
                         {product.originalPrice && (
                            <>
-                              <span className="text-lg text-gray-400 line-through font-medium">₹{product.originalPrice}</span>
+                              <span className="text-lg text-gray-400 line-through font-medium">Rs. {product.originalPrice}</span>
                               <span className="text-lg font-bold text-rose-500">
                                  {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
                               </span>
@@ -466,7 +466,7 @@ const ProductDetail: React.FC = () => {
                         <div className="bg-emerald-100 p-1.5 rounded text-emerald-700 mt-0.5"><Zap size={14} /></div>
                         <div>
                            <h4 className="text-xs font-bold text-gray-900 uppercase">Bank Offer</h4>
-                           <p className="text-xs text-gray-500 mt-0.5">Flat ₹100 Instant Cashback on HDFC Bank Credit Cards. Min purchase value ₹1000</p>
+                           <p className="text-xs text-gray-500 mt-0.5">Flat Rs. 100 Instant Cashback on HDFC Bank Credit Cards. Min purchase value Rs. 1000</p>
                         </div>
                      </div>
                      <div className="p-4 rounded-xl bg-white border border-gray-200 shadow-sm flex items-start gap-3">

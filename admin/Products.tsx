@@ -36,9 +36,9 @@ const AdminProducts: React.FC = () => {
 
       // 3. Price Filter
       let matchesPrice = true;
-      if (priceRange === 'Under ₹1000') matchesPrice = p.price < 1000;
-      if (priceRange === '₹1000 - ₹2500') matchesPrice = p.price >= 1000 && p.price <= 2500;
-      if (priceRange === 'Above ₹2500') matchesPrice = p.price > 2500;
+      if (priceRange === 'Under Rs. 1000') matchesPrice = p.price < 1000;
+      if (priceRange === 'Rs. 1000 - Rs. 2500') matchesPrice = p.price >= 1000 && p.price <= 2500;
+      if (priceRange === 'Above Rs. 2500') matchesPrice = p.price > 2500;
 
       // 4. Color Filter
       const matchesColor = selectedColor ? (p.colors || []).includes(selectedColor) : true;
@@ -163,7 +163,7 @@ const AdminProducts: React.FC = () => {
                 <div className="flex items-center justify-center md:justify-start gap-4 pt-2">
                   <div className="text-right">
                     <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest leading-none mb-1">Unit Price</p>
-                    <p className="text-xl font-black text-slate-900 italic tracking-tighter leading-none">₹{p.price.toLocaleString()}</p>
+                    <p className="text-xl font-black text-slate-900 italic tracking-tighter leading-none">Rs. {p.price.toLocaleString()}</p>
                   </div>
                 </div>
               </div>

@@ -67,8 +67,8 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                         <p className="text-[10px] uppercase tracking-[0.25em] mb-1" style={{ color: PURPLE }}>{p.sub}</p>
                         <h3 className="font-heading font-black uppercase text-sm tracking-wide mb-2" style={{ color: DARK_TXT }}>{p.name}</h3>
                         <div className="flex items-center gap-2">
-                            <span className="font-bold" style={{ color: DARK_TXT }}>₹{p.price.toLocaleString('en-IN')}</span>
-                            <span className="line-through text-xs opacity-40" style={{ color: DARK_TXT }}>₹{p.orig.toLocaleString('en-IN')}</span>
+                            <span className="font-bold" style={{ color: DARK_TXT }}>Rs. {p.price.toLocaleString('en-IN')}</span>
+                            <span className="line-through text-xs opacity-40" style={{ color: DARK_TXT }}>Rs. {p.orig.toLocaleString('en-IN')}</span>
                         </div>
                     </div>
                 </div>

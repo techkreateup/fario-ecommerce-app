@@ -26,7 +26,7 @@ export default function AnnouncementBar() {
                     🎉
                 </motion.span>
                 <span className="font-semibold">
-                    FREE SHIPPING on orders above ₹999 |
+                    FREE SHIPPING on orders above Rs. 999 |
                     <span className="text-yellow-400 ml-2">Use code: FARIO50</span>
                 </span>
             </div>

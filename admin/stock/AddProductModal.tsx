@@ -165,7 +165,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, prod
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Value (INR)</label>
                                     <div className="relative">
-                                        <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
+                                        <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 font-bold">Rs.</span>
                                         <input type="number" required value={formData.price} onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-4 pl-10 text-sm font-bold focus:ring-2 focus:ring-fario-purple/5 outline-none" />
                                     </div>
                                 </div>

@@ -25,7 +25,7 @@ const PRODUCTS: Product[] = [
     {
         id: 1,
         name: "Phantom Elite X",
-        price: "₹18,995",
+        price: "Rs. 18,995",
         category: "Performance Running",
         description: "Engineered for zero gravity feel. The Phantom Elite uses our proprietary nitrogen-infused foam for maximum energy return.",
         isNew: true,
@@ -38,7 +38,7 @@ const PRODUCTS: Product[] = [
     {
         id: 2,
         name: "Vanguard Loafer",
-        price: "₹12,499",
+        price: "Rs. 12,499",
         category: "Modern Formal",
         description: "Italian leather meets modern ergonomics. The definitive driving shoe for the contemporary executive.",
         variants: [
@@ -49,7 +49,7 @@ const PRODUCTS: Product[] = [
     {
         id: 3,
         name: "Apex Boot 9000",
-        price: "₹24,999",
+        price: "Rs. 24,999",
         category: "Urban Utility",
         description: "Waterproof, shock-proof, city-proof. The Apex Boot redesigns the silhouette of utilitarian footwear.",
         variants: [
@@ -60,7 +60,7 @@ const PRODUCTS: Product[] = [
     {
         id: 4,
         name: "Velocity Runner",
-        price: "₹9,999",
+        price: "Rs. 9,999",
         category: "Training",
         description: "Lightweight mesh upper with responsive cushioning for your daily 5k or marathon training.",
         variants: [

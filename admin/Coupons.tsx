@@ -292,14 +292,14 @@ export default function AdminCoupons() {
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none bg-white"
                             >
                                 <option value="percentage">Percentage (%)</option>
-                                <option value="fixed">Fixed Amount (₹)</option>
+                                <option value="fixed">Fixed Amount (Rs. )</option>
                             </select>
                         </div>
 
                         {/* Discount Value */}
                         <div>
                             <label className="block mb-2 font-semibold text-gray-700">
-                                Discount Value * {formData.discounttype === 'percentage' ? '(%)' : '(₹)'}
+                                Discount Value * {formData.discounttype === 'percentage' ? '(%)' : '(Rs. )'}
                             </label>
                             <input
                                 type="number"
@@ -314,7 +314,7 @@ export default function AdminCoupons() {
 
                         {/* Min Order Value */}
                         <div>
-                            <label className="block mb-2 font-semibold text-gray-700">Min Order Value (₹)</label>
+                            <label className="block mb-2 font-semibold text-gray-700">Min Order Value (Rs. )</label>
                             <input
                                 type="number"
                                 value={formData.minordervalue}
@@ -328,7 +328,7 @@ export default function AdminCoupons() {
                         {/* Max Discount */}
                         {formData.discounttype === 'percentage' && (
                             <div>
-                                <label className="block mb-2 font-semibold text-gray-700">Max Discount (₹)</label>
+                                <label className="block mb-2 font-semibold text-gray-700">Max Discount (Rs. )</label>
                                 <input
                                     type="number"
                                     value={formData.maxdiscount}
@@ -424,15 +424,15 @@ export default function AdminCoupons() {
                                                 <span className="font-medium text-gray-900">
                                                     {coupon.discounttype === 'percentage'
                                                         ? `${coupon.discountvalue}%`
-                                                        : `₹${coupon.discountvalue}`}
+                                                        : `Rs. ${coupon.discountvalue}`}
                                                 </span>
                                                 {coupon.maxdiscount && coupon.discounttype === 'percentage' && (
-                                                    <span className="text-xs text-gray-500">Max off: ₹{coupon.maxdiscount}</span>
+                                                    <span className="text-xs text-gray-500">Max off: Rs. {coupon.maxdiscount}</span>
                                                 )}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                                            ₹{coupon.minordervalue}
+                                            Rs. {coupon.minordervalue}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                             <span className="font-medium text-gray-900">{coupon.usedcount}</span>

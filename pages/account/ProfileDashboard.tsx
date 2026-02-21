@@ -31,8 +31,8 @@ const USER_PROFILE = {
 const STATS = [
     { label: 'Total Orders', value: '42', icon: Package, color: 'bg-blue-100 text-blue-600' },
     { label: 'Returns', value: '2', icon: RotateCcw, color: 'bg-orange-100 text-orange-600' },
-    { label: 'Savings', value: '₹12k', icon: DollarSign, color: 'bg-green-100 text-green-600' },
-    { label: 'Fario Cash', value: '₹1,500', icon: WalletIcon, color: 'bg-fario-purple/10 text-fario-purple' } // Custom icon below
+    { label: 'Savings', value: 'Rs. 12k', icon: DollarSign, color: 'bg-green-100 text-green-600' },
+    { label: 'Fario Cash', value: 'Rs. 1,500', icon: WalletIcon, color: 'bg-fario-purple/10 text-fario-purple' } // Custom icon below
 ];
 
 function WalletIcon(props: any) {
@@ -178,7 +178,7 @@ const ProfileDashboard: React.FC = () => {
                         <div className="flex-1">
                             <div className="flex justify-between">
                                 <h4 className="font-bold text-gray-900">{orders[0].items[0].name}</h4>
-                                <span className="text-sm font-bold text-gray-900">₹{orders[0].total.toLocaleString()}</span>
+                                <span className="text-sm font-bold text-gray-900">Rs. {orders[0].total.toLocaleString()}</span>
                             </div>
                             <p className="text-sm text-gray-500 mb-2">Order #{orders[0].id} • {orders[0].date}</p>
                             <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide ${orders[0].status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
@@ -203,7 +203,7 @@ const ProfileDashboard: React.FC = () => {
                                 <img src={p.image} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform" alt={p.name} />
                             </div>
                             <p className="font-bold text-gray-900 text-sm truncate">{p.name}</p>
-                            <p className="text-fario-purple font-black text-sm">₹{p.price.toLocaleString()}</p>
+                            <p className="text-fario-purple font-black text-sm">Rs. {p.price.toLocaleString()}</p>
                         </div>
                     ))}
                 </div>
@@ -245,7 +245,7 @@ const ProfileDashboard: React.FC = () => {
                             </div>
                             <div>
                                 <span className="block text-gray-500 uppercase text-[10px] font-bold tracking-wider">Total</span>
-                                <span className="font-bold text-gray-900">₹{order.total.toLocaleString()}</span>
+                                <span className="font-bold text-gray-900">Rs. {order.total.toLocaleString()}</span>
                             </div>
                             <div>
                                 <span className="block text-gray-500 uppercase text-[10px] font-bold tracking-wider">Order #</span>
@@ -338,8 +338,8 @@ const ProfileDashboard: React.FC = () => {
                             <div className="flex-1 mb-4">
                                 <h4 className="font-bold text-gray-900 line-clamp-2 mb-1">{item.name}</h4>
                                 <div className="flex items-center gap-2">
-                                    <p className="text-xl font-black text-fario-purple">₹{item.price.toLocaleString()}</p>
-                                    {item.price > 1000 && <span className="text-xs text-gray-400 line-through">₹{(item.price * 1.2).toFixed(0)}</span>}
+                                    <p className="text-xl font-black text-fario-purple">Rs. {item.price.toLocaleString()}</p>
+                                    {item.price > 1000 && <span className="text-xs text-gray-400 line-through">Rs. {(item.price * 1.2).toFixed(0)}</span>}
                                 </div>
                                 <div className="flex items-center gap-1 mt-2 text-xs font-bold text-yellow-500">
                                     <Star size={12} fill="currentColor" /> {item.rating} <span className="text-gray-400">({item.reviewsCount} reviews)</span>

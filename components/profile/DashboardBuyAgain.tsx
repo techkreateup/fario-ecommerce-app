@@ -39,7 +39,7 @@ export const DashboardBuyAgain: React.FC = () => {
                         >
                             {product.name}
                         </p>
-                        <p className="text-sm font-medium text-gray-500 mb-4">₹{product.price}</p>
+                        <p className="text-sm font-medium text-gray-500 mb-4">Rs. {product.price}</p>
 
                         <button
                             onClick={() => addToCart(product, "Default")}

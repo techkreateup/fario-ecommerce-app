@@ -39,7 +39,7 @@ export async function validateCoupon(
         if (subtotal < coupon.minordervalue) {
             return {
                 valid: false,
-                message: `Minimum order value for this coupon is ₹${coupon.minordervalue}`
+                message: `Minimum order value for this coupon is Rs. ${coupon.minordervalue}`
             }
         }
 
@@ -61,7 +61,7 @@ export async function validateCoupon(
 
         return {
             valid: true,
-            message: `Coupon applied! You saved ₹${discount.toFixed(2)}`,
+            message: `Coupon applied! You saved Rs. ${discount.toFixed(2)}`,
             discount: discount,
             coupon: coupon
         }

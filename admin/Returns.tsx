@@ -227,7 +227,7 @@ const AdminReturns: React.FC = () => {
                                         </div>
                                         <div>
                                             <p className="text-[9px] font-black text-white/30 uppercase tracking-widest mb-1">Requested Value</p>
-                                            <p className="text-sm font-black text-white italic">₹{ret.refundAmount.toLocaleString()}</p>
+                                            <p className="text-sm font-black text-white italic">Rs. {ret.refundAmount.toLocaleString()}</p>
                                         </div>
                                         <div>
                                             <p className="text-[9px] font-black text-white/30 uppercase tracking-widest mb-1">Time Elapsed</p>

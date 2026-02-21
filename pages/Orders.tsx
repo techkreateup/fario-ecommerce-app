@@ -173,7 +173,7 @@ const Orders: React.FC = () => {
         return result;
     }, [orders, activeTab, searchQuery]);
 
-    const formatPrice = (price: number) => `₹${price.toLocaleString('en-IN')}`;
+    const formatPrice = (price: number) => `Rs. ${price.toLocaleString('en-IN')}`;
 
     return (
         <div className="min-h-screen bg-white font-sans text-gray-800 relative isolate pt-24 pb-32">

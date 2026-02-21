@@ -58,7 +58,7 @@ export const ProfileWalletCards: React.FC = () => {
             setBalance(data); // RPC returns new balance
             setModalType(null);
             setAmount('');
-            toast.success(`Successfully added ₹${amountToAdd} to your wallet!`);
+            toast.success(`Successfully added Rs. ${amountToAdd} to your wallet!`);
         } catch (err: any) {
             console.error(err);
             toast.error("Failed to add money: " + err.message);
@@ -138,7 +138,7 @@ export const ProfileWalletCards: React.FC = () => {
                     <div>
                         <p className="text-sm font-medium text-gray-400 mb-1 flex items-center gap-2"><Wallet size={16} /> Fario Pay Balance</p>
                         <h3 className="text-4xl font-black tracking-tight flex items-start gap-1">
-                            <span className="text-2xl mt-1">₹</span> {balance.toLocaleString('en-IN')}.00
+                            <span className="text-2xl mt-1">Rs. </span> {balance.toLocaleString('en-IN')}.00
                         </h3>
                     </div>
                     <button
@@ -217,7 +217,7 @@ export const ProfileWalletCards: React.FC = () => {
                                 </div>
                             </div>
                             <span className={`font-black text-sm ${tx.color}`}>
-                                {tx.color === 'text-green-600' ? '+' : '-'}₹{tx.amount}
+                                {tx.color === 'text-green-600' ? '+' : '-'}Rs. {tx.amount}
                             </span>
                         </div>
                     ))}
@@ -248,12 +248,12 @@ export const ProfileWalletCards: React.FC = () => {
                             {modalType === 'money' ? (
                                 <form onSubmit={handleAddMoney} className="space-y-4">
                                     <div>
-                                        <label className="text-xs font-bold text-gray-500 uppercase">Amount (₹)</label>
+                                        <label className="text-xs font-bold text-gray-500 uppercase">Amount (Rs.)</label>
                                         <input autoFocus type="number" value={amount} onChange={e => setAmount(e.target.value)} className="w-full text-3xl font-black text-gray-900 border-b-2 border-gray-200 focus:border-fario-purple outline-none py-2" placeholder="0" min="1" required />
                                     </div>
                                     <div className="flex gap-2">
                                         {[500, 1000, 2000].map(val => (
-                                            <button type="button" key={val} onClick={() => setAmount(val.toString())} className="px-3 py-1 bg-gray-100 rounded-full text-xs font-bold text-gray-600 hover:bg-gray-200">+₹{val}</button>
+                                            <button type="button" key={val} onClick={() => setAmount(val.toString())} className="px-3 py-1 bg-gray-100 rounded-full text-xs font-bold text-gray-600 hover:bg-gray-200">+Rs. {val}</button>
                                         ))}
                                     </div>
                                     <button type="submit" className="w-full py-3 bg-fario-purple text-white rounded-xl font-bold mt-4">Proceed to Add</button>

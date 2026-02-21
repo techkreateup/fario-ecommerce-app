@@ -67,7 +67,7 @@ const Checkout: React.FC = () => {
     // Use global cartTotal which includes coupon discount
     const finalTotal = cartTotal + deliveryFee;
 
-    const formatPrice = (price: number) => `₹${price.toLocaleString('en-IN')}`;
+    const formatPrice = (price: number) => `Rs. ${price.toLocaleString('en-IN')}`;
 
     // Real Payment Logic
     const handlePlaceOrder = async () => {
@@ -445,7 +445,7 @@ const Checkout: React.FC = () => {
                                                     <h4 className="font-medium text-gray-900 text-sm mb-1">{item.name}</h4>
                                                     <div className="text-xs text-gray-500 mb-2">{item.selectedSize}, {item.selectedColor}</div>
                                                     <div className="flex items-center gap-2 mb-2">
-                                                        <span className="text-sm font-gray-500 line-through">₹{Math.round(item.price * 1.2).toLocaleString('en-IN')}</span>
+                                                        <span className="text-sm font-gray-500 line-through">Rs. {Math.round(item.price * 1.2).toLocaleString('en-IN')}</span>
                                                         <span className="font-bold text-lg text-gray-900">{formatPrice(item.price)}</span>
                                                         <span className="text-xs font-bold text-green-600">20% Off</span>
                                                     </div>
@@ -458,7 +458,7 @@ const Checkout: React.FC = () => {
                                                     </div>
                                                 </div>
                                                 <div className="text-[12px] font-bold text-gray-900">
-                                                    Delivery by <span className="text-green-600">Tomorrow, Sun</span> <span className="text-gray-400 mx-1">|</span> <span className="text-green-600">Free</span> <span className="line-through text-gray-400">₹40</span>
+                                                    Delivery by <span className="text-green-600">Tomorrow, Sun</span> <span className="text-gray-400 mx-1">|</span> <span className="text-green-600">Free</span> <span className="line-through text-gray-400">Rs. 40</span>
                                                 </div>
                                             </div>
                                         ))}

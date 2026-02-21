@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 // Mock data (would typically come from API/Props)
 const products = Array(12).fill({
     name: "Prototype-X",
-    price: "₹14,999",
+    price: "Rs. 14,999",
     image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80",
 }).map((p, i) => ({ ...p, id: i }));
 

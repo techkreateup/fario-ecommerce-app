@@ -81,13 +81,13 @@ const Cart: React.FC = () => {
             if (appliedCoupon && subtotal < appliedCoupon.minordervalue) {
                 setAppliedCoupon(null);
                 setDiscountAmount(0);
-                setCouponMessage(`Coupon removed: Order value less than ₹${appliedCoupon.minordervalue}`);
+                setCouponMessage(`Coupon removed: Order value less than Rs. ${appliedCoupon.minordervalue}`);
             }
         }
     }, [subtotal, appliedCoupon]);
 
     const finalTotal = Math.max(0, subtotal - discountAmount + deliveryFee);
-    const formatPrice = (price: number) => `₹${price.toLocaleString('en-IN')}`;
+    const formatPrice = (price: number) => `Rs. ${price.toLocaleString('en-IN')}`;
 
     // Coupon Handlers
     const handleApplyCoupon = async () => {
@@ -401,7 +401,7 @@ const Cart: React.FC = () => {
                                                             <p className="text-[10px] font-bold text-emerald-600">
                                                                 {appliedCoupon.discounttype === 'percentage'
                                                                     ? `${appliedCoupon.discountvalue}% OFF`
-                                                                    : `₹${appliedCoupon.discountvalue} OFF`} applied
+                                                                    : `Rs. ${appliedCoupon.discountvalue} OFF`} applied
                                                             </p>
                                                         </div>
                                                     </div>

@@ -180,7 +180,7 @@ const AdminDashboard: React.FC = () => {
 
   // Real KPI Calculations
   const totalRevenue = useMemo(() => allOrders.reduce((acc, o) => acc + (Number(o.total) || 0), 0), [allOrders]);
-  const revenueDisplay = `₹${totalRevenue.toLocaleString()}`;
+  const revenueDisplay = `Rs. ${totalRevenue.toLocaleString()}`;
   const totalOrders = allOrders.length;
 
   // ... Update dashboardData to use these reals ...
@@ -389,7 +389,7 @@ const AdminDashboard: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold text-white/70 uppercase tracking-wider">Revenue</p>
-                  <p className="text-lg font-bold leading-none">₹{(topProductStats?.revenue || 0).toLocaleString()}</p>
+                  <p className="text-lg font-bold leading-none">Rs. {(topProductStats?.revenue || 0).toLocaleString()}</p>
                 </div>
               </div>
 
@@ -555,11 +555,11 @@ const AdminDashboard: React.FC = () => {
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[9px] font-bold text-[#7a51a0]">Shoes</span>
-                    <span className="text-xs font-mono font-bold text-white">₹{processedChart.points[hoverIndex].valShoes.toFixed(1)}k</span>
+                    <span className="text-xs font-mono font-bold text-white">Rs. {processedChart.points[hoverIndex].valShoes.toFixed(1)}k</span>
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[9px] font-bold text-[#10b981]">Bags</span>
-                    <span className="text-xs font-mono font-bold text-white">₹{processedChart.points[hoverIndex].valBags.toFixed(1)}k</span>
+                    <span className="text-xs font-mono font-bold text-white">Rs. {processedChart.points[hoverIndex].valBags.toFixed(1)}k</span>
                   </div>
                 </div>
               </div>
@@ -572,7 +572,7 @@ const AdminDashboard: React.FC = () => {
               <div className="space-y-1">
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Shoes (Current)</p>
                 <p className="text-lg font-mono font-bold text-white flex items-center gap-2">
-                  ₹{processedChart.current.shoes.toFixed(1)}k
+                  Rs. {processedChart.current.shoes.toFixed(1)}k
                   <span className={`text-[9px] px-1.5 rounded ${processedChart.shoesChange >= 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}`}>
                     {processedChart.shoesChange >= 0 ? '+' : ''}{processedChart.shoesChange.toFixed(1)}%
                   </span>
@@ -581,7 +581,7 @@ const AdminDashboard: React.FC = () => {
               <div className="space-y-1">
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Bags (Current)</p>
                 <p className="text-lg font-mono font-bold text-white flex items-center gap-2">
-                  ₹{processedChart.current.bags.toFixed(1)}k
+                  Rs. {processedChart.current.bags.toFixed(1)}k
                   <span className={`text-[9px] px-1.5 rounded ${processedChart.bagsChange >= 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}`}>
                     {processedChart.bagsChange >= 0 ? '+' : ''}{processedChart.bagsChange.toFixed(1)}%
                   </span>
@@ -589,11 +589,11 @@ const AdminDashboard: React.FC = () => {
               </div>
               <div className="space-y-1">
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">24h High</p>
-                <p className="text-lg font-mono font-bold text-slate-300">₹{(processedChart.maxVal * 0.9).toFixed(1)}k</p>
+                <p className="text-lg font-mono font-bold text-slate-300">Rs. {(processedChart.maxVal * 0.9).toFixed(1)}k</p>
               </div>
               <div className="space-y-1">
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">24h Low</p>
-                <p className="text-lg font-mono font-bold text-slate-300">₹{(processedChart.minVal * 1.1).toFixed(1)}k</p>
+                <p className="text-lg font-mono font-bold text-slate-300">Rs. {(processedChart.minVal * 1.1).toFixed(1)}k</p>
               </div>
             </div>
           )}
@@ -672,7 +672,7 @@ const AdminDashboard: React.FC = () => {
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="text-[10px] font-black text-slate-900">₹{order.total.toLocaleString()}</p>
+                            <p className="text-[10px] font-black text-slate-900">Rs. {order.total.toLocaleString()}</p>
                             <p className={`text-[8px] font-bold uppercase tracking-wide ${isHighlighted ? 'text-emerald-600' : 'text-gray-300'}`}>
                               {isHighlighted ? 'Just Now' : order.date}
                             </p>

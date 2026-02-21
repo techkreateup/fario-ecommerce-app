@@ -148,7 +148,7 @@ const AdminAnalytics: React.FC = () => {
    const kpis = [
       {
          label: 'Revenue',
-         value: `₹${stats.total_revenue.toLocaleString()}`,
+         value: `Rs. ${stats.total_revenue.toLocaleString()}`,
          change: `${stats.revenue_trend > 0 ? '+' : ''}${stats.revenue_trend.toFixed(1)}%`,
          trend: stats.revenue_trend >= 0 ? 'up' : 'down',
          icon: DollarSign,
@@ -250,7 +250,7 @@ const AdminAnalytics: React.FC = () => {
                               style={{ height: `${Math.max(10, height)}%` }}
                            >
                               <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[9px] font-black px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-30 shadow-xl pointer-events-none">
-                                 ₹{Number(d.revenue).toLocaleString()}
+                                 Rs. {Number(d.revenue).toLocaleString()}
                               </div>
                            </div>
                            <span className="text-[8px] font-black text-slate-300 mt-3 rotate-45 origin-left md:rotate-0">
@@ -274,7 +274,7 @@ const AdminAnalytics: React.FC = () => {
                      <div key={i} className="space-y-2">
                         <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
                            <span className="text-slate-600">{cat.category}</span>
-                           <span className="text-slate-900">₹{Number(cat.revenue).toLocaleString()}</span>
+                           <span className="text-slate-900">Rs. {Number(cat.revenue).toLocaleString()}</span>
                         </div>
                         <div className="h-2 bg-slate-50 rounded-full overflow-hidden">
                            <motion.div
@@ -334,7 +334,7 @@ const AdminAnalytics: React.FC = () => {
                               </div>
                            </td>
                            <td className="font-medium text-slate-500">{p.total_sold} units</td>
-                           <td className="font-black text-slate-900 italic">₹{Number(p.revenue).toLocaleString()}</td>
+                           <td className="font-black text-slate-900 italic">Rs. {Number(p.revenue).toLocaleString()}</td>
                            <td>
                               <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 text-[9px] font-black uppercase tracking-widest border border-emerald-100">
                                  High Velocity

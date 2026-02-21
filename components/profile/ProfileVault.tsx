@@ -135,8 +135,8 @@ export const ProfileVault: React.FC = () => {
                                     {/* Price & Prime */}
                                     <div className="mt-3">
                                         <div className="flex items-baseline gap-2">
-                                            <span className="text-2xl font-black text-gray-900">₹{item.price}</span>
-                                            <span className="text-sm text-gray-500 line-through">₹{item.originalPrice}</span>
+                                            <span className="text-2xl font-black text-gray-900">Rs. {item.price}</span>
+                                            <span className="text-sm text-gray-500 line-through">Rs. {item.originalPrice}</span>
                                             <span className="text-xs font-bold text-red-600">({item.discount}% off)</span>
                                         </div>
                                         {item.isPrime && (

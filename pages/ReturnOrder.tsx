@@ -315,7 +315,7 @@ const ReturnOrder: React.FC = () => {
                                     <p className="text-xs text-gray-500 uppercase font-extrabold tracking-wider mb-2">Estimated Refund</p>
                                     <div className="flex justify-between items-end">
                                         <span className="text-gray-500 font-medium text-sm">Amount</span>
-                                        <span className="text-3xl font-black text-fario-purple tracking-tight">₹{order.items.reduce((acc, item) => selectedItems.includes(item.id) ? acc + (item.price * item.quantity) : acc, 0).toLocaleString('en-IN')}</span>
+                                        <span className="text-3xl font-black text-fario-purple tracking-tight">Rs. {order.items.reduce((acc, item) => selectedItems.includes(item.id) ? acc + (item.price * item.quantity) : acc, 0).toLocaleString('en-IN')}</span>
                                     </div>
                                 </div>
 

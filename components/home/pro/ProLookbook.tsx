@@ -19,8 +19,8 @@ const LOOKS = [
         id: 1,
         video: "https://cdn.pixabay.com/video/2019/05/29/24036-339232938_large.mp4", // Walking
         items: [
-            { id: 101, x: 45, y: 85, product: { name: "Phantom Elite", price: "₹18,995", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" } },
-            { id: 102, x: 55, y: 30, product: { name: "Tech Trench", price: "₹25,000", image: "https://images.unsplash.com/photo-1515347619252-60a6bf4fffce?w=400" } }
+            { id: 101, x: 45, y: 85, product: { name: "Phantom Elite", price: "Rs. 18,995", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" } },
+            { id: 102, x: 55, y: 30, product: { name: "Tech Trench", price: "Rs. 25,000", image: "https://images.unsplash.com/photo-1515347619252-60a6bf4fffce?w=400" } }
         ]
     }
 ];

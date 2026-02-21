@@ -74,7 +74,7 @@ const FrequentlyBoughtTogether: React.FC<Props> = ({ mainProduct }) => {
                             <div>
                                 <p className="text-sm font-bold text-gray-900 leading-none mb-1">{suggestedProduct.name}</p>
                                 <p className="text-[10px] font-bold text-fario-purple uppercase tracking-wider">
-                                    + ₹{suggestedProduct.price} <span className="text-gray-400 line-through ml-1">₹{suggestedProduct.originalPrice}</span>
+                                    + Rs. {suggestedProduct.price} <span className="text-gray-400 line-through ml-1">Rs. {suggestedProduct.originalPrice}</span>
                                 </p>
                             </div>
                         </div>
@@ -84,8 +84,8 @@ const FrequentlyBoughtTogether: React.FC<Props> = ({ mainProduct }) => {
                         <div className="mb-3 text-right">
                             <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-1">Total Bundle</span>
                             <div className="flex items-baseline justify-end gap-2">
-                                <span className="text-2xl font-black text-gray-900 tracking-tight">₹{totalPrice}</span>
-                                {totalOriginal > 0 && <span className="text-sm font-bold text-gray-400 line-through">₹{totalOriginal}</span>}
+                                <span className="text-2xl font-black text-gray-900 tracking-tight">Rs. {totalPrice}</span>
+                                {totalOriginal > 0 && <span className="text-sm font-bold text-gray-400 line-through">Rs. {totalOriginal}</span>}
                             </div>
                         </div>
                         <button

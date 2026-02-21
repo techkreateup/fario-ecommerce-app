@@ -27,7 +27,7 @@ export const HomeEditorial = () => {
                             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
                         >
                             <span className="text-xs uppercase tracking-widest" style={{ color: LIME }}>AeroStride Pro</span>
-                            <p className="font-heading font-black uppercase text-xl" style={{ color: MILKY }}>₹12,999</p>
+                            <p className="font-heading font-black uppercase text-xl" style={{ color: MILKY }}>Rs. 12,999</p>
                         </motion.div>
                     </motion.div>
 
