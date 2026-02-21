@@ -14,10 +14,10 @@ export const HomeVideoSticky = () => {
         <section ref={ref} className="flex flex-col md:flex-row min-h-screen" style={{ background: BG_DARK }}>
             {/* Sticky vid */}
             <div className="w-full md:w-1/2 h-[55vh] md:h-screen md:sticky md:top-0 overflow-hidden relative">
-                <VidEl src={V2} poster={HL3.e} cls="opacity-65" />
-                <div className="absolute inset-0" style={{ background: 'rgba(26,13,46,0.45)' }} />
+                <VidEl src={V2} poster={HL3.e} cls="opacity-100" />
+                <div className="absolute inset-0" style={{ background: 'rgba(26,13,46,0.15)' }} />
                 <div className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to right, transparent 30%, rgba(26,13,46,0.85) 100%)' }}
+                    style={{ background: 'linear-gradient(to right, transparent 50%, rgba(26,13,46,0.95) 100%)' }}
                 />
                 {/* Lime scan line */}
                 <motion.div className="absolute left-0 right-0 h-px pointer-events-none"
@@ -59,14 +59,14 @@ export const HomeVideoSticky = () => {
                 <motion.p
                     initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.8 }}
-                    className="text-base leading-loose mt-10 mb-12 max-w-md" style={{ color: MILKY, opacity: 0.6 }}
-                >Every stitch deliberate. Every sole tested. 14 stages before they reach you.</motion.p>
+                    className="text-base leading-loose mt-10 mb-12 max-w-md" style={{ color: MILKY, opacity: 0.8 }}
+                >Mastering the intersection of ancestral artistry and futuristic ergonomics. Every stitch is a commitment to excellence, every sole a testament to durability.</motion.p>
 
                 <motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}>
                     <Link to="/story"
                         className="inline-flex items-center gap-3 px-10 py-4 text-sm font-bold uppercase tracking-[0.2em] transition"
                         style={{ background: LIME, color: DARK_TXT }}
-                    >Read Our Story <ArrowRight size={14} /></Link>
+                    >Discover Our Legacy <ArrowRight size={14} /></Link>
                 </motion.div>
             </motion.div>
         </section>

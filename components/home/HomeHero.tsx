@@ -15,14 +15,13 @@ export const HomeHero = () => {
         <section className="relative overflow-hidden flex flex-col justify-end"
             style={{ background: BG_DARK2, minHeight: '100vh', paddingTop: '104px' }}
         >
-            {/* VIDEO */}
             <motion.div style={{ y: vY }} className="absolute inset-0 scale-110">
-                <VidEl src={V1} poster={HL3.a} cls="opacity-45" />
+                <VidEl src={V1} poster={HL3.a} cls="opacity-75" />
                 <div className="absolute inset-0"
-                    style={{ background: `linear-gradient(to top, ${BG_DARK2} 0%, rgba(26,13,46,0.70) 45%, rgba(122,81,160,0.18) 100%)` }}
+                    style={{ background: `linear-gradient(to top, ${BG_DARK2} 0%, rgba(26,13,46,0.30) 45%, rgba(122,81,160,0.05) 100%)` }}
                 />
                 <div className="absolute inset-0"
-                    style={{ background: `linear-gradient(to right, rgba(26,13,46,0.80) 0%, transparent 55%)` }}
+                    style={{ background: `linear-gradient(to right, rgba(26,13,46,0.40) 0%, transparent 55%)` }}
                 />
             </motion.div>
 
@@ -54,12 +53,12 @@ export const HomeHero = () => {
                     initial={{ opacity: 0, letterSpacing: '0.6em' }}
                     animate={{ opacity: 1, letterSpacing: '0.3em' }}
                     transition={{ duration: 1.5, ease: E }}
-                    className="text-xs font-bold uppercase mb-10 inline-flex items-center gap-3 px-4 py-2 rounded-full"
-                    style={{ background: `${LIME}22`, color: LIME, border: `1px solid ${LIME}44` }}
+                    className="text-[10px] font-bold uppercase mb-8 inline-flex items-center gap-3 px-3 py-1.5 rounded-full"
+                    style={{ background: `${LIME}15`, color: LIME, border: `1px solid ${LIME}30` }}
                 >✧ New Delhi · Est. 2024 · Collection 2026</motion.div>
 
                 <h1 className="font-heading font-black uppercase tracking-tighter leading-[0.85] mb-8"
-                    style={{ fontSize: 'clamp(68px, 13vw, 170px)', color: MILKY }}
+                    style={{ fontSize: 'clamp(54px, 10vw, 130px)', color: MILKY }}
                 >
                     <div className="overflow-hidden"><SplitText text="Born" cls="block" /></div>
                     <div className="overflow-hidden"><SplitText text="for" cls="block" delay={0.14} stroke={LIME} /></div>
@@ -69,7 +68,7 @@ export const HomeHero = () => {
                 <motion.p
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9, duration: 0.9 }}
-                    className="text-base md:text-xl max-w-lg leading-relaxed mb-12 opacity-70"
+                    className="text-sm md:text-lg max-w-md leading-relaxed mb-10 opacity-70"
                     style={{ color: MILKY }}
                 >Handcrafted in India. Premium quality. Unbeatable comfort.</motion.p>
 
