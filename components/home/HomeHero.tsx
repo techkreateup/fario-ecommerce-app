@@ -12,8 +12,8 @@ export const HomeHero = () => {
     const tY = useTransform(scrollY, [0, 500], ['0%', '35%']);
 
     return (
-        <section className="relative overflow-hidden flex flex-col justify-end"
-            style={{ background: BG_DARK2, minHeight: '100vh', paddingTop: '104px' }}
+        <section className="relative overflow-hidden flex flex-col justify-center"
+            style={{ background: BG_DARK2, minHeight: '100vh' }}
         >
             {/* VIDEO */}
             <motion.div style={{ y: vY }} className="absolute inset-0 scale-110">
@@ -49,7 +49,7 @@ export const HomeHero = () => {
             />
 
             {/* Content */}
-            <motion.div style={{ y: tY, opacity: op }} className="relative z-10 px-8 md:px-20 pb-24 md:pb-36">
+            <motion.div style={{ y: tY, opacity: op }} className="relative z-10 px-8 md:px-20 pt-32 pb-20">
                 <motion.div
                     initial={{ opacity: 0, letterSpacing: '0.6em' }}
                     animate={{ opacity: 1, letterSpacing: '0.3em' }}
