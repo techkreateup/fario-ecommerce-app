@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { BG_LIGHT, BG_DARK, LIME, PURPLE, DARK_TXT, MILKY, PUR_BORDER } from './HomeConstants';
 
 const features = [
   {
@@ -184,10 +185,10 @@ const InfographicSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-24 bg-fario-light relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden" style={{ background: BG_LIGHT }}>
 
       {/* Jagged Top Edge */}
-      <div className="absolute top-0 left-0 w-full h-12 bg-white clip-path-jagged-top rotate-180 translate-y-1 z-10"></div>
+      <div className="absolute top-0 left-0 w-full h-12 clip-path-jagged-top rotate-180 translate-y-1 z-10" style={{ background: BG_LIGHT }}></div>
 
       <div className="container mx-auto px-6 relative z-10">
 
@@ -196,13 +197,15 @@ const InfographicSection: React.FC = () => {
           <span className="px-3 py-1 bg-fario-dark text-white text-xs font-bold uppercase tracking-widest rounded-sm mb-4 inline-block font-heading">
             Engineering Lab
           </span>
-          <h2 className="text-4xl md:text-5xl font-semibold font-heading text-fario-dark uppercase tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-semibold font-heading uppercase tracking-tight" style={{ color: BG_DARK }}>
             Science in <span className="text-outline">Motion</span>
           </h2>
         </div>
 
         {/* Interactive Lab Interface */}
-        <div className="bg-fario-dark rounded-3xl p-6 md:p-12 shadow-2xl overflow-hidden flex flex-col lg:flex-row gap-12 text-white border border-gray-800 relative">
+        <div className="rounded-3xl p-6 md:p-12 shadow-2xl overflow-hidden flex flex-col lg:flex-row gap-12 text-white border relative"
+          style={{ background: BG_DARK, borderColor: 'rgba(255,255,255,0.05)' }}
+        >
 
           {/* Background Texture: Shoe Pattern (Sneakers/Prints) instead of software grid */}
           <div className="absolute inset-0 bg-shoe-pattern opacity-20 pointer-events-none"></div>
@@ -217,17 +220,19 @@ const InfographicSection: React.FC = () => {
                 key={feature.id}
                 onClick={() => setActiveIdx(idx)}
                 className={`text-left p-6 rounded-xl transition-all duration-300 border-l-4 group relative overflow-hidden ${activeIdx === idx
-                    ? 'bg-white/10 border-fario-lime'
-                    : 'bg-transparent border-transparent hover:bg-white/5'
+                  ? 'bg-white/10 border-fario-lime'
+                  : 'bg-transparent border-transparent hover:bg-white/5'
                   }`}
                 whileHover={{ x: 10 }}
               >
                 <div className="flex justify-between items-center mb-1">
-                  <h3 className={`text-xl font-bold font-heading ${activeIdx === idx ? 'text-fario-lime' : 'text-white group-hover:text-gray-200'}`}>
+                  <h3 className={`text-xl font-bold font-heading ${activeIdx === idx ? '' : 'text-white group-hover:text-gray-200'}`}
+                    style={{ color: activeIdx === idx ? LIME : undefined }}
+                  >
                     {feature.title}
                   </h3>
                   {activeIdx === idx && (
-                    <motion.div layoutId="active-dot" className="w-2 h-2 bg-fario-lime rounded-full" />
+                    <motion.div layoutId="active-dot" className="w-2 h-2 rounded-full" style={{ background: LIME }} />
                   )}
                 </div>
                 <p className={`text-sm ${activeIdx === idx ? 'text-gray-300' : 'text-gray-500'}`}>
@@ -241,10 +246,10 @@ const InfographicSection: React.FC = () => {
           <div className="lg:w-1/2 min-h-[300px] lg:min-h-[400px] bg-black/40 rounded-[2.5rem] border border-white/10 relative flex items-center justify-center overflow-hidden">
 
             {/* Tech Overlay Lines -> Rounded for Shoe Aesthetic */}
-            <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 border-fario-lime rounded-tl-2xl opacity-40"></div>
-            <div className="absolute bottom-8 right-8 w-12 h-12 border-b-2 border-r-2 border-fario-lime rounded-br-2xl opacity-40"></div>
+            <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 rounded-tl-2xl opacity-40" style={{ borderColor: LIME }}></div>
+            <div className="absolute bottom-8 right-8 w-12 h-12 border-b-2 border-r-2 rounded-br-2xl opacity-40" style={{ borderColor: LIME }}></div>
 
-            <div className="absolute top-8 right-8 text-xs font-bold font-heading text-fario-lime opacity-60 tracking-widest">
+            <div className="absolute top-8 right-8 text-xs font-bold font-heading opacity-60 tracking-widest" style={{ color: LIME }}>
               MATERIAL.LAB // 0{activeIdx + 1}
             </div>
 
@@ -266,7 +271,7 @@ const InfographicSection: React.FC = () => {
       </div>
 
       {/* Jagged Bottom Edge */}
-      <div className="absolute bottom-0 left-0 w-full h-12 bg-fario-dark clip-path-jagged-top z-10"></div>
+      <div className="absolute bottom-0 left-0 w-full h-12 clip-path-jagged-top z-10" style={{ background: BG_DARK }}></div>
     </section>
   );
 };

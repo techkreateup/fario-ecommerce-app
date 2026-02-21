@@ -154,7 +154,18 @@ export const ProfileVault: React.FC = () => {
 
                                     <div className="mt-auto pt-6 flex flex-wrap gap-3">
                                         <button
-                                            onClick={() => addToCart({ ...item, quantity: 1 }, "Default")}
+                                            onClick={() => addToCart({
+                                                id: item.id,
+                                                name: item.name,
+                                                price: item.price,
+                                                image: item.image,
+                                                description: item.description,
+                                                category: 'Shoes', // Assuming Shoes for mock
+                                                features: [],
+                                                gender: 'Unisex',
+                                                originalPrice: item.originalPrice,
+                                                sizes: item.specs,
+                                            } as any, item.specs?.[0] || 'Default')}
                                             className="flex-1 sm:flex-none px-8 py-3 bg-fario-purple text-white rounded-full font-bold text-sm hover:bg-fario-teal transition-all shadow-lg shadow-fario-purple/20 active:scale-95 flex items-center justify-center gap-2"
                                         >
                                             Add to Cart

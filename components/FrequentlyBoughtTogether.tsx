@@ -11,7 +11,7 @@ interface Props {
 
 const FrequentlyBoughtTogether: React.FC<Props> = ({ mainProduct }) => {
     const { addToCart } = useCart();
-    const { toast } = useToast();
+    const toast = useToast();
 
     // Smart Suggestion Logic
     const suggestedProduct = useMemo(() => {
@@ -30,8 +30,8 @@ const FrequentlyBoughtTogether: React.FC<Props> = ({ mainProduct }) => {
     const totalOriginal = (mainProduct.originalPrice || 0) + (suggestedProduct.originalPrice || 0);
 
     const handleAddBundle = () => {
-        addToCart(mainProduct, 1, mainProduct.sizes?.[0] || 'OS', mainProduct.colors?.[0] || 'Default');
-        addToCart(suggestedProduct, 1, suggestedProduct.sizes?.[0] || 'OS', suggestedProduct.colors?.[0] || 'Default');
+        addToCart(mainProduct as any, mainProduct.sizes?.[0] || 'OS', mainProduct.colors?.[0] || 'Default');
+        addToCart(suggestedProduct as any, suggestedProduct.sizes?.[0] || 'OS', suggestedProduct.colors?.[0] || 'Default');
         toast.success('Bundle successfully added to your cart!');
     };
 
