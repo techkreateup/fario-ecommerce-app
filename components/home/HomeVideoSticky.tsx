@@ -15,9 +15,9 @@ export const HomeVideoSticky = () => {
             {/* Sticky vid */}
             <div className="w-full md:w-1/2 h-[55vh] md:h-screen md:sticky md:top-0 overflow-hidden relative">
                 <VidEl src={V2} poster={HL3.e} cls="opacity-65" />
-                <div className="absolute inset-0" style={{ background: 'rgba(26,13,46,0.45)' }} />
+                <div className="absolute inset-0" style={{ background: 'rgba(26,13,46,0.2)' }} />
                 <div className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to right, transparent 30%, rgba(26,13,46,0.85) 100%)' }}
+                    style={{ background: 'linear-gradient(to right, transparent 30%, rgba(26,13,46,0.4) 100%)' }}
                 />
                 {/* Lime scan line */}
                 <motion.div className="absolute left-0 right-0 h-px pointer-events-none"
@@ -49,7 +49,7 @@ export const HomeVideoSticky = () => {
                             className="font-heading font-black uppercase tracking-tighter leading-none mb-1"
                             style={{
                                 fontSize: 'clamp(42px, 7vw, 92px)',
-                                color: i === 1 ? 'transparent' : MILKY,
+                                color: i === 1 ? 'transparent' : LIME,
                                 WebkitTextStroke: i === 1 ? `2px ${LIME}` : undefined,
                             }}
                         >{w}</motion.div>
@@ -59,7 +59,7 @@ export const HomeVideoSticky = () => {
                 <motion.p
                     initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.8 }}
-                    className="text-base leading-loose mt-10 mb-12 max-w-md" style={{ color: MILKY, opacity: 0.6 }}
+                    className="text-base leading-loose mt-10 mb-12 max-w-md" style={{ color: LIME, opacity: 0.9 }}
                 >Every stitch deliberate. Every sole tested. 14 stages before they reach you.</motion.p>
 
                 <motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}>
