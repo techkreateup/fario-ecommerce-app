@@ -17,12 +17,12 @@ export const HomeHero = () => {
         >
             {/* VIDEO */}
             <motion.div style={{ y: vY }} className="absolute inset-0 scale-110">
-                <VidEl src={V1} poster={HL3.a} cls="opacity-45" />
+                <VidEl src={V1} poster={HL3.a} cls="opacity-80" />
                 <div className="absolute inset-0"
-                    style={{ background: `linear-gradient(to top, ${BG_DARK2} 0%, rgba(26,13,46,0.70) 45%, rgba(122,81,160,0.18) 100%)` }}
+                    style={{ background: `linear-gradient(to top, ${BG_DARK2} 0%, rgba(26,13,46,0.35) 45%, rgba(122,81,160,0.10) 100%)` }}
                 />
                 <div className="absolute inset-0"
-                    style={{ background: `linear-gradient(to right, rgba(26,13,46,0.80) 0%, transparent 55%)` }}
+                    style={{ background: `linear-gradient(to right, rgba(26,13,46,0.50) 0%, transparent 55%)` }}
                 />
             </motion.div>
 
@@ -59,7 +59,7 @@ export const HomeHero = () => {
                 >✧ New Delhi · Est. 2024 · Collection 2026</motion.div>
 
                 <h1 className="font-heading font-black uppercase tracking-tighter leading-[0.85] mb-8"
-                    style={{ fontSize: 'clamp(68px, 13vw, 170px)', color: MILKY }}
+                    style={{ fontSize: 'clamp(54px, 10vw, 130px)', color: MILKY }}
                 >
                     <div className="overflow-hidden"><SplitText text="Born" cls="block" /></div>
                     <div className="overflow-hidden"><SplitText text="for" cls="block" delay={0.14} stroke={LIME} /></div>
