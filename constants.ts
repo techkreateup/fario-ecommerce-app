@@ -94,7 +94,7 @@ export const ASSETS = {
   // Official Licensed Logo: F=White, BG=Purple Circle
   logo: getAssetPath("fario-logo.png"),
   // Using LOCAL images for 100% reliability - no Google Drive issues!
-  heroShoe: getAssetPath("shoe-edustep.jpg"),
+  heroShoe: "https://lh3.googleusercontent.com/d/1tEuedCwZYRWL-aYCOXY46bXCBcnyVuU-",
   brandVideo: "https://drive.google.com/uc?export=download&id=1fuEGW4xFcdZUiKTrfRNEovuefrB0xqWx",
   products: {
     // All images now stored locally in /public folder
