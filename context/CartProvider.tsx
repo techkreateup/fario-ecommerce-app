@@ -666,11 +666,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const controller = new AbortController();
       const fetchTimeout = setTimeout(() => controller.abort(), 30000);
 
-      // 🔐 SECURE: Get Session Token via Supabase client to avoid JWT expiration
+      // 🔐 SECURE: Extract auth token from localStorage directly (getSession() hangs)
       let authToken = '';
       try {
-        const { data: { session } } = await import('../lib/supabase').then(m => m.supabase.auth.getSession());
-        authToken = session?.access_token || '';
+        const storageKey = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+        if (storageKey) {
+          const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
+          authToken = stored?.access_token || '';
+        }
       } catch { /* fallback */ }
 
       if (!authToken) {
