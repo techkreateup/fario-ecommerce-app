@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as RouterDOM from 'react-router-dom';
-import { ChevronRight, AlertCircle, Check, X, Eye, EyeOff } from 'lucide-react';
+import { ChevronRight, AlertCircle, Check, Eye, EyeOff } from 'lucide-react';
 
 const { Link, useNavigate } = RouterDOM as any;
 
@@ -27,6 +27,7 @@ const ProfileSecurity: React.FC = () => {
             const timer = setTimeout(() => setSuccess(null), 3000);
             return () => clearTimeout(timer);
         }
+        return undefined;
     }, [success]);
 
     const startEdit = (field: 'NAME' | 'MOBILE' | 'PASSWORD') => {
