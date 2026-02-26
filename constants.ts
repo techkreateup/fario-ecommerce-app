@@ -1,5 +1,5 @@
 
-import { NavItem, Product, FeaturePoint, InfographicStep, Order, Review } from './types';
+import { NavItem, Product, FeaturePoint, InfographicStep, Order } from './types';
 
 export const GOOGLE_CLIENT_ID = "202334296408-h9doaqongegl5g3help29f84co4oehpd.apps.googleusercontent.com";
 
@@ -91,15 +91,15 @@ export const ASSETS = {
   heroShoe: "https://lh3.googleusercontent.com/d/1tEuedCwZYRWL-aYCOXY46bXCBcnyVuU-",
   brandVideo: "https://drive.google.com/uc?export=download&id=1fuEGW4xFcdZUiKTrfRNEovuefrB0xqWx",
   products: {
-    // All images now stored locally in /public folder
-    shoe1: getAssetPath("shoe-velcro-2.png"),
-    shoe2: getAssetPath("shoe-lifestyle.jpg"),
-    schoolShoe: getAssetPath("shoe-lifestyle.jpg"),
-    bag1: getAssetPath("shoe-lifestyle.jpg"), // Reusing until you provide bag image
-    socks1: getAssetPath("shoe-lifestyle.jpg"), // Reusing until you provide socks image
-    tags: getAssetPath("shoe-edustep.jpg"),
-    kidsVelcro: getAssetPath("shoe-velcro-1.jpg"),
-    extra: getAssetPath("shoe-edustep.jpg"),
+    // Using robust remote fallback images to prevent broken galleries
+    shoe1: "https://lh3.googleusercontent.com/d/1tEuedCwZYRWL-aYCOXY46bXCBcnyVuU-",
+    shoe2: "https://lh3.googleusercontent.com/d/1pc6UNVFR889igs7LbnQml_DpWpVd5AP2",
+    schoolShoe: "https://lh3.googleusercontent.com/d/19UKGRbcIZHffq1xs56MekmVpgF90H2kr",
+    bag1: "https://lh3.googleusercontent.com/d/1JAkZKl652biLyzUdO5X05Y4s7a1AsqPU",
+    socks1: "https://lh3.googleusercontent.com/d/1BB5uMVdb66bRJLUgle-vUkLaKyK1gC-i",
+    tags: "https://lh3.googleusercontent.com/d/1P2Rdo8iTmbVCLJ7bKG8SRiYdjoiEl5TZ",
+    kidsVelcro: "https://lh3.googleusercontent.com/d/1fm0yzmL6IQktGcvEZ34X3hF3YaVqcYoC",
+    extra: "https://lh3.googleusercontent.com/d/1tEuedCwZYRWL-aYCOXY46bXCBcnyVuU-",
   }
 };
 
