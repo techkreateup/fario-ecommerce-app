@@ -133,10 +133,32 @@ const ProductDetail: React.FC = () => {
             return;
          }
 
+         // Fetch user's orders to verify purchase and get a legitimate orderid
+         const { data: userOrders } = await supabase
+            .from('orders')
+            .select('id, items, status')
+            .eq('user_id', user.id);
+
+         let validOrderId = null;
+         if (userOrders && userOrders.length > 0) {
+            for (const order of userOrders) {
+               const items = order.items || [];
+               if (items.some((item: any) => item.id === product.id || item.product_id === product.id)) {
+                  validOrderId = order.id;
+                  break;
+               }
+            }
+         }
+
+         if (!validOrderId) {
+            toast.error("You can only review products you have purchased.");
+            return;
+         }
+
          const { error } = await supabase.from('reviews').insert([{
             productid: product.id,
-            orderid: 'direct-review',
-            user_id: user.id || null,
+            orderid: validOrderId,
+            user_id: user.id,
             useremail: user.email || 'Verified Customer',
             rating: newReview.rating,
             comment: newReview.title ? `${newReview.title}\n\n${newReview.text}` : newReview.text,
