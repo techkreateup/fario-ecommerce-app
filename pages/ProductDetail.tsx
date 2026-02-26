@@ -135,6 +135,7 @@ const ProductDetail: React.FC = () => {
 
          const { error } = await supabase.from('reviews').insert([{
             productid: product.id,
+            orderid: 'direct-review',
             user_id: user.id || null,
             useremail: user.email || 'Verified Customer',
             rating: newReview.rating,

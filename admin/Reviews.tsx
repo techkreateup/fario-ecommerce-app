@@ -10,13 +10,11 @@ import { useToast } from '../context/ToastContext';
 
 interface Review {
     id: string;
-    product_id: string;
-    user_name: string;
+    productid: string;
+    useremail: string;
     rating: number;
-    title: string;
     comment: string;
-    is_verified_purchase: boolean;
-    created_at: string;
+    createdat: string;
     product?: {
         name: string;
         image: string;
@@ -44,10 +42,9 @@ const AdminReviews: React.FC = () => {
             const { data, error } = await supabase
                 .from('reviews')
                 .select(`
-                    *,
-                    product:products(name, image)
+                    id, productid, useremail, rating, comment, createdat
                 `)
-                .order('created_at', { ascending: false });
+                .order('createdat', { ascending: false });
 
             if (error) throw error;
             setReviews(data || []);
@@ -119,27 +116,23 @@ const AdminReviews: React.FC = () => {
                         {filteredReviews.map((review) => (
                             <div key={review.id} className="p-6 md:p-8 hover:bg-gray-50/50 transition-colors group">
                                 <div className="flex flex-col md:flex-row gap-6">
-                                    {/* Product Thumb */}
+                                    {/* Removed product image fetch for now to prevent broken relation mapping */}
                                     <div className="w-16 h-16 bg-gray-100 rounded-xl overflow-hidden shrink-0 border border-gray-200">
-                                        {review.product?.image ? (
-                                            <img src={review.product.image} className="w-full h-full object-contain mix-blend-multiply" />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-gray-300"><Tag size={20} /></div>
-                                        )}
+                                        <div className="w-full h-full flex items-center justify-center text-gray-300"><Tag size={20} /></div>
                                     </div>
 
                                     <div className="flex-1">
                                         <div className="flex justify-between items-start mb-2">
                                             <div>
-                                                <h3 className="font-bold text-slate-900 text-sm mb-1">{review.title}</h3>
+                                                <h3 className="font-bold text-slate-900 text-sm mb-1">{review.comment.split('\n')[0].substring(0, 50)}</h3>
                                                 <div className="flex items-center gap-2 text-[10px] text-gray-500 font-bold uppercase tracking-wide">
                                                     <span className="flex text-yellow-400">
                                                         {[...Array(5)].map((_, i) => (
                                                             <Star key={i} size={10} className={i < review.rating ? "fill-current" : "text-gray-200 fill-gray-200"} />
                                                         ))}
                                                     </span>
-                                                    <span>• {review.user_name}</span>
-                                                    <span>• {new Date(review.created_at).toLocaleDateString()}</span>
+                                                    <span>• {review.useremail}</span>
+                                                    <span>• {new Date(review.createdat).toLocaleDateString()}</span>
                                                 </div>
                                             </div>
                                             <button
@@ -152,11 +145,9 @@ const AdminReviews: React.FC = () => {
                                         <p className="text-sm text-gray-600 leading-relaxed max-w-3xl">
                                             "{review.comment}"
                                         </p>
-                                        {review.product && (
-                                            <div className="mt-3 flex items-center gap-2 text-[10px] font-bold text-fario-purple uppercase tracking-wider">
-                                                <span>Product: {review.product.name}</span>
-                                            </div>
-                                        )}
+                                        <div className="mt-3 flex items-center gap-2 text-[10px] font-bold text-fario-purple uppercase tracking-wider">
+                                            <span>Product ID: {review.productid}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
