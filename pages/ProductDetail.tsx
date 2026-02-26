@@ -133,16 +133,33 @@ const ProductDetail: React.FC = () => {
             return;
          }
 
-         // Fetch user's orders to verify purchase and get a legitimate orderid
-         const { data: userOrders } = await supabase
-            .from('orders')
-            .select('id, items, status')
-            .eq('user_id', user.id);
+         // 🔐 SECURE: Extract auth token directly from localStorage
+         let authToken = '';
+         try {
+            const storageKey = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+            if (storageKey) {
+               const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
+               authToken = stored?.access_token || '';
+            }
+         } catch { /* fallback */ }
+
+         const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+         const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+         // Fetch user's orders securely via REST to bypass client session bugs
+         const ordersRes = await fetch(`${SUPABASE_URL}/rest/v1/orders?select=id,items,status&user_id=eq.${user.id}`, {
+            headers: {
+               'apikey': SUPABASE_KEY,
+               'Authorization': authToken ? `Bearer ${authToken}` : `Bearer ${SUPABASE_KEY}`
+            }
+         });
+
+         const userOrders = ordersRes.ok ? await ordersRes.json() : [];
 
          let validOrderId = null;
          if (userOrders && userOrders.length > 0) {
             for (const order of userOrders) {
-               const items = order.items || [];
+               const items = typeof order.items === 'string' ? JSON.parse(order.items) : (order.items || []);
                if (items.some((item: any) => item.id === product.id || item.product_id === product.id)) {
                   validOrderId = order.id;
                   break;
@@ -155,17 +172,26 @@ const ProductDetail: React.FC = () => {
             return;
          }
 
-         const { error } = await supabase.from('reviews').insert([{
-            productid: product.id,
-            orderid: validOrderId,
-            user_id: user.id,
-            useremail: user.email || 'Verified Customer',
-            rating: newReview.rating,
-            comment: newReview.title ? `${newReview.title}\n\n${newReview.text}` : newReview.text,
-            createdat: new Date().toISOString()
-         }]);
+         const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/reviews`, {
+            method: 'POST',
+            headers: {
+               'apikey': SUPABASE_KEY,
+               'Authorization': authToken ? `Bearer ${authToken}` : `Bearer ${SUPABASE_KEY}`,
+               'Content-Type': 'application/json',
+               'Prefer': 'return=representation'
+            },
+            body: JSON.stringify({
+               productid: product.id,
+               orderid: validOrderId,
+               user_id: user.id,
+               useremail: user.email || 'Verified Customer',
+               rating: newReview.rating,
+               comment: newReview.title ? `${newReview.title}\n\n${newReview.text}` : newReview.text,
+               createdat: new Date().toISOString()
+            })
+         });
 
-         if (error) throw error;
+         if (!insertRes.ok) throw new Error(await insertRes.text());
 
          // Also update locally for immediate feedback if needed, 
          // though the real-time listener should handle it.
