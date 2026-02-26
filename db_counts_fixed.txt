@@ -1,0 +1,15 @@
+
+=========================================
+📊 FARIO DATABASE AUDIT (LIVE DATA)
+=========================================
+
+➔ Table [ PROFILES     ] :    0 rows
+➔ Table [ PRODUCTS     ] :    7 rows
+➔ Table [ ORDERS       ] :    0 rows
+➔ Table [ CART_ITEMS   ] :    0 rows
+➔ Table [ REVIEWS      ] :    0 rows
+➔ Table [ COUPONS      ] :    4 rows
+➔ Table [ LOGS         ] :    0 rows
+➔ Table [ RETURNS      ] :    0 rows
+
+=========================================
