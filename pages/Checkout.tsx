@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ShieldCheck, Lock, Check, CreditCard, Loader2, Plus } from 'lucide-react';
+import { ShieldCheck, Lock, Check, CreditCard, Loader2, Plus, Ticket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartProvider';
 import { useAuth } from '../context/AuthContext';
@@ -11,7 +11,7 @@ import { Turnstile } from '@marsidev/react-turnstile';
 const Checkout: React.FC = () => {
     const navigate = useNavigate();
     const toast = useToast();
-    const { cartItems, placeOrder, cartTotal, discountAmount, coupon } = useCart();
+    const { cartItems, placeOrder, cartTotal, discountAmount, coupon, userCoupons, applyCoupon, removeCoupon } = useCart();
 
     const isPlacingOrder = React.useRef(false);
 
@@ -682,6 +682,61 @@ const Checkout: React.FC = () => {
                                 </div>
                                 <h3 className="text-2xl font-black text-white font-heading uppercase italic tracking-tighter leading-none mb-2">Crafted for Excellence</h3>
                                 <p className="text-white/40 text-[10px] font-medium uppercase tracking-widest leading-relaxed">Every Fario product undergoes 14 stages of rigorous testing to ensure it meets our elite standards.</p>
+                            </div>
+                        </div>
+
+                        {/* AVAILABLE COUPONS */}
+                        <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden mb-6">
+                            <div className="p-4 border-b border-gray-100 bg-fario-purple/5">
+                                <h3 className="text-gray-900 font-bold uppercase tracking-wider text-sm flex items-center justify-between">
+                                    <span className="flex items-center gap-2"><Ticket size={16} className="text-fario-purple" /> My Rewards & Coupons</span>
+                                    {userCoupons?.length > 0 && <span className="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full">{userCoupons.length} Available</span>}
+                                </h3>
+                            </div>
+                            <div className="p-4 space-y-3 max-h-60 overflow-y-auto">
+                                {userCoupons && userCoupons.length > 0 ? (
+                                    userCoupons.map((c: any) => (
+                                        <div key={c.id} className="border border-dashed border-emerald-300 bg-emerald-50 rounded-lg p-3 relative overflow-hidden transition-all hover:shadow-md cursor-pointer" onClick={() => applyCoupon(c.coupon_code)}>
+                                            <div className="absolute -right-4 -top-4 w-12 h-12 bg-emerald-200 rounded-full opacity-50"></div>
+                                            <div className="flex justify-between items-center relative z-10">
+                                                <div>
+                                                    <div className="font-bold text-emerald-800 text-sm uppercase tracking-wide">{c.coupon_code}</div>
+                                                    <div className="text-xs text-emerald-600 mt-0.5 font-medium">
+                                                        {c.discount_type === 'percentage' ? `${c.discount_value}% OFF` : c.discount_type === 'freebie' ? 'FREE GIFT' : `Rs. ${c.discount_value} OFF`}
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    onClick={(e) => { e.stopPropagation(); applyCoupon(c.coupon_code); }}
+                                                    className="text-[10px] font-bold uppercase bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition-colors shadow-sm"
+                                                >
+                                                    Apply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="text-center text-gray-500 text-xs py-4 px-2">
+                                        No rewards available yet. Spin the wheel on the homepage to win!
+                                    </div>
+                                )}
+
+                                {/* Simple manual coupon input */}
+                                <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+                                    <input type="text" id="manual_coupon" placeholder="Have a Code?" className="w-full text-xs font-medium border border-gray-300 rounded-sm px-3 py-2 uppercase outline-none focus:border-fario-purple" />
+                                    <button onClick={() => {
+                                        const input = document.getElementById('manual_coupon') as HTMLInputElement;
+                                        if (input && input.value) applyCoupon(input.value);
+                                    }} className="bg-gray-900 text-white text-xs font-bold uppercase px-6 py-2 rounded-sm hover:bg-black transition-colors">Apply</button>
+                                </div>
+
+                                <AnimatePresence>
+                                    {coupon && (
+                                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="mt-3 bg-emerald-50 text-emerald-800 text-xs p-3 rounded-md flex justify-between items-center border border-emerald-100">
+                                            <span className="font-bold flex items-center gap-2"><Check size={14} className="text-emerald-500" /> Applied: {coupon.code}</span>
+                                            <button onClick={() => removeCoupon()} className="text-red-500 font-bold hover:underline">Remove</button>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
                         </div>
 

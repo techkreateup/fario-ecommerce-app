@@ -43,6 +43,8 @@ interface CartContextType {
   // Coupon System
   coupon: Coupon | null;
   discountAmount: number;
+  userCoupons: any[];
+  fetchUserCoupons: () => Promise<void>;
   applyCoupon: (code: string) => Promise<boolean>;
   removeCoupon: () => void;
 
@@ -93,6 +95,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [walletBalance] = useState(0);
   const [loyaltyPoints] = useState(0);
   const [coupon, setCoupon] = useState<Coupon | null>(null);
+  const [userCoupons, setUserCoupons] = useState<any[]>([]);
 
   // Real-time Catalog Sync
   useEffect(() => {
@@ -711,8 +714,32 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       const orderResult = await response.json();
       console.log('✅ ORDER SUCCESS:', orderResult);
+
+      // If a user coupon was applied, mark it as used by removing it from metadata
+      if (coupon && (coupon as any).id && user) {
+        try {
+          const existingCoupons = user.user_metadata?.spin_coupons || [];
+          const updatedCoupons = existingCoupons.filter((c: any) => c.id !== (coupon as any).id);
+
+          await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+            method: 'PUT',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${session?.access_token || SUPABASE_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: { spin_coupons: updatedCoupons } })
+          });
+          // Refresh local coupons state via metadata
+          setUserCoupons(updatedCoupons);
+        } catch (e) {
+          console.error("Failed to mark coupon as used in metadata", e);
+        }
+      }
+
       toast.success('Order placed successfully!');
       clearCart();
+      setCoupon(null);
       setRefreshTrigger(prev => prev + 1);
       return true;
     } catch (err: unknown) {
@@ -755,6 +782,44 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const cartTotal = subTotal - discountAmount;
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
+  const fetchUserCoupons = async () => {
+    if (!user || !session?.access_token) return;
+    try {
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+      const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        method: 'GET',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const coupons = data?.user_metadata?.spin_coupons || [];
+        setUserCoupons(coupons);
+      } else {
+        // Fallback to local user state if API fails
+        const coupons = user.user_metadata?.spin_coupons || [];
+        setUserCoupons(coupons);
+      }
+    } catch (err) {
+      console.error("Failed to fetch fresh user coupons", err);
+      // Fallback
+      setUserCoupons(user.user_metadata?.spin_coupons || []);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchUserCoupons();
+    } else {
+      setUserCoupons([]);
+    }
+  }, [user, session]);
+
   const applyCoupon = async (code: string): Promise<boolean> => {
     try {
       if (!user) {
@@ -787,33 +852,56 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       const data = await response.json();
 
-      if (!data || data.length === 0) {
+      let couponData;
+      let isUserCoupon = false;
+
+      // Check global coupons first
+      if (data && data.length > 0) {
+        couponData = data[0];
+      } else {
+        // Fallback: Check user_metadata (Spin Wheel rewards)
+        const userCouponsList = user.user_metadata?.spin_coupons || [];
+        const found = userCouponsList.find((c: any) => c.coupon_code.toUpperCase() === code.toUpperCase());
+        if (found) {
+          couponData = found;
+          isUserCoupon = true;
+        }
+      }
+
+      if (!couponData) {
         toast.error("Invalid or expired coupon code");
         return false;
       }
 
-      const couponData = data[0];
+      if (!isUserCoupon) {
+        // Check requirements for global coupons
+        if (subTotal < couponData.min_order_value) {
+          toast.error(`Minimum order value of ₹${couponData.min_order_value} required`);
+          return false;
+        }
 
-      // Check requirements
-      if (subTotal < couponData.min_order_value) {
-        toast.error(`Minimum order value of ₹${couponData.min_order_value} required`);
-        return false;
-      }
-
-      // Check usage limit
-      if (couponData.usage_limit > 0 && couponData.used_count >= couponData.usage_limit) {
-        toast.error("Coupon usage limit reached");
-        return false;
+        // Check usage limit
+        if (couponData.usage_limit > 0 && couponData.used_count >= couponData.usage_limit) {
+          toast.error("Coupon usage limit reached");
+          return false;
+        }
+      } else {
+        // Check requirements for user coupons (Freebies might require a min order)
+        if (couponData.discount_type === 'freebie' && subTotal < 500) {
+          toast.error("Free bag applies on orders over ₹500");
+          return false;
+        }
       }
 
       setCoupon({
-        code: couponData.code,
+        id: couponData.id,
+        code: couponData.code || couponData.coupon_code,
         discount_type: couponData.discount_type,
-        value: couponData.value,
-        min_order_value: couponData.min_order_value
+        value: couponData.value || couponData.discount_value,
+        min_order_value: couponData.min_order_value || 0
       });
 
-      toast.success(`Coupon ${couponData.code} applied!`);
+      toast.success(`${isUserCoupon ? 'Reward' : 'Coupon'} applied successfully!`);
       return true;
 
     } catch (err) {
@@ -839,6 +927,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setHasSubscribed,
       isLoading,
       refreshTrigger,
+      userCoupons,
+      fetchUserCoupons,
       addToCart,
       removeFromCart,
       updateQuantity,

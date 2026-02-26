@@ -130,8 +130,9 @@ export interface ShoeCustomization {
 }
 
 export interface Coupon {
+  id?: string;
   code: string;
-  discount_type: 'percentage' | 'fixed';
+  discount_type: 'percentage' | 'fixed' | 'freebie';
   value: number;
   min_order_value: number;
 }

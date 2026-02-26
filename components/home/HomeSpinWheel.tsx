@@ -2,24 +2,28 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 const SPIN_DATE_KEY = 'fario_last_spin_date';
 const SPIN_RESULT_KEY = 'fario_spin_result';
 
 const SLOTS = [
-    { id: 0, label: '5% OFF', emoji: '🎯', color: '#7C3AED', text: '#fff', isWin: true },
-    { id: 1, label: 'Try Again', emoji: '🔄', color: '#1a0d2e', text: '#d9f99d', isWin: false },
-    { id: 2, label: 'FREE BAG', emoji: '🎒', color: '#d9f99d', text: '#0e3039', isWin: true },
-    { id: 3, label: 'Try Again', emoji: '🔄', color: '#2d1459', text: '#a78bfa', isWin: false },
-    { id: 4, label: 'Try Again', emoji: '🔄', color: '#1a0d2e', text: '#d9f99d', isWin: false },
-    { id: 5, label: '₹200 OFF', emoji: '💸', color: '#4C1D95', text: '#fff', isWin: false },
-    { id: 6, label: 'Try Again', emoji: '🔄', color: '#2d1459', text: '#a78bfa', isWin: false },
-    { id: 7, label: 'Try Again', emoji: '🔄', color: '#0f0820', text: '#d9f99d', isWin: false },
-    { id: 8, label: '10% OFF', emoji: '💰', color: '#5B21B6', text: '#fff', isWin: false },
-    { id: 9, label: 'Try Again', emoji: '🔄', color: '#1a0d2e', text: '#a78bfa', isWin: false },
+    { id: 0, label: '5% OFF', emoji: '🎯', color: '#7C3AED', text: '#fff', isWin: true, type: 'percentage', val: 5 },
+    { id: 1, label: 'Try Again', emoji: '🔄', color: '#1a0d2e', text: '#d9f99d', isWin: false, type: 'none', val: 0 },
+    { id: 2, label: 'FREE BAG', emoji: '🎒', color: '#d9f99d', text: '#0e3039', isWin: true, type: 'freebie', val: 0 },
+    { id: 3, label: 'Try Again', emoji: '🔄', color: '#2d1459', text: '#a78bfa', isWin: false, type: 'none', val: 0 },
+    { id: 4, label: 'Try Again', emoji: '🔄', color: '#1a0d2e', text: '#d9f99d', isWin: false, type: 'none', val: 0 },
+    { id: 5, label: '₹200 OFF', emoji: '💸', color: '#4C1D95', text: '#fff', isWin: true, type: 'fixed', val: 200 },
+    { id: 6, label: 'Try Again', emoji: '🔄', color: '#2d1459', text: '#a78bfa', isWin: false, type: 'none', val: 0 },
+    { id: 7, label: 'Try Again', emoji: '🔄', color: '#0f0820', text: '#d9f99d', isWin: false, type: 'none', val: 0 },
+    { id: 8, label: '10% OFF', emoji: '💰', color: '#5B21B6', text: '#fff', isWin: true, type: 'percentage', val: 10 },
+    { id: 9, label: 'Try Again', emoji: '🔄', color: '#1a0d2e', text: '#a78bfa', isWin: false, type: 'none', val: 0 },
 ];
-const WIN_INDICES = [0, 2]; // 5% OFF and FREE BAG
+const WIN_INDICES = [0, 2, 5, 8]; // 5% OFF, FREE BAG, ₹200 OFF, 10% OFF
 const LOSS_INDICES = [1, 3, 4, 6, 7, 9];
 const SEG = 360 / SLOTS.length;
 
@@ -108,13 +112,15 @@ const Needle = () => (
 
 // ── MAIN ─────────────────────────────────────────────────────────────────────
 export const HomeSpinWheel: React.FC = () => {
-    const { user } = useAuth();
+    const { user, session } = useAuth();
     const navigate = useNavigate();
     const [rotation, setRotation] = useState(0);
     const [spinning, setSpinning] = useState(false);
+    const [saving, setSaving] = useState(false);
     const [result, setResult] = useState<typeof SLOTS[0] | null>(null);
     const [done, setDone] = useState(hasSpunToday());
     const [showModal, setShowModal] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const spin = useCallback(() => {
         if (!user || spinning || done) return;
@@ -123,15 +129,57 @@ export const HomeSpinWheel: React.FC = () => {
         const finalRot = targetRotation(idx, rotation);
         setSpinning(true);
         setShowModal(false);
+        setErrorMsg('');
         setRotation(finalRot);
-        setTimeout(() => {
+        setTimeout(async () => {
             markSpunToday(slot.label);
             setSpinning(false);
             setDone(true);
             setResult(slot);
+
+            // If they won, save it directly to the database in real-time
+            if (slot.isWin && session?.access_token) {
+                setSaving(true);
+                try {
+                    const code = `SPIN${slot.val > 0 ? slot.val : 'FREE'}${Math.floor(Math.random() * 1000)}`;
+                    const newCoupon = {
+                        id: crypto.randomUUID(),
+                        coupon_code: code,
+                        discount_type: slot.type,
+                        discount_value: slot.val,
+                        created_at: new Date().toISOString()
+                    };
+
+                    const existingCoupons = user.user_metadata?.spin_coupons || [];
+
+                    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+                        method: 'PUT',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${session.access_token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            data: {
+                                spin_coupons: [...existingCoupons, newCoupon]
+                            }
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const errText = await res.text();
+                        console.error("Spin save error:", errText);
+                        setErrorMsg('Note: We had a slight issue saving your coupon to the cloud, please screenshot this!');
+                    }
+                } catch (e) {
+                    console.error('Error claiming coupon:', e);
+                } finally {
+                    setSaving(false);
+                }
+            }
             setShowModal(true);
         }, 4800);
-    }, [user, spinning, done, rotation]);
+    }, [user, session, spinning, done, rotation]);
 
     const isLocked = !user || done;
     const lockReason = !user ? 'Sign in to spin' : 'Come back tomorrow!';
@@ -268,15 +316,26 @@ export const HomeSpinWheel: React.FC = () => {
                                 {result.isWin ? result.label : 'Better luck tomorrow 🤞'}
                             </p>
                             {result.isWin && (
-                                <p className="text-xs text-white/40 mb-6 mt-2">
-                                    Your coupon code has been saved. Apply at checkout.
+                                <p className="text-xs text-white/40 mb-2 mt-2">
+                                    Your coupon code has been securely saved to your account. You can apply it seamlessly at checkout!
                                 </p>
                             )}
-                            <button onClick={() => setShowModal(false)}
-                                className="mt-4 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform"
-                                style={{ background: result.isWin ? '#d9f99d' : 'rgba(255,255,255,0.1)', color: result.isWin ? '#0f0820' : '#fff' }}>
-                                {result.isWin ? '🛒 Shop Now' : 'Close'}
-                            </button>
+                            {errorMsg && (
+                                <p className="text-xs text-red-400 mb-4">{errorMsg}</p>
+                            )}
+                            <div className="mt-4 flex flex-col gap-2">
+                                {saving ? (
+                                    <button disabled className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-black uppercase" style={{ background: 'rgba(255,255,255,0.1)', color: '#fff' }}>
+                                        <Loader2 size={16} className="animate-spin" /> MINTING COUPON...
+                                    </button>
+                                ) : (
+                                    <button onClick={() => { setShowModal(false); if (result.isWin) navigate('/cart'); }}
+                                        className="w-full px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform"
+                                        style={{ background: result.isWin ? '#d9f99d' : 'rgba(255,255,255,0.1)', color: result.isWin ? '#0f0820' : '#fff' }}>
+                                        {result.isWin ? '🛒 Claim & Shop' : 'Close'}
+                                    </button>
+                                )}
+                            </div>
                         </motion.div>
                     </motion.div>
                 )}
