@@ -63,14 +63,14 @@ const ProductDetail: React.FC = () => {
             const { data, error } = await supabase
                .from('reviews')
                .select('*')
-               .eq('product_id', product.id)
-               .order('created_at', { ascending: false });
+               .eq('productid', product.id)
+               .order('createdat', { ascending: false });
 
             if (!error && data) {
                const formatted = data.map((r: any) => ({
                   id: r.id,
-                  user: r.user_name || 'Verified User',
-                  date: new Date(r.created_at).toLocaleDateString(),
+                  user: r.useremail?.split('@')[0] || 'Verified User',
+                  date: new Date(r.createdat).toLocaleDateString(),
                   rating: r.rating,
                   title: r.rating >= 5 ? 'Excellent!' : 'Good Product',
                   text: r.comment,
@@ -88,12 +88,12 @@ const ProductDetail: React.FC = () => {
             channel = supabase
                .channel(`reviews-${product.id}`)
                .on('postgres_changes',
-                  { event: 'INSERT', schema: 'public', table: 'reviews', filter: `product_id=eq.${product.id}` },
+                  { event: 'INSERT', schema: 'public', table: 'reviews', filter: `productid=eq.${product.id}` },
                   (payload) => {
                      const r = payload.new;
                      const newReviewUI = {
                         id: r.id,
-                        user: r.user_name || 'Verified User',
+                        user: r.useremail?.split('@')[0] || 'Verified User',
                         date: 'Just Now',
                         rating: r.rating,
                         title: r.rating >= 5 ? 'Excellent!' : 'Good Product',
@@ -134,14 +134,12 @@ const ProductDetail: React.FC = () => {
          }
 
          const { error } = await supabase.from('reviews').insert([{
-            product_id: product.id,
-            user_id: user.id,
-            user_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Verified Customer',
+            productid: product.id,
+            user_id: user.id || null,
+            useremail: user.email || 'Verified Customer',
             rating: newReview.rating,
-            title: newReview.title,
-            comment: newReview.text,
-            is_verified_purchase: true, // Optimistic for now, logic can be stricter later
-            created_at: new Date().toISOString()
+            comment: newReview.title ? `${newReview.title}\n\n${newReview.text}` : newReview.text,
+            createdat: new Date().toISOString()
          }]);
 
          if (error) throw error;
