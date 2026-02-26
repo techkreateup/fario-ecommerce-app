@@ -6,6 +6,7 @@ type UserRole = 'user' | 'admin';
 
 interface AuthContextType {
     user: User | null;
+    session: any | null;
     role: UserRole;
     isAdmin: boolean;
     isLoading: boolean;
@@ -17,6 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [sessionState, setSessionState] = useState<any | null>(null);
     const [role, setRole] = useState<UserRole>('user');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -62,6 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                     const currentUser = session?.user ?? null;
                     setUser(currentUser);
+                    setSessionState(session);
 
                     if (currentUser) {
                         // OPTIMIZATION: Unblock UI immediately
@@ -94,11 +97,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (isAuthMounted) {
                 const currentUser = session?.user ?? null;
                 setUser(currentUser);
+                setSessionState(session);
 
                 if (currentUser) {
                     await fetchProfile(currentUser);
                 } else {
                     setUser(null);
+                    setSessionState(null);
                     setRole('user');
                 }
                 setIsLoading(false);
@@ -113,6 +118,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const value = {
         user,
+        session: sessionState,
         role,
         isAdmin: role === 'admin' || user?.email === 'reachkreateup@gmail.com' || user?.email === 'kreateuptech@gmail.com',
         isLoading,

@@ -74,7 +74,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const toast = useToast();
-  const { user } = useAuth();
+  const { user, session } = useAuth();
 
   // Shared Catalog State
   const [products, setProducts] = useState<EnhancedProduct[]>([]);
@@ -666,15 +666,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const controller = new AbortController();
       const fetchTimeout = setTimeout(() => controller.abort(), 30000);
 
-      // 🔐 SECURE: Extract auth token from localStorage directly (getSession() hangs)
-      let authToken = '';
-      try {
-        const storageKey = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
-        if (storageKey) {
-          const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
-          authToken = stored?.access_token || '';
-        }
-      } catch { /* fallback */ }
+      // 🔐 SECURE: Use session directly from AuthContext
+      const authToken = session?.access_token || '';
 
       if (!authToken) {
         console.warn("⚠️ No valid session found, falling back to Anon Key (Less Secure)");

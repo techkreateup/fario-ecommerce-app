@@ -30,7 +30,7 @@ const ProductDetail: React.FC = () => {
    const { products, addToCart } = useCart();
    const [bundleAdded, setBundleAdded] = useState(false);
    const { isInWishlist, toggleWishlist } = useWishlist();
-   const { user } = useAuth();
+   const { user, session } = useAuth();
    const toast = useToast();
 
    // Find product from Context or Constants (fallback)
@@ -126,22 +126,13 @@ const ProductDetail: React.FC = () => {
       if (!product) return;
 
       try {
-         const { supabase } = await import('../lib/supabase');
-
          if (!user) {
             toast.error("Please login to submit a review");
             return;
          }
 
-         // 🔐 SECURE: Extract auth token directly from localStorage
-         let authToken = '';
-         try {
-            const storageKey = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
-            if (storageKey) {
-               const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
-               authToken = stored?.access_token || '';
-            }
-         } catch { /* fallback */ }
+         // 🔐 SECURE: Use session directly from AuthContext
+         const authToken = session?.access_token || '';
 
          const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
          const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
