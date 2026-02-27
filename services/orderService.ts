@@ -271,7 +271,10 @@ export const orderService = {
                 `${SUPABASE_URL}/rest/v1/rpc/create_return_request`,
                 {
                     method: 'POST',
-                    headers,
+                    headers: {
+                        ...headers,
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         p_order_id: orderId,
                         p_user_id: _userId,
