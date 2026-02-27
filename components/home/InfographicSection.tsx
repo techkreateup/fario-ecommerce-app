@@ -12,6 +12,7 @@ const features = [
         {/* Abstract Mesh that breathes */}
         <motion.path
           d="M40,100 C40,60 160,60 160,100 C160,140 40,140 40,100 Z"
+          initial={{ d: "M40,100 C40,60 160,60 160,100 C160,140 40,140 40,100 Z" }}
           animate={{
             d: [
               "M40,100 C40,60 160,60 160,100 C160,140 40,140 40,100 Z",
@@ -25,6 +26,7 @@ const features = [
         />
         <motion.path
           d="M50,100 C50,70 150,70 150,100 C150,130 50,130 50,100 Z"
+          initial={{ d: "M50,100 C50,70 150,70 150,100 C150,130 50,130 50,100 Z" }}
           animate={{
             d: [
               "M50,100 C50,70 150,70 150,100 C150,130 50,130 50,100 Z",
@@ -41,6 +43,7 @@ const features = [
             key={i}
             x1={60 + i * 20} y1={60} x2={60 + i * 20} y2={140}
             strokeDasharray="4 4"
+            initial={{ y1: 60, y2: 140 }}
             animate={{ y1: [60, 50, 60], y2: [140, 150, 140] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.1 }}
           />
@@ -64,6 +67,7 @@ const features = [
             d={`M40,${140 - offset} Q100,${140 - offset} 160,${140 - offset}`}
             stroke="#7a51a0"
             strokeWidth="4"
+            initial={{ d: `M40,${140 - offset} Q100,${140 - offset} 160,${140 - offset}` }}
             animate={{
               d: [
                 `M40,${140 - offset} Q100,${140 - offset} 160,${140 - offset}`,
@@ -81,6 +85,7 @@ const features = [
           cy={100}
           r={15}
           fill="#d9f99d"
+          initial={{ cy: 100, scaleY: 1 }}
           animate={{ cy: [60, 120, 60], scaleY: [1, 0.8, 1] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "circInOut" }}
         />
@@ -89,6 +94,7 @@ const features = [
         <motion.ellipse
           cx={100} cy={140} rx={10} ry={2}
           stroke="#d9f99d"
+          initial={{ rx: 10, opacity: 1 }}
           animate={{ rx: [10, 40], opacity: [1, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
         />
@@ -110,6 +116,7 @@ const features = [
 
         <motion.rect
           x={0} y={0} width={200} height={200} fill="url(#tread)"
+          initial={{ y: 0 }}
           animate={{ y: [0, 40] }}
           transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
           mask="url(#circleMask)"
@@ -143,10 +150,10 @@ const features = [
         {[...Array(8)].map((_, i) => (
           <motion.circle
             key={i}
-            r={Math.random() * 3 + 2}
+            r={5}
             fill="#d9f99d"
-            initial={{ x: 70 + Math.random() * 60, y: 160, opacity: 0 }}
-            animate={{ y: 40, opacity: [0, 1, 0] }}
+            initial={{ cx: 70 + Math.random() * 60, cy: 160, opacity: 0 }}
+            animate={{ cy: 40, opacity: [0, 1, 0] }}
             transition={{
               duration: 2 + Math.random(),
               repeat: Infinity,
@@ -160,10 +167,11 @@ const features = [
         {[1, 2, 3].map(i => (
           <motion.path
             key={`line-${i}`}
-            d={`M${80 + i * 10},150 Q${90 + i * 10},120 ${80 + i * 10},90 T${80 + i * 10},30`}
+            d={`M${80 + (i || 0) * 10},150 Q${90 + (i || 0) * 10},120 ${80 + (i || 0) * 10},90 T${80 + (i || 0) * 10},30`}
             stroke="white"
             strokeOpacity="0.2"
             strokeDasharray="5 5"
+            initial={{ strokeDashoffset: 0 }}
             animate={{ strokeDashoffset: [0, -20] }}
             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
           />
