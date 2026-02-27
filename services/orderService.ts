@@ -281,15 +281,17 @@ export const orderService = {
                 }
             );
 
-            if (!response.ok) {
-                console.error("❌ RPC create_return_request failed:", response.status);
-                // Fallback attempt: if the RPC fails for some reason, use standard client
-                // Note: Orders Timeline update is handled inside the RPC.
+            let result: any = { success: false };
+            if (response.ok) {
+                result = await response.json();
+            }
 
-                // We'll log the fallback attempt
+            if (!response.ok || result.success === false) {
+                console.error("❌ RPC create_return_request failed:", response.status, result);
+
                 console.log("Attempting native insert fallback...");
                 const returnId = `RET-${Date.now().toString().slice(-6)}`;
-                await supabase.from('returns').insert([{
+                const { error: fallbackError } = await supabase.from('returns').insert([{
                     id: returnId,
                     orderid: orderId,
                     items: _items,
@@ -301,15 +303,15 @@ export const orderService = {
                     auto_decision: false
                 }]);
 
-                // If RPC failed, RLS probably blocks order update on the client, so we skip it 
-                // and rely on Admin manual sync or the returns table.
+                if (fallbackError) {
+                    console.error("❌ Native fallback failed:", fallbackError);
+                    return { success: false, message: fallbackError.message };
+                }
+
                 return { success: true, return_id: returnId };
             }
 
-            const result = await response.json();
-
-            // Depending on what the RPC returns. Usually the return ID.
-            return { success: true, return_id: typeof result === 'string' ? result : `RET-${Date.now().toString().slice(-6)}` };
+            return { success: true, return_id: typeof result.return_id === 'string' ? result.return_id : `RET-${Date.now().toString().slice(-6)}` };
         } catch (error) {
             console.error("❌ Failed to create return:", error);
             return { success: false };

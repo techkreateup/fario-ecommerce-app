@@ -141,7 +141,7 @@ const Orders: React.FC = () => {
                 setOtherReasonText('');
                 // Supabase realtime handles the refresh
             } else {
-                toast.error('Failed to create return request');
+                toast.error(result.message || 'Failed to create return request');
             }
         } catch (error) {
             console.error('Return error:', error);
