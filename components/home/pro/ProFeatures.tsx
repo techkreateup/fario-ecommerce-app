@@ -45,10 +45,10 @@ export default function ProFeatures() {
                                     }}
                                 />
                                 {/* Detail Circles */}
-                                <motion.circle cx="150" cy="150" r="5" fill="black"
+                                <motion.circle cx={150} cy={150} r={5} fill="black"
                                     initial={{ scale: 0 }} whileInView={{ scale: 1, transition: { delay: 1 } }}
                                 />
-                                <motion.circle cx="350" cy="180" r="5" fill="black"
+                                <motion.circle cx={350} cy={180} r={5} fill="black"
                                     initial={{ scale: 0 }} whileInView={{ scale: 1, transition: { delay: 1.2 } }}
                                 />
                             </motion.svg>

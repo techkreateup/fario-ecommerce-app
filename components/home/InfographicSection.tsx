@@ -39,7 +39,7 @@ const features = [
         {[...Array(5)].map((_, i) => (
           <motion.line
             key={i}
-            x1={60 + i * 20} y1="60" x2={60 + i * 20} y2="140"
+            x1={60 + i * 20} y1={60} x2={60 + i * 20} y2={140}
             strokeDasharray="4 4"
             animate={{ y1: [60, 50, 60], y2: [140, 150, 140] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.1 }}
@@ -77,9 +77,9 @@ const features = [
 
         {/* Bouncing Energy Ball */}
         <motion.circle
-          cx="100"
-          cy="100"
-          r="15"
+          cx={100}
+          cy={100}
+          r={15}
           fill="#d9f99d"
           animate={{ cy: [60, 120, 60], scaleY: [1, 0.8, 1] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "circInOut" }}
@@ -87,7 +87,7 @@ const features = [
 
         {/* Impact Rings */}
         <motion.ellipse
-          cx="100" cy="140" rx="10" ry="2"
+          cx={100} cy={140} rx={10} ry={2}
           stroke="#d9f99d"
           animate={{ rx: [10, 40], opacity: [1, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
@@ -109,7 +109,7 @@ const features = [
         </defs>
 
         <motion.rect
-          x="0" y="0" width="200" height="200" fill="url(#tread)"
+          x={0} y={0} width={200} height={200} fill="url(#tread)"
           animate={{ y: [0, 40] }}
           transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
           mask="url(#circleMask)"
@@ -225,14 +225,14 @@ const InfographicSection: React.FC = () => {
                   }`}
                 whileHover={{ x: 10 }}
               >
-                <div className="flex justify-between items-center mb-1">
+                <div className="flex justify-between items-center mb-1 relative">
                   <h3 className={`text-xl font-bold font-heading ${activeIdx === idx ? '' : 'text-white group-hover:text-gray-200'}`}
                     style={{ color: activeIdx === idx ? LIME : undefined }}
                   >
                     {feature.title}
                   </h3>
                   {activeIdx === idx && (
-                    <motion.div layoutId="active-dot" className="w-2 h-2 rounded-full" style={{ background: LIME }} />
+                    <motion.div layoutId="active-dot" className="w-2 h-2 rounded-full absolute right-0" style={{ background: LIME }} />
                   )}
                 </div>
                 <p className={`text-sm ${activeIdx === idx ? 'text-gray-300' : 'text-gray-500'}`}>
