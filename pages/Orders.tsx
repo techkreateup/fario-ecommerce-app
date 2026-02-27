@@ -130,7 +130,8 @@ const Orders: React.FC = () => {
                 selectedOrder.id,
                 user.id,
                 selectedOrder.items,
-                reason
+                reason,
+                refundMethod
             );
 
             if (result.success) {
