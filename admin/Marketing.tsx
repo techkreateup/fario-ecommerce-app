@@ -148,7 +148,7 @@ const AdminMarketing = () => {
                            <StatItem label="Conv" value={campaign.stats.converted} />
                         </div>
 
-                        <div className={`px - 3 py - 1 rounded - full text - [9px] font - black uppercase tracking - widest ${campaign.status === 'Running' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'} `}>
+                        <div className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${campaign.status === 'Running' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
                            {campaign.status}
                         </div>
                         <button

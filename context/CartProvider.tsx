@@ -240,23 +240,30 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     let mounted = true;
 
     const fetchCart = async () => {
-      // GUEST: In-memory only (no localStorage), requires login for persistence
-      if (!user) {
-        return;
-      }
+      if (!user) return;
 
-      // AUTH LOGIC
       try {
-        const { data, error } = await supabase
-          .from('cart_items')
-          .select('*')
-          .eq('user_id', user.id);
+        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+        const authToken = session?.access_token || '';
 
-        if (error) throw error;
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&select=*`,
+          {
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            cache: 'no-store'
+          }
+        );
 
+        if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
 
+        const data = await response.json();
         if (data && mounted) {
-          const mappedItems = data.map(dbItem => {
+          const mappedItems = data.map((dbItem: any) => {
             const product = products.find(p => p.id === dbItem.product_id);
             if (!product) return null;
 
@@ -493,7 +500,18 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const clearCart = async () => {
     setCartItems([]);
     if (user) {
-      await supabase.from('cart_items').delete().eq('user_id', user.id);
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const authToken = session?.access_token || '';
+
+      await fetch(`${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
     }
   };
 
@@ -522,19 +540,36 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     // 2. DB Sync (if logged in)
     if (user) {
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const authToken = session?.access_token || '';
+      const colorValue = color || (product.colors?.[0] || 'Default');
+
       if (existing) {
-        await supabase.from('cart_items').update({ quantity: existing.quantity + 1 })
-          .eq('user_id', user.id)
-          .eq('product_id', product.id)
-          .eq('size', size)
-          .eq('color', color || (product.colors?.[0] || 'Default'));
+        await fetch(`${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&product_id=eq.${product.id}&size=eq.${size}&color=eq.${colorValue}`, {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ quantity: existing.quantity + 1 })
+        });
       } else {
-        await supabase.from('cart_items').insert({
-          user_id: user.id,
-          product_id: product.id,
-          quantity: 1,
-          size: size,
-          color: color || (product.colors?.[0] || 'Default')
+        await fetch(`${SUPABASE_URL}/rest/v1/cart_items`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_id: user.id,
+            product_id: product.id,
+            quantity: 1,
+            size: size,
+            color: colorValue
+          })
         });
       }
     }
@@ -548,11 +583,19 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     toast.info(`${item.name} removed from cart`);
 
     if (user) {
-      await supabase.from('cart_items').delete()
-        .eq('user_id', user.id)
-        .eq('product_id', item.id)
-        .eq('size', item.selectedSize)
-        .eq('color', item.selectedColor || (item.colors?.[0] || 'Default'));
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const authToken = session?.access_token || '';
+      const colorValue = item.selectedColor || (item.colors?.[0] || 'Default');
+
+      await fetch(`${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&product_id=eq.${item.id}&size=eq.${item.selectedSize}&color=eq.${colorValue}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
     }
   };
 
@@ -570,11 +613,20 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     ));
 
     if (user) {
-      await supabase.from('cart_items').update({ quantity })
-        .eq('user_id', user.id)
-        .eq('product_id', item.id)
-        .eq('size', item.selectedSize)
-        .eq('color', item.selectedColor || (item.colors?.[0] || 'Default'));
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const authToken = session?.access_token || '';
+      const colorValue = item.selectedColor || (item.colors?.[0] || 'Default');
+
+      await fetch(`${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&product_id=eq.${item.id}&size=eq.${item.selectedSize}&color=eq.${colorValue}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity })
+      });
     }
   };
 
@@ -590,21 +642,37 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Optimistic Update
       setCartItems(prev => prev.filter(item => item.cartId !== cartId));
 
-      // Remove from Cart DB
-      await supabase.from('cart_items').delete()
-        .eq('user_id', user.id)
-        .eq('product_id', itemToSave.id)
-        .eq('size', itemToSave.selectedSize);
+      // 2. DB Sync
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const authToken = session?.access_token || '';
 
-      // Add to Saved DB
-      const { error } = await supabase.from('saved_items').insert([{
-        user_id: user.id,
-        useremail: user.email,
-        productid: itemToSave.id,
-        productdata: itemToSave
-      }]);
+      // Remove from Cart DB (REST)
+      await fetch(`${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&product_id=eq.${itemToSave.id}&size=eq.${itemToSave.selectedSize}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`
+        }
+      });
 
-      if (error) {
+      // Add to Saved DB (REST)
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          useremail: user.email,
+          productid: itemToSave.id,
+          productdata: itemToSave
+        })
+      });
+
+      if (!response.ok) {
         toast.error("Failed to save item");
       } else {
         toast.info(`${itemToSave.name} saved for later`);
@@ -621,16 +689,37 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Add to Cart Logic (calling internal function to handle DB insert)
       await addToCart(itemToMove, itemToMove.sizes?.[0] || 'OS', itemToMove.colors?.[0] || 'Default');
 
-      // Remove from Saved (DB)
-      await supabase.from('saved_items').delete().eq('user_id', user.id).eq('productid', productId);
+      // Remove from Saved (REST)
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const authToken = session?.access_token || '';
+
+      await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`
+        }
+      });
     }
   };
 
   const removeFromSaved = async (productId: string) => {
     if (!user) return;
 
-    const { error } = await supabase.from('saved_items').delete().eq('user_id', user.id).eq('productid', productId);
-    if (!error) {
+    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    const authToken = session?.access_token || '';
+
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${authToken || SUPABASE_KEY}`
+      }
+    });
+
+    if (response.ok) {
       setSavedItems(prev => prev.filter(item => item.id !== productId));
       toast.info("Item removed from wishlist");
     }
@@ -755,14 +844,21 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const checkStock = async (productId: string): Promise<number> => {
     try {
-      const { supabase } = await import('../lib/supabase');
-      const { data, error } = await supabase
-        .from('products')
-        .select('stockQuantity')
-        .eq('id', productId)
-        .single();
-      if (error || !data) return 0;
-      return data.stockQuantity;
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const authToken = session?.access_token || '';
+
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}&select=stockquantity`, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`
+        },
+        cache: 'no-store'
+      });
+
+      if (!response.ok) return 0;
+      const data = await response.json();
+      return data?.[0]?.stockquantity || 0;
     } catch (err) {
       return 0;
     }

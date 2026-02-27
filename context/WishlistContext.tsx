@@ -18,7 +18,7 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [wishlistItems, setWishlistItems] = useState<EnhancedProduct[]>([]);
     const toast = useToast();
-    const { user } = useAuth();
+    const { user, session } = useAuth();
 
     // 1. Fetch wishlist from Supabase when user logs in
     useEffect(() => {
@@ -29,15 +29,27 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
 
         const syncWishlist = async () => {
             try {
-                const { data, error } = await supabase
-                    .from('saved_items')
-                    .select('productdata, productid')
-                    .eq('user_id', user.id);
+                const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+                const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+                const authToken = session?.access_token || '';
 
-                if (error) throw error;
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&select=productdata,productid`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+                            'Content-Type': 'application/json'
+                        },
+                        cache: 'no-store'
+                    }
+                );
 
+                if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
+
+                const data = await response.json();
                 if (data) {
-                    setWishlistItems(data.map(item => ({
+                    setWishlistItems(data.map((item: any) => ({
                         ...item.productdata,
                         id: item.productid
                     })));
@@ -89,13 +101,26 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
         setWishlistItems(prev => [...prev, product]);
 
         try {
-            const { error } = await supabase.from('saved_items').insert([{
-                user_id: user.id,
-                productid: product.id,
-                productdata: product
-            }]);
+            const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+            const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+            const authToken = session?.access_token || '';
 
-            if (error) throw error;
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({
+                    user_id: user.id,
+                    productid: product.id,
+                    productdata: product
+                })
+            });
+
+            if (!response.ok) throw new Error(`Failed to add: ${response.status}`);
             toast.success(`${product.name} added to wishlist`);
         } catch (err) {
             console.error('Wishlist add error:', err);
@@ -113,13 +138,20 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
         setWishlistItems(prev => prev.filter(item => item.id !== productId));
 
         try {
-            const { error } = await supabase
-                .from('saved_items')
-                .delete()
-                .eq('user_id', user.id)
-                .eq('productid', productId);
+            const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
+            const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+            const authToken = session?.access_token || '';
 
-            if (error) throw error;
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) throw new Error(`Failed to remove: ${response.status}`);
             toast.info(`${itemToRemove.name} removed from wishlist`);
         } catch (err) {
             console.error('Wishlist remove error:', err);

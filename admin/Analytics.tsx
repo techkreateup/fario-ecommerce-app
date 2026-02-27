@@ -32,7 +32,7 @@ const AdminAnalytics: React.FC = () => {
             const { data: allOrders, error } = await supabase
                .from('orders')
                .select('*')
-               .order('created_at', { ascending: false });
+               .order('createdat', { ascending: false });
 
             if (error) throw error;
             setOrders(allOrders || []);

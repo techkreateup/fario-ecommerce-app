@@ -11,11 +11,6 @@ import AddProductModal from './stock/AddProductModal';
 const AdminProducts: React.FC = () => {
   const { products, deleteProduct } = useCart();
 
-  const [selectedCategory] = useState<string | null>(null);
-  const [priceRange] = useState<string | null>(null);
-  const [selectedColor] = useState<string | null>(null);
-  const [selectedSize] = useState<string | null>(null);
-
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [editingProduct, setEditingProduct] = useState<EnhancedProduct | null>(null);
@@ -30,24 +25,9 @@ const AdminProducts: React.FC = () => {
         p.id.toLowerCase().includes(q) ||
         (p.tagline || '').toLowerCase().includes(q);
 
-      // 2. Category Filter
-      const matchesCategory = selectedCategory ? p.category === selectedCategory : true;
-
-      // 3. Price Filter
-      let matchesPrice = true;
-      if (priceRange === 'Under Rs. 1000') matchesPrice = p.price < 1000;
-      if (priceRange === 'Rs. 1000 - Rs. 2500') matchesPrice = p.price >= 1000 && p.price <= 2500;
-      if (priceRange === 'Above Rs. 2500') matchesPrice = p.price > 2500;
-
-      // 4. Color Filter
-      const matchesColor = selectedColor ? (p.colors || []).includes(selectedColor) : true;
-
-      // 5. Size Filter
-      const matchesSize = selectedSize ? (p.sizes || []).includes(selectedSize) : true;
-
-      return matchesSearch && matchesCategory && matchesPrice && matchesColor && matchesSize;
+      return matchesSearch;
     });
-  }, [products, searchTerm, selectedCategory, priceRange, selectedColor, selectedSize]);
+  }, [products, searchTerm]);
 
   const handleDelete = (id: string) => {
     if (confirm('Are you sure you want to remove this product from the catalog?')) {

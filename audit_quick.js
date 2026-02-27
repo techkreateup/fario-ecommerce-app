@@ -26,9 +26,9 @@ async function runAudit() {
 
         // --- 2. NEGATIVE VALUES CHECK ---
         console.log("\n➡️ CHECKING NEGATIVE VALUES...");
-        const { data: negStock, error: stockErr } = await supabase.from('products').select('id, name, stock').lt('stock', 0);
-        if (stockErr) console.log("❌ Failed to query stock info.", stockErr.message);
-        else console.log(`✅ Products with Negative Stock: ${negStock.length}`);
+        const { data: negStock, error: stockErr } = await supabase.from('products').select('id, name, stockquantity').lt('stockquantity', 0);
+        if (stockErr) console.log("❌ ERROR:", stockErr.message);
+        else console.log(`✅ NEGATIVE STOCK: ${negStock.length} items found.`);
 
         const { data: negPrice, error: priceErr } = await supabase.from('products').select('id, name, price').lt('price', 0);
         if (priceErr) console.log("❌ Failed to query price info.", priceErr.message);
