@@ -537,6 +537,22 @@ const Cart: React.FC = () => {
                     )}
                 </div>
             </div>
+
+            {/* MOBILE STICKY CHECKOUT BAR */}
+            {cartItems.length > 0 && (
+                <div className="fixed bottom-0 left-0 right-0 p-4 pb-24 bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:hidden z-[90] flex items-center justify-between gap-4">
+                    <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Total</span>
+                        <span className="text-xl font-black text-fario-purple tracking-tight leading-none">{formatPrice(finalTotal)}</span>
+                    </div>
+                    <button
+                        onClick={() => navigate(isAuth ? '/checkout' : '/login', { state: { discountAmount, appliedCoupon, finalTotal } })}
+                        className="flex-1 max-w-[200px] bg-gray-900 hover:bg-fario-purple text-white py-3.5 rounded-xl text-xs font-black uppercase tracking-[0.2em] shadow-lg active:scale-95 transition-all text-center"
+                    >
+                        Checkout
+                    </button>
+                </div>
+            )}
         </>
     );
 };

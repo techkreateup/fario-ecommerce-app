@@ -51,8 +51,8 @@ const CinematicCard = ({ item, i }: { item: any, i: number }) => {
 export const HomeCinematicGrid = () => (
     <section className="py-12 md:py-24" style={{ background: BG_DARK2 }}>
         <div className="container mx-auto px-4 md:px-12 lg:px-20">
-            <div className="flex flex-col md:flex-row items-end justify-between mb-10 md:mb-20 gap-6">
-                <div className="max-w-xl">
+            <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 md:mb-20 gap-6 md:gap-12">
+                <div className="max-w-xl w-full">
                     <motion.p initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
                         className="text-xs font-black uppercase tracking-[0.5em] mb-4" style={{ color: LIME }}
                     >— Precision Engineering —</motion.p>

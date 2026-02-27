@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
-import { Bell } from 'lucide-react';
+import { Bell, Menu } from 'lucide-react';
 
-const Header: React.FC = () => {
+const Header: React.FC<{ onMenuClick?: () => void }> = ({ onMenuClick }) => {
   const { user } = useAuth();
   const userName = user?.user_metadata?.name || "Administrator";
   const userInitials = userName.split(' ').map((n: any) => n[0]).join('').toUpperCase();
@@ -9,7 +9,12 @@ const Header: React.FC = () => {
   return (
     <header className="admin-header">
       <div className="flex items-center gap-4">
-        <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400">Command Center</h3>
+        {onMenuClick && (
+          <button onClick={onMenuClick} className="lg:hidden p-2 -ml-2 text-slate-500 hover:text-fario-purple hover:bg-slate-50 rounded-xl transition-colors">
+            <Menu size={24} />
+          </button>
+        )}
+        <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 hidden sm:block">Command Center</h3>
       </div>
 
       <div className="flex items-center gap-6">

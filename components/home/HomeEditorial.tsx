@@ -15,9 +15,9 @@ export const HomeEditorial = () => {
     return (
         <section ref={ref} className="py-12 md:py-24 overflow-hidden" style={{ background: BG_MID }}>
             <div className="container mx-auto px-4 md:px-12 lg:px-20">
-                <div className="grid grid-cols-12 gap-4 md:gap-8 items-end">
+                <div className="flex flex-col md:grid md:grid-cols-12 gap-10 md:gap-8 items-start md:items-end">
                     {/* Tall left image */}
-                    <motion.div style={{ y: y1 }} className="col-span-5 md:col-span-4 h-[40vh] md:h-[68vh] relative">
+                    <motion.div style={{ y: y1 }} className="w-full md:w-auto md:col-span-4 h-[50vh] md:h-[68vh] relative">
                         <Tilt cls="h-full">
                             <PImg src={HL3.a} alt="AeroStride Pro" px={50} cls="h-full w-full rounded-2xl overflow-hidden" />
                         </Tilt>
@@ -32,7 +32,7 @@ export const HomeEditorial = () => {
                     </motion.div>
 
                     {/* Center text */}
-                    <div className="col-span-7 md:col-span-8 lg:col-span-4 flex flex-col justify-end gap-6 pb-8">
+                    <div className="w-full md:w-auto md:col-span-4 flex flex-col justify-end gap-6 pb-4 md:pb-8">
                         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stg12}>
                             <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.4em] mb-5"
                                 style={{ color: PURPLE }}
@@ -48,7 +48,7 @@ export const HomeEditorial = () => {
                             </motion.p>
                             <motion.div variants={fadeUp} whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.93 }}>
                                 <Link to="/products"
-                                    className="inline-flex items-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] rounded-none transition"
+                                    className="flex justify-center items-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] rounded-none transition w-full md:w-auto hover:opacity-90"
                                     style={{ background: PURPLE, color: MILKY }}
                                 >Explore <ArrowUpRight size={15} /></Link>
                             </motion.div>

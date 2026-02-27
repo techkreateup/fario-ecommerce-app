@@ -240,7 +240,7 @@ const Header: React.FC = () => {
 
             {/* MOBILE TOGGLE */}
             <button
-              className={`lg:hidden p-3 rounded-full transition-all bg-white/10 border border-white/20 text-white`}
+              className={`lg:hidden p-3 rounded-full transition-all bg-white border border-gray-100 text-gray-500 hover:text-fario-purple hover:border-fario-purple shadow-sm`}
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu size={22} />
@@ -256,9 +256,9 @@ const Header: React.FC = () => {
             initial={{ opacity: 0, x: '100%' }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-[#fcfaff] flex flex-col"
+            className="fixed inset-0 z-[100] bg-gray-950 flex flex-col"
           >
-            <div className="flex justify-between items-center p-8 border-b border-white/10">
+            <div className="flex justify-between items-center p-6 md:p-8 border-b border-white/10">
               <div className="flex items-center gap-4">
                 <Logo size={40} />
                 <span className="font-black text-2xl tracking-tighter font-heading italic text-white">FARIO</span>
@@ -268,8 +268,8 @@ const Header: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex-grow flex flex-col p-10 overflow-y-auto">
-              <nav className="flex flex-col gap-8">
+            <div className="flex-grow flex flex-col p-6 md:p-10 overflow-y-auto">
+              <nav className="flex flex-col gap-6 md:gap-8">
                 {NAV_ITEMS.map((item: any, idx: number) => (
                   <MotionDiv
                     key={item.path}
@@ -282,12 +282,12 @@ const Header: React.FC = () => {
                       end={item.path === '/'}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={({ isActive }: any) => `
-                           text-5xl font-black font-heading uppercase tracking-tighter flex items-center justify-between group
+                           text-3xl md:text-5xl font-black font-heading uppercase tracking-tighter flex items-center justify-between group
                            ${isActive ? 'text-fario-lime' : 'text-white/40'}
                          `}
                     >
                       {item.label}
-                      {location.pathname === item.path && <ArrowRight size={32} className="text-fario-lime" />}
+                      {location.pathname === item.path && <ArrowRight size={24} className="text-fario-lime md:w-8 md:h-8" />}
                     </NavLink>
                   </MotionDiv>
                 ))}

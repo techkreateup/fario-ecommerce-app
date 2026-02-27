@@ -12,7 +12,7 @@ export const ProfileWalletCards: React.FC = () => {
     const [modalType, setModalType] = useState<'money' | 'card' | null>(null);
     const [amount, setAmount] = useState('');
     const [cardData, setCardData] = useState({ number: '', name: '', expiry: '' });
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
 
     // --- HOOKS ---
     const toast = useToast();
@@ -27,6 +27,7 @@ export const ProfileWalletCards: React.FC = () => {
                 .select('wallet_balance, saved_cards')
                 .eq('id', user.id)
                 .single();
+            if (error) console.error(error);
 
             if (data) {
                 setBalance(data.wallet_balance || 0);
@@ -238,7 +239,7 @@ export const ProfileWalletCards: React.FC = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="bg-white rounded-2xl p-6 w-full max-w-sm relative z-10 shadow-2xl"
+                            className="bg-white rounded-2xl p-6 w-full max-w-sm max-h-[90vh] overflow-y-auto relative z-10 shadow-2xl"
                         >
                             <div className="flex justify-between items-center mb-6">
                                 <h3 className="font-black text-xl text-gray-900">{modalType === 'money' ? 'Add Money' : 'Add New Card'}</h3>

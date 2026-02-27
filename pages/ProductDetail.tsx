@@ -1087,6 +1087,19 @@ const ProductDetail: React.FC = () => {
                </div>
             </div>
 
+            {/* MOBILE STICKY BOTTOM BAR */}
+            <div className="fixed bottom-0 left-0 right-0 p-4 pb-24 bg-white/90 backdrop-blur-md border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] md:hidden z-[90]">
+               <div className="flex gap-3">
+                  <Button
+                     onClick={handleAddToCart}
+                     disabled={!isStockAvailable}
+                     className="flex-1 py-4 text-xs font-black uppercase tracking-[0.2em] shadow-lg rounded-xl"
+                  >
+                     {isStockAvailable ? 'Add to Cart' : 'Sold Out'}
+                  </Button>
+               </div>
+            </div>
+
          </div>
       </div>
    );

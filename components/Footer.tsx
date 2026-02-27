@@ -33,9 +33,9 @@ const Footer: React.FC = () => {
   const MotionDiv = (motion as any).div;
 
   return (
-    <footer className="bg-fario-dark text-white pt-20 pb-10 overflow-hidden border-t border-white/5 relative z-20">
+    <footer className="bg-fario-dark text-white pt-12 md:pt-20 pb-28 md:pb-10 overflow-hidden border-t border-white/5 relative z-20">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-12 mb-12 md:mb-16">
 
           {/* Brand - Span 2 cols */}
           <div className="lg:col-span-2">

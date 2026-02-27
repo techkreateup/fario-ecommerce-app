@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Bell, Lock, Smartphone, Mail, Check, Loader2, AlertCircle } from 'lucide-react';
+import { User, Bell, Lock, Smartphone, Mail, Check, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export const ProfileSettings: React.FC = () => {
@@ -44,7 +44,7 @@ export const ProfileSettings: React.FC = () => {
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500 pb-12">
+        <div className="space-y-8 animate-in fade-in duration-500 pb-32">
             <div className="flex items-center justify-between pb-4 border-b border-gray-200">
                 <div>
                     <h2 className="text-2xl font-black text-gray-900 tracking-tight">Account Settings</h2>
@@ -112,7 +112,7 @@ export const ProfileSettings: React.FC = () => {
             </div>
 
             {/* Action Bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-40 flex items-center justify-between">
+            <div className="fixed bottom-[80px] left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-40 flex items-center justify-between shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]">
                 <p className="text-xs font-bold text-gray-500">Unsaved changes</p>
                 <button onClick={handleSave} className="bg-gray-900 text-white px-6 py-2 rounded-lg font-bold text-sm">Save</button>
             </div>

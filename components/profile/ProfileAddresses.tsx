@@ -15,8 +15,6 @@ interface Address {
     isDefault: boolean;
 }
 
-const DEFAULT_ADDRESSES: Address[] = []; // Empty by default to force Supabase usage
-
 export const ProfileAddresses: React.FC = () => {
     const { user } = useAuth();
     const [addresses, setAddresses] = useState<Address[]>([]);
@@ -235,7 +233,7 @@ export const ProfileAddresses: React.FC = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="bg-white rounded-3xl w-full max-w-lg overflow-hidden relative z-10 shadow-2xl"
+                            className="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative z-10 shadow-2xl"
                         >
                             <div className="flex items-center justify-between p-6 border-b border-gray-100">
                                 <h3 className="text-xl font-black text-gray-900">{editingId ? 'Edit Delivery Address' : 'Add New Address'}</h3>

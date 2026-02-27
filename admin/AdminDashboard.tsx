@@ -233,12 +233,13 @@ const AdminDashboard: React.FC = () => {
 
     const maxVal = Math.max(...marketData.map(d => Math.max(d.shoes, d.bags))) * 1.1;
     const minVal = Math.min(...marketData.map(d => Math.min(d.shoes, d.bags))) * 0.9;
+    const range = maxVal - minVal === 0 ? 1 : maxVal - minVal;
 
     // Normalize data for SVG (0-100 coordinate system)
     const points = marketData.map((d, i) => ({
-      x: (i / (marketData.length - 1)) * 100,
-      yShoes: 100 - ((d.shoes - minVal) / (maxVal - minVal)) * 100,
-      yBags: 100 - ((d.bags - minVal) / (maxVal - minVal)) * 100,
+      x: (i / (marketData.length > 1 ? marketData.length - 1 : 1)) * 100,
+      yShoes: 100 - ((d.shoes - minVal) / range) * 100,
+      yBags: 100 - ((d.bags - minVal) / range) * 100,
       valShoes: d.shoes,
       valBags: d.bags,
       time: d.time,

@@ -8,7 +8,6 @@ import {
   Users,
   Settings,
   LogOut,
-  ChevronRight,
   HelpCircle,
   BarChart3,
   History,
@@ -23,7 +22,7 @@ const { NavLink } = RouterDOM as any;
 
 import { useAuth } from '../context/AuthContext';
 
-const Sidebar: React.FC<any> = () => {
+const Sidebar: React.FC<{ isOpen?: boolean }> = ({ isOpen }) => {
   const { signOut } = useAuth();
   const navigate = RouterDOM.useNavigate();
 
@@ -48,7 +47,7 @@ const Sidebar: React.FC<any> = () => {
   ];
 
   return (
-    <aside className="admin-sidebar shadow-2xl">
+    <aside className={`admin-sidebar shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} transition-transform duration-300 ease-in-out`}>
       <div className="p-8 flex items-center gap-4">
         <div className="bg-white/10 p-2 rounded-xl">
           <Logo size={28} className="invert" />

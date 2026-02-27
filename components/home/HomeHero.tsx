@@ -79,17 +79,17 @@ export const HomeHero = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.2 }}
-                    className="flex flex-wrap gap-4"
+                    className="flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none"
                 >
-                    <motion.div whileHover={{ scale: 1.07, boxShadow: `0 0 40px ${LIME}55` }} whileTap={{ scale: 0.93 }}>
+                    <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.07, boxShadow: `0 0 40px ${LIME}55` }} whileTap={{ scale: 0.93 }}>
                         <Link to="/products"
-                            className="inline-flex items-center gap-3 px-10 py-4 font-bold text-sm uppercase tracking-[0.2em]"
+                            className="flex justify-center items-center gap-3 px-6 sm:px-10 py-4 font-bold text-sm uppercase tracking-[0.2em] w-full"
                             style={{ background: LIME, color: DARK_TXT }}
                         >Shop Now <ArrowRight size={16} /></Link>
                     </motion.div>
-                    <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.93 }}>
+                    <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.93 }}>
                         <Link to="/story"
-                            className="inline-flex items-center gap-3 px-10 py-4 font-bold text-sm uppercase tracking-[0.2em] transition"
+                            className="flex justify-center items-center gap-3 px-6 sm:px-10 py-4 font-bold text-sm uppercase tracking-[0.2em] transition w-full"
                             style={{ border: `1.5px solid ${LIME}55`, color: MILKY }}
                         >Our Story</Link>
                     </motion.div>

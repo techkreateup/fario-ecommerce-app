@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from './Button';
 import { X, CheckCircle2, Loader2, Lock } from 'lucide-react';
 import { useCart } from '../context/CartProvider';
 
@@ -33,30 +32,16 @@ const LeadPopup: React.FC = () => {
       };
       localStorage.setItem('fario_auth_token', `G_LEAD_${Math.random().toString(36).substr(2)}`);
       localStorage.setItem('fario_user_profile', JSON.stringify(mockProfile));
-      
+
       setIsLoading(false);
       setHasSubscribed(true);
       setSubmitted(true);
-      
+
       setTimeout(() => {
         setIsLeadPopupOpen(false);
         setSubmitted(false);
       }, 2500);
     }, 1500);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setHasSubscribed(true);
-      setSubmitted(true);
-      setTimeout(() => {
-        setIsLeadPopupOpen(false);
-        setSubmitted(false);
-      }, 2500);
-    }, 1000);
   };
 
   return (
@@ -72,7 +57,7 @@ const LeadPopup: React.FC = () => {
           />
 
           <MotionDiv
-            className="relative w-full max-w-md bg-white rounded-[3rem] overflow-hidden shadow-2xl p-10 border border-slate-100"
+            className="relative w-full max-w-md bg-white rounded-[3rem] overflow-hidden shadow-2xl p-6 md:p-10 border border-slate-100"
             initial={{ scale: 0.9, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -89,7 +74,7 @@ const LeadPopup: React.FC = () => {
                 <div className="w-16 h-16 bg-fario-purple/10 rounded-2xl flex items-center justify-center mb-8 text-fario-purple shadow-inner">
                   <span className="font-heading font-black text-2xl uppercase italic">F</span>
                 </div>
-                
+
                 <h2 className="text-3xl font-black font-heading text-slate-800 mb-2 uppercase italic tracking-tighter">
                   Wait! One <span className="text-fario-purple">More Thing</span>
                 </h2>
@@ -97,7 +82,7 @@ const LeadPopup: React.FC = () => {
                   Sync via Google and unlock <span className="text-fario-purple">10% OFF</span> your first procurement instantly.
                 </p>
 
-                <button 
+                <button
                   onClick={handleGoogleLogin}
                   disabled={isLoading}
                   className="w-full bg-slate-50 border border-slate-200 text-slate-700 font-black py-5 px-6 rounded-2xl flex items-center justify-center gap-4 hover:bg-slate-100 hover:shadow-lg transition-all mb-6 text-[10px] uppercase tracking-[0.2em]"
@@ -129,7 +114,7 @@ const LeadPopup: React.FC = () => {
                   animate={{ scale: 1 }}
                   className="w-24 h-24 bg-fario-lime rounded-full flex items-center justify-center mb-8 shadow-xl shadow-fario-lime/20"
                 >
-                   <CheckCircle2 size={48} className="text-slate-900" strokeWidth={3} />
+                  <CheckCircle2 size={48} className="text-slate-900" strokeWidth={3} />
                 </MotionDiv>
                 <h3 className="text-3xl font-black font-heading text-slate-800 mb-2 uppercase italic tracking-tighter">IDENTITY SYNCED</h3>
                 <p className="text-slate-400 text-xs font-bold uppercase tracking-[0.2em]">10% Discount applied to session.</p>
