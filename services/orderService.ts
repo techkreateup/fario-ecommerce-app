@@ -100,7 +100,7 @@ export const orderService = {
             .update({
                 status: status as any,
                 timeline: updatedTimeline,
-                updatedAt: new Date().toISOString()
+                updatedat: new Date().toISOString()
             })
             .eq('id', orderId);
 
@@ -292,7 +292,7 @@ export const orderService = {
                 .update({
                     status: 'Return Requested',
                     timeline: updatedTimeline,
-                    updatedAt: new Date().toISOString()
+                    updatedat: new Date().toISOString()
                 })
                 .eq('id', orderId);
 
