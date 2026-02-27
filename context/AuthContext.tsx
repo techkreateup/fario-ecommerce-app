@@ -54,7 +54,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     if (storageKey) {
                         const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
                         if (stored?.access_token && stored?.user) {
-                            session = stored;
+                            // 🛡️ Check if token is actually valid/expired
+                            const expiresAt = stored.expires_at;
+                            const now = Math.floor(Date.now() / 1000);
+
+                            if (expiresAt && expiresAt > now + 10) { // Give 10s buffer
+                                session = stored;
+                            } else {
+                                console.log('⏳ Stale token detected, waiting for refresh...');
+                            }
                         }
                     }
                 } catch { /* no persisted session */ }

@@ -124,6 +124,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               'Content-Type': 'application/json',
               'Prefer': 'return=representation'
             },
+            cache: 'no-store',
             signal: controller.signal
           }
         );
@@ -306,7 +307,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               'apikey': SUPABASE_KEY,
               'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
               'Content-Type': 'application/json'
-            }
+            },
+            cache: 'no-store'
           }
         );
 
@@ -692,6 +694,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             p_shipping_address: addressString,
             p_payment_method: newOrder.paymentMethod
           }),
+          cache: 'no-store',
           signal: controller.signal
         }
       );
@@ -793,7 +796,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         headers: {
           'apikey': SUPABASE_KEY,
           'Authorization': `Bearer ${session.access_token}`
-        }
+        },
+        cache: 'no-store'
       });
 
       if (response.ok) {
@@ -840,7 +844,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             'Authorization': `Bearer ${SUPABASE_KEY}`,
             'Content-Type': 'application/json',
             'Prefer': 'return=representation'
-          }
+          },
+          cache: 'no-store'
         }
       );
 
@@ -976,6 +981,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               'Content-Type': 'application/json',
               'Prefer': 'return=representation'
             },
+            cache: 'no-store',
             body: JSON.stringify({
               id: req.id,
               user_id: user.id,
@@ -1036,6 +1042,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               'Content-Type': 'application/json',
               'Prefer': 'return=representation'
             },
+            cache: 'no-store',
             body: JSON.stringify(reviewData)
           });
 
@@ -1050,6 +1057,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
                 'Content-Type': 'application/json'
               },
+              cache: 'no-store',
               body: JSON.stringify({ rating, review_text: comment })
             });
           } catch (e) { console.warn("Failed to update order with review", e); }
