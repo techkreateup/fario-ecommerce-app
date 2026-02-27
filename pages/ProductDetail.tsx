@@ -494,7 +494,7 @@ const ProductDetail: React.FC = () => {
 
                {/* RIGHT: INFO PANEL */}
                <div className="lg:col-span-5 flex flex-col h-full pb-24 md:pb-0">
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-3 mb-4 order-1 lg:order-none">
                      <span className="bg-gray-900 text-white text-[9px] font-black uppercase tracking-[0.3em] px-3 py-1.5 rounded-md shadow-lg">
                         {product.category}
                      </span>
@@ -509,11 +509,11 @@ const ProductDetail: React.FC = () => {
                      )}
                   </div>
 
-                  <h1 className="text-4xl md:text-5xl font-black font-heading text-gray-900 mb-2 uppercase italic tracking-tighter leading-[0.9]">
+                  <h1 className="text-4xl md:text-5xl font-black font-heading text-gray-900 mb-2 uppercase italic tracking-tighter leading-[0.9] order-2 lg:order-none">
                      {product.name}
                   </h1>
 
-                  <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center justify-between mb-8 order-3 lg:order-none">
                      <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1 text-yellow-400">
                            <Star size={16} className="fill-current" />
@@ -527,7 +527,7 @@ const ProductDetail: React.FC = () => {
                   </div>
 
                   {/* Price Block */}
-                  <div className="mb-6">
+                  <div className="mb-6 order-4 lg:order-none">
                      <div className="flex items-baseline gap-3">
                         <span className="text-4xl font-black text-gray-900 tracking-tight">Rs. {product.price}</span>
                         {product.originalPrice && (
@@ -563,7 +563,7 @@ const ProductDetail: React.FC = () => {
                         <MotionDiv
                            initial={{ opacity: 0, y: 12 }}
                            animate={{ opacity: 1, y: 0 }}
-                           className="mb-8 rounded-2xl border border-dashed border-fario-purple/30 bg-fario-purple/5 p-5"
+                           className="mb-8 rounded-2xl border border-dashed border-fario-purple/30 bg-fario-purple/5 p-5 order-6 lg:order-none"
                         >
                            {/* Header */}
                            <div className="flex items-center gap-2 mb-4">
@@ -627,7 +627,7 @@ const ProductDetail: React.FC = () => {
                   })()}
 
                   {/* OFFERS SECTION */}
-                  <div className="mb-8 space-y-3">
+                  <div className="mb-8 space-y-3 order-7 lg:order-none">
                      <div className="p-4 rounded-xl bg-white border border-gray-200 shadow-sm flex items-start gap-3">
                         <div className="bg-emerald-100 p-1.5 rounded text-emerald-700 mt-0.5"><Zap size={14} /></div>
                         <div>
@@ -645,7 +645,7 @@ const ProductDetail: React.FC = () => {
                   </div>
 
                   {/* SERVICE ICONS */}
-                  <div className="grid grid-cols-4 gap-2 mb-8 border-b border-gray-100 pb-8">
+                  <div className="grid grid-cols-4 gap-2 mb-8 border-b border-gray-100 pb-8 order-8 lg:order-none">
                      <div className="text-center">
                         <div className="w-10 h-10 mx-auto bg-gray-50 rounded-full flex items-center justify-center text-gray-700 mb-2"><RotateCcw size={18} /></div>
                         <p className="text-[10px] font-bold text-gray-600 leading-tight">7 Days Return</p>
@@ -665,12 +665,12 @@ const ProductDetail: React.FC = () => {
                   </div>
 
                   {/* Description */}
-                  <p className="text-gray-600 leading-relaxed text-sm font-medium mb-8 whitespace-normal break-words">
+                  <p className="text-gray-600 leading-relaxed text-sm font-medium mb-8 whitespace-normal break-words order-9 lg:order-none">
                      {product.description}
                   </p>
 
                   {/* Size Selector */}
-                  <div className="mb-8">
+                  <div className="mb-8 order-5 lg:order-none">
                      <div className="flex justify-between items-center mb-3">
                         <span className="text-[10px] font-black uppercase tracking-widest text-gray-900">Select Size</span>
                         <button onClick={() => setShowSizeGuide(true)} className="flex items-center gap-1 text-[10px] font-bold text-fario-purple uppercase tracking-wider hover:underline">
@@ -698,7 +698,7 @@ const ProductDetail: React.FC = () => {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-4 mt-auto">
+                  <div className="flex gap-4 mt-auto order-10 lg:order-none pt-4 lg:pt-0">
                      <Button
                         onClick={handleAddToCart}
                         disabled={!isStockAvailable}
@@ -716,7 +716,7 @@ const ProductDetail: React.FC = () => {
                   </div>
 
                   {/* DELIVERY CHECK */}
-                  <div className="mt-8 pt-8 border-t border-gray-100">
+                  <div className="mt-8 pt-8 border-t border-gray-100 order-11 lg:order-none">
                      <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">Check Delivery</h4>
                      <div className="flex gap-2">
                         <input

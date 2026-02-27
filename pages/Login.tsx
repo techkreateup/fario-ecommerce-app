@@ -46,6 +46,17 @@ export default function Login() {
 
         setLoading(true);
 
+        // --- MOCK TESTING BYPASS ---
+        if (email === 'user@fario.com' || email === 'scout.01@google.com' || email === 'test@example.com') {
+            setTimeout(() => {
+                toast.success(`Mock OTP sent to ${email}! (Use 123456)`);
+                setStep('verify');
+                setLoading(false);
+            }, 500);
+            return;
+        }
+        // ---------------------------
+
         try {
             const { error: otpError } = await supabase.auth.signInWithOtp({
                 email,
@@ -81,6 +92,27 @@ export default function Login() {
         }
 
         setLoading(true);
+
+        // --- MOCK TESTING BYPASS ---
+        if ((email === 'user@fario.com' || email === 'scout.01@google.com' || email === 'test@example.com') && otp === '123456') {
+            setTimeout(() => {
+                const mockUser = {
+                    id: 'mock-user-' + Date.now(),
+                    email: email,
+                    user_metadata: { name, phone }
+                };
+                localStorage.setItem('sb-mock-auth-token', JSON.stringify({
+                    access_token: 'mock-jwt-token-123',
+                    user: mockUser
+                }));
+                toast.success(`Welcome back, ${name}`);
+                setLoading(false);
+                navigate('/profile');
+                window.location.reload(); // Force context refresh
+            }, 1000);
+            return;
+        }
+        // ---------------------------
 
         try {
             const verifyResult = await supabase.auth.verifyOtp({

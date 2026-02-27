@@ -179,7 +179,7 @@ const Cart: React.FC = () => {
                                 onClick={() => navigate('/products')}
                                 className="bg-gray-900 text-white px-10 py-4 rounded-xl font-black uppercase tracking-widest hover:bg-fario-purple transition-all shadow-lg hover:shadow-fario-purple/30 active:scale-95"
                             >
-                                Start Exploring
+                                Continue Shopping
                             </button>
                         </div>
                     ) : (
@@ -540,16 +540,16 @@ const Cart: React.FC = () => {
 
             {/* MOBILE STICKY CHECKOUT BAR */}
             {cartItems.length > 0 && (
-                <div className="fixed bottom-0 left-0 right-0 p-4 pb-24 bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:hidden z-[90] flex items-center justify-between gap-4">
-                    <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Total</span>
-                        <span className="text-xl font-black text-fario-purple tracking-tight leading-none">{formatPrice(finalTotal)}</span>
+                <div className="fixed bottom-0 left-0 right-0 p-5 pb-28 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:hidden z-[90] flex flex-col gap-3">
+                    <div className="flex justify-between items-end px-1">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Subtotal</span>
+                        <span className="text-2xl font-black text-fario-purple tracking-tight leading-none">{formatPrice(finalTotal)}</span>
                     </div>
                     <button
                         onClick={() => navigate(isAuth ? '/checkout' : '/login', { state: { discountAmount, appliedCoupon, finalTotal } })}
-                        className="flex-1 max-w-[200px] bg-gray-900 hover:bg-fario-purple text-white py-3.5 rounded-xl text-xs font-black uppercase tracking-[0.2em] shadow-lg active:scale-95 transition-all text-center"
+                        className="w-full bg-gray-900 hover:bg-fario-purple text-white py-4 rounded-xl text-sm font-black uppercase tracking-[0.2em] shadow-lg active:scale-95 transition-all text-center flex items-center justify-center gap-2"
                     >
-                        Checkout
+                        Checkout <ChevronRight size={18} />
                     </button>
                 </div>
             )}

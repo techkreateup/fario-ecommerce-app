@@ -150,9 +150,13 @@ const Products: React.FC = () => {
   // Pagination Logic
   const visibleProducts = useMemo(() => {
     const end = page * 12;
-    setHasMore(end < filteredSortedProducts.length);
     return filteredSortedProducts.slice(0, end);
   }, [filteredSortedProducts, page]);
+
+  useEffect(() => {
+    const end = page * 12;
+    setHasMore(end < filteredSortedProducts.length);
+  }, [filteredSortedProducts.length, page]);
 
   // Handlers
   const toggleFilter = (type: keyof typeof filters, value: string) => {

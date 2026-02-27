@@ -20,7 +20,7 @@ const WhatsAppFloat: React.FC = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <div className="fixed bottom-24 md:bottom-10 right-5 md:right-8 z-[101] flex flex-col items-center gap-3">
+    <div className="fixed bottom-32 md:bottom-10 right-5 md:right-8 z-[101] flex flex-col items-center gap-3">
 
       {/* ↑ Scroll-to-Top — white, only after hero section */}
       <AnimatePresence>
