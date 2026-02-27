@@ -296,13 +296,13 @@ export const orderService = {
                 const returnId = `RET-${Date.now().toString().slice(-6)}`;
                 const { error: fallbackError } = await supabase.from('returns').insert([{
                     id: returnId,
+                    user_id: _userId,
                     orderid: orderId,
                     items: _items,
                     reason: reason,
                     method: refundMethod,
                     status: 'pending',
-                    requestedat: new Date().toISOString(),
-                    refundamount: 0,
+                    refund_amount: 0,
                     auto_decision: false
                 }]);
 
