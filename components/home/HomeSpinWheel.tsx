@@ -121,6 +121,36 @@ export const HomeSpinWheel: React.FC = () => {
     const [done, setDone] = useState(hasSpunToday());
     const [showModal, setShowModal] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [timeLeft, setTimeLeft] = useState('');
+
+    useEffect(() => {
+        if (!done) {
+            setTimeLeft('');
+            return;
+        }
+
+        const updateTimer = () => {
+            const now = new Date();
+            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+            const diff = tomorrow.getTime() - now.getTime();
+
+            if (diff <= 0 || localStorage.getItem(SPIN_DATE_KEY) !== new Date().toISOString().split('T')[0]) {
+                setDone(false);
+                setTimeLeft('');
+                return;
+            }
+
+            const h = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+
+            setTimeLeft(`${h}h : ${m}m : ${s}s`);
+        };
+
+        updateTimer();
+        const intervalId = setInterval(updateTimer, 1000);
+        return () => clearInterval(intervalId);
+    }, [done]);
 
     const spin = useCallback(() => {
         if (!user || spinning || done) return;
@@ -247,6 +277,12 @@ export const HomeSpinWheel: React.FC = () => {
                                 style={{ background: 'rgba(255,255,255,0.04)' }}>
                                 <div className="text-4xl mb-3">{lockEmoji}</div>
                                 <p className="text-white font-black text-sm mb-1">{lockReason}</p>
+                                {user && done && timeLeft && (
+                                    <div className="mt-4 p-3 rounded-xl bg-[#d9f99d]/10 border border-[#d9f99d]/20 inline-block w-full">
+                                        <p className="text-[10px] text-[#d9f99d]/70 uppercase tracking-[0.2em] font-black mb-1">Next Spin In</p>
+                                        <p className="text-[#d9f99d] font-mono font-bold text-xl tracking-widest">{timeLeft}</p>
+                                    </div>
+                                )}
                                 {!user && (
                                     <button onClick={() => navigate('/login')}
                                         className="mt-3 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider hover:scale-105 transition-transform"
