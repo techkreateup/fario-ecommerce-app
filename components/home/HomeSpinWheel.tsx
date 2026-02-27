@@ -216,7 +216,7 @@ export const HomeSpinWheel: React.FC = () => {
     const lockEmoji = !user ? '🔒' : '✅';
 
     return (
-        <section className="relative py-12 md:py-20 overflow-hidden bg-[#0f0820]">
+        <section className="relative py-10 md:py-20 overflow-hidden bg-[#0f0820]">
             {/* Glow bg */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
                 <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-20 bg-purple-700" />
@@ -336,7 +336,7 @@ export const HomeSpinWheel: React.FC = () => {
                         <motion.div
                             initial={{ scale: 0.6, y: 40 }} animate={{ scale: 1, y: 0 }}
                             transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                            className="rounded-3xl p-10 text-center max-w-sm w-full relative"
+                            className="rounded-3xl p-6 md:p-10 text-center max-w-sm w-full relative"
                             style={{
                                 background: result.isWin ? 'linear-gradient(135deg,#1a0d2e,#2d1459)' : 'linear-gradient(135deg,#0f0820,#1a0d2e)',
                                 border: `2px solid ${result.isWin ? '#d9f99d' : 'rgba(255,255,255,0.1)'}`,

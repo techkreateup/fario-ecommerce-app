@@ -273,7 +273,7 @@ const ProductDetail: React.FC = () => {
    const MotionImg = (motion as any).img;
 
    return (
-      <div className="pt-24 pb-40 min-h-screen bg-white relative selection:bg-fario-purple/30">
+      <div className="pt-20 md:pt-24 pb-32 md:pb-40 min-h-screen bg-white relative selection:bg-fario-purple/30">
 
          {/* SIZE GUIDE MODAL */}
          <AnimatePresence>
@@ -281,7 +281,7 @@ const ProductDetail: React.FC = () => {
                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm" onClick={() => setShowSizeGuide(false)}>
                   <MotionDiv
                      initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-                     className="bg-white p-8 rounded-3xl max-w-lg w-full shadow-2xl relative"
+                     className="bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full shadow-2xl relative"
                      onClick={(e: any) => e.stopPropagation()}
                   >
                      <h3 className="text-xl font-black font-heading uppercase italic tracking-tighter mb-6">Size Specification</h3>
@@ -420,7 +420,7 @@ const ProductDetail: React.FC = () => {
 
          <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-[1400px]">
             {/* BREADCRUMBS */}
-            <div className="flex items-center gap-2 mb-6 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 pt-2 md:pt-0">
+            <div className="flex items-center gap-2 mb-4 md:mb-6 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 pt-2 md:pt-0">
                <span className="cursor-pointer hover:text-fario-purple" onClick={() => navigate('/')}>Home</span>
                <ChevronRight size={12} />
                <span className="cursor-pointer hover:text-fario-purple" onClick={() => navigate('/products')}>Depot</span>
@@ -428,7 +428,7 @@ const ProductDetail: React.FC = () => {
                <span className="text-gray-900 line-clamp-1">{product.name}</span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
 
                {/* LEFT: GALLERY (Sticky on Desktop) */}
                <div className="lg:col-span-7 space-y-4 lg:sticky lg:top-24">
@@ -447,7 +447,7 @@ const ProductDetail: React.FC = () => {
                            src={activeImage}
                            alt={product.name}
                            initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}
-                           className="w-full h-full object-contain mix-blend-multiply p-8 lg:p-12 transition-transform duration-100"
+                           className="w-full h-full object-contain mix-blend-multiply p-6 md:p-8 lg:p-12 transition-transform duration-100"
                            style={{
                               transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
                               transform: isZoomed ? "scale(2.5)" : "scale(1)"
@@ -493,7 +493,7 @@ const ProductDetail: React.FC = () => {
                </div>
 
                {/* RIGHT: INFO PANEL */}
-               <div className="lg:col-span-5 flex flex-col h-full pb-24 md:pb-0">
+               <div className="lg:col-span-5 flex flex-col h-full pb-16 md:pb-0">
                   <div className="flex items-center gap-3 mb-4 order-1 lg:order-none">
                      <span className="bg-gray-900 text-white text-[9px] font-black uppercase tracking-[0.3em] px-3 py-1.5 rounded-md shadow-lg">
                         {product.category}
@@ -563,7 +563,7 @@ const ProductDetail: React.FC = () => {
                         <MotionDiv
                            initial={{ opacity: 0, y: 12 }}
                            animate={{ opacity: 1, y: 0 }}
-                           className="mb-8 rounded-2xl border border-dashed border-fario-purple/30 bg-fario-purple/5 p-5 order-6 lg:order-none"
+                           className="mb-8 rounded-2xl border border-dashed border-fario-purple/30 bg-fario-purple/5 p-4 md:p-5 order-6 lg:order-none"
                         >
                            {/* Header */}
                            <div className="flex items-center gap-2 mb-4">
@@ -760,13 +760,13 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* TECH SPECS & CARE GUIDE SECTION */}
-            <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-12 border-t border-gray-100 pt-20">
+            <div className="mt-12 md:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 border-t border-gray-100 pt-12 md:pt-20">
                {/* Tech Specs Table */}
                <div>
-                  <h3 className="text-xl font-black font-heading uppercase italic tracking-tighter mb-8 flex items-center gap-3">
+                  <h3 className="text-xl font-black font-heading uppercase italic tracking-tighter mb-6 md:mb-8 flex items-center gap-3">
                      <Activity size={20} className="text-fario-purple" /> Technical Specifications
                   </h3>
-                  <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
+                  <div className="bg-gray-50 rounded-3xl p-6 md:p-8 border border-gray-100">
                      <div className="space-y-4">
                         {[
                            { label: "Material", value: "Premium Breathable Mesh / TPU Overlays" },
@@ -786,7 +786,7 @@ const ProductDetail: React.FC = () => {
 
                {/* Care Guide Accordion */}
                <div>
-                  <h3 className="text-xl font-black font-heading uppercase italic tracking-tighter mb-8 flex items-center gap-3">
+                  <h3 className="text-xl font-black font-heading uppercase italic tracking-tighter mb-6 md:mb-8 flex items-center gap-3">
                      <ShieldCheck size={20} className="text-fario-purple" /> Product Integrity & Care
                   </h3>
                   <div className="space-y-4">

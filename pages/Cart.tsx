@@ -154,7 +154,7 @@ const Cart: React.FC = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-            <div className="min-h-screen bg-white font-sans text-gray-800 pt-24 pb-32">
+            <div className="min-h-screen bg-white font-sans text-gray-800 pt-20 md:pt-24 pb-24 md:pb-32">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
                     {/* Page Title */}
@@ -188,11 +188,11 @@ const Cart: React.FC = () => {
                             {/* Cart Items - Main Area */}
                             <div className="lg:col-span-3 space-y-4">
                                 {cartItems.map(item => (
-                                    <div key={item.cartId} className="group relative flex gap-6 p-6 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-fario-purple/20 transition-all duration-300">
+                                    <div key={item.cartId} className="group relative flex gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-fario-purple/20 transition-all duration-300">
 
                                         {/* Product Image */}
                                         <div
-                                            className="w-40 h-40 flex-shrink-0 bg-gray-50 rounded-2xl overflow-hidden cursor-pointer"
+                                            className="w-24 sm:w-40 h-24 sm:h-40 flex-shrink-0 bg-gray-50 rounded-2xl overflow-hidden cursor-pointer"
                                             onClick={() => navigate(`/products/${item.id}`)}
                                         >
                                             <img
@@ -350,10 +350,10 @@ const Cart: React.FC = () => {
                                 )}
 
                                 {/* Recommendations Section */}
-                                <div className="mt-8 border-t border-gray-200 pt-8">
-                                    <div className="flex items-center justify-between mb-6">
+                                <div className="mt-8 border-t border-gray-100 pt-6 md:pt-8">
+                                    <div className="flex items-center justify-between mb-4 md:mb-6">
                                         <div>
-                                            <h3 className="text-lg font-bold text-gray-900">Recommended based on your shopping trends</h3>
+                                            <h3 className="text-base md:text-lg font-bold text-gray-900">Recommended based on your shopping trends</h3>
                                         </div>
                                         <Pagination total={recommendedProducts.length} perPage={recPerPage} current={recPage} onChange={setRecPage} />
                                     </div>
@@ -540,7 +540,7 @@ const Cart: React.FC = () => {
 
             {/* MOBILE STICKY CHECKOUT BAR */}
             {cartItems.length > 0 && (
-                <div className="fixed bottom-0 left-0 right-0 p-5 pb-28 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:hidden z-[90] flex flex-col gap-3">
+                <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-5 pb-24 sm:pb-28 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:hidden z-[90] flex flex-col gap-3">
                     <div className="flex justify-between items-end px-1">
                         <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Subtotal</span>
                         <span className="text-2xl font-black text-fario-purple tracking-tight leading-none">{formatPrice(finalTotal)}</span>

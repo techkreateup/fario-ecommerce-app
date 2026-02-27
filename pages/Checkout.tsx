@@ -238,7 +238,7 @@ const Checkout: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white font-sans text-gray-800 relative isolate pt-24 pb-32 overflow-hidden">
+        <div className="min-h-screen bg-white font-sans text-gray-800 relative isolate pt-20 md:pt-24 pb-24 md:pb-32 overflow-hidden">
 
             {/* AMBIENT BACKGROUND ELEMENTS */}
             <div className="fixed inset-0 z-[-1] pointer-events-none opacity-40">
@@ -308,7 +308,7 @@ const Checkout: React.FC = () => {
 
                         {/* STEP 1: ADDRESS */}
                         <div className={`bg-white border rounded-sm overflow-hidden transition-all duration-300 ${checkoutStep === 1 ? 'border-gray-200 shadow-md' : 'border-gray-100'}`}>
-                            <div className={`px-6 py-4 flex justify-between items-center ${checkoutStep === 1 ? 'bg-fario-purple text-white' : 'bg-white'}`}>
+                            <div className={`px-4 md:px-6 py-4 flex justify-between items-center ${checkoutStep === 1 ? 'bg-fario-purple text-white' : 'bg-white'}`}>
                                 <div className="flex items-center gap-4">
                                     <span className={`flex items-center justify-center w-6 h-6 rounded-sm text-xs font-bold ${checkoutStep === 1 ? 'bg-white text-fario-purple' : 'bg-gray-100 text-fario-purple'}`}>1</span>
                                     <h3 className={`font-bold uppercase tracking-wide text-sm ${checkoutStep === 1 ? 'text-white' : 'text-gray-500'}`}>Delivery Address</h3>
@@ -322,7 +322,7 @@ const Checkout: React.FC = () => {
                             </div>
 
                             {checkoutStep === 1 && (
-                                <div className="p-6">
+                                <div className="p-4 md:p-6">
                                     {/* ADD/EDIT FORM */}
                                     {(isAddingAddress || editingAddressId !== null) ? (
                                         <div className="bg-gray-50 p-6 rounded-sm border border-gray-200">
@@ -454,7 +454,7 @@ const Checkout: React.FC = () => {
 
                         {/* STEP 2: ORDER SUMMARY */}
                         <div className={`bg-white border rounded-sm overflow-hidden transition-all duration-300 ${checkoutStep === 2 ? 'border-gray-200 shadow-md' : 'border-gray-100'}`}>
-                            <div className={`px-6 py-4 flex justify-between items-center ${checkoutStep === 2 ? 'bg-fario-purple text-white' : 'bg-white'}`}>
+                            <div className={`px-4 md:px-6 py-4 flex justify-between items-center ${checkoutStep === 2 ? 'bg-fario-purple text-white' : 'bg-white'}`}>
                                 <div className="flex items-center gap-4">
                                     <span className={`flex items-center justify-center w-6 h-6 rounded-sm text-xs font-bold ${checkoutStep === 2 ? 'bg-white text-fario-purple' : 'bg-gray-100 text-fario-purple'}`}>2</span>
                                     <h3 className={`font-bold uppercase tracking-wide text-sm ${checkoutStep === 2 ? 'text-white' : 'text-gray-500'}`}>Order Summary</h3>
@@ -468,7 +468,7 @@ const Checkout: React.FC = () => {
                             </div>
 
                             {checkoutStep === 2 && (
-                                <div className="p-6">
+                                <div className="p-4 md:p-6">
                                     <div className="space-y-6 mb-8">
                                         {cartItems.map(item => (
                                             <div key={item.cartId} className="flex gap-6 border-b border-gray-100 pb-6 last:border-0 last:pb-0">
@@ -516,7 +516,7 @@ const Checkout: React.FC = () => {
 
                         {/* STEP 3: PAYMENT METHOD */}
                         <div className={`bg-white border rounded-sm overflow-hidden transition-all duration-300 ${checkoutStep === 3 ? 'border-gray-200 shadow-md' : 'border-gray-100'}`}>
-                            <div className={`px-6 py-4 flex justify-between items-center ${checkoutStep === 3 ? 'bg-fario-purple text-white' : 'bg-white'}`}>
+                            <div className={`px-4 md:px-6 py-4 flex justify-between items-center ${checkoutStep === 3 ? 'bg-fario-purple text-white' : 'bg-white'}`}>
                                 <div className="flex items-center gap-4">
                                     <span className={`flex items-center justify-center w-6 h-6 rounded-sm text-xs font-bold ${checkoutStep === 3 ? 'bg-white text-fario-purple' : 'bg-gray-100 text-fario-purple'}`}>3</span>
                                     <h3 className={`font-bold uppercase tracking-wide text-sm ${checkoutStep === 3 ? 'text-white' : 'text-gray-500'}`}>Payment Options</h3>
@@ -549,7 +549,7 @@ const Checkout: React.FC = () => {
                                         </div>
 
                                         {/* Payment Details */}
-                                        <div className="w-full md:w-2/3 p-6 bg-white">
+                                        <div className="w-full md:w-2/3 p-4 md:p-6 bg-white">
                                             {paymentMethod === 'upi' && (
                                                 <div className="space-y-4">
                                                     <h4 className="font-bold text-gray-800 text-sm">Choose an option</h4>

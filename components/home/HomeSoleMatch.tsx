@@ -115,7 +115,7 @@ export const HomeSoleMatch: React.FC = () => {
 
     return (
         <section
-            className="relative py-16 md:py-24 overflow-hidden"
+            className="relative py-12 md:py-24 overflow-hidden"
             style={{ background: 'linear-gradient(160deg, #1a0d2e 0%, #0f0820 100%)' }}
         >
             {/* Bg glows */}
@@ -151,7 +151,7 @@ export const HomeSoleMatch: React.FC = () => {
                         {step === 'intro' && (
                             <motion.div key="intro"
                                 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-                                className="rounded-3xl p-10 text-center"
+                                className="rounded-3xl p-6 md:p-10 text-center"
                                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                             >
                                 <div className="text-6xl mb-6">🤖</div>
@@ -173,7 +173,7 @@ export const HomeSoleMatch: React.FC = () => {
                         {typeof step === 'number' && (
                             <motion.div key={`q-${step}`}
                                 initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }}
-                                className="rounded-3xl p-8"
+                                className="rounded-3xl p-6 md:p-8"
                                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                             >
                                 {/* Progress */}
@@ -193,7 +193,7 @@ export const HomeSoleMatch: React.FC = () => {
                                             key={opt.key}
                                             onClick={() => choose(opt.key)}
                                             whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                                            className="rounded-2xl p-4 text-left transition-all duration-300"
+                                            className="rounded-2xl p-3 md:p-4 text-left transition-all duration-300"
                                             style={{
                                                 background: selected === opt.key ? '#d9f99d' : 'rgba(255,255,255,0.05)',
                                                 border: `1px solid ${selected === opt.key ? '#d9f99d' : 'rgba(255,255,255,0.08)'}`,
@@ -220,7 +220,7 @@ export const HomeSoleMatch: React.FC = () => {
                             <motion.div key="result"
                                 initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
                                 transition={{ type: 'spring', stiffness: 280, damping: 20 }}
-                                className="rounded-3xl p-10 text-center"
+                                className="rounded-3xl p-8 md:p-10 text-center"
                                 style={{ background: `linear-gradient(135deg, ${match.color}33, rgba(15,8,32,0.9))`, border: '1px solid rgba(255,255,255,0.1)' }}
                             >
                                 <div className="text-6xl mb-4">{match.emoji}</div>

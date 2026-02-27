@@ -163,7 +163,7 @@ export const ProfileAddresses: React.FC = () => {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <AnimatePresence>
                     {addresses.map((addr) => (
                         <motion.div
@@ -172,7 +172,7 @@ export const ProfileAddresses: React.FC = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                            className={`bg-white rounded-2xl border-2 p-6 relative group transition-all duration-300 hover:shadow-xl ${addr.isDefault ? 'border-fario-purple shadow-fario-purple/5' : 'border-gray-100 hover:border-gray-300'}`}
+                            className={`bg-white rounded-2xl border-2 p-5 md:p-6 relative group transition-all duration-300 hover:shadow-xl ${addr.isDefault ? 'border-fario-purple shadow-fario-purple/5' : 'border-gray-100 hover:border-gray-300'}`}
                         >
                             {addr.isDefault && (
                                 <div className="absolute top-4 right-4 flex items-center gap-1.5 text-[11px] font-black uppercase text-white bg-fario-purple px-3 py-1.5 rounded-full shadow-lg shadow-fario-purple/20">
@@ -235,13 +235,13 @@ export const ProfileAddresses: React.FC = () => {
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
                             className="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative z-10 shadow-2xl"
                         >
-                            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                            <div className="flex items-center justify-between p-5 md:p-6 border-b border-gray-100">
                                 <h3 className="text-xl font-black text-gray-900">{editingId ? 'Edit Delivery Address' : 'Add New Address'}</h3>
                                 <button onClick={() => setIsModalOpen(false)} className="p-2 bg-gray-50 hover:bg-gray-100 rounded-full transition-colors"><X size={20} className="text-gray-900" /></button>
                             </div>
 
-                            <form onSubmit={handleSave} className="p-6 space-y-5">
-                                <div className="grid grid-cols-2 gap-5">
+                            <form onSubmit={handleSave} className="p-5 md:p-6 space-y-4 md:space-y-5">
+                                <div className="grid grid-cols-2 gap-4 md:gap-5">
                                     <div className="col-span-2">
                                         <label className="block text-xs font-black text-gray-900 uppercase tracking-wide mb-1.5">Full Name</label>
                                         <input required type="text" value={formData.name || ''} onChange={(e) => handleChange('name', e.target.value)} className="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:border-gray-900 focus:ring-0 transition-all placeholder:text-gray-300" placeholder="e.g. Akash Sundar" />

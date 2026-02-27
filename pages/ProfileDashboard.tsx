@@ -103,7 +103,7 @@ const ProfileDashboard: React.FC = () => {
         <div className="min-h-screen bg-[#F7F9FC] font-sans flex flex-col selection:bg-gray-900 selection:text-white">
 
             {/* --- LAYOUT --- */}
-            <div className="max-w-[1400px] mx-auto w-full p-4 md:p-6 pt-24 lg:pt-28 flex flex-col lg:flex-row gap-8 relative flex-1">
+            <div className="max-w-[1400px] mx-auto w-full p-4 md:p-6 pt-24 lg:pt-28 flex flex-col lg:flex-row gap-6 lg:gap-8 relative flex-1">
 
                 {/* Mobile Sidebar Trigger & Header (Visible only on mobile) */}
                 <div className="lg:hidden flex items-center justify-between mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
