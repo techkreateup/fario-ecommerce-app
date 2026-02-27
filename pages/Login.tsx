@@ -94,22 +94,20 @@ export default function Login() {
             if (verifyError) throw verifyError;
 
             if (data.user) {
-                const tempName = name;
-                const tempPhone = phone;
                 const isAdminEmail = data.user.email?.toLowerCase() === 'reachkreateup@gmail.com' || data.user.email?.toLowerCase() === 'kreateuptech@gmail.com';
 
                 const { error: upsertError } = await supabase.from('profiles').upsert({
                     id: data.user.id,
                     email: data.user.email,
-                    name: tempName,
-                    phone: tempPhone,
+                    name: name,
+                    phone: phone,
                     role: isAdminEmail ? 'admin' : 'user',
                     updatedat: new Date().toISOString()
                 }, { onConflict: 'id' });
 
                 if (upsertError) console.error("Profile upsert failed:", upsertError);
 
-                toast.success(`Welcome back, ${tempName}`);
+                toast.success(`Welcome back, ${name}`);
                 await logAction('user_login', { email: data.user.email });
 
                 if (isAdminEmail) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BG_LIGHT, BG_DARK, LIME, PURPLE, DARK_TXT, MILKY, PUR_BORDER } from './HomeConstants';
+import { BG_LIGHT, BG_DARK, LIME } from './HomeConstants';
 
 const features = [
   {

@@ -1,5 +1,4 @@
 
-import { Order } from '../types';
 import { supabase } from '../lib/supabase';
 
 const getAuthHeaders = async () => {
@@ -27,7 +26,7 @@ export const orderService = {
     /**
      * Get user's order history using RPC (bypasses RLS like place_order_with_stock)
      */
-    async getMyOrders(userId: string) {
+    async getMyOrders() {
         try {
             const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
 
@@ -165,7 +164,7 @@ export const orderService = {
     /**
      * Archive Order - Hide from user view (set isarchived = true)
      */
-    async archiveOrder(orderId: string, userId: string) {
+    async archiveOrder(orderId: string) {
         try {
             const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
             const headers = await getAuthHeaders();
@@ -195,7 +194,7 @@ export const orderService = {
     /**
      * Add Review - Save rating and review text to order
      */
-    async addReview(orderId: string, userId: string, rating: number, reviewText: string) {
+    async addReview(orderId: string, rating: number, reviewText: string) {
         try {
             const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
             const headers = await getAuthHeaders();
