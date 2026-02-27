@@ -262,32 +262,46 @@ export const orderService = {
     /**
      * Create Return Request - Save return request to database
      */
-    async createReturn(orderId: string, userId: string, items: any[], reason: string) {
+    async createReturn(orderId: string, _userId: string, _items: void[], reason: string) {
         try {
-            const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-            const headers = await getAuthHeaders();
+            // 1. Fetch current order to get existing timeline
+            const { data: order, error: fetchError } = await supabase
+                .from('orders')
+                .select('timeline')
+                .eq('id', orderId)
+                .single();
 
-            const response = await fetch(
-                `${SUPABASE_URL}/rest/v1/rpc/create_return_request`,
-                {
-                    method: 'POST',
-                    headers,
-                    body: JSON.stringify({
-                        p_order_id: orderId,
-                        p_user_id: userId,
-                        p_items: items,
-                        p_reason: reason
-                    })
-                }
-            );
-
-            if (!response.ok) {
-                console.error("❌ Create return RPC failed:", response.status);
+            if (fetchError) {
+                console.error("❌ Fetch order failed:", fetchError);
                 return { success: false };
             }
 
-            const result = await response.json();
-            return result;
+            const returnId = `RET-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000)}`;
+            const messageStr = reason.length > 50 ? `${reason.substring(0, 47)}...` : reason;
+            const newEvent = {
+                status: 'Return Requested',
+                time: new Date().toISOString(),
+                message: `Refund initiated. Reason: ${messageStr}`
+            };
+
+            const updatedTimeline = [...(order.timeline || []), newEvent];
+
+            // 2. Update status and timeline
+            const { error: updateError } = await supabase
+                .from('orders')
+                .update({
+                    status: 'Return Requested',
+                    timeline: updatedTimeline,
+                    updatedAt: new Date().toISOString()
+                })
+                .eq('id', orderId);
+
+            if (updateError) {
+                console.error("❌ Update return status failed:", updateError);
+                return { success: false };
+            }
+
+            return { success: true, return_id: returnId };
         } catch (error) {
             console.error("❌ Failed to create return:", error);
             return { success: false };
