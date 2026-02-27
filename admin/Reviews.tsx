@@ -1,11 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-    Search, Star, Filter, MessageSquare,
-    Trash2, CheckCircle2, XCircle, Loader2,
-    Eye, ExternalLink, Tag
+    Star, MessageSquare,
+    Trash2, Loader2,
+    Tag
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '../context/ToastContext';
 
 interface Review {
