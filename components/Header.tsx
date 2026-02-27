@@ -8,7 +8,8 @@ import {
   LogOut,
   X,
   ChevronDown,
-  Menu, ArrowRight, Edit3, Heart
+  Menu, ArrowRight, Edit3, Heart,
+  Home as HomeIcon, Info, Mail
 } from 'lucide-react';
 import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
@@ -69,8 +70,6 @@ const Header: React.FC = () => {
       setIsProfileMenuOpen(false);
       await signOut();
       console.log('👋 LOGOUT SUCCESSFUL');
-      // If on protected page, App.tsx will redirect.
-      // If on public page, stay there.
       if (isAdminPage) {
         navigate('/');
       }
@@ -80,11 +79,21 @@ const Header: React.FC = () => {
     }
   };
 
+  const getIcon = (iconName?: string) => {
+    switch (iconName) {
+      case 'home': return <HomeIcon size={20} />;
+      case 'shopping-bag': return <ShoppingBag size={20} />;
+      case 'info': return <Info size={20} />;
+      case 'mail': return <Mail size={20} />;
+      default: return <ArrowRight size={20} />;
+    }
+  };
+
   const isAdminPage = location.pathname.startsWith('/admin');
   if (isAdminPage) return null;
 
   // PREMIUM NEUTRAL HEADER (Glassmorphic)
-  const headerBg = 'bg-white/95 backdrop-blur-xl shadow-sm h-20 border-gray-100';
+  const headerBg = 'bg-white/95 backdrop-blur-xl shadow-sm h-16 lg:h-20 border-gray-100';
   const textColor = 'text-gray-950';
 
 
@@ -93,14 +102,19 @@ const Header: React.FC = () => {
       <header className={`fixed top-0 left-0 right-0 z-50 border-b flex items-center ${headerBg}`}>
         <div className="container mx-auto px-6 md:px-10 relative flex justify-between items-center">
 
-          <NavLink to="/" className="flex items-center gap-4 relative z-[60] group">
+          <NavLink to="/" className="flex items-center gap-3 md:gap-4 relative z-[60] group">
             <div className="transition-transform duration-500 group-hover:scale-105 shadow-xl rounded-full">
               {/* Standard Brand Logo */}
-              <Logo size={52} />
+              <div className="block lg:hidden">
+                <Logo size={40} />
+              </div>
+              <div className="hidden lg:block">
+                <Logo size={52} />
+              </div>
             </div>
             <div className="flex flex-col">
-              <span className={`font-black text-2xl md:text-3xl tracking-tighter font-heading italic ${textColor} leading-none transition-colors`}>FARIO</span>
-              <span className="text-[8px] font-black uppercase tracking-[0.6em] text-fario-purple mt-1 ml-0.5 opacity-40">Official Registry</span>
+              <span className={`font-black text-xl md:text-3xl tracking-tighter font-heading italic ${textColor} leading-none transition-colors`}>FARIO</span>
+              <span className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] md:tracking-[0.6em] text-fario-purple mt-0.5 md:mt-1 ml-0.5 opacity-40">Official Registry</span>
             </div>
           </NavLink>
 
@@ -269,6 +283,26 @@ const Header: React.FC = () => {
             </div>
 
             <div className="flex-grow flex flex-col p-6 md:p-10 overflow-y-auto">
+
+              {/* Quick Actions Row */}
+              <div className="grid grid-cols-3 gap-3 mb-10">
+                <button onClick={() => { navigate('/profile'); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors border border-white/5">
+                  <User size={20} className="text-fario-lime mb-2" />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white/60">Profile</span>
+                </button>
+                <button onClick={() => { navigate('/wishlist'); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors border border-white/5">
+                  <Heart size={20} className="text-rose-400 mb-2" />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white/60">Wishlist</span>
+                </button>
+                <button onClick={() => { setIsCartDrawerOpen(true); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors border border-white/5">
+                  <div className="relative">
+                    <ShoppingBag size={20} className="text-fario-purple mb-2" />
+                    {cartCount > 0 && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-fario-lime rounded-full" />}
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white/60">Cart</span>
+                </button>
+              </div>
+
               <nav className="flex flex-col gap-6 md:gap-8">
                 {NAV_ITEMS.map((item: any, idx: number) => (
                   <MotionDiv
@@ -286,7 +320,12 @@ const Header: React.FC = () => {
                            ${isActive ? 'text-fario-lime' : 'text-white/40'}
                          `}
                     >
-                      {item.label}
+                      <div className="flex items-center gap-4">
+                        <span className={`p-2 rounded-lg ${location.pathname === item.path ? 'bg-fario-lime/10 text-fario-lime' : 'bg-white/5 text-white/20 group-hover:text-white/40'}`}>
+                          {getIcon(item.icon)}
+                        </span>
+                        {item.label}
+                      </div>
                       {location.pathname === item.path && <ArrowRight size={24} className="text-fario-lime md:w-8 md:h-8" />}
                     </NavLink>
                   </MotionDiv>

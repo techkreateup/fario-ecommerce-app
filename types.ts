@@ -20,6 +20,7 @@ export interface Product {
 export interface NavItem {
   label: string;
   path: string;
+  icon?: string;
 }
 
 export interface CartItem extends Product {

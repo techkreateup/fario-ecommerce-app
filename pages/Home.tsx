@@ -70,7 +70,7 @@ export default function Home() {
       <HomeSpinWheel />
       <HomeGallery />
 
-      <div className="h-20" />
+      <div className="hidden md:block h-20" />
       <HomeCinematicGrid />
 
       {/* Monologue — horizontal scroll story */}

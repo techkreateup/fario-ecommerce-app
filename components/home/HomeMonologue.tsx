@@ -71,7 +71,7 @@ const chapters = [
 
 /* Shine overlay on hover */
 const ShineCard: React.FC<{ dark: boolean; shineColor: string; children: React.ReactNode; style: React.CSSProperties }> = ({
-    _dark, shineColor, children, style
+    shineColor, children, style
 }) => {
     const [pos, setPos] = useState({ x: 50, y: 50 });
     const [hovered, setHovered] = useState(false);
@@ -124,7 +124,7 @@ export const HomeMonologue: React.FC = () => {
     };
 
     return (
-        <section className="relative py-20 overflow-hidden" style={{ background: '#F5F0FF' }}>
+        <section className="relative py-12 md:py-24 overflow-hidden" style={{ background: '#F5F0FF' }}>
             {/* Header */}
             <div className="px-6 md:px-16 mb-10">
                 <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>

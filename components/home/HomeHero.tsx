@@ -57,12 +57,12 @@ export const HomeHero = () => {
                     initial={{ opacity: 0, letterSpacing: '0.6em' }}
                     animate={{ opacity: 1, letterSpacing: '0.3em' }}
                     transition={{ duration: 1.5, ease: E }}
-                    className="text-xs font-bold uppercase mb-10 inline-flex items-center gap-3 px-4 py-2 rounded-full"
+                    className="text-[10px] md:text-xs font-bold uppercase mb-6 md:mb-10 inline-flex items-center gap-2 md:gap-3 px-3 md:px-4 py-1.5 md:py-2 rounded-full"
                     style={{ background: `${LIME}22`, color: LIME, border: `1px solid ${LIME}44` }}
                 >✧ New Delhi · Est. 2024 · Collection 2026</motion.div>
 
-                <h1 className="font-heading font-black uppercase tracking-tighter leading-[0.85] mb-8"
-                    style={{ fontSize: 'clamp(48px, 10vw, 130px)', color: MILKY }}
+                <h1 className="font-heading font-black uppercase tracking-tighter leading-[0.85] mb-4 md:mb-8"
+                    style={{ fontSize: 'clamp(40px, 10vw, 130px)', color: MILKY }}
                 >
                     <div><SplitText text="Born" cls="block" /></div>
                     <div><SplitText text="for" cls="block" delay={0.14} stroke={LIME} /></div>

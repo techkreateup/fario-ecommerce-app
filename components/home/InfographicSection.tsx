@@ -185,7 +185,7 @@ const InfographicSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-24 relative overflow-hidden" style={{ background: BG_LIGHT }}>
+    <section className="py-12 md:py-24 relative overflow-hidden" style={{ background: BG_LIGHT }}>
 
       {/* Jagged Top Edge */}
       <div className="absolute top-0 left-0 w-full h-12 clip-path-jagged-top rotate-180 translate-y-1 z-10" style={{ background: BG_LIGHT }}></div>

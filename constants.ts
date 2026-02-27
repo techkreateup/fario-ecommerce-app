@@ -104,10 +104,10 @@ export const ASSETS = {
 };
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: 'Home', path: '/' },
-  { label: 'Products', path: '/products' },
-  { label: 'About', path: '/story' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'Home', path: '/', icon: 'home' },
+  { label: 'Products', path: '/products', icon: 'shopping-bag' },
+  { label: 'About', path: '/story', icon: 'info' },
+  { label: 'Contact', path: '/contact', icon: 'mail' },
 ];
 
 export const PRODUCTS: EnhancedProduct[] = [];
