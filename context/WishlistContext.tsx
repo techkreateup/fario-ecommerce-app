@@ -30,7 +30,7 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
         const syncWishlist = async () => {
             try {
                 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-                const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+                const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
                 const authToken = session?.access_token || '';
 
                 const response = await fetch(
@@ -102,7 +102,7 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
 
         try {
             const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-            const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+            const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
             const authToken = session?.access_token || '';
 
             const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items`, {
@@ -139,7 +139,7 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
 
         try {
             const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-            const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+            const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
             const authToken = session?.access_token || '';
 
             const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {

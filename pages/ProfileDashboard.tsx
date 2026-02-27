@@ -122,7 +122,6 @@ const ProfileDashboard: React.FC = () => {
                 <ProfileSidebar
                     activeTab={activeTab}
                     setActiveTab={(tab: any) => setActiveTab(tab)}
-                    isAuthenticated={!!user}
                     isMobileMenuOpen={isMobileMenuOpen}
                     setIsMobileMenuOpen={setIsMobileMenuOpen}
                 />

@@ -1,0 +1,11 @@
+debug_raw.ts(12,45): error TS7006: Parameter 'p' implicitly has an 'any' type.
+debug_raw.ts(14,29): error TS7006: Parameter 'row' implicitly has an 'any' type.
+debug_raw.ts(14,34): error TS7006: Parameter 'i' implicitly has an 'any' type.
+pages/Orders.tsx(69,69): error TS2554: Expected 1 arguments, but got 2.
+pages/Orders.tsx(96,17): error TS2554: Expected 3 arguments, but got 4.
+pages/Orders.tsx(133,17): error TS2345: Argument of type 'OrderItem[]' is not assignable to parameter of type 'void[]'.
+  Type 'OrderItem' is not assignable to type 'void'.
+pages/ProfileDashboard.tsx(125,21): error TS2322: Type '{ activeTab: "orders" | "help" | "addresses" | "overview" | "vault" | "payments" | "settings"; setActiveTab: (tab: any) => void; isAuthenticated: boolean; isMobileMenuOpen: boolean; setIsMobileMenuOpen: Dispatch<...>; }' is not assignable to type 'IntrinsicAttributes & SidebarProps'.
+  Property 'isAuthenticated' does not exist on type 'IntrinsicAttributes & SidebarProps'.
+scripts/health_check.ts(3,10): error TS2305: Module '"../constants"' has no exported member 'SUPABASE_URL'.
+scripts/health_check.ts(3,24): error TS2305: Module '"../constants"' has no exported member 'SUPABASE_ANON_KEY'.

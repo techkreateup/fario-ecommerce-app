@@ -244,7 +244,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       try {
         const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
         const authToken = session?.access_token || '';
 
         const response = await fetch(
@@ -295,7 +295,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('📦 FETCHING ORDERS for user:', userId);
       try {
         const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
         // Extract auth token from localStorage directly (avoid getSession() hang)
         let authToken = '';
@@ -501,7 +501,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setCartItems([]);
     if (user) {
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
       const authToken = session?.access_token || '';
 
       await fetch(`${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}`, {
@@ -541,7 +541,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // 2. DB Sync (if logged in)
     if (user) {
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
       const authToken = session?.access_token || '';
       const colorValue = color || (product.colors?.[0] || 'Default');
 
@@ -584,7 +584,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     if (user) {
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
       const authToken = session?.access_token || '';
       const colorValue = item.selectedColor || (item.colors?.[0] || 'Default');
 
@@ -614,7 +614,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     if (user) {
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
       const authToken = session?.access_token || '';
       const colorValue = item.selectedColor || (item.colors?.[0] || 'Default');
 
@@ -644,7 +644,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // 2. DB Sync
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
       const authToken = session?.access_token || '';
 
       // Remove from Cart DB (REST)
@@ -691,7 +691,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // Remove from Saved (REST)
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
       const authToken = session?.access_token || '';
 
       await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {
@@ -708,7 +708,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!user) return;
 
     const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
     const authToken = session?.access_token || '';
 
     const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {
@@ -732,7 +732,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // Get credentials from env
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
       // Get user from AuthContext
       if (!user || !user.id) {
@@ -845,7 +845,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const checkStock = async (productId: string): Promise<number> => {
     try {
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
       const authToken = session?.access_token || '';
 
       const response = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}&select=stockquantity`, {
@@ -885,7 +885,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!user || !session?.access_token) return;
     try {
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
       const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
         method: 'GET',
@@ -929,7 +929,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // REST API call to avoid supabase-js client hanging
       const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
       const response = await fetch(
         `${SUPABASE_URL}/rest/v1/coupons?code=eq.${code.toUpperCase()}&is_active=eq.true&select=*&limit=1`,
@@ -1061,7 +1061,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           }
 
           const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-          const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+          const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
           let authToken = '';
           try {
@@ -1111,7 +1111,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
           // REST API to avoid supabase-js client issues
           const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-          const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+          const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
           let authToken = '';
           try {

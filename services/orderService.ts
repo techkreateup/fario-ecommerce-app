@@ -2,7 +2,7 @@
 import { supabase } from '../lib/supabase';
 
 const getAuthHeaders = async () => {
-    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
     // Extract auth token from localStorage directly (getSession() hangs)
     let authToken = '';
@@ -262,7 +262,7 @@ export const orderService = {
     /**
      * Create Return Request - Save return request to database
      */
-    async createReturn(orderId: string, _userId: string, _items: void[], reason: string) {
+    async createReturn(orderId: string, _userId: string, _items: any[], reason: string) {
         try {
             // 1. Fetch current order to get existing timeline
             const { data: order, error: fetchError } = await supabase

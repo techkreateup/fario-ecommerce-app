@@ -66,7 +66,7 @@ const Orders: React.FC = () => {
         }
 
         try {
-            const result = await orderService.archiveOrder(orderId, user.id);
+            const result = await orderService.archiveOrder(orderId);
             if (result.success) {
                 toast.success('Order archived successfully');
                 // Supabase realtime channel in CartProvider refreshes orders automatically
@@ -91,7 +91,6 @@ const Orders: React.FC = () => {
         try {
             const result = await orderService.addReview(
                 selectedOrder.id,
-                user.id,
                 reviewRating,
                 reviewText
             );

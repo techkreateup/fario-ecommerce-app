@@ -9,9 +9,9 @@ async function verify() {
 
         console.log('Status:', json.status);
         if (json.data) {
-            const p1Rows = json.data.filter(p => p.id === 'p1');
+            const p1Rows = json.data.filter((p: any) => p.id === 'p1');
             console.log(`Found ${p1Rows.length} rows for p1.`);
-            p1Rows.forEach((row, i) => {
+            p1Rows.forEach((row: any, i: number) => {
                 console.log(`[${i}] inStock (raw): "${row.inStock}" (type: ${typeof row.inStock}), stockQty: "${row.stockQuantity}"`);
             });
         }

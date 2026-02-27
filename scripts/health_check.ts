@@ -1,6 +1,6 @@
 
 import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../constants'; // Adjust path if needed, or hardcode/env
+// Removed import that causes TS error
 import * as dotenv from 'dotenv';
 dotenv.config();
 
