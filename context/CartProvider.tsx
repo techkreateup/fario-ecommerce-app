@@ -1064,11 +1064,13 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
           const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
-          let authToken = '';
-          try {
-            const { data: { session } } = await import('../lib/supabase').then(m => m.supabase.auth.getSession());
-            authToken = session?.access_token || '';
-          } catch { }
+          // 🔐 SECURE: Use session directly from AuthContext
+          let authToken = session?.access_token || '';
+
+          if (!authToken || !authToken.includes('.')) {
+            console.warn("⚠️ No valid JWT session found (or token format invalid), falling back to Anon Key (Less Secure)");
+            authToken = '';
+          }
 
           const response = await fetch(`${SUPABASE_URL}/rest/v1/returns`, {
             method: 'POST',
@@ -1114,11 +1116,13 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
           const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
 
-          let authToken = '';
-          try {
-            const { data: { session } } = await import('../lib/supabase').then(m => m.supabase.auth.getSession());
-            authToken = session?.access_token || '';
-          } catch { }
+          // 🔐 SECURE: Use session directly from AuthContext
+          let authToken = session?.access_token || '';
+
+          if (!authToken || !authToken.includes('.')) {
+            console.warn("⚠️ No valid JWT session found (or token format invalid), falling back to Anon Key (Less Secure)");
+            authToken = '';
+          }
 
           // 1. Insert Review
           const reviewData = {
