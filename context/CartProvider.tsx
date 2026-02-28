@@ -761,10 +761,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const fetchTimeout = setTimeout(() => controller.abort(), 30000);
 
       // 🔐 SECURE: Use session directly from AuthContext
-      const authToken = session?.access_token || '';
+      let authToken = session?.access_token || '';
 
-      if (!authToken) {
-        console.warn("⚠️ No valid session found, falling back to Anon Key (Less Secure)");
+      if (!authToken || !authToken.includes('.')) {
+        console.warn("⚠️ No valid JWT session found (or token format invalid), falling back to Anon Key (Less Secure)");
+        authToken = '';
       }
 
       const response = await fetch(
@@ -817,7 +818,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             method: 'PUT',
             headers: {
               'apikey': SUPABASE_KEY,
-              'Authorization': `Bearer ${session?.access_token || SUPABASE_KEY}`,
+              'Authorization': authToken ? `Bearer ${authToken}` : `Bearer ${SUPABASE_KEY}`,
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({ data: { spin_coupons: updatedCoupons } })

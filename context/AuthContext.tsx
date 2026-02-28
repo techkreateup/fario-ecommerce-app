@@ -50,10 +50,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 // 🛡️ Extract session from localStorage directly (getSession() hangs indefinitely)
                 let session: any = null;
                 try {
-                    const storageKey = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+                    const storageKey = Object.keys(localStorage).find(k =>
+                        k.startsWith('sb-') &&
+                        k.endsWith('-auth-token') &&
+                        k !== 'sb-mock-auth-token'
+                    );
                     if (storageKey) {
                         const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
-                        if (stored?.access_token && stored?.user) {
+                        if (stored?.access_token && stored?.user && stored.access_token.includes('.')) {
                             // 🛡️ Check if token is actually valid/expired
                             const expiresAt = stored.expires_at;
                             const now = Math.floor(Date.now() / 1000);
