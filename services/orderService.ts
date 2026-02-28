@@ -279,7 +279,8 @@ export const orderService = {
                         p_order_id: orderId,
                         p_user_id: _userId,
                         p_items: _items,
-                        p_reason: reason
+                        p_reason: reason,
+                        p_refund_method: refundMethod
                     })
                 }
             );
