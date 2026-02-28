@@ -165,18 +165,18 @@ export const ProfileOrders: React.FC = () => {
                                             <Box size={14} className="text-gray-400 group-hover/action:text-gray-900 transition-colors" />
                                         </button>
                                         <button
-                                            onClick={() => setFeedbackType('seller')}
-                                            className="w-full py-2.5 bg-gray-50 text-gray-900 rounded-lg font-bold text-xs hover:bg-gray-100 text-left px-4 flex items-center justify-between group/action transition-colors"
+                                            onClick={() => navigate('/orders')}
+                                            className="w-full py-2.5 bg-gray-50 text-gray-900 rounded-lg font-bold text-xs hover:bg-gray-100 text-left px-4 flex items-center justify-between group/action transition-colors border border-gray-200"
                                         >
-                                            <span>Leave Seller Feedback</span>
-                                            <MessageSquare size={14} className="text-gray-400 group-hover/action:text-gray-900 transition-colors" />
+                                            <span className="text-fario-purple">Return / Replace Items</span>
+                                            <RefreshCw size={14} className="text-fario-purple group-hover/action:rotate-180 transition-transform duration-500" />
                                         </button>
                                         <button
-                                            onClick={() => setFeedbackType('product')}
+                                            onClick={() => navigate('/orders')}
                                             className="w-full py-2.5 bg-gray-50 text-gray-900 rounded-lg font-bold text-xs hover:bg-gray-100 text-left px-4 flex items-center justify-between group/action transition-colors"
                                         >
-                                            <span>Write a Product Review</span>
-                                            <Star size={14} className="text-gray-400 group-hover/action:text-gray-900 transition-colors" />
+                                            <span>Manage Reviews & Feedback</span>
+                                            <Star size={14} className="text-gray-400 group-hover/action:text-yellow-500 transition-colors" />
                                         </button>
                                     </div>
                                 </div>

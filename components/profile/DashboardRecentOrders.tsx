@@ -127,7 +127,7 @@ export const DashboardRecentOrders: React.FC<RecentOrdersProps> = ({ setActiveTa
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={() => navigate(`/product/${recentOrderItem.id}`)}
+                                    onClick={() => navigate(`/products/${recentOrderItem.id}`)}
                                     className="px-4 py-2 border border-gray-200 text-gray-900 rounded-lg text-xs font-bold hover:bg-gray-50 transition-colors"
                                 >
                                     View your item
@@ -148,19 +148,19 @@ export const DashboardRecentOrders: React.FC<RecentOrdersProps> = ({ setActiveTa
                         </motion.button>
                         <motion.button
                             whileHover={{ x: 5 }}
-                            onClick={() => setFeedbackType('seller')}
-                            className="w-full py-2.5 bg-gray-50 text-gray-900 rounded-lg font-bold text-xs hover:bg-gray-100 text-left px-4 flex items-center justify-between group/action"
+                            onClick={() => navigate('/orders')}
+                            className="w-full py-2.5 bg-gray-50 text-gray-900 rounded-lg font-bold text-xs hover:bg-gray-100 text-left px-4 flex items-center justify-between group/action border border-gray-200"
                         >
-                            <span>Leave Seller Feedback</span>
-                            <MessageSquare size={14} className="text-gray-400 group-hover/action:text-gray-900 transition-colors" />
+                            <span className="text-fario-purple">Return / Replace Items</span>
+                            <RefreshCw size={14} className="text-fario-purple group-hover/action:rotate-180 transition-transform duration-500" />
                         </motion.button>
                         <motion.button
                             whileHover={{ x: 5 }}
-                            onClick={() => setFeedbackType('product')}
+                            onClick={() => navigate('/orders')}
                             className="w-full py-2.5 bg-gray-50 text-gray-900 rounded-lg font-bold text-xs hover:bg-gray-100 text-left px-4 flex items-center justify-between group/action"
                         >
-                            <span>Write a Product Review</span>
-                            <Star size={14} className="text-gray-400 group-hover/action:text-gray-900 transition-colors" />
+                            <span>Manage Reviews & Feedback</span>
+                            <Star size={14} className="text-gray-400 group-hover/action:text-yellow-500 transition-colors" />
                         </motion.button>
                     </div>
                 </div>
