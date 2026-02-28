@@ -92,9 +92,9 @@ const Header: React.FC = () => {
   const isAdminPage = location.pathname.startsWith('/admin');
   if (isAdminPage) return null;
 
-  // PREMIUM DARK HEADER (Solid & Mass)
-  const headerBg = 'bg-[#132c33] shadow-lg h-16 lg:h-24 border-b border-white/5';
-  const textColor = 'text-white';
+  // LIGHT PURPLE THEME
+  const headerBg = 'bg-[#f3e8ff]/95 backdrop-blur-xl shadow-sm h-16 lg:h-24 border-b border-purple-200/50';
+  const textColor = 'text-gray-950';
 
 
   return (
@@ -114,7 +114,7 @@ const Header: React.FC = () => {
             </div>
             <div className="flex flex-col justify-center">
               <span className={`font-black text-2xl md:text-[2.5rem] tracking-tight font-heading ${textColor} leading-[0.9] transition-colors uppercase`}>FARIO</span>
-              <span className="text-[6.5px] md:text-[8px] font-bold uppercase tracking-[0.45em] md:tracking-[0.62em] text-white/90 mt-1 origin-left">STEP IN, STAND OUT</span>
+              <span className="text-[6.5px] md:text-[8px] font-bold uppercase tracking-[0.45em] md:tracking-[0.62em] text-purple-600/80 mt-1 origin-left">STEP IN, STAND OUT</span>
             </div>
           </NavLink>
 
@@ -134,7 +134,7 @@ const Header: React.FC = () => {
                     onMouseLeave={() => setHoveredNav(null)}
                     className={`
                        relative px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 z-10
-                       ${isActive ? 'text-white' : 'text-white/60 hover:text-white'}
+                       ${isActive ? 'text-white' : 'text-gray-500 hover:text-purple-600'}
                      `}
                   >
                     {isActive && (
@@ -164,16 +164,16 @@ const Header: React.FC = () => {
             <div className="relative" ref={profileMenuRef}>
               <button
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className={`flex items-center gap-3 p-1.5 rounded-full border transition-all duration-300 hover:shadow-lg ${isProfileMenuOpen ? 'bg-fario-purple text-white border-fario-purple' : 'bg-white/5 border-white/10 hover:border-white/20'}`}
+                className={`flex items-center gap-3 p-1.5 rounded-full border transition-all duration-300 hover:shadow-lg ${isProfileMenuOpen ? 'bg-fario-purple text-white border-fario-purple' : 'bg-white/50 border-purple-200/50 hover:bg-white/80'}`}
               >
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center overflow-hidden transition-colors ${isLoggedIn ? 'bg-fario-purple shadow-inner text-white' : 'bg-white/10 shadow-sm'}`}>
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center overflow-hidden transition-colors ${isLoggedIn ? 'bg-fario-purple shadow-inner text-white' : 'bg-white shadow-sm'}`}>
                   {isLoggedIn && userProfile?.avatar ? (
                     <img src={userProfile.avatar} className="w-full h-full object-cover" alt="" />
                   ) : (
-                    <User size={18} className={isProfileMenuOpen ? 'text-white' : 'text-white/70'} />
+                    <User size={18} className={isProfileMenuOpen ? 'text-white' : 'text-purple-400'} />
                   )}
                 </div>
-                <ChevronDown size={14} strokeWidth={3} className={`mr-2 transition-transform duration-300 ${isProfileMenuOpen ? 'rotate-180 text-white' : 'text-white/40'}`} />
+                <ChevronDown size={14} strokeWidth={3} className={`mr-2 transition-transform duration-300 ${isProfileMenuOpen ? 'rotate-180 text-white' : 'text-purple-300'}`} />
               </button>
 
               <AnimatePresence>
@@ -229,7 +229,7 @@ const Header: React.FC = () => {
             {/* WISHLIST ICON */}
             <button
               onClick={() => navigate('/wishlist')}
-              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/5 border border-white/10 text-white/70 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple`}
+              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/50 border border-purple-200/50 text-purple-600 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple`}
             >
               <Heart size={22} className="transition-all duration-300 group-hover:fill-fario-purple" />
               {wishlistItems.length > 0 && (
@@ -242,7 +242,7 @@ const Header: React.FC = () => {
             {/* CART ICON */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/5 border border-white/10 text-white/70 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple`}
+              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/50 border border-purple-200/50 text-purple-600 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple`}
             >
               <ShoppingBag size={22} />
               {cartCount > 0 && (
@@ -254,7 +254,7 @@ const Header: React.FC = () => {
 
             {/* MOBILE TOGGLE */}
             <button
-              className={`lg:hidden p-3 rounded-full transition-all bg-white/5 border border-white/10 text-white/70 hover:text-white hover:border-fario-purple hover:bg-fario-purple shadow-sm`}
+              className={`lg:hidden p-3 rounded-full transition-all bg-white/50 border border-purple-200/50 text-purple-600 hover:text-white hover:border-fario-purple hover:bg-fario-purple shadow-sm`}
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu size={22} />
