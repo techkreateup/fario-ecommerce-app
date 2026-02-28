@@ -7,10 +7,16 @@ const getAuthHeaders = async () => {
     // Extract auth token from localStorage directly (getSession() hangs)
     let authToken = '';
     try {
-        const storageKey = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+        const storageKey = Object.keys(localStorage).find(k =>
+            k.startsWith('sb-') &&
+            k.endsWith('-auth-token') &&
+            k !== 'sb-mock-auth-token'
+        );
         if (storageKey) {
             const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
-            authToken = stored?.access_token || '';
+            if (stored?.access_token && stored.access_token.includes('.')) {
+                authToken = stored.access_token;
+            }
         }
     } catch { /* fallback to anon key */ }
 
@@ -285,7 +291,7 @@ export const orderService = {
                 }
             );
 
-            let result: any = { success: false };
+            let result: any = { success: false, message: 'Unknown error occurred.' };
             if (response.ok) {
                 result = await response.json();
             }
@@ -293,32 +299,18 @@ export const orderService = {
             if (!response.ok || result.success === false) {
                 console.error("❌ RPC create_return_request failed:", response.status, result);
 
-                console.log("Attempting native insert fallback...");
-                const returnId = `RET-${Date.now().toString().slice(-6)}`;
-                const { error: fallbackError } = await supabase.from('returns').insert([{
-                    id: returnId,
-                    user_id: _userId,
-                    orderid: orderId,
-                    items: _items,
-                    reason: reason,
-                    method: refundMethod,
-                    status: 'pending',
-                    refund_amount: 0,
-                    auto_decision: false
-                }]);
-
-                if (fallbackError) {
-                    console.error("❌ Native fallback failed:", fallbackError);
-                    return { success: false, message: fallbackError.message };
-                }
-
-                return { success: true, return_id: returnId };
+                // Return the actual failure message from the backend (e.g. "Only delivered orders can be returned")
+                // INSTEAD of attempting a native fallback that will hang the browser infinitely.
+                return {
+                    success: false,
+                    message: result.message || `Backend error: ${response.status}`
+                };
             }
 
             return { success: true, return_id: typeof result.return_id === 'string' ? result.return_id : `RET-${Date.now().toString().slice(-6)}` };
-        } catch (error) {
+        } catch (error: any) {
             console.error("❌ Failed to create return:", error);
-            return { success: false };
+            return { success: false, message: error.message };
         }
     }
 };
