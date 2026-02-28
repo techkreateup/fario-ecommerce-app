@@ -11,15 +11,50 @@ import {
 import { useCart } from '../context/CartProvider';
 import { Order } from '../types';
 import { orderService } from '../services/orderService';
+import { supabase } from '../lib/supabase';
 
 const AdminOrders: React.FC = () => {
-  const { orders, purgeOrder, updateOrderStatus } = useCart();
+  const { purgeOrder, updateOrderStatus } = useCart();
+  const [orders, setOrders] = useState<Order[]>([]);
   const [selectedTab, setSelectedTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // Orders are managed via CartContext real-time listener
+  // Fetch all orders real-time for admin
+  React.useEffect(() => {
+    const fetchAllOrders = async () => {
+      const allOrders = await orderService.getAllOrders();
+      // Map properties consistently (specifically checking isArchived and mapped schema)
+      const mappedOrders = allOrders.map((o: any) => ({
+        id: o.id,
+        date: o.createdat ? new Date(o.createdat).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A',
+        createdat: o.createdat,
+        total: Number(o.total),
+        status: o.status || 'Processing',
+        items: Array.isArray(o.items) ? o.items : (typeof o.items === 'string' ? JSON.parse(o.items) : []),
+        shippingAddress: o.shippingaddress,
+        paymentMethod: o.paymentmethod,
+        isArchived: o.isarchived || false,
+        user_id: o.user_id,
+        useremail: o.useremail,
+        timeline: o.timeline || [],
+        returns_info: o.returns_info
+      }));
+      setOrders(mappedOrders);
+    };
+    fetchAllOrders();
+
+    const channel = supabase.channel('admin-orders')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        fetchAllOrders();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const tabs = ['All', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered', 'Returns'];
 
