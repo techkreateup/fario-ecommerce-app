@@ -102,14 +102,19 @@ const Header: React.FC = () => {
       <header className={`fixed top-0 left-0 right-0 z-50 border-b flex items-center ${headerBg}`}>
         <div className="container mx-auto px-4 md:px-6 lg:px-10 relative flex justify-between items-center">
 
-          <NavLink to="/" className="flex items-center relative z-[60] group">
-            <div className="transition-transform duration-500 group-hover:scale-105">
-              {/* BRAND IMAGE LOGO (Replacing rendered text for "Mass" look) */}
-              <img
-                src="https://fario.in/assets/2fbb3db6ff6253ade9152b8169134bbbdda77108-BYUNSj-M.png"
-                alt="FARIO | STEP IN, STAND OUT"
-                className="h-12 md:h-16 lg:h-20 w-auto object-contain"
-              />
+          <NavLink to="/" className="flex items-center gap-3 md:gap-4 relative z-[60] group">
+            <div className="transition-transform duration-500 group-hover:scale-105 shadow-xl rounded-full">
+              {/* Restored Original SVG Logo */}
+              <div className="block lg:hidden">
+                <Logo size={48} />
+              </div>
+              <div className="hidden lg:block">
+                <Logo size={60} />
+              </div>
+            </div>
+            <div className="flex flex-col justify-center">
+              <span className={`font-black text-2xl md:text-[2.5rem] tracking-tight font-heading ${textColor} leading-[0.9] transition-colors uppercase`}>FARIO</span>
+              <span className="text-[6.5px] md:text-[8px] font-bold uppercase tracking-[0.45em] md:tracking-[0.62em] text-purple-600/80 mt-1 origin-left">STEP IN, STAND OUT</span>
             </div>
           </NavLink>
 
