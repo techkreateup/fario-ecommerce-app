@@ -162,6 +162,14 @@ export const DashboardRecentOrders: React.FC<RecentOrdersProps> = ({ setActiveTa
                             <span>Manage Reviews & Feedback</span>
                             <Star size={14} className="text-gray-400 group-hover/action:text-yellow-500 transition-colors" />
                         </motion.button>
+                        <motion.button
+                            whileHover={{ x: 5 }}
+                            onClick={() => navigate('/orders')}
+                            className="w-full py-2.5 bg-red-50 text-red-600 rounded-lg font-bold text-xs hover:bg-red-100 text-left px-4 flex items-center justify-between group/action border border-red-100"
+                        >
+                            <span className="font-bold">Return Order</span>
+                            <RefreshCw size={14} className="text-red-500 group-hover/action:rotate-180 transition-transform duration-500" />
+                        </motion.button>
                     </div>
                 </div>
             </div>
