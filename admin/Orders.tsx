@@ -62,7 +62,7 @@ const AdminOrders: React.FC = () => {
   const statusConfig: Record<string, { label: string; color: string; bg: string; icon: any }> = {
     'Processing': { label: 'Processing', color: 'text-blue-600', bg: 'bg-blue-50', icon: Clock },
     'Shipped': { label: 'Shipped', color: 'text-indigo-600', bg: 'bg-indigo-50', icon: Truck },
-    'Out for Delivery': { label: 'In Transit', color: 'text-amber-600', bg: 'bg-amber-50', icon: MapPin },
+    'Out for Delivery': { label: 'Delivery on the way', color: 'text-amber-600', bg: 'bg-amber-50', icon: MapPin },
     'Delivered': { label: 'Delivered', color: 'text-emerald-600', bg: 'bg-emerald-50', icon: CheckCircle2 },
     'Cancelled': { label: 'Cancelled', color: 'text-slate-500', bg: 'bg-slate-100', icon: X },
     'Return Requested': { label: 'Return Req', color: 'text-rose-600', bg: 'bg-rose-50', icon: RotateCcw },
@@ -288,7 +288,7 @@ const AdminOrders: React.FC = () => {
                               >
                                 <option value="Processing">Processing</option>
                                 <option value="Shipped">Shipped</option>
-                                <option value="Out for Delivery">In Transit</option>
+                                <option value="Out for Delivery">Delivery on the way</option>
                                 <option value="Delivered">Delivered</option>
                                 <option value="Return Requested">Return Req</option>
                                 <option value="Returned">Returned</option>
