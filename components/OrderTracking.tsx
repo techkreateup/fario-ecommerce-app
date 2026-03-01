@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import {
-    Truck, CheckCircle, Package,
+    Truck, CheckCircle, Package, CircleDot,
     Activity, Clock, RotateCcw, Box, MapPin, Search
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -15,7 +15,7 @@ interface OrderTrackingProps {
 }
 
 const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) => {
-    const [order, setOrder] = useState<Order>(initialOrder); // Use prop as initial state
+    const [order, setOrder] = useState<Order>(initialOrder);
     const { isAdmin } = useAuth();
     const toast = useToast();
 
@@ -24,6 +24,7 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) =>
     const [newMessage, setNewMessage] = useState('');
     const [isUpdating, setIsUpdating] = useState(false);
 
+    // Note: This now purely relies on DB trigger to update the timeline.
     const handleUpdateTimeline = async () => {
         if (!newStatus || !newMessage) {
             toast.error('Please fill in status and message');
@@ -32,26 +33,27 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) =>
 
         setIsUpdating(true);
         try {
+            // We just update status. The Postgres Trigger TRG_SYNC_ORDER_TIMELINE will auto-append the timeline log.
+            // For admin overrides, we can pass both if the API supports it, but the DB handles sync.
             const result = await orderService.updateTimeline(order.id, newStatus, newMessage);
             if (result.success) {
-                toast.success('Timeline updated successfully');
+                toast.success('Status updated. Engine syncing timeline...');
                 setNewStatus('');
                 setNewMessage('');
             } else {
-                toast.error('Failed to update timeline');
+                toast.error('Failed to update status');
             }
         } catch (error) {
             console.error('Update error:', error);
-            toast.error('Failed to update timeline');
+            toast.error('Failed to update status');
         } finally {
             setIsUpdating(false);
         }
     };
 
     useEffect(() => {
-        // Realtime subscription for this specific order
         const subscription = supabase
-            .channel(`order-tracking-${order.id}`)
+            .channel(`order-tracking-premium-${order.id}`)
             .on(
                 'postgres_changes',
                 { event: 'UPDATE', schema: 'public', table: 'orders', filter: `id=eq.${order.id}` },
@@ -67,20 +69,20 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) =>
         };
     }, [order.id]);
 
-    if (!order) return <div className="text-white/50 text-center py-20">Order data unavailable.</div>;
+    if (!order) return <div className="text-slate-500 text-center py-20 font-medium">Order data unavailable.</div>;
 
     const isReturnMode = order.status.toLowerCase().includes('return');
     const statusNormalized = order.status.toLowerCase();
 
-    // Determine the text for the big heading
-    let heroHeading = 'PREPARING DISPATCH';
+    // Hero Heading Logic
+    let heroHeading = 'PREPARING';
     if (statusNormalized === 'shipped') heroHeading = 'SHIPPED';
     if (statusNormalized === 'out for delivery' || statusNormalized === 'delivery on the way') heroHeading = 'ON THE WAY';
     if (statusNormalized === 'delivered') heroHeading = 'DELIVERED';
     if (statusNormalized === 'returned') heroHeading = 'REFUND PROCESSED';
-    if (statusNormalized === 'return requested') heroHeading = 'RETURN REQUESTED';
+    if (statusNormalized === 'return requested') heroHeading = 'RETURN PROCESSING';
 
-    // Timeline Configuration (Vertical)
+    // Timeline Configuration
     const getTimeline = () => {
         if (isReturnMode) {
             return [
@@ -101,32 +103,42 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) =>
     const timelineSteps = getTimeline();
     const activeStepIndex = timelineSteps.reduce((acc, step, index) => step.active ? index : acc, 0);
 
+    // Animation Variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+    };
+
+    const itemVariants: Variants = {
+        hidden: { opacity: 0, y: 10 },
+        show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+    };
+
     return (
-        <div className="bg-[#132c33] rounded-[2.5rem] border border-white/10 p-8 md:p-12 overflow-hidden relative shadow-2xl">
-            {/* Subtle Premium Background Texture */}
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none" />
+        <div className="bg-white rounded-3xl border border-gray-100 p-8 md:p-14 overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-12 lg:gap-20">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16 lg:gap-24">
 
-                {/* Left Column: Heading & Detailed Logs */}
+                {/* Left Column: Huge Typography & Tracking Logs */}
                 <div className="flex flex-col">
-                    {/* Header Block */}
-                    <div className="mb-12">
+                    <div className="mb-14">
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex items-center gap-3 mb-4"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="inline-flex items-center gap-2 mb-6 bg-slate-50 px-3 py-1.5 rounded-full border border-gray-100"
                         >
-                            <div className={`w-2 h-2 rounded-full ${isReturnMode ? 'bg-rose-500' : 'bg-emerald-400'} animate-pulse`} />
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60">
-                                {isReturnMode ? 'Returns Processing' : 'Order Status'}
+                            <div className={`w-2 h-2 rounded-full ${isReturnMode ? 'bg-rose-500' : 'bg-emerald-500'} animate-pulse`} />
+                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
+                                {isReturnMode ? 'Return Status' : 'Live Tracking'}
                             </p>
                         </motion.div>
+
                         <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-black font-heading tracking-tighter text-white leading-none mb-6 uppercase"
+                            transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                            className="text-5xl md:text-6xl lg:text-[5rem] font-black font-heading tracking-tighter text-slate-900 leading-[0.9] mb-8 uppercase"
                         >
                             {heroHeading}
                         </motion.h2>
@@ -134,123 +146,121 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) =>
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className="flex flex-wrap items-center gap-x-6 gap-y-3 p-5 rounded-2xl bg-white/5 border border-white/10 w-max"
+                            transition={{ delay: 0.3 }}
+                            className="flex flex-wrap items-center gap-x-10 gap-y-4"
                         >
                             <div>
-                                <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Tracking ID</p>
-                                <p className="text-sm font-bold text-white tracking-wider">#{order.id.slice(0, 8).toUpperCase()}</p>
+                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Tracking No.</p>
+                                <p className="text-sm font-black text-slate-900 font-mono">#{order.id.slice(0, 8).toUpperCase()}</p>
                             </div>
-                            <div className="w-[1px] h-8 bg-white/10 hidden sm:block" />
                             <div>
-                                <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Carrier</p>
-                                <p className="text-sm font-bold text-white">FARIO Logistics</p>
+                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Carrier</p>
+                                <p className="text-sm font-black text-slate-900">FARIO EXCLUSIVE</p>
                             </div>
-                            <div className="w-[1px] h-8 bg-white/10 hidden sm:block" />
                             <div>
-                                <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest mb-1">Est. Delivery</p>
-                                <p className="text-sm font-bold text-white">Within 48 Hrs</p>
+                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Est. Arrival</p>
+                                <p className="text-sm font-black text-emerald-600">Within 48 Hrs</p>
                             </div>
                         </motion.div>
                     </div>
 
-                    {/* Timeline Feed Log */}
-                    <div className="flex-1 mt-6">
-                        <h3 className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                            <Activity size={14} /> Update History
-                        </h3>
+                    {/* Minimalist Log Feed */}
+                    <div className="flex-1 mt-4">
+                        <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-8">Detailed History</h3>
 
-                        <div className="space-y-8 pl-4 border-l-2 border-white/10 relative">
+                        <motion.div
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="show"
+                            className="space-y-8 pl-[11px] border-l-2 border-gray-100 relative"
+                        >
                             <AnimatePresence>
                                 {(order.timeline || []).slice().reverse().map((event: any, i: number) => (
                                     <motion.div
                                         key={i}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: i * 0.1 }}
-                                        className="relative group"
+                                        variants={itemVariants}
+                                        className="relative group pr-4"
                                     >
-                                        <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-white ring-4 ring-[#132c33]" />
-                                        <div className="pl-6">
-                                            <div className="flex items-center gap-3 mb-1">
-                                                <span className="text-sm font-black text-white">{event.status}</span>
-                                                <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider bg-white/5 px-2 py-0.5 rounded-full">
-                                                    {new Date(event.time).toLocaleDateString()} {new Date(event.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        <div className="absolute -left-[18px] top-1.5 w-3 h-3 rounded-full bg-white border-2 border-gray-300 group-first:border-slate-900 group-first:bg-slate-900 transition-colors" />
+                                        <div className="pl-8">
+                                            <div className="flex items-baseline gap-3 mb-1.5">
+                                                <span className="text-sm font-black text-slate-900">{event.status}</span>
+                                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                                                    {new Date(event.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(event.time).toLocaleDateString()}
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-white/60 font-medium leading-relaxed">{event.message}</p>
+                                            <p className="text-xs text-gray-500 font-medium leading-relaxed">{event.message}</p>
                                         </div>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
 
                             {(!order.timeline || order.timeline.length === 0) && (
-                                <div className="relative pl-6">
-                                    <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-white/20 ring-4 ring-[#132c33]" />
-                                    <p className="text-sm font-bold text-white/40 italic">Awaiting carrier updates...</p>
+                                <div className="relative pl-8">
+                                    <div className="absolute -left-[18px] top-1.5 w-3 h-3 rounded-full bg-gray-100 border-2 border-gray-200" />
+                                    <p className="text-sm font-bold text-gray-400 italic">Awaiting manifest updates...</p>
                                 </div>
                             )}
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* Support Block */}
-                    <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-6">
                         <div>
-                            <p className="text-sm font-bold text-white">Need help with this order?</p>
-                            <p className="text-xs text-white/50 font-medium mt-1">Our customer experience team is ready to assist you.</p>
+                            <p className="text-sm font-black text-slate-900">Need assistance?</p>
+                            <p className="text-xs text-gray-500 font-medium mt-1">Our concierge team is available 24/7.</p>
                         </div>
-                        <button className="px-6 py-3 bg-white text-[#132c33] font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-gray-100 transition-colors w-full sm:w-auto text-center shrink-0">
-                            Contact Support
+                        <button className="px-8 py-3.5 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-full hover:bg-slate-800 transition-all shadow-md hover:shadow-lg w-full sm:w-auto text-center shrink-0 active:scale-95">
+                            Contact Concierge
                         </button>
                     </div>
                 </div>
 
-
-                {/* Right Column: Vertical Journey Map */}
-                <div className="lg:border-l border-white/10 lg:pl-12 pt-8 lg:pt-0">
-                    <h3 className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-8">Journey Progress</h3>
+                {/* Right Column: Sleek Progress Track */}
+                <div className="lg:border-l border-gray-100 lg:pl-16 pt-8 lg:pt-0">
+                    <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-12">Journey Map</h3>
 
                     <div className="relative">
-                        {/* Background Track Line */}
-                        <div className="absolute left-[19px] top-4 bottom-4 w-0.5 bg-white/10 rounded-full" />
+                        {/* Background Empty Track */}
+                        <div className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-gray-100 rounded-full" />
 
-                        {/* Animated Active Line */}
+                        {/* Animated Active Track */}
                         <motion.div
-                            className="absolute left-[19px] top-4 w-0.5 bg-white rounded-full origin-top"
+                            className="absolute left-[23px] top-6 w-0.5 bg-slate-900 rounded-full origin-top"
                             initial={{ scaleY: 0 }}
                             animate={{ scaleY: activeStepIndex / (timelineSteps.length - 1) }}
-                            transition={{ duration: 1.5, ease: "easeOut" }}
-                            style={{ height: 'calc(100% - 32px)' }}
+                            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                            style={{ height: 'calc(100% - 48px)' }}
                         />
 
-                        {/* Journey Nodes */}
-                        <div className="space-y-12 relative z-10">
+                        {/* Nodes */}
+                        <div className="space-y-16 relative z-10">
                             {timelineSteps.map((step, i) => {
                                 const isActive = step.active;
                                 const isCurrent = i === activeStepIndex;
 
                                 return (
-                                    <div key={i} className="flex items-start gap-6 group">
-                                        <div className="relative mt-0.5 shrink-0">
-                                            {/* Node Circle */}
-                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ease-out z-10 relative
-                                                ${isActive ? 'bg-white text-[#132c33] shadow-lg' : 'bg-[#132c33] text-white/30 border-2 border-white/10'}
-                                                ${isCurrent ? 'scale-110 ring-4 ring-white/20' : 'scale-100'}
+                                    <div key={i} className="flex items-start gap-8 group">
+                                        <div className="relative shrink-0">
+                                            {/* Node Container */}
+                                            <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-700 ease-out z-10 relative
+                                                ${isActive ? 'bg-slate-900 text-white shadow-xl' : 'bg-white text-gray-300 border-2 border-gray-100'}
+                                                ${isCurrent ? 'scale-110' : 'scale-100'}
                                             `}>
-                                                <step.icon size={16} strokeWidth={isActive ? 3 : 2} />
+                                                <step.icon size={18} strokeWidth={isActive ? 2.5 : 2} />
                                             </div>
 
-                                            {/* Pulsing ring for current step */}
+                                            {/* Breathing Ring for Current Step */}
                                             {isCurrent && (
-                                                <div className="absolute inset-0 rounded-full bg-white opacity-40 animate-ping" />
+                                                <div className="absolute inset-0 rounded-full bg-slate-900 opacity-20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
                                             )}
                                         </div>
 
-                                        <div className="pt-2">
-                                            <p className={`text-sm font-black uppercase tracking-wider transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/30'}`}>
+                                        <div className="pt-2.5">
+                                            <p className={`text-sm font-black uppercase tracking-widest transition-colors duration-500 ${isActive ? 'text-slate-900' : 'text-gray-400'}`}>
                                                 {step.label}
                                             </p>
-                                            {isActive && i === 0 && <p className="text-[10px] text-white/50 font-bold mt-1.5 uppercase tracking-widest">{order.date}</p>}
+                                            {isActive && i === 0 && <p className="text-[10px] text-gray-400 font-bold mt-1.5 uppercase tracking-widest">{order.date}</p>}
                                         </div>
                                     </div>
                                 )
@@ -258,43 +268,45 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) =>
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            {/* Admin Controls (Hidden from users) */}
+            {/* Admin Override Array (Hidden from normal users) */}
             {isAdmin && (
-                <div className="mt-16 pt-8 border-t border-rose-500/30">
-                    <h4 className="text-xs font-black text-rose-500 uppercase tracking-widest mb-6 flex items-center gap-2">
-                        <Search size={14} /> Admin Override Controls
+                <div className="mt-20 pt-8 border-t border-rose-100">
+                    <h4 className="text-[10px] font-black text-rose-500 uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <Activity size={14} /> Database Sync Override
                     </h4>
                     <div className="flex flex-wrap gap-4">
                         <select
                             value={newStatus}
                             onChange={(e) => setNewStatus(e.target.value)}
-                            className="bg-white/5 border border-white/10 text-white text-xs font-bold px-4 py-3 rounded-xl focus:outline-none focus:border-rose-500 transition-colors"
+                            className="bg-white border-2 border-gray-100 text-slate-900 text-xs font-bold px-5 py-3.5 rounded-xl focus:outline-none focus:border-rose-300 transition-colors cursor-pointer"
                         >
-                            <option value="" className="text-gray-900">Select Status...</option>
-                            <option value="Processing" className="text-gray-900">Processing</option>
-                            <option value="Shipped" className="text-gray-900">Shipped</option>
-                            <option value="Out for Delivery" className="text-gray-900">Out for Delivery</option>
-                            <option value="Delivered" className="text-gray-900">Delivered</option>
-                            <option value="Return Requested" className="text-gray-900">Return Requested</option>
-                            <option value="Returned" className="text-gray-900">Returned</option>
+                            <option value="">Select Target Status...</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Delivery on the way">Delivery on the way</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Return Requested">Return Requested</option>
+                            <option value="Returned">Returned</option>
                         </select>
                         <input
                             type="text"
-                            placeholder="Status Message..."
+                            placeholder="Optional override message..."
                             value={newMessage}
                             onChange={(e) => setNewMessage(e.target.value)}
-                            className="flex-1 min-w-[200px] bg-white/5 border border-white/10 text-white text-xs font-bold px-4 py-3 rounded-xl focus:outline-none focus:border-rose-500 transition-colors placeholder-white/30"
+                            className="flex-1 min-w-[200px] bg-white border-2 border-gray-100 text-slate-900 text-xs font-bold px-5 py-3.5 rounded-xl focus:outline-none focus:border-rose-300 transition-colors placeholder:text-gray-300"
                         />
                         <button
                             onClick={handleUpdateTimeline}
                             disabled={isUpdating}
-                            className="bg-rose-500 text-white font-black text-[10px] uppercase tracking-widest px-6 py-3 rounded-xl hover:bg-rose-600 transition-colors disabled:opacity-50"
+                            className="bg-rose-500 text-white font-black text-[10px] uppercase tracking-widest px-8 py-3.5 rounded-xl hover:bg-rose-600 transition-all disabled:opacity-50 shadow-sm active:scale-95"
                         >
-                            {isUpdating ? 'Executing...' : 'Force Update Status'}
+                            {isUpdating ? 'Syncing...' : 'Force DB Update'}
                         </button>
+                        <p className="w-full text-[9px] text-gray-400 font-bold tracking-widest mt-2 uppercase">
+                            * Updates here or in Supabase Studio will automatically trigger the Postgres TRG_SYNC_ORDER_TIMELINE hook.
+                        </p>
                     </div>
                 </div>
             )}

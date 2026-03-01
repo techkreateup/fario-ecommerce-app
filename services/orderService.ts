@@ -78,34 +78,15 @@ export const orderService = {
     },
 
     /**
-     * Update order status with timeline logging (Admin Only)
+     * Update order status (Admin Only) - Timeline is now handled by Postgres Trigger trg_sync_order_timeline
      */
     async updateOrderStatus(orderId: string, status: string) {
         // SDK handles auth
-        // 1. Fetch current order to get existing timeline
-        const { data: order, error: fetchError } = await supabase
-            .from('orders')
-            .select('timeline')
-            .eq('id', orderId)
-            .single();
-
-        if (fetchError) throw fetchError;
-
-        // 2. Prepare new timeline event
-        const newEvent = {
-            status,
-            time: new Date().toISOString(),
-            message: this.getStatusMessage(status)
-        };
-
-        const updatedTimeline = [...(order.timeline || []), newEvent];
-
-        // 3. Update status and timeline
+        // 1. Update status only
         const { error: updateError } = await supabase
             .from('orders')
             .update({
                 status: status as any,
-                timeline: updatedTimeline,
                 updatedat: new Date().toISOString()
             })
             .eq('id', orderId);
