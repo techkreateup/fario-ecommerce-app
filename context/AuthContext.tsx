@@ -50,22 +50,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 // 🛡️ Extract session from localStorage directly (getSession() hangs indefinitely)
                 let session: any = null;
                 try {
-                    const storageKey = Object.keys(localStorage).find(k =>
-                        k.startsWith('sb-') &&
-                        k.endsWith('-auth-token') &&
-                        k !== 'sb-mock-auth-token'
-                    );
-                    if (storageKey) {
-                        const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
-                        if (stored?.access_token && stored?.user && stored.access_token.includes('.')) {
-                            // 🛡️ Check if token is actually valid/expired
-                            const expiresAt = stored.expires_at;
-                            const now = Math.floor(Date.now() / 1000);
+                    // 🛡️ 1. First check if a MOCK testing session exists
+                    const mockTokenStr = localStorage.getItem('sb-mock-auth-token');
+                    if (mockTokenStr) {
+                        const mockStored = JSON.parse(mockTokenStr);
+                        if (mockStored?.access_token && mockStored?.user) {
+                            console.log('🧪 MOCK SESSION DETECTED. Proceeding with testing bypass.');
+                            session = mockStored;
+                        }
+                    }
 
-                            if (expiresAt && expiresAt > now + 10) { // Give 10s buffer
-                                session = stored;
-                            } else {
-                                console.log('⏳ Stale token detected, waiting for refresh...');
+                    // 🛡️ 2. If no mock session, extract real session from localStorage directly
+                    if (!session) {
+                        const storageKey = Object.keys(localStorage).find(k =>
+                            k.startsWith('sb-') &&
+                            k.endsWith('-auth-token') &&
+                            k !== 'sb-mock-auth-token'
+                        );
+                        if (storageKey) {
+                            const stored = JSON.parse(localStorage.getItem(storageKey) || '{}');
+                            if (stored?.access_token && stored?.user && stored.access_token.includes('.')) {
+                                // 🛡️ Check if token is actually valid/expired
+                                const expiresAt = stored.expires_at;
+                                const now = Math.floor(Date.now() / 1000);
+
+                                if (expiresAt && expiresAt > now + 10) { // Give 10s buffer
+                                    session = stored;
+                                } else {
+                                    console.log('⏳ Stale token detected, waiting for refresh...');
+                                }
                             }
                         }
                     }
