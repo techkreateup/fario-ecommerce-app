@@ -26,6 +26,8 @@ import ProfilePayments from './pages/account/ProfilePayments';
 import ProfileWallet from './pages/account/ProfileWallet';
 import ReturnOrder from './pages/ReturnOrder';
 import MobileBottomNav from './components/MobileBottomNav';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 import { SearchProvider } from './context/SearchContext';
 import { CartProvider } from './context/CartProvider';
@@ -233,6 +235,8 @@ const AppContent = () => {
             } />
             <Route path="/story" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/info/:slug" element={<InfoPage />} />
             <Route path="/return/:orderId" element={
               <ProtectedRoute>

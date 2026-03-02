@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Wallet, Plus, ArrowUpRight, ArrowDownLeft, History, CreditCard, ShieldCheck, X } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,7 +18,7 @@ export const ProfileWalletCards: React.FC = () => {
     const toast = useToast();
 
     // --- EFFECTS ---
-    React.useEffect(() => {
+    useEffect(() => {
         if (!user) return;
         const fetchWallet = async () => {
             const { supabase } = await import('../../lib/supabase');
@@ -35,6 +35,30 @@ export const ProfileWalletCards: React.FC = () => {
             }
         };
         fetchWallet();
+
+        // 🟢 REALTIME SYNC - Optimistic UI Debounce Fix
+        const setupRealtime = async () => {
+            const { supabase } = await import('../../lib/supabase');
+            const channel = supabase.channel(`wallet-${user.id}`)
+                .on('postgres_changes', {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'profiles',
+                    filter: `id=eq.${user.id}`
+                }, (payload) => {
+                    if (payload.new) {
+                        if (payload.new.wallet_balance !== undefined) setBalance(payload.new.wallet_balance);
+                        if (payload.new.saved_cards !== undefined) setCards(payload.new.saved_cards);
+                    }
+                })
+                .subscribe();
+            return channel;
+        };
+
+        let sub: any;
+        setupRealtime().then(channel => sub = channel);
+
+        return () => { if (sub) sub.unsubscribe(); };
     }, [user]);
 
     // --- HANDLERS ---

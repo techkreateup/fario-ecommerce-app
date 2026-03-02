@@ -55,6 +55,25 @@ const ProfileAddresses: React.FC = () => {
 
     useEffect(() => {
         fetchAddresses();
+
+        const userEmail = localStorage.getItem('fario_user_email');
+        if (!userEmail) return;
+
+        // Add Realtime listener for immediate UI updates when address changes via other tabs or admin
+        const channel = supabase.channel(`addresses-${userEmail}`)
+            .on('postgres_changes', {
+                event: 'UPDATE',
+                schema: 'public',
+                table: 'profiles',
+                filter: `email=eq.${userEmail}`
+            }, (payload) => {
+                if (payload.new && payload.new.addresses) {
+                    setAddresses(payload.new.addresses);
+                }
+            })
+            .subscribe();
+
+        return () => { channel.unsubscribe(); };
     }, []);
 
     const saveToSupabase = async (updatedAddresses: Address[]) => {
