@@ -56,8 +56,8 @@ const StockManager = React.lazy(() => import('./admin/stock/StockManager'));
 const StockLayout = React.lazy(() => import('./admin/stock/StockLayout'));
 
 // Fix missing members in react-router-dom by casting module
-const { HashRouter, Routes, Route, useLocation, useNavigate } = RouterDOM;
-const Router = HashRouter;
+const { BrowserRouter, Routes, Route, useLocation, useNavigate } = RouterDOM;
+const Router = BrowserRouter;
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -270,7 +270,7 @@ const App: React.FC = () => {
           <ToastProvider>
             <CartProvider>
               <WishlistProvider>
-                <Router>
+                <Router basename="/fario-ecommerce-app">
                   <AppContent />
                 </Router>
               </WishlistProvider>

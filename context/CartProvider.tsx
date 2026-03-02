@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, useRef, ReactNode, useEffect } from 'react';
-import { CartItem, Product, Order, Coupon } from '../types';
+import { CartItem, DbCartItem, Product, Order, Coupon } from '../types';
 import { EnhancedProduct } from '../constants';
 import { useToast } from './ToastContext';
 import { logAction } from '../services/logService';
@@ -247,8 +247,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
         const authToken = session?.access_token || '';
 
+        // Single Query - Supabase JOINS (REST API to avoid SDK hangs)
         const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&select=*`,
+          `${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&select=*,products(*)`,
           {
             headers: {
               'apikey': SUPABASE_KEY,
@@ -263,20 +264,41 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         const data = await response.json();
         if (data && mounted) {
-          const mappedItems = data.map((dbItem: any) => {
-            const product = products.find(p => p.id === dbItem.product_id);
-            if (!product) return null;
-
+          const items: CartItem[] = (data || []).map((item: DbCartItem) => {
+            const p = item.products || {} as any;
             return {
-              ...product,
-              cartId: `${dbItem.product_id}-${dbItem.size}-${dbItem.color}`,
-              selectedSize: dbItem.size,
-              selectedColor: dbItem.color,
-              quantity: dbItem.quantity
+              id: item.product_id,
+              user_id: item.user_id,
+              product_id: item.product_id,
+              quantity: item.quantity,
+              created_at: item.created_at,
+              updated_at: item.updated_at,
+              // From joined products table:
+              name: p.name || 'Unknown Product',
+              price: Number(p.price || 0),
+              image: p.image || p.image_url || '',
+              stock: Number(p.stockquantity || p.stock || 0),
+              stockQuantity: Number(p.stockquantity || p.stock || 0), // support older codebase usages
+              inStock: Boolean(p.instock || (p.stock || 0) > 0 || (p.stockquantity || 0) > 0), // fallback
+              size: item.size,
+              color: item.color,
+              cartId: `${item.product_id}-${item.size}-${item.color}`,
+              selectedSize: item.size || 'OS',
+              selectedColor: item.color || 'Default',
+              category: p.category || 'Shoes',
+              gender: p.gender || 'Unisex',
+              rating: Number(p.rating || 0),
+              reviewsCount: Number(p.reviewscount || 0),
+              description: p.description || '',
+              tagline: p.tagline || '',
+              originalPrice: p.originalprice ? Number(p.originalprice) : undefined,
+              sizes: Array.isArray(p.sizes) ? p.sizes : (typeof p.sizes === 'string' ? JSON.parse(p.sizes || '[]') : []),
+              colors: Array.isArray(p.colors) ? p.colors : (typeof p.colors === 'string' ? JSON.parse(p.colors || '[]') : []),
+              features: Array.isArray(p.features) ? p.features : (typeof p.features === 'string' ? JSON.parse(p.features || '[]') : []),
             };
           }).filter(Boolean) as CartItem[];
 
-          setCartItems(mappedItems);
+          setCartItems(items);
         }
       } catch (err) {
         console.error('Failed to fetch cart:', err);
@@ -438,6 +460,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               cartId: `${dbItem.product_id}-${dbItem.size}-${dbItem.color}`,
               selectedSize: dbItem.size,
               selectedColor: dbItem.color,
+              stock: product.stockQuantity || 0,
               quantity: dbItem.quantity
             };
             setCartItems(prev => {
@@ -530,6 +553,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         ...product,
         selectedSize: size,
         selectedColor: color,
+        stock: product.stockQuantity || 0,
         quantity: 1,
         cartId,
         sizes: product.sizes || [],

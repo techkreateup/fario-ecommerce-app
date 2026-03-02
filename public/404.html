@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fario E-commerce</title>
+    <script>
+        // GitHub Pages SPA redirect trick
+        // Redirects 404s to index.html with path preserved
+        const path = window.location.pathname.split('/').slice(2).join('/');
+        const search = window.location.search;
+
+        if (path) {
+            window.location.replace(
+                window.location.origin +
+                '/fario-ecommerce-app/' +
+                '?redirect=' + path +
+                search
+            );
+        }
+    </script>
+</head>
+
+<body>
+    <div style="font-family: system-ui; text-align: center; padding: 100px 20px;">
+        <h1>Redirecting...</h1>
+        <p>If you are not redirected automatically,
+            <a href="/fario-ecommerce-app/">click here</a>.
+        </p>
+    </div>
+</body>
+
+</html>

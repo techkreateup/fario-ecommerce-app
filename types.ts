@@ -23,11 +23,49 @@ export interface NavItem {
   icon?: string;
 }
 
+export interface DbCartItem {
+  id: string;
+  user_id: string;
+  product_id: string;
+  quantity: number;
+  size?: string;
+  color?: string;
+  created_at?: string;
+  updated_at?: string;
+  products: {
+    id: string;
+    name: string;
+    price: number;
+    image_url?: string;
+    image?: string;
+    stock?: number;
+    stockquantity?: number;
+    instock?: boolean;
+    size?: string;
+    color?: string;
+    category?: string;
+    gender?: string;
+    rating?: number;
+    reviewscount?: number;
+    description?: string;
+    tagline?: string;
+    originalprice?: number;
+    sizes?: any;
+    colors?: any;
+    features?: any;
+  };
+}
+
 export interface CartItem extends Product {
+  user_id?: string;
+  product_id?: string;
+  quantity: number;
+  created_at?: string;
+  updated_at?: string;
+  stock: number;
   cartId: string;
   selectedSize: string;
   selectedColor?: string;
-  quantity: number;
 }
 
 export interface Address {
