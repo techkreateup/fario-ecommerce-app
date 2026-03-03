@@ -46,7 +46,8 @@ const AdminDashboard: React.FC = () => {
 
       } catch (err) {
         console.error("Dashboard fetch error:", err);
-        setIsLoading(false);
+      } finally {
+        if (mounted) setIsLoading(false);
       }
     };
 

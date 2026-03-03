@@ -125,12 +125,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setSessionState(session);
 
                 if (currentUser) {
-                    await fetchProfile(currentUser);
+                    // Non-blocking fetch so UI can render immediately
+                    fetchProfile(currentUser).catch(err => console.error('Profile fetch error:', err));
                 } else {
                     setUser(null);
                     setSessionState(null);
                     setRole('user');
                 }
+
+                // ALWAYS unblock loading, regardless of profile fetch status
                 setIsLoading(false);
             }
         });
