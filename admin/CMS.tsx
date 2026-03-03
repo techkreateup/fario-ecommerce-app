@@ -60,7 +60,7 @@ const AdminCMS: React.FC = () => {
 
       setUploading(true);
       try {
-         const newImages = [];
+         const newImages: string[] = [];
          for (const file of Array.from(files) as File[]) {
             const fileExt = file.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
