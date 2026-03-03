@@ -9,8 +9,7 @@ import {
   X,
   ChevronDown,
   Menu, ArrowRight, Edit3, Heart,
-  Home as HomeIcon, Info, Mail,
-  Sun, Moon
+  Home as HomeIcon, Info, Mail
 } from 'lucide-react';
 import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
@@ -228,14 +227,6 @@ const Header: React.FC = () => {
                 )}
               </AnimatePresence>
             </div>
-
-            {/* DARK MODE TOGGLE */}
-            <button
-              onClick={toggleTheme}
-              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/50 border border-purple-200/50 text-purple-600 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple dark:bg-gray-800 dark:border-gray-700`}
-            >
-              {theme === 'dark' ? <Sun size={22} /> : <Moon size={22} />}
-            </button>
 
             {/* WISHLIST ICON */}
             <button
