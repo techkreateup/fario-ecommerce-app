@@ -4,7 +4,7 @@ import {
     CreditCard, ShieldCheck, ChevronRight, Search,
     CheckCircle2, AlertCircle, Upload,
     LogOut, Activity, DollarSign, Lock,
-    Check, Settings
+    Check, Settings, ShieldAlert
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -18,6 +18,7 @@ interface SettingsState {
     taxIncluded: boolean;
     stripeEnabled: boolean;
     notifyOrder: boolean;
+    isMaintenanceMode: boolean;
 }
 
 const INITIAL_SETTINGS: SettingsState = {
@@ -27,7 +28,8 @@ const INITIAL_SETTINGS: SettingsState = {
     currency: 'INR',
     taxIncluded: true,
     stripeEnabled: true,
-    notifyOrder: true
+    notifyOrder: true,
+    isMaintenanceMode: false
 };
 
 const AdminSettings: React.FC = () => {
@@ -60,7 +62,8 @@ const AdminSettings: React.FC = () => {
                         ...prev,
                         storeName: data.store_name || prev.storeName,
                         supportEmail: data.support_email || prev.supportEmail,
-                        flatRateShipping: data.flat_rate_shipping !== undefined && data.flat_rate_shipping !== null ? Number(data.flat_rate_shipping) : prev.flatRateShipping
+                        flatRateShipping: data.flat_rate_shipping !== undefined && data.flat_rate_shipping !== null ? Number(data.flat_rate_shipping) : prev.flatRateShipping,
+                        isMaintenanceMode: data.is_maintenance_mode ?? prev.isMaintenanceMode
                     }));
                 }
             } catch (err) {
@@ -83,7 +86,8 @@ const AdminSettings: React.FC = () => {
                             ...prev,
                             storeName: payload.new.store_name || prev.storeName,
                             supportEmail: payload.new.support_email || prev.supportEmail,
-                            flatRateShipping: payload.new.flat_rate_shipping !== null ? Number(payload.new.flat_rate_shipping) : prev.flatRateShipping
+                            flatRateShipping: payload.new.flat_rate_shipping !== null ? Number(payload.new.flat_rate_shipping) : prev.flatRateShipping,
+                            isMaintenanceMode: payload.new.is_maintenance_mode ?? prev.isMaintenanceMode
                         }));
                         showNotification('Settings updated live from database.', 'success');
                     }
@@ -110,7 +114,8 @@ const AdminSettings: React.FC = () => {
             const payload = {
                 store_name: settings.storeName,
                 support_email: settings.supportEmail,
-                flat_rate_shipping: settings.flatRateShipping
+                flat_rate_shipping: settings.flatRateShipping,
+                is_maintenance_mode: settings.isMaintenanceMode
             };
 
             if (settingsId) {
@@ -245,6 +250,25 @@ const AdminSettings: React.FC = () => {
                                                 value={settings.supportEmail}
                                                 onChange={(e) => update('supportEmail', e.target.value)}
                                             />
+                                        </div>
+
+                                        <div className="md:col-span-2">
+                                            <div className={`p-5 rounded-2xl border-2 transition-all flex items-center justify-between cursor-pointer ${settings.isMaintenanceMode ? 'border-rose-500 bg-rose-50' : 'border-slate-100 bg-white hover:border-slate-200'}`} onClick={() => update('isMaintenanceMode', !settings.isMaintenanceMode)}>
+                                                <div className="flex items-center gap-4">
+                                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${settings.isMaintenanceMode ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                                        <ShieldAlert size={24} />
+                                                    </div>
+                                                    <div>
+                                                        <p className={`font-black tracking-tight ${settings.isMaintenanceMode ? 'text-rose-600' : 'text-slate-900'}`}>Store Maintenance Mode</p>
+                                                        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+                                                            {settings.isMaintenanceMode ? 'All regular users are locked out' : 'Store is fully accessible to public'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className={`w-12 h-6 rounded-full p-1 transition-colors ${settings.isMaintenanceMode ? 'bg-rose-500' : 'bg-slate-300'}`}>
+                                                    <div className={`w-4 h-4 bg-white rounded-full shadow-sm transform transition-transform ${settings.isMaintenanceMode ? 'translate-x-6' : 'translate-x-0'}`} />
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div className="md:col-span-2">

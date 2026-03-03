@@ -28,6 +28,7 @@ import ReturnOrder from './pages/ReturnOrder';
 import MobileBottomNav from './components/MobileBottomNav';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import MaintenanceScreen from './components/MaintenanceScreen';
 
 import { SearchProvider } from './context/SearchContext';
 import { CartProvider } from './context/CartProvider';
@@ -143,6 +144,52 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const { user, isAdmin: isUserAdmin } = useAuth();
+
+  const [isMaintenanceMode, setIsMaintenanceMode] = React.useState(false);
+  const [isCheckingMaintenance, setIsCheckingMaintenance] = React.useState(true);
+
+  React.useEffect(() => {
+    let mounted = true;
+    const checkMaintenance = async () => {
+      try {
+        const { data } = await supabase.from('settings').select('is_maintenance_mode').limit(1).single();
+        if (mounted && data) {
+          setIsMaintenanceMode(data.is_maintenance_mode || false);
+        }
+      } catch (e) { /* ignore */ }
+      finally {
+        if (mounted) setIsCheckingMaintenance(false);
+      }
+    };
+
+    checkMaintenance();
+
+    const channel = supabase.channel('maintenance_check')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'settings' }, payload => {
+        if (mounted && payload.new) {
+          setIsMaintenanceMode(payload.new.is_maintenance_mode || false);
+        }
+      }).subscribe();
+
+    return () => {
+      mounted = false;
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  if (isCheckingMaintenance) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-slate-200 border-t-fario-purple rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // Enforce Maintenance Screen for regular users
+  if (isMaintenanceMode && !isUserAdmin && !isAdmin && location.pathname !== '/login') {
+    return <MaintenanceScreen />;
+  }
 
   return (
     <div className={`flex flex-col min-h-screen font-sans text-gray-800 antialiased ${isAdmin ? 'bg-[#f8fafc]' : 'bg-white'} selection:bg-fario-purple/30 selection:text-white transition-colors duration-300`}>
