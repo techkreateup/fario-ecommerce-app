@@ -33,7 +33,7 @@ const Sidebar: React.FC<{ isOpen?: boolean }> = ({ isOpen }) => {
   };
 
   const menuItems = [
-    { label: 'Overview', path: '/admin/dashboard', icon: LayoutDashboard },
+    { label: 'Overview Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { label: 'Inventory', path: '/admin/products', icon: Package },
     { label: 'Coupons', path: '/admin/coupons', icon: Tag },
     { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
