@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
                   src="/fario-ecommerce-app/fario-brand-logo.png"
                   alt="Fario - Step In, Stand Out"
                   className="h-16 w-auto object-contain"
-                  style={{ maxWidth: '220px' }}
+                  style={{ maxWidth: '220px', mixBlendMode: 'screen' }}
                 />
               </div>
               <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-8">
