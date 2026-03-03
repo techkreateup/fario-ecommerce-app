@@ -199,22 +199,35 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         .channel('catalog-changes')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, (payload: { eventType: string, new: Record<string, any>, old: Record<string, any> }) => {
           console.log('⚡ Catalog Update:', payload.eventType);
-          if (payload.eventType === 'INSERT') {
+          if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+            const p = payload.new;
             const mapped = {
-              ...payload.new,
-              isDeleted: payload.new.isdeleted,
-              stockQuantity: payload.new.stockquantity,
-              originalPrice: payload.new.originalprice
+              ...p,
+              id: p.id,
+              name: p.name,
+              tagline: p.tagline,
+              description: p.description,
+              price: Number(p.price),
+              originalPrice: p.originalprice ? Number(p.originalprice) : undefined,
+              image: p.image,
+              category: p.category,
+              gender: p.gender,
+              rating: Number(p.rating),
+              reviewsCount: Number(p.reviewscount || 0),
+              inStock: Boolean(p.instock),
+              stockQuantity: Number(p.stockquantity || 0),
+              colors: Array.isArray(p.colors) ? p.colors : (typeof p.colors === 'string' ? JSON.parse(p.colors) : []),
+              sizes: Array.isArray(p.sizes) ? p.sizes : (typeof p.sizes === 'string' ? JSON.parse(p.sizes) : []),
+              features: Array.isArray(p.features) ? p.features : (typeof p.features === 'string' ? JSON.parse(p.features) : []),
+              gallery: Array.isArray(p.gallery) ? p.gallery : (typeof p.gallery === 'string' ? JSON.parse(p.gallery) : []),
+              isDeleted: Boolean(p.isdeleted)
             } as EnhancedProduct;
-            setProducts(prev => [mapped, ...prev]);
-          } else if (payload.eventType === 'UPDATE') {
-            const mapped = {
-              ...payload.new,
-              isDeleted: payload.new.isdeleted,
-              stockQuantity: payload.new.stockquantity,
-              originalPrice: payload.new.originalprice
-            } as EnhancedProduct;
-            setProducts(prev => prev.map(p => p.id === mapped.id ? mapped : p));
+
+            if (payload.eventType === 'INSERT') {
+              setProducts(prev => [mapped, ...prev]);
+            } else {
+              setProducts(prev => prev.map(prod => prod.id === mapped.id ? mapped : prod));
+            }
           } else if (payload.eventType === 'DELETE') {
             setProducts(prev => prev.filter(p => p.id !== payload.old.id));
           }
@@ -1243,8 +1256,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
           const { supabase } = await import('../lib/supabase');
           // Map to DB columns
+          const newId = p.id || crypto.randomUUID();
+
           const dbData = {
-            id: p.id,
+            id: newId,
             name: p.name,
             tagline: p.tagline,
             category: p.category,
@@ -1263,10 +1278,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           };
           const { error } = await supabase.from('products').insert([dbData]);
           if (error) throw error;
+
           toast.success('Product added to catalog');
-          logAction('product_added', { productId: p.id, name: p.name });
+          logAction('product_added', { productId: newId, name: p.name });
         } catch (e) {
-          console.error(e);
+          console.error('Failed to add product to DB:', e);
           toast.error('Failed to add product');
         }
       }
