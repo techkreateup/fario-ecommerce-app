@@ -6,7 +6,7 @@ const badges = [
     { icon: '👑', label: 'Premium Quality' },
     { icon: '🌱', label: 'Eco-Friendly' },
     { icon: '🚀', label: 'Innovative Design' },
-    { icon: '💝', label: 'School Edition' },
+    { icon: '👠', label: "Womens Footware" },
 ];
 
 const stats = [

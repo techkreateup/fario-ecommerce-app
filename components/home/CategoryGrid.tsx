@@ -17,9 +17,9 @@ const categories = [
   },
   {
     id: 3,
-    name: "Kids' Collection",
-    image: "https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=800&q=80",
-    link: "/category/kids"
+    name: "Womens Footware",
+    image: "https://images.unsplash.com/photo-1549298916-b41d501d5292?w=800&q=80",
+    link: "/category/women"
   }
 ];
 

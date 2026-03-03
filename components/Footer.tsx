@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                 />
               </div>
               <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-8">
-                Step Into Your School Story. Premium essentials designed for comfort, durability, and identity. Engineered for the next generation of achievers.
+                Step Into Your Next Chapter. Premium women's essentials designed for comfort, durability, and identity. Engineered for the modern achiever.
               </p>
               <div className="flex gap-4">
                 {socialLinks.map((social) => (
