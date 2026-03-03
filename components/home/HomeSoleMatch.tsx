@@ -10,7 +10,7 @@ const questions = [
         q: 'What best describes your daily vibe?',
         emoji: '⚡',
         options: [
-            { label: 'Student on the move', icon: '📚', key: 'student' },
+            { label: 'Casual everyday hero', icon: '✨', key: 'casual' },
             { label: 'Athletic & sporty', icon: '🏃', key: 'athlete' },
             { label: 'Street style king', icon: '👑', key: 'street' },
             { label: 'Corporate hustler', icon: '💼', key: 'corporate' },
