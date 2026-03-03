@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import * as RouterDOM from 'react-router-dom';
 import { Instagram, Youtube, Facebook, Mail } from 'lucide-react';
-import Logo from './Logo';
 
 // Fix missing member Link in react-router-dom
 const { Link } = RouterDOM as any;
@@ -44,9 +43,13 @@ const Footer: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <Logo size={48} className="shadow-xl shadow-fario-purple/20" />
-                <h2 className="text-2xl font-bold tracking-tight">FARIO</h2>
+              <div className="mb-6">
+                <img
+                  src="/fario-ecommerce-app/fario-brand-logo.png"
+                  alt="Fario - Step In, Stand Out"
+                  className="h-16 w-auto object-contain"
+                  style={{ maxWidth: '220px' }}
+                />
               </div>
               <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-8">
                 Step Into Your School Story. Premium essentials designed for comfort, durability, and identity. Engineered for the next generation of achievers.
