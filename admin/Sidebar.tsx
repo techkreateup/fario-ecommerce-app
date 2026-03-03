@@ -34,16 +34,12 @@ const Sidebar: React.FC<{ isOpen?: boolean }> = ({ isOpen }) => {
 
   const menuItems = [
     { label: 'Overview', path: '/admin/dashboard', icon: LayoutDashboard },
-    { label: 'Insights', path: '/admin/analytics', icon: BarChart3 },
     { label: 'Inventory', path: '/admin/products', icon: Package },
-    { label: 'Stock Ops', path: '/admin/stock', icon: RotateCcw },
     { label: 'Coupons', path: '/admin/coupons', icon: Tag },
     { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
     { label: 'Reviews', path: '/admin/reviews', icon: Star },
     { label: 'Customers', path: '/admin/customers', icon: Users },
-    { label: 'Audit Log', path: '/admin/logs', icon: History },
-    { label: 'Settings', path: '/admin/settings', icon: Settings },
-    { label: 'Support', path: '/admin/help', icon: HelpCircle },
+    { label: 'Settings', path: '/admin/settings', icon: Settings }
   ];
 
   return (
