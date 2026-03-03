@@ -143,7 +143,7 @@ export default function Login() {
                 await logAction('user_login', { email: data.user.email });
 
                 if (isAdminEmail) {
-                    window.location.href = '/#/admin/dashboard';
+                    navigate('/admin/dashboard');
                 } else {
                     navigate('/profile');
                 }

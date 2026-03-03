@@ -30,8 +30,7 @@ CREATE POLICY "Users can delete own saved items"
     ON public.saved_items FOR DELETE
     USING (auth.uid() = user_id);
 
--- Enable realtime for this table
-ALTER PUBLICATION supabase_realtime ADD TABLE public.saved_items;
+-- Realtime is already enabled globally (FOR ALL TABLES) — no extra step needed.
 
 -- Index for fast user-based lookups
 CREATE INDEX IF NOT EXISTS idx_saved_items_user_id ON public.saved_items(user_id);

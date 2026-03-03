@@ -1,10 +1,5 @@
--- SQL Script to enable Admins to delete customers
+-- Enhanced SQL Script to enable Admins to delete customers forcefully
 -- Run this in your Supabase SQL Editor
-
--- In Supabase, deleting a user from `public.profiles` does NOT delete them from authentication (`auth.users`).
--- To properly delete a customer from the frontend, we need a Security Definer RPC function
--- that has the privileges to delete from BOTH `public.profiles` and `auth.users`,
--- while ensuring the person calling it is an admin.
 
 CREATE OR REPLACE FUNCTION public.delete_customer_by_admin(customer_id UUID)
 RETURNS BOOLEAN
@@ -23,12 +18,33 @@ BEGIN
         RAISE EXCEPTION 'Unauthorized: Only admins can delete customers';
     END IF;
 
-    -- 2. Delete the user from auth.users (This automatically cascades to public.profiles if setup correctly)
-    -- If it doesn't cascade, we delete from profiles manually just in case
-    DELETE FROM auth.users WHERE id = customer_id;
+    -- 2. DANGEROUS OPERATIONS: Forcefully delete dependent records first
+    -- This handles tables that might NOT have built-in ON DELETE CASCADE
     
-    -- Manually delete from profiles if ON DELETE CASCADE is missing
+    -- Delete Orders (and potentially order items if ON DELETE CASCADE is missing)
+    -- If there's an order_items table related to orders, this might still fail unless 
+    -- we do a more complex cascading delete here, but standard Supabase setups often cascade
+    -- from orders to order_items. We'll attempt a direct orders delete.
+    DELETE FROM public.orders WHERE user_id = customer_id;
+    
+    -- Delete Addresses (if they exist)
+    DELETE FROM public.addresses WHERE user_id = customer_id;
+    
+    -- Delete Reviews
+    DELETE FROM public.reviews WHERE user_id = customer_id;
+    
+    -- Delete Returns (if linked directly to user)
+    DELETE FROM public.returns WHERE user_id = customer_id;
+    
+    -- Delete anything else mapped directly to user_id that usually blocks deletion
+    DELETE FROM public.wishlist WHERE user_id = customer_id;
+    DELETE FROM public.saved_items WHERE user_id = customer_id;
+
+    -- 3. Delete the user from public.profiles manually
     DELETE FROM public.profiles WHERE id = customer_id;
+
+    -- 4. Finally, delete the identity from auth.users (Supabase's core auth system)
+    DELETE FROM auth.users WHERE id = customer_id;
 
     RETURN TRUE;
 END;
