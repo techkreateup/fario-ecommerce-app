@@ -35,6 +35,7 @@ const Sidebar: React.FC<{ isOpen?: boolean }> = ({ isOpen }) => {
   const menuItems = [
     { label: 'Overview Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { label: 'Inventory', path: '/admin/products', icon: Package },
+    { label: 'Stock Manager', path: '/admin/stock', icon: RotateCcw },
     { label: 'Coupons', path: '/admin/coupons', icon: Tag },
     { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
     { label: 'Reviews', path: '/admin/reviews', icon: Star },
