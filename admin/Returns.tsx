@@ -98,7 +98,14 @@ const AdminReturns: React.FC = () => {
     const handleRefund = async (ret: ReturnRequest) => {
         setProcessingId(ret.id);
         try {
-            // Call RPC to credit wallet and update status
+            if (ret.method === 'refund') {
+                // Simulate external gateway API call (Stripe/Razorpay)
+                console.log(`[EXTERNAL_WEBHOOK] Initiating Stripe/Razorpay refund for order ${ret.orderId} amount ${ret.refundAmount}`);
+                await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network latency
+                console.log(`[EXTERNAL_WEBHOOK] Refund successful from gateway`);
+            }
+
+            // Call RPC to credit wallet (if method=credit) and update status
             const { error } = await supabase.rpc('process_return_refund', { return_id: ret.id });
 
             if (error) throw error;

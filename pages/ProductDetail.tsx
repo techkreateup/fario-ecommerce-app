@@ -19,7 +19,7 @@ import { HL3 } from '../components/home/HomeConstants';
 import Button from '../components/Button';
 import RecentlyViewed from '../components/RecentlyViewed';
 
-const { useParams, useNavigate } = RouterDOM as any;
+const { useParams, useNavigate, useSearchParams } = RouterDOM as any;
 
 // Discount % for bundle — 10% off combined price
 const BUNDLE_DISCOUNT_PCT = 10;
@@ -36,7 +36,8 @@ const ProductDetail: React.FC = () => {
    // Find product from Context or Constants (fallback)
    const product = products.find(p => p.id === id);
 
-   const [selectedSize, setSelectedSize] = useState<string>('');
+   const [searchParams, setSearchParams] = useSearchParams();
+   const [selectedSize, setSelectedSize] = useState<string>(searchParams.get('size') || '');
    const [, setError] = useState('');
    const [activeImage, setActiveImage] = useState<string>('');
    const [isZoomed, setIsZoomed] = useState(false);
@@ -235,8 +236,14 @@ const ProductDetail: React.FC = () => {
       if (!product && id) {
          // navigate('/products'); 
       } else if (product) {
-         setActiveImage(gallery[0]);
-         setActiveImgIdx(0);
+         if (!searchParams.get('color')) {
+            setActiveImage(gallery[0]);
+            setActiveImgIdx(0);
+         } else {
+            const idx = parseInt(searchParams.get('color') || '0', 10);
+            setActiveImgIdx(idx);
+            setActiveImage(gallery[idx] || gallery[0]);
+         }
          window.scrollTo(0, 0);
       }
    }, [product, id]);
@@ -458,13 +465,27 @@ const ProductDetail: React.FC = () => {
                      {/* Gallery Navigation Controls */}
                      <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
-                           onClick={(e) => { e.stopPropagation(); const next = (activeImgIdx - 1 + gallery.length) % gallery.length; setActiveImgIdx(next); setActiveImage(gallery[next]); }}
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              const next = (activeImgIdx - 1 + gallery.length) % gallery.length;
+                              setActiveImgIdx(next);
+                              setActiveImage(gallery[next]);
+                              searchParams.set('color', next.toString());
+                              setSearchParams(searchParams, { replace: true });
+                           }}
                            className="p-3 bg-white/80 backdrop-blur rounded-full shadow-lg hover:bg-white transition-all transform hover:-translate-x-1"
                         >
                            <ArrowLeft size={20} />
                         </button>
                         <button
-                           onClick={(e) => { e.stopPropagation(); const next = (activeImgIdx + 1) % gallery.length; setActiveImgIdx(next); setActiveImage(gallery[next]); }}
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              const next = (activeImgIdx + 1) % gallery.length;
+                              setActiveImgIdx(next);
+                              setActiveImage(gallery[next]);
+                              searchParams.set('color', next.toString());
+                              setSearchParams(searchParams, { replace: true });
+                           }}
                            className="p-3 bg-white/80 backdrop-blur rounded-full shadow-lg hover:bg-white transition-all transform hover:translate-x-1"
                         >
                            <ChevronRight size={20} />
@@ -483,7 +504,12 @@ const ProductDetail: React.FC = () => {
                         <button
                            key={idx}
                            onMouseEnter={() => { setActiveImage(img); setActiveImgIdx(idx); }}
-                           onClick={() => { setActiveImage(img); setActiveImgIdx(idx); }}
+                           onClick={() => {
+                              setActiveImage(img);
+                              setActiveImgIdx(idx);
+                              searchParams.set('color', idx.toString());
+                              setSearchParams(searchParams, { replace: true });
+                           }}
                            className={`aspect-square rounded-xl bg-white border-2 flex items-center justify-center p-2 transition-all overflow-hidden ${activeImage === img ? 'border-fario-purple ring-2 ring-fario-purple/10 scale-105 shadow-md' : 'border-gray-100 hover:border-gray-200'}`}
                         >
                            <img src={img || '/placeholder.png'} className="w-full h-full object-contain mix-blend-multiply" alt="" />
@@ -681,7 +707,12 @@ const ProductDetail: React.FC = () => {
                         {sizes.map(size => (
                            <button
                               key={size}
-                              onClick={() => { setSelectedSize(size); setError(''); }}
+                              onClick={() => {
+                                 setSelectedSize(size);
+                                 setError('');
+                                 searchParams.set('size', size);
+                                 setSearchParams(searchParams, { replace: true });
+                              }}
                               disabled={!isStockAvailable}
                               className={`
                          h-12 rounded-xl border text-[11px] font-black uppercase transition-all

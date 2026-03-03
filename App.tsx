@@ -35,6 +35,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import { ToastProvider } from './context/ToastContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { supabase } from './lib/supabase';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Lazy Load Admin Modules
 const AdminLayout = React.lazy(() => import('./admin/AdminLayout'));
@@ -258,8 +259,6 @@ const AppContent = () => {
 
 const App: React.FC = () => {
   useEffect(() => {
-    document.documentElement.classList.remove('dark');
-
     // Sync Admin Accent globally
     const adminAccent = localStorage.getItem('fario_theme_accent');
     if (adminAccent) {
@@ -269,19 +268,21 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <SearchProvider>
-        <AuthProvider>
-          <ToastProvider>
-            <CartProvider>
-              <WishlistProvider>
-                <Router basename="/fario-ecommerce-app">
-                  <AppContent />
-                </Router>
-              </WishlistProvider>
-            </CartProvider>
-          </ToastProvider>
-        </AuthProvider>
-      </SearchProvider>
+      <ThemeProvider>
+        <SearchProvider>
+          <AuthProvider>
+            <ToastProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <Router basename="/fario-ecommerce-app">
+                    <AppContent />
+                  </Router>
+                </WishlistProvider>
+              </CartProvider>
+            </ToastProvider>
+          </AuthProvider>
+        </SearchProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 };

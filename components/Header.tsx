@@ -9,11 +9,13 @@ import {
   X,
   ChevronDown,
   Menu, ArrowRight, Edit3, Heart,
-  Home as HomeIcon, Info, Mail
+  Home as HomeIcon, Info, Mail,
+  Sun, Moon
 } from 'lucide-react';
 import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
 import { CartDrawer } from './CartDrawer';
+import { useTheme } from '../context/ThemeContext';
 
 const { NavLink, useLocation, useNavigate } = RouterDOM as any;
 
@@ -36,6 +38,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const { cartCount } = useCart();
   const { wishlistItems } = useWishlist();
+  const { theme, toggleTheme } = useTheme();
 
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -225,6 +228,14 @@ const Header: React.FC = () => {
                 )}
               </AnimatePresence>
             </div>
+
+            {/* DARK MODE TOGGLE */}
+            <button
+              onClick={toggleTheme}
+              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/50 border border-purple-200/50 text-purple-600 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple dark:bg-gray-800 dark:border-gray-700`}
+            >
+              {theme === 'dark' ? <Sun size={22} /> : <Moon size={22} />}
+            </button>
 
             {/* WISHLIST ICON */}
             <button
