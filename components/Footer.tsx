@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
   const MotionDiv = (motion as any).div;
 
   return (
-    <footer className="bg-fario-dark text-white pt-12 md:pt-20 pb-28 md:pb-10 overflow-hidden border-t border-white/5 relative z-20">
+    <footer style={{ backgroundColor: '#0e3039' }} className="text-white pt-12 md:pt-20 pb-28 md:pb-10 overflow-hidden border-t border-white/5 relative z-20">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-12 mb-12 md:mb-16">
 
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
                   src="/fario-ecommerce-app/fario-brand-logo.png"
                   alt="Fario - Step In, Stand Out"
                   className="h-16 w-auto object-contain"
-                  style={{ maxWidth: '220px', mixBlendMode: 'screen' }}
+                  style={{ maxWidth: '240px' }}
                 />
               </div>
               <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-8">
