@@ -35,8 +35,8 @@ const Tracking: React.FC = () => {
       }
    };
 
-   const getETA = (createdAt: string) => {
-      const date = new Date(createdAt);
+   const getETA = (createdAt: string | undefined) => {
+      const date = new Date(createdAt ?? new Date().toISOString());
       date.setDate(date.getDate() + 4); // Estimated 4 days
       return date.toLocaleDateString([], { day: 'numeric', month: 'short' });
    };
