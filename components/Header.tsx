@@ -109,14 +109,14 @@ const Header: React.FC = () => {
               src="/fario-ecommerce-app/fario-logo-transparent.png"
               alt="Fario - Step In, Stand Out"
               className="block lg:hidden transition-transform duration-300 group-hover:scale-105"
-              style={{ height: '48px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }}
+              style={{ height: '58px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply', filter: 'contrast(1.4) brightness(0.78)' }}
             />
             {/* Desktop */}
             <img
               src="/fario-ecommerce-app/fario-logo-transparent.png"
               alt="Fario - Step In, Stand Out"
               className="hidden lg:block transition-transform duration-300 group-hover:scale-105"
-              style={{ height: '70px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }}
+              style={{ height: '88px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply', filter: 'contrast(1.4) brightness(0.78)' }}
             />
           </NavLink>
 
