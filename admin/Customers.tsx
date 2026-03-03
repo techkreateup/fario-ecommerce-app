@@ -130,14 +130,18 @@ const Customers: React.FC = () => {
       if (window.confirm('CRITICAL: Purge this identity from the global registry? Action is irreversible.')) {
          try {
             const { supabase } = await import('../lib/supabase');
-            const { error } = await supabase.from('profiles').delete().eq('id', id);
+            // Use RPC to bypass RLS and delete from both auth.users and public.profiles
+            const { data, error } = await supabase.rpc('delete_customer_by_admin', { customer_id: id });
+
             if (error) throw error;
+            if (!data) throw new Error("Delete operation returned false.");
 
             setCustomers(prev => prev.filter(c => c.id !== id));
             if (selectedCustomer?.id === id) setSelectedCustomer(null);
-         } catch (err) {
+            alert('Customer deleted successfully.');
+         } catch (err: any) {
             console.error('Failed to delete customer:', err);
-            alert('Failed to delete customer. Ensure no dependent orders exist.');
+            alert(`Failed to delete customer: ${err.message || 'Unknown error'}`);
          }
       }
    };
