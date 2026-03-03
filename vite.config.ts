@@ -22,12 +22,12 @@ export default defineConfig(({ mode }) => {
           theme_color: '#ffffff',
           icons: [
             {
-              src: '/fario-logo.png',
+              src: '/fario-ecommerce-app/fario-logo.png',
               sizes: '192x192',
               type: 'image/png'
             },
             {
-              src: '/fario-logo.png',
+              src: '/fario-ecommerce-app/fario-logo.png',
               sizes: '512x512',
               type: 'image/png'
             }
