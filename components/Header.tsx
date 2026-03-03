@@ -94,28 +94,32 @@ const Header: React.FC = () => {
   const isAdminPage = location.pathname.startsWith('/admin');
   if (isAdminPage) return null;
 
-  // LIGHT PURPLE THEME
-  const headerBg = 'bg-[#f3e8ff]/95 backdrop-blur-xl shadow-sm h-16 lg:h-24 border-b border-purple-200/50';
-  const textColor = 'text-gray-950';
+  // DARK TEAL THEME - matches brand logo image
+  const headerBg = 'h-16 lg:h-20 shadow-lg border-b border-white/10';
+  const textColor = 'text-white';
 
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 border-b flex items-center ${headerBg}`}>
+      <header style={{ backgroundColor: '#0e3039' }} className={`fixed top-0 left-0 right-0 z-50 border-b flex items-center ${headerBg}`}>
         <div className="container mx-auto px-4 md:px-6 lg:px-10 relative flex justify-between items-center">
 
-          <NavLink to="/" className="flex items-center gap-3 md:gap-4 relative z-[60] group">
-            <div className="transition-transform duration-500 group-hover:scale-105 shadow-xl rounded-full">
-              <div className="block lg:hidden">
-                <Logo size={48} />
-              </div>
-              <div className="hidden lg:block">
-                <Logo size={60} />
-              </div>
-            </div>
-            <div className="flex flex-col justify-center">
-              <span className={`font-black text-2xl md:text-[2.5rem] tracking-tight font-heading ${textColor} leading-[0.9] transition-colors uppercase`}>FARIO</span>
-              <span className="text-[6.5px] md:text-[8px] font-bold uppercase tracking-[0.45em] md:tracking-[0.62em] text-purple-600/80 mt-1 origin-left">STEP IN, STAND OUT</span>
+          <NavLink to="/" className="flex items-center relative z-[60] group">
+            <div className="transition-transform duration-300 group-hover:scale-105">
+              {/* Mobile: smaller logo */}
+              <img
+                src="/fario-ecommerce-app/fario-brand-logo.png"
+                alt="Fario - Step In, Stand Out"
+                className="block lg:hidden"
+                style={{ height: '42px', width: 'auto', objectFit: 'contain' }}
+              />
+              {/* Desktop: larger logo */}
+              <img
+                src="/fario-ecommerce-app/fario-brand-logo.png"
+                alt="Fario - Step In, Stand Out"
+                className="hidden lg:block"
+                style={{ height: '54px', width: 'auto', objectFit: 'contain' }}
+              />
             </div>
           </NavLink>
 
