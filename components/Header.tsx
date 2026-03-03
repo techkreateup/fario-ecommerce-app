@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as RouterDOM from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_ITEMS } from '../constants';
-
+import Logo from './Logo';
 import {
   ShoppingBag, User,
   LogOut,
@@ -104,16 +104,18 @@ const Header: React.FC = () => {
       <header className={`fixed top-0 left-0 right-0 z-50 border-b flex items-center ${headerBg}`}>
         <div className="container mx-auto px-4 md:px-6 lg:px-10 relative flex justify-between items-center">
 
-          <NavLink to="/" className="flex items-center relative z-[60] group">
-            <div
-              className="transition-transform duration-500 group-hover:scale-105"
-              style={{ backgroundColor: '#0e3039', borderRadius: '12px', padding: '6px 16px 6px 10px', display: 'inline-flex', alignItems: 'center' }}
-            >
-              <img
-                src="/fario-ecommerce-app/fario-brand-logo.png"
-                alt="Fario - Step In, Stand Out"
-                style={{ height: '44px', width: 'auto', objectFit: 'contain', maxWidth: '180px', display: 'block' }}
-              />
+          <NavLink to="/" className="flex items-center gap-3 md:gap-4 relative z-[60] group">
+            <div className="transition-transform duration-500 group-hover:scale-105 shadow-xl rounded-full">
+              <div className="block lg:hidden">
+                <Logo size={48} />
+              </div>
+              <div className="hidden lg:block">
+                <Logo size={60} />
+              </div>
+            </div>
+            <div className="flex flex-col justify-center">
+              <span className={`font-black text-2xl md:text-[2.5rem] tracking-tight font-heading ${textColor} leading-[0.9] transition-colors uppercase`}>FARIO</span>
+              <span className="text-[6.5px] md:text-[8px] font-bold uppercase tracking-[0.45em] md:tracking-[0.62em] text-purple-600/80 mt-1 origin-left">STEP IN, STAND OUT</span>
             </div>
           </NavLink>
 
@@ -272,12 +274,9 @@ const Header: React.FC = () => {
             className="fixed inset-0 z-[100] bg-gray-950 flex flex-col"
           >
             <div className="flex justify-between items-center p-6 md:p-8 border-b border-white/10">
-              <div style={{ backgroundColor: '#0e3039', borderRadius: '10px', padding: '5px 12px 5px 8px', display: 'inline-flex', alignItems: 'center' }}>
-                <img
-                  src="/fario-ecommerce-app/fario-brand-logo.png"
-                  alt="Fario"
-                  style={{ height: '36px', width: 'auto', objectFit: 'contain', maxWidth: '150px', display: 'block' }}
-                />
+              <div className="flex items-center gap-4">
+                <Logo size={40} />
+                <span className="font-black text-2xl tracking-tighter font-heading italic text-white">FARIO</span>
               </div>
               <button onClick={() => setIsMobileMenuOpen(false)} className="p-4 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
                 <X size={24} className="text-white" />
