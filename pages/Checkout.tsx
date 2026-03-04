@@ -11,7 +11,7 @@ import { Turnstile } from '@marsidev/react-turnstile';
 const Checkout: React.FC = () => {
     const navigate = useNavigate();
     const toast = useToast();
-    const { cartItems, placeOrder, cartTotal, discountAmount, coupon, userCoupons, applyCoupon, removeCoupon } = useCart();
+    const { cartItems, placeOrder, cartTotal, taxAmount, discountAmount, coupon, userCoupons, applyCoupon, removeCoupon } = useCart();
 
     const isPlacingOrder = React.useRef(false);
 
@@ -88,10 +88,10 @@ const Checkout: React.FC = () => {
     );
 
     const deliveryFee = deliverySpeed === 'EXPRESS' ? 99 : 0;
-    // Use global cartTotal which includes coupon discount
-    const finalTotal = cartTotal + deliveryFee;
+    // Use global cartTotal which includes coupon discount, plus tax
+    const finalTotal = cartTotal + taxAmount + deliveryFee;
 
-    const formatPrice = (price: number) => `Rs. ${price.toLocaleString('en-IN')}`;
+    const formatPrice = (price: number) => `Rs. ${Math.round(price).toLocaleString('en-IN')}`;
 
     // Real Payment Logic
     const handlePlaceOrder = async () => {
@@ -757,6 +757,11 @@ const Checkout: React.FC = () => {
                                         <span>- {formatPrice(discountAmount)}</span>
                                     </div>
                                 )}
+
+                                <div className="flex justify-between text-sm text-gray-900">
+                                    <span>18% GST</span>
+                                    <span>{formatPrice(taxAmount)}</span>
+                                </div>
 
                                 <div className="flex justify-between text-sm text-gray-900">
                                     <span>Delivery Charges</span>

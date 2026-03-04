@@ -39,6 +39,7 @@ interface CartContextType {
 
   cartTotal: number;
   cartCount: number;
+  taxAmount: number;
 
   // Coupon System
   coupon: Coupon | null;
@@ -917,6 +918,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   discountAmount = Math.min(discountAmount, subTotal);
 
   const cartTotal = subTotal - discountAmount;
+  const taxAmount = cartTotal * 0.18;
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const fetchUserCoupons = async () => {
@@ -1082,6 +1084,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       cartTotal,
       cartCount,
+      taxAmount,
       coupon,
       discountAmount,
       applyCoupon,

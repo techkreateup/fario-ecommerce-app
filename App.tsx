@@ -29,6 +29,7 @@ import MobileBottomNav from './components/MobileBottomNav';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import MaintenanceScreen from './components/MaintenanceScreen';
+import Invoice from './pages/Invoice';
 
 import { SearchProvider } from './context/SearchContext';
 import { CartProvider } from './context/CartProvider';
@@ -144,6 +145,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const isInvoice = location.pathname.startsWith('/invoice');
   const { user, isAdmin: isUserAdmin } = useAuth();
 
   const [isMaintenanceMode, setIsMaintenanceMode] = React.useState(false);
@@ -187,7 +189,7 @@ const AppContent = () => {
   }
 
   // Enforce Maintenance Screen for regular users
-  if (isMaintenanceMode && !isUserAdmin && !isAdmin && location.pathname !== '/login') {
+  if (isMaintenanceMode && !isUserAdmin && !isAdmin && location.pathname !== '/login' && !isInvoice) {
     return <MaintenanceScreen />;
   }
 
@@ -195,11 +197,11 @@ const AppContent = () => {
     <div className={`flex flex-col min-h-screen font-sans text-gray-800 antialiased ${isAdmin ? 'bg-[#f8fafc]' : 'bg-white'} selection:bg-fario-purple/30 selection:text-white transition-colors duration-300`}>
       <ScrollToTop />
       <AuthHandler />
-      <AnnouncementBar />
-      {!isAdmin && location.pathname !== '/login' && <CustomCursor />}
-      {!isAdmin && location.pathname !== '/login' && <Header />}
+      {!isInvoice && <AnnouncementBar />}
+      {!isAdmin && location.pathname !== '/login' && !isInvoice && <CustomCursor />}
+      {!isAdmin && location.pathname !== '/login' && !isInvoice && <Header />}
 
-      <main className={`flex-grow ${!isAdmin && location.pathname !== '/login' ? 'pb-24 md:pb-0' : ''}`}>
+      <main className={`flex-grow ${!isAdmin && location.pathname !== '/login' && !isInvoice ? 'pb-24 md:pb-0' : ''}`}>
         <AnimatePresence mode="wait">
           <Routes location={location}>
             {/* Unified Admin Routes */}
@@ -291,15 +293,16 @@ const AppContent = () => {
                 <ReturnOrder />
               </ProtectedRoute>
             } />
+            <Route path="/invoice/:orderId" element={<Invoice />} />
 
           </Routes>
         </AnimatePresence>
       </main>
 
-      {!isAdmin && location.pathname !== '/login' && <Footer />}
-      {!isAdmin && location.pathname !== '/login' && <LeadPopup />}
-      {!isAdmin && location.pathname !== '/login' && <WhatsAppFloat />}
-      <MobileBottomNav />
+      {!isAdmin && location.pathname !== '/login' && !isInvoice && <Footer />}
+      {!isAdmin && location.pathname !== '/login' && !isInvoice && <LeadPopup />}
+      {!isAdmin && location.pathname !== '/login' && !isInvoice && <WhatsAppFloat />}
+      {!isInvoice && <MobileBottomNav />}
     </div>
   );
 };

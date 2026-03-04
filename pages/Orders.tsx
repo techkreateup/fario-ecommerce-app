@@ -254,7 +254,7 @@ const Orders: React.FC = () => {
                                             <div className="flex gap-2 text-[#007185] font-medium text-xs">
                                                 <span className="hover:underline hover:text-fario-purple cursor-pointer">View Order Details</span>
                                                 <span className="text-gray-300">|</span>
-                                                <span className="hover:underline hover:text-fario-purple cursor-pointer">Invoice</span>
+                                                <span className="hover:underline hover:text-fario-purple cursor-pointer" onClick={() => window.open(`/fario-ecommerce-app/invoice/${order.id}`, '_blank')}>Invoice</span>
                                             </div>
                                         </div>
                                     </div>

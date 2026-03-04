@@ -2,41 +2,22 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ShoppingBag, Trash2, ArrowRight, Star, Bell, BellRing, Award } from 'lucide-react';
 import { useCart } from '../../context/CartProvider';
+import { useWishlist } from '../../context/WishlistContext';
+import { useNavigate } from 'react-router-dom';
 import { PRODUCTS } from '../../constants';
 
 export const ProfileVault: React.FC = () => {
     const { addToCart } = useCart();
+    const { wishlistItems, removeFromWishlist } = useWishlist();
+    const navigate = useNavigate();
 
-    // Mock Data simulating Amazon-style detailed response
-    const [wishlistItems, setWishlistItems] = useState([
-        {
-            id: 'ws1',
-            name: 'Edustep Core Black (Unisex) | Resilient. Refined. Essential.',
-            description: 'The definitive foundation for the modern student.',
-            price: 999,
-            rating: 4.8,
-            reviews: 0,
-            boughtCount: '5K+',
-            image: PRODUCTS.find(p => p.id === 'p1')?.image || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
-            inStock: true,
-            isPrime: true,
-            isFarioChoice: true,
-            priceAlert: false,
-            delivery: 'Tomorrow, 28 Jan',
-            specs: ['Black', 'Unisex', 'School Standard'],
-            originalPrice: 1599,
-            discount: 37
-        }
-    ]);
-
-    const removeItem = (id: string) => {
-        setWishlistItems(prev => prev.filter(item => item.id !== id));
-    };
+    const [priceAlerts, setPriceAlerts] = useState<Record<string, boolean>>({});
 
     const togglePriceAlert = (id: string) => {
-        setWishlistItems(prev => prev.map(item =>
-            item.id === id ? { ...item, priceAlert: !item.priceAlert } : item
-        ));
+        setPriceAlerts(prev => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
     };
 
     return (
@@ -74,7 +55,7 @@ export const ProfileVault: React.FC = () => {
                                             </span>
                                         )}
                                         {/* Fario Choice Badge */}
-                                        {item.isFarioChoice && (
+                                        {item.category === 'School Shoes' && (
                                             <span className="bg-fario-purple text-white text-[10px] font-black uppercase px-2 py-1 rounded shadow-lg shadow-fario-purple/20 flex items-center gap-1">
                                                 <Award size={10} strokeWidth={3} /> Fario Choice
                                             </span>
@@ -103,12 +84,12 @@ export const ProfileVault: React.FC = () => {
                                             <div className="flex items-center gap-2 mt-1">
                                                 <div className="flex text-yellow-400">
                                                     {[...Array(5)].map((_, i) => (
-                                                        <Star key={i} size={14} fill={i < Math.floor(item.rating) ? "currentColor" : "none"} className={i < Math.floor(item.rating) ? "" : "text-gray-300"} />
+                                                        <Star key={i} size={14} fill={i < Math.floor(item.rating || 0) ? "currentColor" : "none"} className={i < Math.floor(item.rating || 0) ? "" : "text-gray-300"} />
                                                     ))}
                                                 </div>
-                                                <span className="text-sm font-bold text-blue-600 hover:underline cursor-pointer">{item.reviews} reviews</span>
+                                                <span className="text-sm font-bold text-blue-600 hover:underline cursor-pointer">{item.reviewsCount || 0} reviews</span>
                                                 <span className="text-gray-300">|</span>
-                                                <span className="text-xs font-medium text-gray-500">{item.boughtCount} bought in past month</span>
+                                                <span className="text-xs font-medium text-gray-500">5K+ bought in past month</span>
                                             </div>
                                         </div>
 
@@ -116,14 +97,14 @@ export const ProfileVault: React.FC = () => {
                                             {/* Price Drop Alert Toggle */}
                                             <button
                                                 onClick={() => togglePriceAlert(item.id)}
-                                                className={`p-2 rounded-full transition-all ${item.priceAlert ? 'bg-fario-purple/10 text-fario-purple' : 'text-gray-300 hover:bg-gray-50'}`}
-                                                title={item.priceAlert ? "Price Alerts ON" : "Notify me of Price Drops"}
+                                                className={`p-2 rounded-full transition-all ${priceAlerts[item.id] ? 'bg-fario-purple/10 text-fario-purple' : 'text-gray-300 hover:bg-gray-50'}`}
+                                                title={priceAlerts[item.id] ? "Price Alerts ON" : "Notify me of Price Drops"}
                                             >
-                                                {item.priceAlert ? <BellRing size={20} className="animate-pulse" /> : <Bell size={20} />}
+                                                {priceAlerts[item.id] ? <BellRing size={20} className="animate-pulse" /> : <Bell size={20} />}
                                             </button>
 
                                             <button
-                                                onClick={() => removeItem(item.id)}
+                                                onClick={() => removeFromWishlist(item.id)}
                                                 className="text-gray-300 hover:text-red-500 p-2 transition-colors"
                                                 title="Remove from Wishlist"
                                             >
@@ -136,41 +117,33 @@ export const ProfileVault: React.FC = () => {
                                     <div className="mt-3">
                                         <div className="flex items-baseline gap-2">
                                             <span className="text-2xl font-black text-gray-900">Rs. {item.price}</span>
-                                            <span className="text-sm text-gray-500 line-through">Rs. {item.originalPrice}</span>
-                                            <span className="text-xs font-bold text-red-600">({item.discount}% off)</span>
+                                            {item.originalPrice && (
+                                                <>
+                                                    <span className="text-sm text-gray-500 line-through">Rs. {item.originalPrice}</span>
+                                                    <span className="text-xs font-bold text-red-600">({Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% off)</span>
+                                                </>
+                                            )}
                                         </div>
-                                        {item.isPrime && (
-                                            <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                                                Up to 5% back with <span className="font-black text-fario-purple">Fario Elite Prime Card</span>
-                                            </p>
-                                        )}
+                                        <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                                            Up to 5% back with <span className="font-black text-fario-purple">Fario Elite Prime Card</span>
+                                        </p>
                                     </div>
 
                                     {/* Delivery */}
                                     <div className="mt-4 text-sm text-gray-900">
-                                        <p><span className="font-bold text-gray-500 text-xs">FREE delivery</span> <span className="font-bold">{item.delivery.split(', ')[1]}</span></p>
-                                        <p className="text-xs mt-1">Or fastest delivery <span className="font-bold text-green-700">Tomorrow, 28 Jan</span></p>
+                                        <p><span className="font-bold text-gray-500 text-xs">FREE delivery</span> <span className="font-bold">Available</span></p>
+                                        <p className="text-xs mt-1">Select location for fastest delivery dates</p>
                                     </div>
 
                                     <div className="mt-auto pt-6 flex flex-wrap gap-3">
                                         <button
-                                            onClick={() => addToCart({
-                                                id: item.id,
-                                                name: item.name,
-                                                price: item.price,
-                                                image: item.image,
-                                                description: item.description,
-                                                category: 'Shoes', // Assuming Shoes for mock
-                                                features: [],
-                                                gender: 'Unisex',
-                                                originalPrice: item.originalPrice,
-                                                sizes: item.specs,
-                                            } as any, item.specs?.[0] || 'Default')}
+                                            onClick={() => addToCart(item as any, item.sizes?.[0] || 'OS', item.colors?.[0] || 'Default')}
                                             className="flex-1 sm:flex-none px-8 py-3 bg-fario-purple text-white rounded-full font-bold text-sm hover:bg-fario-teal transition-all shadow-lg shadow-fario-purple/20 active:scale-95 flex items-center justify-center gap-2"
                                         >
                                             Add to Cart
                                         </button>
                                         <button
+                                            onClick={() => navigate(`/products/${item.id}`)}
                                             className="flex-1 sm:flex-none px-6 py-3 border border-gray-200 text-gray-900 rounded-full font-bold text-sm hover:bg-gray-50 transition-colors"
                                         >
                                             Buy Now

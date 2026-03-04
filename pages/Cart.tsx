@@ -41,6 +41,7 @@ const Cart: React.FC = () => {
         saveForLater,
         moveToCart,
         products,
+        taxAmount
     } = useCart();
 
     // Coupon popup state
@@ -90,8 +91,8 @@ const Cart: React.FC = () => {
         }
     }, [subtotal, appliedCoupon]);
 
-    const finalTotal = Math.max(0, subtotal - discountAmount + deliveryFee);
-    const formatPrice = (price: number) => `Rs. ${price.toLocaleString('en-IN')}`;
+    const finalTotal = Math.max(0, subtotal - discountAmount + taxAmount + deliveryFee);
+    const formatPrice = (price: number) => `Rs. ${Math.round(price).toLocaleString('en-IN')}`;
 
     // Coupon Handlers
     const handleApplyCoupon = async () => {
@@ -468,6 +469,10 @@ const Cart: React.FC = () => {
                                                     <span>-{formatPrice(discountAmount)}</span>
                                                 </div>
                                             )}
+                                            <div className="flex justify-between text-gray-500">
+                                                <span>18% GST</span>
+                                                <span>{formatPrice(taxAmount)}</span>
+                                            </div>
                                             <div className="flex justify-between text-gray-500">
                                                 <span>Delivery</span>
                                                 <span>{deliveryFee === 0 ? 'FREE' : formatPrice(deliveryFee)}</span>

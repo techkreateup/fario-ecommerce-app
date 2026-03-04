@@ -207,12 +207,17 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({ order: initialOrder }) =>
                     {/* Support Block */}
                     <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-6">
                         <div>
-                            <p className="text-sm font-black text-slate-900">Need assistance?</p>
-                            <p className="text-xs text-gray-500 font-medium mt-1">Our concierge team is available 24/7.</p>
+                            <p className="text-sm font-black text-slate-900">Need assistance or a copy of your bill?</p>
+                            <p className="text-xs text-gray-500 font-medium mt-1">Our concierge team is available 24/7. Download your GST certified invoice anytime.</p>
                         </div>
-                        <button className="px-8 py-3.5 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-full hover:bg-slate-800 transition-all shadow-md hover:shadow-lg w-full sm:w-auto text-center shrink-0 active:scale-95">
-                            Contact Concierge
-                        </button>
+                        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                            <button onClick={() => window.open(`/fario-ecommerce-app/invoice/${order.id}`, '_blank')} className="px-8 py-3.5 bg-white border border-gray-200 text-slate-900 font-black text-[10px] uppercase tracking-widest rounded-full hover:bg-gray-50 transition-all shadow-sm hover:shadow w-full sm:w-auto text-center shrink-0 active:scale-95">
+                                Download Invoice
+                            </button>
+                            <button className="px-8 py-3.5 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-full hover:bg-slate-800 transition-all shadow-md hover:shadow-lg w-full sm:w-auto text-center shrink-0 active:scale-95">
+                                Contact Concierge
+                            </button>
+                        </div>
                     </div>
                 </div>
 
