@@ -9,7 +9,7 @@ export const HomeVideoBreak = () => {
     const sc = useTransform(scrollYProgress, [0, 1], [1.2, 1.0]);
 
     return (
-        <section ref={ref} className="relative h-[65vh] overflow-hidden flex items-center justify-center"
+        <section ref={ref} className="relative h-[40vh] md:h-[65vh] overflow-hidden flex items-center justify-center"
             style={{ background: BG_DARK }}
         >
             <motion.div style={{ scale: sc }} className="absolute inset-0">

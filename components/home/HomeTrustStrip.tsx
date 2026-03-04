@@ -4,7 +4,7 @@ import { BG_WHITE, PUR_BORDER, PURPLE, DARK_TXT, TRUST } from './HomeConstants';
 
 export const HomeTrustStrip = () => (
     <div style={{ background: BG_WHITE, borderTop: `1px solid ${PUR_BORDER}`, borderBottom: `1px solid ${PUR_BORDER}` }}>
-        <div className="container mx-auto px-8 md:px-20 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="container mx-auto px-4 md:px-8 lg:px-20 py-8 md:py-14 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {TRUST.map((t, i) => (
                 <motion.div key={i}
                     initial={{ opacity: 0, y: 20 }}

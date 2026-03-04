@@ -133,7 +133,7 @@ export const HomeSoleMatch: React.FC = () => {
                         🧠 AI-Powered · World First
                     </motion.span>
                     <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-                        className="text-3xl md:text-4xl lg:text-6xl font-black font-heading uppercase tracking-tighter text-white mt-5 mb-3">
+                        className="text-2xl md:text-4xl lg:text-6xl font-black font-heading uppercase tracking-tighter text-white mt-5 mb-3">
                         Find Your<br /><span style={{ color: '#d9f99d' }}>Sole Match</span>
                     </motion.h2>
                     <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.2 }}

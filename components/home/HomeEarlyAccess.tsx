@@ -36,26 +36,26 @@ export const HomeEarlyAccess: React.FC = () => {
     };
 
     return (
-        <section className="relative py-24 overflow-hidden" style={{ background: `linear-gradient(135deg, ${PURPLE} 0%, ${LIGHT_GREEN} 100%)` }}>
+        <section className="relative py-12 md:py-24 overflow-hidden" style={{ background: `linear-gradient(135deg, ${PURPLE} 0%, ${LIGHT_GREEN} 100%)` }}>
             {/* Background pure and flat - NO glowing orbs or shadows */}
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7 }}
-                    className="text-center mb-12"
+                    className="text-center mb-8 md:mb-12"
                 >
                     <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
                         style={{ background: 'rgba(0,0,0,0.15)', color: BG_DARK, border: `1px solid rgba(0,0,0,0.2)` }}>
                         ✨ Early Access Available
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-black font-heading uppercase tracking-tight mb-4"
+                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-black font-heading uppercase tracking-tight mb-3 md:mb-4"
                         style={{ color: BG_DARK }}>
                         Join Our Customer List
                     </h2>
-                    <p className="max-w-xl mx-auto text-base leading-relaxed" style={{ color: 'rgba(0,0,0,0.8)' }}>
+                    <p className="max-w-xl mx-auto text-sm md:text-base leading-relaxed" style={{ color: 'rgba(0,0,0,0.8)' }}>
                         Join our exclusive customer list and be the first to step into the future of premium footwear.{' '}
                         <span className="font-bold" style={{ color: BG_DARK }}>Special discounts available.</span>
                     </p>
@@ -66,12 +66,12 @@ export const HomeEarlyAccess: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="flex flex-wrap justify-center gap-8 mb-12"
+                    className="flex flex-wrap justify-center gap-4 md:gap-8 mb-8 md:mb-12"
                 >
                     {stats.map((s) => (
                         <div key={s.label} className="text-center">
-                            <div className="text-2xl md:text-3xl font-black font-heading" style={{ color: BG_DARK }}>{s.value}</div>
-                            <div className="text-xs uppercase font-bold tracking-wider mt-1" style={{ color: 'rgba(0,0,0,0.6)' }}>{s.label}</div>
+                            <div className="text-xl md:text-3xl font-black font-heading" style={{ color: BG_DARK }}>{s.value}</div>
+                            <div className="text-[10px] md:text-xs uppercase font-bold tracking-wider mt-1" style={{ color: 'rgba(0,0,0,0.6)' }}>{s.label}</div>
                         </div>
                     ))}
                 </motion.div>
@@ -81,7 +81,7 @@ export const HomeEarlyAccess: React.FC = () => {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="max-w-lg mx-auto rounded-3xl p-8"
+                    className="max-w-lg mx-auto rounded-3xl p-5 md:p-8"
                     style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.05)' }}
                 >
                     {submitted ? (

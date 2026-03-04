@@ -18,7 +18,7 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
             viewport={{ once: true, amount: 0.1 }}
             transition={{ delay: i * 0.07, duration: 0.6, ease: E }}
         >
-            <Tilt cls="flex-shrink-0 w-[270px] md:w-[300px] snap-start">
+            <Tilt cls="flex-shrink-0 w-[220px] md:w-[300px] snap-start">
                 <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
                     className="rounded-2xl overflow-hidden"
                     style={{ background: BG_WHITE, border: `1px solid ${PUR_BORDER}`, boxShadow: hov ? '0 20px 50px rgba(122,81,160,0.15)' : '0 4px 20px rgba(122,81,160,0.06)', transition: 'box-shadow 0.3s' }}
@@ -100,7 +100,7 @@ export const HomeFeaturedProducts = () => {
                         <div className="overflow-hidden">
                             <motion.h2 variants={maskUp}
                                 className="font-heading font-black uppercase tracking-tighter"
-                                style={{ fontSize: 'clamp(38px, 6vw, 80px)', color: DARK_TXT, lineHeight: 0.9 }}
+                                style={{ fontSize: 'clamp(28px, 6vw, 80px)', color: DARK_TXT, lineHeight: 0.9 }}
                             >New<br />Arrivals</motion.h2>
                         </div>
                     </div>
