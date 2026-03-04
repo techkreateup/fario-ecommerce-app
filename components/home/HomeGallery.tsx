@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DARK_TXT, PURPLE, LIME, E } from './HomeConstants';
+import { DARK_TXT, PURPLE, LIME, E, HL3 } from './HomeConstants';
 import { PImg } from './HomeCommon';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,10 @@ const GALLERY_DATA: Record<string, { label: string; img: string }[]> = {
         { label: 'Urban Glide', img: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80' },
         { label: 'Midnight Force', img: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=800&q=80' },
         { label: 'Velocity Elite', img: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80' },
+        { label: 'Street Kicks', img: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80' },
+        { label: 'Runner X', img: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=80' },
+        { label: 'Classic Court', img: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800&q=80' },
+        { label: 'Minimalist High', img: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=80' },
     ],
     WOMEN: [
         { label: 'Elegance Heel', img: 'https://m.media-amazon.com/images/I/51kwNkprQ3L._AC_UY1000_.jpg' },
@@ -20,18 +24,28 @@ const GALLERY_DATA: Record<string, { label: string; img: string }[]> = {
         { label: 'Classic Pump', img: 'https://www.rociashoes.in/cdn/shop/files/84Eh-rwvjiU-1.jpg?v=1771409048&width=600' },
         { label: 'Jewel Sandal', img: 'https://www.aroundalways.com/cdn/shop/files/JewelSandals5.jpg?v=1748329225' },
         { label: 'Summer Flat', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvZpI0t1wPA0g_eG-dN7N--0hufE6aTu3vjg&s' },
+        { label: 'Premium Boot', img: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80' },
+        { label: 'City Sneaker', img: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80' },
     ],
     KIDS: [
-        { label: 'Mini Strider', img: 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=800&q=80' },
-        { label: 'Playful Steps', img: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80' },
-        { label: 'Tiny Glider', img: 'https://images.unsplash.com/photo-1515347619152-bc0f1190dbed?w=800&q=80' },
-        { label: 'Junior Force', img: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80' },
+        { label: 'Tiny Glider', img: HL3.h },
+        { label: 'Playful Steps', img: HL3.g },
+        { label: 'Junior Force', img: HL3.f },
+        { label: 'Mini Strider', img: HL3.e },
+        { label: 'Active Jump', img: HL3.c },
+        { label: 'School Dash', img: HL3.b },
+        { label: 'Campus Walk', img: HL3.a },
+        { label: 'Little Champ', img: HL3.h },
     ],
     SCHOOL: [
-        { label: 'Scholar Classic', img: 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=800&q=80' },
-        { label: 'Campus Walk', img: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=80' },
-        { label: 'Academy Uniform', img: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=80' },
-        { label: 'Prep Step', img: 'https://images.unsplash.com/photo-1549298916-b41d501d5292?w=800&q=80' },
+        { label: 'Scholar Classic', img: HL3.a },
+        { label: 'Academy Uniform', img: HL3.b },
+        { label: 'Prep Step', img: HL3.c },
+        { label: 'Campus Walk', img: HL3.e },
+        { label: 'Student Daily', img: HL3.f },
+        { label: 'Library Loafer', img: HL3.g },
+        { label: 'Lab Essential', img: HL3.h },
+        { label: 'Hallway Runner', img: HL3.a },
     ]
 };
 
