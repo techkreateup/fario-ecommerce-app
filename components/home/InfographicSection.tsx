@@ -201,17 +201,17 @@ const InfographicSection: React.FC = () => {
       <div className="container mx-auto px-6 relative z-10">
 
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="px-3 py-1 bg-fario-dark text-white text-xs font-bold uppercase tracking-widest rounded-sm mb-4 inline-block font-heading">
+        <div className="text-center mb-8 md:mb-16">
+          <span className="px-3 py-1 bg-fario-dark text-white text-[10px] font-bold uppercase tracking-widest rounded-sm mb-3 inline-block font-heading">
             Engineering Lab
           </span>
-          <h2 className="text-4xl md:text-5xl font-semibold font-heading uppercase tracking-tight" style={{ color: BG_DARK }}>
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold font-heading uppercase tracking-tight" style={{ color: BG_DARK }}>
             Science in <span className="text-outline">Motion</span>
           </h2>
         </div>
 
         {/* Interactive Lab Interface */}
-        <div className="rounded-3xl p-6 md:p-12 shadow-2xl overflow-hidden flex flex-col lg:flex-row gap-12 text-white border relative"
+        <div className="rounded-3xl p-4 md:p-12 shadow-2xl overflow-hidden flex flex-col lg:flex-row gap-6 md:gap-12 text-white border relative"
           style={{ background: BG_DARK, borderColor: 'rgba(255,255,255,0.05)' }}
         >
 
@@ -222,19 +222,19 @@ const InfographicSection: React.FC = () => {
           <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-fario-lime/5 rounded-full blur-[80px] pointer-events-none"></div>
 
           {/* Controls (Left Side) */}
-          <div className="lg:w-1/2 flex flex-col justify-center space-y-2 relative z-10">
+          <div className="lg:w-1/2 flex flex-col justify-center space-y-1 relative z-10">
             {features.map((feature, idx) => (
               <motion.button
                 key={feature.id}
                 onClick={() => setActiveIdx(idx)}
-                className={`text-left p-6 rounded-xl transition-all duration-300 border-l-4 group relative overflow-hidden ${activeIdx === idx
+                className={`text-left p-3 md:p-6 rounded-xl transition-all duration-300 border-l-4 group relative overflow-hidden ${activeIdx === idx
                   ? 'bg-white/10 border-fario-lime'
                   : 'bg-transparent border-transparent hover:bg-white/5'
                   }`}
                 whileHover={{ x: 10 }}
               >
-                <div className="flex justify-between items-center mb-1 relative">
-                  <h3 className={`text-xl font-bold font-heading ${activeIdx === idx ? '' : 'text-white group-hover:text-gray-200'}`}
+                <div className="flex justify-between items-center mb-0.5 relative">
+                  <h3 className={`text-base md:text-xl font-bold font-heading ${activeIdx === idx ? '' : 'text-white group-hover:text-gray-200'}`}
                     style={{ color: activeIdx === idx ? LIME : undefined }}
                   >
                     {feature.title}
@@ -243,7 +243,7 @@ const InfographicSection: React.FC = () => {
                     <motion.div layoutId="active-dot" className="w-2 h-2 rounded-full absolute right-0" style={{ background: LIME }} />
                   )}
                 </div>
-                <p className={`text-sm ${activeIdx === idx ? 'text-gray-300' : 'text-gray-500'}`}>
+                <p className={`text-xs md:text-sm ${activeIdx === idx ? 'text-gray-300' : 'text-gray-500'}`}>
                   {feature.description}
                 </p>
               </motion.button>
@@ -251,7 +251,7 @@ const InfographicSection: React.FC = () => {
           </div>
 
           {/* Visualization Viewport (Right Side) */}
-          <div className="lg:w-1/2 min-h-[300px] lg:min-h-[400px] bg-black/40 rounded-[2.5rem] border border-white/10 relative flex items-center justify-center overflow-hidden">
+          <div className="lg:w-1/2 min-h-[200px] lg:min-h-[400px] bg-black/40 rounded-[2.5rem] border border-white/10 relative flex items-center justify-center overflow-hidden">
 
             {/* Tech Overlay Lines -> Rounded for Shoe Aesthetic */}
             <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 rounded-tl-2xl opacity-40" style={{ borderColor: LIME }}></div>

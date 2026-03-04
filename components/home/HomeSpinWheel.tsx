@@ -223,19 +223,18 @@ export const HomeSpinWheel: React.FC = () => {
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
-                {/* Header */}
-                <div className="text-center mb-12">
+                <div className="text-center mb-6 md:mb-12">
                     <motion.span initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3"
                         style={{ background: 'rgba(217,249,157,0.1)', color: '#d9f99d', border: '1px solid rgba(217,249,157,0.25)' }}>
                         🎰 Daily Lucky Spin
                     </motion.span>
                     <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-black font-heading uppercase tracking-tighter text-white mb-3">
-                        Spin & Win
+                        className="text-2xl md:text-4xl lg:text-6xl font-black font-heading uppercase tracking-tighter text-white mb-2">
+                        Spin &amp; Win
                     </motion.h2>
                     <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.2 }}
-                        className="text-sm max-w-sm mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                        className="text-xs max-w-sm mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
                         {user ? '1 free spin per day. 2 in 10 people win a real prize.' : 'Sign in to unlock your daily free spin.'}
                     </motion.p>
                 </div>
@@ -261,25 +260,25 @@ export const HomeSpinWheel: React.FC = () => {
                             animate={{ rotate: rotation }}
                             transition={{ duration: 4.6, ease: [0.12, 0.05, 0.05, 1.0] }}
                             className="relative z-20"
-                            style={{ width: 'min(380px, 88vw)', height: 'min(380px, 88vw)' }}
+                            style={{ width: 'min(280px, 78vw)', height: 'min(280px, 78vw)' }}
                         >
                             <WheelCanvas rotation={0} />
                         </motion.div>
                     </div>
 
                     {/* Right panel */}
-                    <div className="flex flex-col items-center xl:items-start gap-5 w-full max-w-xs md:max-w-sm px-4 xl:px-0">
+                    <div className="flex flex-col items-center xl:items-start gap-4 w-full max-w-xs md:max-w-sm px-4 xl:px-0">
 
                         {/* Spin / Lock button */}
                         {isLocked ? (
-                            <div className="w-full rounded-2xl p-5 text-center border border-white/10"
+                            <div className="w-full rounded-2xl p-4 text-center border border-white/10"
                                 style={{ background: 'rgba(255,255,255,0.04)' }}>
-                                <div className="text-4xl mb-3">{lockEmoji}</div>
+                                <div className="text-3xl mb-2">{lockEmoji}</div>
                                 <p className="text-white font-black text-sm mb-1">{lockReason}</p>
                                 {user && done && timeLeft && (
-                                    <div className="mt-4 p-3 rounded-xl bg-[#d9f99d]/10 border border-[#d9f99d]/20 inline-block w-full">
+                                    <div className="mt-3 p-2.5 rounded-xl bg-[#d9f99d]/10 border border-[#d9f99d]/20 inline-block w-full">
                                         <p className="text-[10px] text-[#d9f99d]/70 uppercase tracking-[0.2em] font-black mb-1">Next Spin In</p>
-                                        <p className="text-[#d9f99d] font-mono font-bold text-xl tracking-widest">{timeLeft}</p>
+                                        <p className="text-[#d9f99d] font-mono font-bold text-lg tracking-widest">{timeLeft}</p>
                                     </div>
                                 )}
                                 {!user && (
@@ -295,7 +294,7 @@ export const HomeSpinWheel: React.FC = () => {
                                 onClick={spin} disabled={spinning}
                                 whileHover={{ scale: spinning ? 1 : 1.04 }}
                                 whileTap={{ scale: spinning ? 1 : 0.96 }}
-                                className="w-full py-5 px-8 rounded-2xl font-black text-base uppercase tracking-widest transition-all"
+                                className="w-full py-4 px-8 rounded-2xl font-black text-sm uppercase tracking-widest transition-all"
                                 style={{
                                     background: spinning ? 'rgba(217,249,157,0.3)' : '#d9f99d',
                                     color: '#0f0820',
@@ -307,17 +306,17 @@ export const HomeSpinWheel: React.FC = () => {
                         )}
 
                         {/* Prize board */}
-                        <div className="w-full rounded-2xl p-5 border" style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.07)' }}>
-                            <p className="text-[10px] uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>🏆 Prize Board</p>
+                        <div className="w-full rounded-2xl p-4 border" style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.07)' }}>
+                            <p className="text-[10px] uppercase tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.3)' }}>🏆 Prize Board</p>
                             {SLOTS.filter(s => s.isWin).map(s => (
-                                <div key={s.id} className="flex items-center gap-3 mb-3">
-                                    <span className="text-xl">{s.emoji}</span>
-                                    <span className="text-sm font-bold text-white">{s.label}</span>
-                                    <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full font-black"
+                                <div key={s.id} className="flex items-center gap-2 mb-2">
+                                    <span className="text-lg">{s.emoji}</span>
+                                    <span className="text-xs font-bold text-white">{s.label}</span>
+                                    <span className="ml-auto text-[9px] px-2 py-0.5 rounded-full font-black"
                                         style={{ background: 'rgba(217,249,157,0.15)', color: '#d9f99d' }}>Win ✓</span>
                                 </div>
                             ))}
-                            <p className="text-[10px] mt-3" style={{ color: 'rgba(255,255,255,0.18)' }}>2 in 10 spins win a real prize · 1 spin/day</p>
+                            <p className="text-[9px] mt-2" style={{ color: 'rgba(255,255,255,0.18)' }}>2 in 10 spins win a real prize · 1 spin/day</p>
                         </div>
                     </div>
                 </div>

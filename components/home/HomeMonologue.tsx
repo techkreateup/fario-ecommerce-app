@@ -133,7 +133,7 @@ export const HomeMonologue: React.FC = () => {
                         <span className="text-[10px] font-black uppercase tracking-[0.6em] text-purple-500">The Fario Story</span>
                     </div>
                     <h2 className="font-heading font-black uppercase tracking-tighter text-[#1a0d2e] leading-none mb-2"
-                        style={{ fontSize: 'clamp(36px, 5vw, 64px)' }}>
+                        style={{ fontSize: 'clamp(28px, 5vw, 64px)' }}>
                         Our Monologue.
                     </h2>
                     <p className="text-xs text-[#1a0d2e]/40 font-semibold tracking-widest flex items-center gap-2">
@@ -166,8 +166,8 @@ export const HomeMonologue: React.FC = () => {
                             shineColor={ch.shineColor}
                             style={{
                                 background: ch.bg,
-                                minHeight: expanded === i ? 'auto' : '360px',
-                                padding: '30px 26px',
+                                minHeight: expanded === i ? 'auto' : '300px',
+                                padding: '22px 18px',
                                 boxShadow: ch.dark ? '0 28px 70px rgba(0,0,0,0.5)' : '0 14px 45px rgba(122,81,160,0.18)',
                                 display: 'flex',
                                 flexDirection: 'column',
