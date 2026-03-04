@@ -193,7 +193,8 @@ const InfographicSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-12 md:py-24 relative overflow-hidden" style={{ background: BG_LIGHT }}>
+    <section className="py-6 md:py-24 relative overflow-hidden" style={{ background: BG_LIGHT }}
+    >
 
       {/* Jagged Top Edge */}
       <div className="absolute top-0 left-0 w-full h-12 clip-path-jagged-top rotate-180 translate-y-1 z-10" style={{ background: BG_LIGHT }}></div>
@@ -201,17 +202,17 @@ const InfographicSection: React.FC = () => {
       <div className="container mx-auto px-6 relative z-10">
 
         {/* Header */}
-        <div className="text-center mb-8 md:mb-16">
-          <span className="px-3 py-1 bg-fario-dark text-white text-[10px] font-bold uppercase tracking-widest rounded-sm mb-3 inline-block font-heading">
+        <div className="text-center mb-5 md:mb-16">
+          <span className="px-2 py-0.5 bg-fario-dark text-white text-[9px] font-bold uppercase tracking-widest rounded-sm mb-2 inline-block font-heading">
             Engineering Lab
           </span>
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold font-heading uppercase tracking-tight" style={{ color: BG_DARK }}>
+          <h2 className="text-xl md:text-4xl lg:text-5xl font-semibold font-heading uppercase tracking-tight" style={{ color: BG_DARK }}>
             Science in <span className="text-outline">Motion</span>
           </h2>
         </div>
 
         {/* Interactive Lab Interface */}
-        <div className="rounded-3xl p-4 md:p-12 shadow-2xl overflow-hidden flex flex-col lg:flex-row gap-6 md:gap-12 text-white border relative"
+        <div className="rounded-2xl md:rounded-3xl p-3 md:p-12 shadow-xl md:shadow-2xl overflow-hidden flex flex-col lg:flex-row gap-3 md:gap-12 text-white border"
           style={{ background: BG_DARK, borderColor: 'rgba(255,255,255,0.05)' }}
         >
 
@@ -221,37 +222,37 @@ const InfographicSection: React.FC = () => {
           {/* Abstract Shoe Sole Watermark */}
           <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-fario-lime/5 rounded-full blur-[80px] pointer-events-none"></div>
 
-          {/* Controls (Left Side) */}
-          <div className="lg:w-1/2 flex flex-col justify-center space-y-1 relative z-10">
+          {/* Controls — compact on mobile */}
+          <div className="lg:w-1/2 flex flex-col justify-center space-y-0.5 md:space-y-1 relative z-10">
             {features.map((feature, idx) => (
               <motion.button
                 key={feature.id}
                 onClick={() => setActiveIdx(idx)}
-                className={`text-left p-3 md:p-6 rounded-xl transition-all duration-300 border-l-4 group relative overflow-hidden ${activeIdx === idx
-                  ? 'bg-white/10 border-fario-lime'
-                  : 'bg-transparent border-transparent hover:bg-white/5'
+                className={`text-left p-2 md:p-3 lg:p-6 rounded-lg md:rounded-xl transition-all duration-300 border-l-4 group relative overflow-hidden ${activeIdx === idx
+                    ? 'bg-white/10 border-fario-lime'
+                    : 'bg-transparent border-transparent hover:bg-white/5'
                   }`}
-                whileHover={{ x: 10 }}
+                whileHover={{ x: 6 }}
               >
                 <div className="flex justify-between items-center mb-0.5 relative">
-                  <h3 className={`text-base md:text-xl font-bold font-heading ${activeIdx === idx ? '' : 'text-white group-hover:text-gray-200'}`}
+                  <h3 className={`text-sm md:text-base lg:text-xl font-bold font-heading ${activeIdx === idx ? '' : 'text-white group-hover:text-gray-200'}`}
                     style={{ color: activeIdx === idx ? LIME : undefined }}
                   >
                     {feature.title}
                   </h3>
                   {activeIdx === idx && (
-                    <motion.div layoutId="active-dot" className="w-2 h-2 rounded-full absolute right-0" style={{ background: LIME }} />
+                    <motion.div layoutId="active-dot" className="w-1.5 h-1.5 rounded-full absolute right-0" style={{ background: LIME }} />
                   )}
                 </div>
-                <p className={`text-xs md:text-sm ${activeIdx === idx ? 'text-gray-300' : 'text-gray-500'}`}>
+                <p className={`text-[10px] md:text-xs lg:text-sm leading-snug ${activeIdx === idx ? 'text-gray-300' : 'text-gray-500'}`}>
                   {feature.description}
                 </p>
               </motion.button>
             ))}
           </div>
 
-          {/* Visualization Viewport (Right Side) */}
-          <div className="lg:w-1/2 min-h-[200px] lg:min-h-[400px] bg-black/40 rounded-[2.5rem] border border-white/10 relative flex items-center justify-center overflow-hidden">
+          {/* Visualization Viewport — HIDDEN on mobile, visible lg+ */}
+          <div className="hidden lg:flex lg:w-1/2 min-h-[400px] bg-black/40 rounded-[2.5rem] border border-white/10 relative items-center justify-center overflow-hidden">
 
             {/* Tech Overlay Lines -> Rounded for Shoe Aesthetic */}
             <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 rounded-tl-2xl opacity-40" style={{ borderColor: LIME }}></div>
