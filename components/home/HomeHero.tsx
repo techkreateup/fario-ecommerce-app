@@ -12,8 +12,8 @@ export const HomeHero = () => {
     const tY = useTransform(scrollY, [0, 500], ['0%', '35%']);
 
     return (
-        <section className="relative flex flex-col justify-center"
-            style={{ background: BG_DARK2, minHeight: '100vh' }}
+        <section className="relative flex flex-col justify-center min-h-[85vh] lg:min-h-screen"
+            style={{ background: BG_DARK2 }}
         >
             {/* VIDEO */}
             <motion.div style={{ y: vY }} className="absolute inset-0 scale-110">
@@ -62,7 +62,7 @@ export const HomeHero = () => {
                 >✧ New Delhi · Est. 2024 · Collection 2026</motion.div>
 
                 <h1 className="font-heading font-black uppercase tracking-tighter leading-[0.85] mb-4 md:mb-8"
-                    style={{ fontSize: 'clamp(40px, 10vw, 130px)', color: MILKY }}
+                    style={{ fontSize: 'clamp(32px, 8vw, 130px)', color: MILKY }}
                 >
                     <div><SplitText text="Born" cls="block" /></div>
                     <div><SplitText text="for" cls="block" delay={0.14} stroke={LIME} /></div>

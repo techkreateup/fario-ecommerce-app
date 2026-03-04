@@ -83,13 +83,13 @@ export const HomeGallery = () => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
                         className="font-heading font-black uppercase tracking-tighter mb-8"
-                        style={{ fontSize: 'clamp(34px, 5vw, 68px)', color: DARK_TXT }}
+                        style={{ fontSize: 'clamp(28px, 6vw, 68px)', color: DARK_TXT }}
                     >
                         Our Gallery
                     </motion.h2>
 
                     {/* Category Tabs */}
-                    <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12">
+                    <div className="flex flex-wrap justify-center gap-2 md:gap-6 mb-6 md:mb-12">
                         {CATEGORIES.map((cat, idx) => (
                             <button
                                 key={cat}
@@ -166,7 +166,7 @@ export const HomeGallery = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="text-center mt-16"
+                    className="text-center mt-8 md:mt-16"
                 >
                     <button
                         onClick={() => navigate('/products')}

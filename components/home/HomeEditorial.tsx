@@ -15,9 +15,9 @@ export const HomeEditorial = () => {
     return (
         <section ref={ref} className="py-12 md:py-24 overflow-hidden" style={{ background: BG_MID }}>
             <div className="container mx-auto px-4 md:px-12 lg:px-20">
-                <div className="flex flex-col md:grid md:grid-cols-12 gap-10 md:gap-8 items-start md:items-end">
+                <div className="flex flex-col md:grid md:grid-cols-12 gap-8 md:gap-10 items-start md:items-end">
                     {/* Tall left image */}
-                    <motion.div style={{ y: y1 }} className="w-full md:w-auto md:col-span-4 h-[50vh] md:h-[68vh] relative">
+                    <motion.div style={{ y: y1 }} className="w-full md:w-auto md:col-span-4 h-[40vh] lg:h-[68vh] relative">
                         <Tilt cls="h-full">
                             <PImg src={HL3.a} alt="AeroStride Pro" px={50} cls="h-full w-full rounded-2xl overflow-hidden" />
                         </Tilt>
@@ -39,8 +39,8 @@ export const HomeEditorial = () => {
                             >New Collection 2026</motion.p>
                             <div className="overflow-hidden mb-6">
                                 <motion.h2 variants={maskUp}
-                                    className="font-heading font-black uppercase tracking-tighter leading-tight"
-                                    style={{ fontSize: 'clamp(38px, 5vw, 66px)', color: DARK_TXT }}
+                                    className="font-heading font-black uppercase tracking-tighter leading-[0.9] md:leading-tight"
+                                    style={{ fontSize: 'clamp(32px, 8vw, 66px)', color: DARK_TXT }}
                                 >The Art<br />of Motion</motion.h2>
                             </div>
                             <motion.p variants={fadeUp} className="text-base leading-loose opacity-70 mb-8" style={{ color: DARK_TXT }}>
