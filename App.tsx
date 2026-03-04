@@ -25,7 +25,6 @@ import ProfileAddresses from './pages/account/ProfileAddresses';
 import ProfilePayments from './pages/account/ProfilePayments';
 import ProfileWallet from './pages/account/ProfileWallet';
 import ReturnOrder from './pages/ReturnOrder';
-import MobileBottomNav from './components/MobileBottomNav';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import MaintenanceScreen from './components/MaintenanceScreen';
@@ -201,7 +200,7 @@ const AppContent = () => {
       {!isAdmin && location.pathname !== '/login' && !isInvoice && <CustomCursor />}
       {!isAdmin && location.pathname !== '/login' && !isInvoice && <Header />}
 
-      <main className={`flex-grow ${!isAdmin && location.pathname !== '/login' && !isInvoice ? 'pb-24 md:pb-0' : ''}`}>
+      <main className="flex-grow">
         <AnimatePresence mode="wait">
           <Routes location={location}>
             {/* Unified Admin Routes */}
@@ -302,7 +301,6 @@ const AppContent = () => {
       {!isAdmin && location.pathname !== '/login' && !isInvoice && <Footer />}
       {!isAdmin && location.pathname !== '/login' && !isInvoice && <LeadPopup />}
       {!isAdmin && location.pathname !== '/login' && !isInvoice && <WhatsAppFloat />}
-      {!isInvoice && <MobileBottomNav />}
     </div>
   );
 };
