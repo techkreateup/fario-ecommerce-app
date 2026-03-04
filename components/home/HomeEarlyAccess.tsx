@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BG_LIGHT, LIME, PURPLE } from './HomeConstants';
+import { PURPLE, MILKY, BG_DARK } from './HomeConstants';
+
+// Custom light green
+const LIGHT_GREEN = '#bbf7d0'; // Tailwind green-200
 
 const badges = [
     { icon: '👑', label: 'Premium Quality' },
@@ -33,12 +36,8 @@ export const HomeEarlyAccess: React.FC = () => {
     };
 
     return (
-        <section className="relative py-24 overflow-hidden" style={{ background: BG_LIGHT }}>
-            {/* Background glow */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[120px] opacity-10"
-                    style={{ background: PURPLE }} />
-            </div>
+        <section className="relative py-24 overflow-hidden" style={{ background: `linear-gradient(135deg, ${PURPLE} 0%, ${LIGHT_GREEN} 100%)` }}>
+            {/* Background pure and flat - NO glowing orbs or shadows */}
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
@@ -49,15 +48,16 @@ export const HomeEarlyAccess: React.FC = () => {
                     className="text-center mb-12"
                 >
                     <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-                        style={{ background: '#e8f5e0', color: '#2d7a00', border: '1px solid #6abf40' }}>
+                        style={{ background: 'rgba(0,0,0,0.15)', color: BG_DARK, border: `1px solid rgba(0,0,0,0.2)` }}>
                         ✨ Early Access Available
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-black font-heading uppercase tracking-tight text-fario-dark mb-4">
+                    <h2 className="text-4xl md:text-5xl font-black font-heading uppercase tracking-tight mb-4"
+                        style={{ color: BG_DARK }}>
                         Join Our Customer List
                     </h2>
-                    <p className="max-w-xl mx-auto text-base text-fario-dark/60 leading-relaxed">
+                    <p className="max-w-xl mx-auto text-base leading-relaxed" style={{ color: 'rgba(0,0,0,0.8)' }}>
                         Join our exclusive customer list and be the first to step into the future of premium footwear.{' '}
-                        <span className="font-semibold text-fario-dark/80">Special discounts available.</span>
+                        <span className="font-bold" style={{ color: BG_DARK }}>Special discounts available.</span>
                     </p>
                 </motion.div>
 
@@ -70,19 +70,19 @@ export const HomeEarlyAccess: React.FC = () => {
                 >
                     {stats.map((s) => (
                         <div key={s.label} className="text-center">
-                            <div className="text-2xl md:text-3xl font-black font-heading text-fario-dark">{s.value}</div>
-                            <div className="text-xs text-fario-dark/50 uppercase tracking-wider mt-1">{s.label}</div>
+                            <div className="text-2xl md:text-3xl font-black font-heading" style={{ color: BG_DARK }}>{s.value}</div>
+                            <div className="text-xs uppercase font-bold tracking-wider mt-1" style={{ color: 'rgba(0,0,0,0.6)' }}>{s.label}</div>
                         </div>
                     ))}
                 </motion.div>
 
-                {/* Form Card */}
+                {/* Form Card - FLAT DESIGN */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.97 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="max-w-lg mx-auto rounded-3xl p-8 shadow-2xl border border-fario-dark/8"
-                    style={{ background: '#fff' }}
+                    className="max-w-lg mx-auto rounded-3xl p-8"
+                    style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(0,0,0,0.05)' }}
                 >
                     {submitted ? (
                         <motion.div
@@ -91,8 +91,8 @@ export const HomeEarlyAccess: React.FC = () => {
                             className="text-center py-8"
                         >
                             <div className="text-5xl mb-4">🎉</div>
-                            <h3 className="text-2xl font-black font-heading text-fario-dark mb-2">You're on the list!</h3>
-                            <p className="text-fario-dark/60">We'll reach out with exclusive early access and special pricing.</p>
+                            <h3 className="text-2xl font-black font-heading mb-2" style={{ color: BG_DARK }}>You're on the list!</h3>
+                            <p style={{ color: 'rgba(0,0,0,0.6)' }}>We'll reach out with exclusive early access and special pricing.</p>
                         </motion.div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -104,8 +104,8 @@ export const HomeEarlyAccess: React.FC = () => {
                                     onChange={e => setName(e.target.value)}
                                     placeholder="Your full name"
                                     required
-                                    className="w-full px-4 py-3.5 rounded-xl border border-fario-dark/15 text-fario-dark placeholder:text-fario-dark/35 text-sm focus:outline-none focus:ring-2 transition-all"
-                                    style={{ focusRingColor: LIME } as any}
+                                    className="w-full px-4 py-3.5 rounded-xl border text-sm focus:outline-none transition-all"
+                                    style={{ background: 'white', borderColor: 'rgba(0,0,0,0.1)', color: BG_DARK } as any}
                                 />
                             </div>
 
@@ -116,7 +116,8 @@ export const HomeEarlyAccess: React.FC = () => {
                                     value={phone}
                                     onChange={e => setPhone(e.target.value)}
                                     placeholder="+91 98765 43210"
-                                    className="w-full px-4 py-3.5 rounded-xl border border-fario-dark/15 text-fario-dark placeholder:text-fario-dark/35 text-sm focus:outline-none focus:ring-2 transition-all"
+                                    className="w-full px-4 py-3.5 rounded-xl border text-sm focus:outline-none transition-all"
+                                    style={{ background: 'white', borderColor: 'rgba(0,0,0,0.1)', color: BG_DARK }}
                                 />
                             </div>
 
@@ -128,18 +129,19 @@ export const HomeEarlyAccess: React.FC = () => {
                                     onChange={e => setEmail(e.target.value)}
                                     placeholder="your.email@example.com"
                                     required
-                                    className="w-full px-4 py-3.5 rounded-xl border border-fario-dark/15 text-fario-dark placeholder:text-fario-dark/35 text-sm focus:outline-none focus:ring-2 transition-all"
+                                    className="w-full px-4 py-3.5 rounded-xl border text-sm focus:outline-none transition-all"
+                                    style={{ background: 'white', borderColor: 'rgba(0,0,0,0.1)', color: BG_DARK }}
                                 />
                             </div>
 
-                            {/* Submit */}
+                            {/* Submit - FLAT DESIGN */}
                             <motion.button
                                 type="submit"
                                 disabled={loading}
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 className="w-full py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all"
-                                style={{ background: LIME, color: '#0e3039' }}
+                                style={{ background: PURPLE, color: MILKY }}
                             >
                                 {loading ? 'Joining...' : 'Join Waitlist'}
                             </motion.button>
@@ -147,7 +149,7 @@ export const HomeEarlyAccess: React.FC = () => {
                     )}
                 </motion.div>
 
-                {/* Trust Badges */}
+                {/* Trust Badges - FLAT DESIGN */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -156,8 +158,8 @@ export const HomeEarlyAccess: React.FC = () => {
                 >
                     {badges.map((b) => (
                         <div key={b.label}
-                            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-fario-dark/70 border border-fario-dark/10"
-                            style={{ background: '#fff' }}>
+                            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border"
+                            style={{ background: 'rgba(255,255,255,0.6)', borderColor: 'rgba(0,0,0,0.05)', color: BG_DARK }}>
                             <span className="text-base">{b.icon}</span>
                             {b.label}
                         </div>

@@ -155,16 +155,22 @@ export const HomeSoleMatch: React.FC = () => {
                                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                             >
                                 <div className="text-6xl mb-6">🤖</div>
-                                <h3 className="text-2xl font-black text-white mb-3">Let the AI decide.</h3>
-                                <p className="text-sm mb-8" style={{ color: 'rgba(255,255,255,0.45)' }}>
+
+                                <h3 className="text-2xl font-black text-white mb-3 relative z-30">Let the AI decide.</h3>
+                                <p className="text-sm mb-8 relative z-30" style={{ color: 'rgba(255,255,255,0.45)' }}>
                                     Answer 4 quick questions and we'll match you with the Fario shoe engineered for exactly your life.
                                 </p>
                                 <motion.button
                                     onClick={() => setStep(0)}
                                     whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                                    className="px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest"
+                                    className="px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest relative overflow-hidden group z-30"
                                     style={{ background: '#d9f99d', color: '#0f0820', boxShadow: '0 0 40px rgba(217,249,157,0.4)' }}>
-                                    Start Match →
+                                    <span className="relative z-10">Start Match →</span>
+                                    <motion.div
+                                        animate={{ x: ['-100%', '200%'] }}
+                                        transition={{ repeat: Infinity, duration: 2.5, ease: "linear", repeatDelay: 1 }}
+                                        className="absolute top-0 left-0 w-1/2 h-full bg-white opacity-40 skew-x-12"
+                                    />
                                 </motion.button>
                             </motion.div>
                         )}

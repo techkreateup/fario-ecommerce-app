@@ -62,8 +62,8 @@ const Products: React.FC = () => {
   const [sortOption, setSortOption] = useState('newest');
   // Wishlist state moved to CartContext
 
-  // Unique Options generation - Parse JSONB arrays properly
-  const allCategories = useMemo(() => Array.from(new Set(allProducts.map(p => p.category))), [allProducts]);
+  // Unique Options generation - Hardcoded main categories
+  const allCategories = ['MEN', 'WOMEN', 'KIDS', 'SCHOOL'];
 
   const allColors = useMemo(() => {
     const colors = new Set<string>();
@@ -115,7 +115,13 @@ const Products: React.FC = () => {
 
       const matchSearch = !term || name.includes(term) || desc.includes(term) || cat.includes(term) || tag.includes(term);
 
-      const matchCategory = filters.categories.length === 0 || filters.categories.includes(p.category);
+      const matchCategory = filters.categories.length === 0 || filters.categories.some(filterCat => {
+        if (filterCat === 'MEN') return p.gender === 'Male' || p.gender === 'Unisex';
+        if (filterCat === 'WOMEN') return p.gender === 'Female' || p.gender === 'Unisex';
+        if (filterCat === 'KIDS') return p.category === 'Kids';
+        if (filterCat === 'SCHOOL') return p.category === 'School Shoes';
+        return p.category === filterCat;
+      });
 
       // Parse colors and sizes from JSONB
       const productColors = Array.isArray(p.colors) ? p.colors :
@@ -138,7 +144,7 @@ const Products: React.FC = () => {
     switch (sortOption) {
       case 'price-low': result.sort((a, b) => a.price - b.price); break;
       case 'price-high': result.sort((a, b) => b.price - a.price); break;
-      case 'rating': result.sort((a, b) => b.rating - a.rating); break;
+      case 'rating': result.sort((a, b) => (b.rating || 0) - (a.rating || 0)); break;
       case 'name': result.sort((a, b) => a.name.localeCompare(b.name)); break;
       default: break; // newest assumed default order
     }

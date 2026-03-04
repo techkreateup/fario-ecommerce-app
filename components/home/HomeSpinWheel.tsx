@@ -220,7 +220,6 @@ export const HomeSpinWheel: React.FC = () => {
             {/* Glow bg */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
                 <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-20 bg-purple-700" />
-                <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full blur-[100px] opacity-12 bg-[#d9f99d]" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
