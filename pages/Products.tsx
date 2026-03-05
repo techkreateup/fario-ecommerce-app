@@ -117,7 +117,7 @@ const Products: React.FC = () => {
 
       const matchCategory = filters.categories.length === 0 || filters.categories.some(filterCat => {
         if (filterCat === 'MEN') return p.gender === 'Male' || p.gender === 'Unisex';
-        if (filterCat === 'WOMEN') return p.gender === 'Female' || p.gender === 'Unisex';
+        if (filterCat === 'WOMEN') return p.gender === 'Female';
         if (filterCat === 'KIDS') return p.category === 'Kids';
         if (filterCat === 'SCHOOL') return p.category === 'School Shoes';
         return p.category === filterCat;

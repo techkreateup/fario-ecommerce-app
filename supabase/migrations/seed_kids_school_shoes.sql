@@ -144,7 +144,7 @@ INSERT INTO products (
   to_jsonb(ARRAY['Cushioned Footbed', 'Flexible Rubber Sole', 'Easy Fasten Strap']),
   to_jsonb(ARRAY['Black', 'Navy']),
   to_jsonb(ARRAY['UK 3', 'UK 4', 'UK 5', 'UK 6', 'UK 7', 'UK 8']),
-  true, 4.7, 48, 'Female', false
+  true, 4.7, 48, 'Unisex', false
 )
 
 ON CONFLICT (id) DO UPDATE SET
