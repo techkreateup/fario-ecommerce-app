@@ -18,14 +18,14 @@ const GALLERY_DATA: Record<string, { label: string; img: string }[]> = {
         { label: 'Minimalist High', img: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=80' },
     ],
     WOMEN: [
-        { label: 'Grace Cloud', img: HL3.b },
-        { label: 'Aura Step', img: HL3.f },
+        { label: 'Grace Cloud', img: 'https://apisap.fabindia.com/medias/20267929-01.jpg?context=bWFzdGVyfGltYWdlc3wyMDU5MTR8aW1hZ2UvanBlZ3xhRGRqTDJobE15OHhNakkwTWpJM056UTRNalE1T1RBdk1qQXlOamM1TWpsZk1ERXVhbkJufDg1NWUwNGU2OGY0ZTExZDFmYjAzNWE1OWE4MDNkOGU5YzdlOTdjZjA1ZGFlYjg1YmY5YmMyZGYxNjMxM2FkYWE&aio=w-400', },
+        { label: 'Aura Step', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOrSORI8SxCpda3U_QaG88DbZgS9hiUtgQpw&s' },
         { label: 'Luna Flex', img: HL3.a },
         { label: 'Pearl Stride', img: HL3.e },
         { label: 'Bloom Lite', img: HL3.g },
         { label: 'Velvet Force', img: HL3.h },
         { label: 'Spark Trail', img: HL3.c },
-        { label: 'Serenity Knit', img: HL3.e },
+        { label: 'Serenity Knit', img: HL3.f },
     ],
     KIDS: [
         { label: 'Tiny Glider', img: HL3.h },
