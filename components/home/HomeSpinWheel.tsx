@@ -259,8 +259,8 @@ export const HomeSpinWheel: React.FC = () => {
                         <motion.div
                             animate={{ rotate: rotation }}
                             transition={{ duration: 4.6, ease: [0.12, 0.05, 0.05, 1.0] }}
-                            className="relative z-20"
-                            style={{ width: 'min(240px, 60vw)', height: 'min(240px, 60vw)' }}
+                            className={`relative z-20 ${!spinning && !done ? 'animate-[spin_4s_linear_infinite]' : ''}`}
+                            style={{ width: 'min(350px, 75vw)', height: 'min(350px, 75vw)' }}
                         >
                             <WheelCanvas rotation={0} />
                         </motion.div>

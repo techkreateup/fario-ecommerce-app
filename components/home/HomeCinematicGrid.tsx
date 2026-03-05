@@ -48,7 +48,7 @@ const CinematicCard = ({ item, i }: { item: any, i: number }) => {
 };
 
 export const HomeCinematicGrid = () => (
-    <section className="py-8 md:py-24" style={{ background: BG_DARK2 }}>
+    <section className="pt-8 pb-4 md:pt-24 md:pb-10" style={{ background: BG_DARK2 }}>
         <div className="container mx-auto px-4 md:px-12 lg:px-20">
             {/* Header — compact on mobile */}
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-5 md:mb-20 gap-2 md:gap-12">
