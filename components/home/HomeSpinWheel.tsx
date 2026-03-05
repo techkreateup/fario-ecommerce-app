@@ -240,7 +240,7 @@ export const HomeSpinWheel: React.FC = () => {
                 </div>
 
                 {/* Wheel + Panel */}
-                <div className="flex flex-col xl:flex-row items-center justify-center gap-8 md:gap-14">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-5 md:gap-14">
 
                     {/* Wheel */}
                     <div className="relative">
@@ -260,14 +260,14 @@ export const HomeSpinWheel: React.FC = () => {
                             animate={{ rotate: rotation }}
                             transition={{ duration: 4.6, ease: [0.12, 0.05, 0.05, 1.0] }}
                             className="relative z-20"
-                            style={{ width: 'min(280px, 78vw)', height: 'min(280px, 78vw)' }}
+                            style={{ width: 'min(240px, 60vw)', height: 'min(240px, 60vw)' }}
                         >
                             <WheelCanvas rotation={0} />
                         </motion.div>
                     </div>
 
                     {/* Right panel */}
-                    <div className="flex flex-col items-center xl:items-start gap-4 w-full max-w-xs md:max-w-sm px-4 xl:px-0">
+                    <div className="flex flex-col items-center sm:items-start gap-3 w-full max-w-[200px] sm:max-w-xs md:max-w-sm px-2 sm:px-0">
 
                         {/* Spin / Lock button */}
                         {isLocked ? (

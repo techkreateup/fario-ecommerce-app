@@ -23,7 +23,7 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                     className="rounded-2xl overflow-hidden"
                     style={{ background: BG_WHITE, border: `1px solid ${PUR_BORDER}`, boxShadow: hov ? '0 20px 50px rgba(122,81,160,0.15)' : '0 4px 20px rgba(122,81,160,0.06)', transition: 'box-shadow 0.3s' }}
                 >
-                    <div className="relative aspect-[3/4] overflow-hidden">
+                    <div className="relative aspect-[3/3.5] md:aspect-[3/4] overflow-hidden">
                         {p.tag && (
                             <motion.span className="absolute top-3 left-3 z-20 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
                                 style={{ background: LIME, color: DARK_TXT }}
@@ -63,7 +63,7 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                             ><ShoppingBag size={13} /> Add to Cart</button>
                         </motion.div>
                     </div>
-                    <div className="p-5">
+                    <div className="p-3 md:p-5">
                         <p className="text-[10px] uppercase tracking-[0.25em] mb-1" style={{ color: PURPLE }}>{p.sub}</p>
                         <h3 className="font-heading font-black uppercase text-sm tracking-wide mb-2" style={{ color: DARK_TXT }}>{p.name}</h3>
                         <div className="flex items-center gap-2">
