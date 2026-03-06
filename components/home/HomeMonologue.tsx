@@ -124,7 +124,7 @@ export const HomeMonologue: React.FC = () => {
     };
 
     return (
-        <section className="relative py-12 md:py-24 overflow-hidden" style={{ background: '#F5F0FF' }}>
+        <section className="relative pt-12 pb-6 md:pt-24 md:pb-12 overflow-hidden" style={{ background: '#F5F0FF' }}>
             {/* Header */}
             <div className="px-6 md:px-16 mb-10">
                 <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>

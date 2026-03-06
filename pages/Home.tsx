@@ -5,12 +5,12 @@ import { motion, useScroll } from 'framer-motion';
 import { HomeHero } from '../components/home/HomeHero';
 import { HomeTicker } from '../components/home/HomeTicker';
 import { HomeVideoBreak } from '../components/home/HomeVideoBreak';
+import { HomeSubNav } from '../components/home/HomeSubNav';
 import { HomeSoleMatch } from '../components/home/HomeSoleMatch';
 import { HomeEditorial } from '../components/home/HomeEditorial';
 import { HomeFeaturedProducts } from '../components/home/HomeFeaturedProducts';
 import { HomeTrustStrip } from '../components/home/HomeTrustStrip';
 import { HomeSpinWheel } from '../components/home/HomeSpinWheel';
-import { HomeGallery } from '../components/home/HomeGallery';
 import { HomeEarlyAccess } from '../components/home/HomeEarlyAccess';
 import { HomeCinematicGrid } from '../components/home/HomeCinematicGrid';
 import { HomeMonologue } from '../components/home/HomeMonologue';
@@ -53,22 +53,21 @@ export default function Home() {
 
       <CursorDot />
 
-      <HomeHero />
+      <HomeSubNav />
       <HomeTicker />
-
-
-      {/* Early Access / Waitlist Section */}
-      <HomeEarlyAccess />
+      <HomeHero />
 
       {/* AI Sole Match */}
       <HomeSoleMatch />
+
+      {/* Early Access / Waitlist Section */}
+      <HomeEarlyAccess />
 
       <HomeVideoBreak />
       <HomeEditorial />
       <HomeFeaturedProducts />
       <HomeTrustStrip />
       <HomeSpinWheel />
-      <HomeGallery />
 
       <div className="hidden md:block h-20" />
       <HomeCinematicGrid />

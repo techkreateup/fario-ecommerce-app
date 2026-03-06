@@ -193,7 +193,7 @@ const InfographicSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-6 md:py-24 relative overflow-hidden" style={{ background: BG_LIGHT }}
+    <section className="pt-8 pb-10 md:pt-12 md:pb-24 relative overflow-hidden" style={{ background: BG_LIGHT }}
     >
 
       {/* Jagged Top Edge */}
@@ -229,8 +229,8 @@ const InfographicSection: React.FC = () => {
                 key={feature.id}
                 onClick={() => setActiveIdx(idx)}
                 className={`text-left p-2 md:p-3 lg:p-6 rounded-lg md:rounded-xl transition-all duration-300 border-l-4 group relative overflow-hidden ${activeIdx === idx
-                    ? 'bg-white/10 border-fario-lime'
-                    : 'bg-transparent border-transparent hover:bg-white/5'
+                  ? 'bg-white/10 border-fario-lime'
+                  : 'bg-transparent border-transparent hover:bg-white/5'
                   }`}
                 whileHover={{ x: 6 }}
               >

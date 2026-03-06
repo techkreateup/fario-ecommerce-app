@@ -52,7 +52,7 @@ export const PRODUCTS = [
     { id: 'p7', name: 'Tech Sling', sub: 'Daily Essential', price: 2999, orig: 3999, img: HL3.h, alt: HL3.a },
 ];
 
-export const TICKER = ['HANDCRAFTED SINCE 2024', 'FREE SHIPPING Rs. 999+', 'NEW COLLECTION 2026', '30-DAY RETURNS', 'CARBON NEUTRAL', 'MEMBERS EXCLUSIVE'];
+export const TICKER = ['EXCLUSIVE', 'HANDCRAFTED SINCE 2024', 'FREE SHIPPING Rs. 999+', 'NEW COLLECTION 2026', '30-DAY RETURNS', 'CARBON NEUTRAL', 'MEMBERS EXCLUSIVE'];
 
 export const STATS = [
     { val: 50000, suf: '+', label: 'Pairs Sold', icon: React.createElement(Star, { size: 22 }) },

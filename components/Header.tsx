@@ -124,40 +124,42 @@ const Header: React.FC = () => {
           </NavLink>
 
           {/* CENTER NAVIGATION */}
-          <nav className="hidden lg:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden lg:flex items-center gap-2 absolute left-1/2 -translate-x-1/2" onMouseLeave={() => setHoveredNav(null)}>
             <div className="flex items-center relative p-1.5 bg-gray-50/50 backdrop-blur-md rounded-full border border-gray-100">
               {NAV_ITEMS.map((item: any) => {
                 const isActive = item.path === '/'
                   ? location.pathname === '/'
                   : location.pathname.startsWith(item.path);
 
+                const isProducts = item.path === '/products';
+
                 return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onMouseEnter={() => setHoveredNav(item.path)}
-                    onMouseLeave={() => setHoveredNav(null)}
-                    className={`
-                       relative px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 z-10
-                       ${isActive ? 'text-white' : 'text-gray-500 hover:text-purple-600'}
-                     `}
-                  >
-                    {isActive && (
-                      <MotionDiv
-                        layoutId="nav-pill-compact"
-                        className="absolute inset-0 bg-fario-purple rounded-full z-[-1] shadow-[0_0_20px_rgba(122,81,160,0.3)]"
-                        transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-                      />
-                    )}
-                    {hoveredNav === item.path && !isActive && (
-                      <MotionDiv
-                        layoutId="nav-hover-compact"
-                        className="absolute inset-0 rounded-full z-[-1] bg-fario-purple/5"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.3 }}
-                      />
-                    )}
-                    {item.label}
-                  </NavLink>
+                  <div key={item.path} className="relative group" onMouseEnter={() => setHoveredNav(item.path)}>
+                    <NavLink
+                      to={item.path}
+                      className={`
+                        relative px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 z-10 block
+                        ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-purple-600'}
+                      `}
+                    >
+                      {isActive && (
+                        <MotionDiv
+                          layoutId="nav-pill-compact"
+                          className="absolute inset-0 bg-fario-purple rounded-full z-[-1] shadow-[0_0_20px_rgba(122,81,160,0.3)]"
+                          transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                        />
+                      )}
+                      {hoveredNav === item.path && !isActive && (
+                        <MotionDiv
+                          layoutId="nav-hover-compact"
+                          className="absolute inset-0 rounded-full z-[-1] bg-fario-purple/5"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.3 }}
+                        />
+                      )}
+                      {item.label}
+                    </NavLink>
+
+                  </div>
                 )
               })}
             </div>

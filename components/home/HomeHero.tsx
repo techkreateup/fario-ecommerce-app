@@ -1,113 +1,219 @@
-
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { BG_DARK2, LIME, MILKY, PURPLE, DARK_TXT, E, V1, HL3 } from './HomeConstants';
-import { VidEl, SplitText } from './HomeCommon';
+import { ChevronRight, ChevronLeft, Flame } from 'lucide-react';
+import { HomeTicker } from './HomeTicker';
+
+// ═══════════════════════════════════════════════════════
+// PRODUCT FIRST DESIGN: Multi-Image Layouts (3 products/slide)
+// 75% Womens (3 Slides) | 25% Mens (1 Slide)
+// ═══════════════════════════════════════════════════════
+
+// Universal Triple-Image Component Pattern
+function TripleSlide({ title, sub, desc, bg, color, accent, images, link, badge }) {
+    return (
+        <div className="relative flex flex-col-reverse lg:flex-row items-center overflow-hidden"
+            style={{ minHeight: '88vh', background: bg }}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] rounded-full blur-[120px] opacity-20"
+                style={{ background: accent }} />
+
+            {/* TEXT */}
+            <div className="relative z-20 w-full lg:w-[40%] px-8 lg:px-20 pb-16 lg:pb-0 pt-8 lg:pt-0 flex flex-col gap-4">
+                <p className="text-base italic" style={{ color: accent, fontFamily: 'Georgia, serif' }}>✦ {sub}</p>
+                <h1 className="font-black uppercase leading-[0.85] tracking-tight"
+                    style={{ color: color, fontSize: 'clamp(44px, 7vw, 84px)' }}>
+                    {title.split(' ').map((word, i) => (
+                        <span key={i} className={i === 1 ? `block text-[${accent}]` : "block"}>{word}</span>
+                    ))}
+                </h1>
+                <p className="text-sm leading-relaxed max-w-sm opacity-70" style={{ color: color }}>
+                    {desc}
+                </p>
+                <Link to={link}
+                    className="self-start px-10 py-4 rounded-full font-black text-sm uppercase tracking-[0.15em] text-white hover:scale-105 transition-transform mt-2"
+                    style={{ background: accent, boxShadow: `0 10px 30px ${accent}66` }}>
+                    Explore Store
+                </Link>
+            </div>
+
+            {/* IMAGES */}
+            <div className="relative z-10 w-full lg:w-[60%] flex items-center justify-center min-h-[50vh] lg:min-h-[75vh] pt-16 lg:pt-0 px-4 lg:px-0">
+                <div className="relative w-full h-full flex items-center justify-center">
+                    {/* Image 1: Bottom Left Staggered */}
+                    <div className="absolute -left-4 lg:-left-12 lg:-bottom-10 z-10 scale-[0.65] lg:scale-95 rotate-[-20deg]">
+                        <img src={images[1]} alt="Side 1" className="w-[300px] lg:w-[480px] object-contain drop-shadow-2xl" />
+                    </div>
+                    {/* Image 2: Main Center */}
+                    <div className="relative z-20 scale-[0.9] lg:scale-100 translate-y-[-10%] lg:translate-y-0">
+                        <img src={images[0]} alt="Main Product" className="w-[400px] lg:w-[650px] object-contain drop-shadow-[0_45px_90px_rgba(0,0,0,0.2)]" />
+                    </div>
+                    {/* Image 3: Top Right Staggered */}
+                    <div className="absolute -right-4 lg:-right-12 lg:-top-10 z-10 scale-[0.65] lg:scale-95 rotate-[15deg]">
+                        <img src={images[2]} alt="Side 2" className="w-[300px] lg:w-[480px] object-contain drop-shadow-2xl" />
+                    </div>
+
+                    {badge && (
+                        <div className="absolute top-[20%] right-[10%] bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 shadow-2xl hidden lg:block">
+                            <p className="text-[10px] font-black uppercase tracking-tighter text-white">{badge}</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ── SLIDE 1: Women's "The Elite Trio" ──
+function Slide1() {
+    return (
+        <TripleSlide
+            title="THE ELITE TRIO"
+            sub="Pinterest Curation"
+            desc="Curated selection of women's performance footwear. Built with elite aesthetics and engineered for every city stride."
+            bg="#F7F3EE"
+            color="#1e293b"
+            accent="#f97316"
+            images={[
+                'https://i.pinimg.com/1200x/ab/9a/13/ab9a13943dd6042c2ff0f2708ca770c1.jpg',
+                'https://i.pinimg.com/736x/85/60/66/85606634251b5e272480e2e5d49db000.jpg',
+                'https://i.pinimg.com/1200x/d1/80/b5/d180b528806204e3adb37f235f9b1705.jpg'
+            ]}
+            link="/products"
+            badge="Season 2026"
+        />
+    );
+}
+
+// ── SLIDE 2: Women's "Luxe Selection" ──
+function Slide2() {
+    return (
+        <TripleSlide
+            title="LUXE SELECTION"
+            sub="Designer Series"
+            desc="Unmatched elegance meets street culture. A triple-view experience of our most requested women's footwear."
+            bg="linear-gradient(145deg, #fdf2f8, #fce7f3, #fff0f6)"
+            color="#4a0020"
+            accent="#db2777"
+            images={[
+                'https://i.pinimg.com/736x/81/2e/13/812e13cb55e78ba4db3c730311e659b1.jpg',
+                'https://i.pinimg.com/1200x/e8/e0/c2/e8e0c2eeb4a01257d513346f5ef818c8.jpg',
+                'https://i.pinimg.com/736x/47/39/0f/47390f2580d686d8b8eabbeea1f8a301.jpg'
+            ]}
+            link="/products"
+        />
+    );
+}
+
+// ── SLIDE 3: Women's "Urban Performance" ──
+function Slide3() {
+    return (
+        <TripleSlide
+            title="URBAN PERFORMANCE"
+            sub="Street Culture"
+            desc="Born in the lab, raised on concrete. The ultimate urban rotation for the modern woman who commands attention."
+            bg="#0f0820"
+            color="#ffffff"
+            accent="#d9f99d"
+            images={[
+                'https://i.pinimg.com/736x/d6/c9/08/d6c9085e8b7bde94696685eb3550005d.jpg',
+                'https://i.pinimg.com/736x/9b/aa/9f/9baa9f231a54b5c3a85e6b070d3c03db.jpg',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO2Kxh4ZUzKkiRxXSeBwHoFXLBeY7AqjPjwQ&s'
+            ]}
+            link="/products"
+            badge="Limited Drop"
+        />
+    );
+}
+
+// ── SLIDE 4: Men's - Midnight Force ──
+function Slide4() {
+    return (
+        <div className="relative flex flex-col-reverse lg:flex-row items-center overflow-hidden"
+            style={{ minHeight: '88vh', background: '#080C14' }}>
+            <div className="absolute right-0 top-0 h-full flex gap-3 w-full lg:w-[48%] overflow-hidden pointer-events-none opacity-40 lg:opacity-100">
+                {[0.9, 0.65, 0.4, 0.2].map((op, i) => (
+                    <div key={i} className="flex-1 h-full" style={{ background: '#3b82f6', opacity: op }} />
+                ))}
+            </div>
+
+            <div className="relative z-20 w-full lg:w-[45%] px-8 lg:px-20 pb-16 lg:pb-0 pt-8 lg:pt-0 flex flex-col gap-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.45em] text-[#3b82f6]">Men's Collection</p>
+                <h1 className="font-black uppercase leading-[0.82] tracking-tight text-white" style={{ fontSize: 'clamp(52px, 9vw, 100px)' }}>
+                    <span className="block">MIDNIGHT</span>
+                    <span className="block text-[#3b82f6]">FORCE</span>
+                </h1>
+                <p className="text-sm leading-relaxed max-w-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    Zero-gravity cushioning. Midnight edition carbon mesh. Only 500 units crafted globally.
+                </p>
+                <Link to="/products" className="self-start px-10 py-4 rounded-full font-black text-sm uppercase tracking-[0.15em] hover:scale-105 transition-transform mt-2"
+                    style={{ background: '#3b82f6', color: '#080C14' }}>Get Yours</Link>
+            </div>
+
+            <div className="relative z-10 w-full lg:w-[55%] flex items-center justify-center min-h-[45vh] lg:min-h-screen pt-16 lg:pt-0">
+                <img src="https://lh3.googleusercontent.com/d/1JAkZKl652biLyzUdO5X05Y4s7a1AsqPU"
+                    alt="Midnight Force" className="w-[85%] lg:w-[100%] max-w-[650px] object-contain -rotate-[12deg]"
+                    style={{ filter: 'drop-shadow(0 50px 100px rgba(59,130,246,0.5))' }} />
+            </div>
+        </div>
+    );
+}
+
+// ── ROOT COMPONENT ──────────────────────────────────────
+const SLIDES = [
+    { id: '1', dot: '#f97316' },
+    { id: '2', dot: '#db2777' },
+    { id: '3', dot: '#d9f99d' },
+    { id: '4', dot: '#3b82f6' },
+];
 
 export const HomeHero = () => {
-    const { scrollY } = useScroll();
-    const vY = useTransform(scrollY, [0, 800], ['0%', '25%']);
-    const op = useTransform(scrollY, [0, 500], [1, 0]);
-    const tY = useTransform(scrollY, [0, 500], ['0%', '35%']);
+    const [idx, setIdx] = useState(0);
+
+    useEffect(() => {
+        const t = setInterval(() => setIdx(i => (i + 1) % SLIDES.length), 7000);
+        return () => clearInterval(t);
+    }, []);
+
+    const slides = [<Slide1 />, <Slide2 />, <Slide3 />, <Slide4 />];
 
     return (
-        <section className="relative flex flex-col justify-center min-h-[85vh] lg:min-h-screen"
-            style={{ background: BG_DARK2 }}
-        >
-            {/* VIDEO */}
-            <motion.div style={{ y: vY }} className="absolute inset-0 scale-110">
-                <VidEl src={V1} poster={HL3.a} cls="opacity-80" />
-                <div className="absolute inset-0"
-                    style={{ background: `linear-gradient(to top, ${BG_DARK2} 0%, rgba(26,13,46,0.35) 45%, rgba(122,81,160,0.10) 100%)` }}
-                />
-                <div className="absolute inset-0"
-                    style={{ background: `linear-gradient(to right, rgba(26,13,46,0.50) 0%, transparent 55%)` }}
-                />
-            </motion.div>
-
-            {/* Animated lime accent line */}
-            <motion.div className="absolute top-0 left-0 right-0 h-1 z-20"
-                style={{ background: `linear-gradient(to right, ${PURPLE}, ${LIME}, ${PURPLE})` }}
-                animate={{ backgroundPosition: ['0% 50%', '100% 50%'] }}
-                transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-            />
-
-            {/* Floating lime dots */}
-            {[10, 22, 38, 55, 70, 85].map((left, i) => (
-                <motion.div key={i}
-                    className="absolute w-1.5 h-1.5 rounded-full pointer-events-none"
-                    style={{ left: `${left}%`, top: `${18 + (i % 4) * 14}%`, background: LIME }}
-                    animate={{ y: [-10, 10, -10], opacity: [0.2, 0.8, 0.2], scale: [0.8, 1.3, 0.8] }}
-                    transition={{ duration: 2.5 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.5 }}
-                />
-            ))}
-
-            {/* Grain */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
-                style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")', backgroundSize: '200px' }}
-            />
-
-            {/* Content */}
-            <motion.div
-                style={{ y: tY, opacity: op, paddingTop: 'clamp(3.5rem, 8vh, 6rem)', paddingBottom: 'clamp(2rem, 5vh, 4rem)' }}
-                className="relative z-10 px-6 md:px-20"
-            >
-                <motion.div
-                    initial={{ opacity: 0, letterSpacing: '0.6em' }}
-                    animate={{ opacity: 1, letterSpacing: '0.3em' }}
-                    transition={{ duration: 1.5, ease: E }}
-                    className="text-[10px] md:text-xs font-bold uppercase mb-6 md:mb-10 inline-flex items-center gap-2 md:gap-3 px-3 md:px-4 py-1.5 md:py-2 rounded-full"
-                    style={{ background: `${LIME}22`, color: LIME, border: `1px solid ${LIME}44` }}
-                >✧ New Delhi · Est. 2024 · Collection 2026</motion.div>
-
-                <h1 className="font-heading font-black uppercase tracking-tighter leading-[0.85] mb-4 md:mb-8"
-                    style={{ fontSize: 'clamp(32px, 8vw, 130px)', color: MILKY }}
-                >
-                    <div><SplitText text="Born" cls="block" /></div>
-                    <div><SplitText text="for" cls="block" delay={0.14} stroke={LIME} /></div>
-                    <div><SplitText text="Luxury" cls="block" delay={0.28} /></div>
-                </h1>
-
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9, duration: 0.9 }}
-                    className="text-base md:text-xl max-w-lg leading-relaxed mb-12 opacity-70"
-                    style={{ color: MILKY }}
-                >Handcrafted in India. Premium quality. Unbeatable comfort.</motion.p>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2 }}
-                    className="flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none"
-                >
-                    <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.07, boxShadow: `0 0 40px ${LIME}55` }} whileTap={{ scale: 0.93 }}>
-                        <Link to="/products"
-                            className="flex justify-center items-center gap-3 px-6 sm:px-10 py-4 font-bold text-sm uppercase tracking-[0.2em] w-full"
-                            style={{ background: LIME, color: DARK_TXT }}
-                        >Shop Now <ArrowRight size={16} /></Link>
-                    </motion.div>
-                    <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.93 }}>
-                        <Link to="/story"
-                            className="flex justify-center items-center gap-3 px-6 sm:px-10 py-4 font-bold text-sm uppercase tracking-[0.2em] transition w-full"
-                            style={{ border: `1.5px solid ${LIME}55`, color: MILKY }}
-                        >Our Story</Link>
-                    </motion.div>
+        <section className="relative overflow-hidden w-full">
+            <AnimatePresence mode="wait">
+                <motion.div key={SLIDES[idx].id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+                    {slides[idx]}
                 </motion.div>
-            </motion.div>
+            </AnimatePresence>
 
-            {/* Animated scroll bar */}
-            <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}
-            >
-                <div className="w-px h-14 relative overflow-hidden" style={{ background: `${LIME}30` }}>
-                    <motion.div className="w-full absolute left-0"
-                        style={{ height: '40%', background: LIME }}
-                        animate={{ top: ['-40%', '140%'] }} transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
-                    />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: LIME, opacity: 0.6 }}>Scroll</span>
-            </motion.div>
+            {/* Navigation buttons */}
+            <button onClick={() => setIdx(i => (i - 1 + SLIDES.length) % SLIDES.length)}
+                className="absolute left-3 lg:left-8 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-black/10 backdrop-blur-md flex items-center justify-center hover:bg-black/30 transition-all border border-white/10 shadow-xl group">
+                <ChevronLeft size={20} className="text-white group-hover:scale-125 transition-transform" />
+            </button>
+            <button onClick={() => setIdx(i => (i + 1) % SLIDES.length)}
+                className="absolute right-3 lg:right-8 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-black/10 backdrop-blur-md flex items-center justify-center hover:bg-black/30 transition-all border border-white/10 shadow-xl group">
+                <ChevronRight size={20} className="text-white group-hover:scale-125 transition-transform" />
+            </button>
+
+            {/* Dot nav */}
+            <div className="absolute bottom-[80px] left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-black/10 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10">
+                {SLIDES.map((s, i) => (
+                    <button key={s.id} onClick={() => setIdx(i)}
+                        className="rounded-full transition-all duration-700 ease-out"
+                        style={{
+                            width: idx === i ? '32px' : '10px', height: '10px',
+                            background: idx === i ? s.dot : 'rgba(255,255,255,0.2)',
+                            boxShadow: idx === i ? `0 0 15px ${s.dot}66` : 'none'
+                        }} />
+                ))}
+            </div>
+
+            <div className="relative z-30 w-full mt-[-1px]">
+                <HomeTicker isFooter={true} />
+            </div>
         </section>
     );
 };

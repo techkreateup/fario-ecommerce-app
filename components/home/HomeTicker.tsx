@@ -2,15 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { PURPLE, LIME, TICKER } from './HomeConstants';
 
-export const HomeTicker = () => (
-    <div className="overflow-hidden py-4 border-y" style={{ background: PURPLE, borderColor: `${PURPLE}AA` }}>
+export const HomeTicker = ({ isFooter = false }: { isFooter?: boolean }) => (
+    <div className={`overflow-hidden border-y ${isFooter ? 'py-4 mt-0' : 'py-3 mt-0'}`} style={{ background: PURPLE, borderColor: `${PURPLE}AA` }}>
         <motion.div
-            animate={{ x: ['0%', '-50%'] }} transition={{ repeat: Infinity, duration: 26, ease: 'linear' }}
-            className="flex gap-12 whitespace-nowrap w-max"
+            animate={{ x: ['0%', '-50%'] }} transition={{ repeat: Infinity, duration: 40, ease: 'linear' }}
+            className="flex gap-12 whitespace-nowrap w-max items-center"
         >
-            {[...TICKER, ...TICKER].map((t, i) => (
-                <span key={i} className="text-xs font-black uppercase tracking-[0.3em]" style={{ color: LIME }}>★ {t}</span>
+            {[...TICKER, ...TICKER, ...TICKER].map((t, i) => (
+                <span key={i} className="text-sm md:text-base font-bold uppercase tracking-widest" style={{ color: LIME }}>★ {t}</span>
             ))}
         </motion.div>
-    </div>
+    </div >
 );

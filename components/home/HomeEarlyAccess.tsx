@@ -36,7 +36,7 @@ export const HomeEarlyAccess: React.FC = () => {
     };
 
     return (
-        <section className="relative py-12 md:py-24 overflow-hidden" style={{ background: `linear-gradient(135deg, ${PURPLE} 0%, ${LIGHT_GREEN} 100%)` }}>
+        <section className="relative py-12 md:py-24 overflow-hidden" style={{ background: '#FFFFFF' }}>
             {/* Background pure and flat - NO glowing orbs or shadows */}
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
