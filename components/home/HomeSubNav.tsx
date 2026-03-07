@@ -5,24 +5,28 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const MENU_DATA = [
     {
-        title: "Featured",
-        links: ["New Arrivals", "Autumn Winter", "Best Sellers", "Limited Stock"]
+        title: "Men",
+        links: ["Formal Shoes", "Casual Shoes", "Sports Shoes", "Moccasins", "Loafers", "Sandals", "Slippers / Flip Flops", "Sneakers", "Boots", "Kolhapuri", "Clogs", "Ethnic Shoes"]
     },
     {
-        title: "Shop By Age",
-        links: ["1.5 To 3.5 Yrs", "4 To 8 Yrs", "8 To 13 Yrs"]
+        title: "Women",
+        links: ["Formal Shoes", "Casual Shoes", "Sports Shoes", "Sandals", "Ballerinas", "Pumps", "Loafers", "Sneakers", "Boots", "Ethnic Shoes", "Flats", "Heels", "Block Heels", "Stilettos", "Wedges", "Kitten Heels", "Peep Toes", "Slippers / Slides"]
     },
     {
-        title: "Shop By Gender",
-        links: ["Boys", "Girls", "Toddlers", "Unisex"]
+        title: "Kids",
+        links: ["Formal Shoes", "Casual Shoes", "Sneakers", "Moccasins", "Derby Shoes", "Sandals", "Slippers", "Boots", "Clogs", "School Shoes", "Ballerinas"]
     },
     {
-        title: "Footwear",
-        links: ["Athletic Sneakers", "Casual Sneakers", "Light-Up", "Slippers/Sandals", "Slip-Ons", "Lace Up", "Slip-Ins"]
+        title: "Bags / Accessories",
+        links: ["Handbags", "Clutches", "Wallets", "Belts", "Foot Care", "Shoe Care"]
     },
     {
-        title: "Shop By Collections",
-        links: ["Sport", "Urban Street", "Foamies", "UNOs", "GO RUN", "S-Lights", "Twinkle Toes", "Stretch Fit"]
+        title: "Brands",
+        links: ["Fario", "Metro", "Mochi"]
+    },
+    {
+        title: "Sale / New Arrivals",
+        links: ["Latest Drops", "Clearance Sale", "Festive Offers"]
     }
 ];
 
