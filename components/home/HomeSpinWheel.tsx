@@ -97,7 +97,7 @@ const WheelCanvas: React.FC<{ rotation: number }> = ({ rotation }) => {
         ctx.fillText('F', cx, cy);
     }, [rotation]);
 
-    return <canvas ref={ref} width={460} height={460} className="w-full max-w-[420px]" />;
+    return <canvas ref={ref} width={460} height={460} className="w-full h-full max-w-[420px] aspect-square" />;
 };
 
 // ── NEEDLE ────────────────────────────────────────────────────────────────────
@@ -240,7 +240,7 @@ export const HomeSpinWheel: React.FC = () => {
                 </div>
 
                 {/* Wheel + Panel */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-5 md:gap-14">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 w-full">
 
                     {/* Wheel */}
                     <div className="relative">
@@ -259,15 +259,14 @@ export const HomeSpinWheel: React.FC = () => {
                         <motion.div
                             animate={{ rotate: rotation }}
                             transition={{ duration: 4.6, ease: [0.12, 0.05, 0.05, 1.0] }}
-                            className={`relative z-20 ${!spinning && !done ? 'animate-[spin_4s_linear_infinite]' : ''}`}
-                            style={{ width: 'min(350px, 75vw)', height: 'min(350px, 75vw)' }}
+                            className={`relative z-20 ${!spinning && !done ? 'animate-[spin_4s_linear_infinite]' : ''} w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[420px] md:h-[420px]`}
                         >
                             <WheelCanvas rotation={0} />
                         </motion.div>
                     </div>
 
                     {/* Right panel */}
-                    <div className="flex flex-col items-center sm:items-start gap-3 w-full max-w-[200px] sm:max-w-xs md:max-w-sm px-2 sm:px-0">
+                    <div className="flex flex-col items-center md:items-start gap-4 w-full max-w-[320px]">
 
                         {/* Spin / Lock button */}
                         {isLocked ? (

@@ -270,77 +270,120 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* MOBILE OVERLAY */}
+      {/* PREMIUM MOBILE OVERLAY - COLORFUL LIGHT THEME */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <MotionDiv
             initial={{ opacity: 0, x: '100%' }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-gray-950 flex flex-col"
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[100] bg-white/70 backdrop-blur-2xl flex flex-col font-sans"
           >
-            <div className="flex justify-between items-center p-6 md:p-8 border-b border-white/10">
+            {/* Global Ambient Glow for Mobile Menu - INSANELY COLORFUL */}
+            <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-fario-purple/30 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-fario-lime/40 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-[40%] right-[-20%] w-[300px] h-[300px] bg-pink-400/20 rounded-full blur-[100px] pointer-events-none" />
+
+            {/* Header Area */}
+            <div className="flex justify-between items-center p-6 md:p-8 border-b border-gray-200/50 relative z-10 bg-white/40 shadow-sm">
               <div className="flex items-center gap-3">
                 <Logo size={44} />
                 <div className="flex flex-col leading-none">
-                  <span className="font-black text-xl tracking-tight font-heading text-white uppercase leading-[0.9]">FARIO</span>
-                  <span className="text-[7px] font-extrabold uppercase tracking-[0.5em] text-purple-400 mt-1">STEP IN, STAND OUT</span>
+                  <span className="font-black text-xl tracking-tight font-heading text-fario-dark uppercase leading-[0.9]">FARIO</span>
+                  <span className="text-[7px] font-extrabold uppercase tracking-[0.5em] text-fario-purple mt-1">STEP IN, STAND OUT</span>
                 </div>
               </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="p-4 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                <X size={24} className="text-white" />
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-12 h-12 flex items-center justify-center bg-white shadow-lg border border-gray-100 rounded-full hover:bg-gray-50 active:scale-95 transition-all text-fario-dark"
+                aria-label="Close menu"
+              >
+                <X size={20} strokeWidth={3} />
               </button>
             </div>
 
-            <div className="flex-grow flex flex-col p-6 md:p-10 overflow-y-auto">
+            <div className="flex-grow flex flex-col p-6 md:p-10 overflow-y-auto relative z-10">
 
-              {/* Quick Actions Row */}
-              <div className="grid grid-cols-3 gap-3 mb-10">
-                <button onClick={() => { navigate('/profile'); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors border border-white/5">
-                  <User size={20} className="text-fario-lime mb-2" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-white/60">Profile</span>
-                </button>
-                <button onClick={() => { navigate('/wishlist'); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors border border-white/5">
-                  <Heart size={20} className="text-rose-400 mb-2" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-white/60">Wishlist</span>
-                </button>
-                <button onClick={() => { setIsCartDrawerOpen(true); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors border border-white/5">
-                  <div className="relative">
-                    <ShoppingBag size={20} className="text-fario-purple mb-2" />
-                    {cartCount > 0 && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-fario-lime rounded-full" />}
+              {/* Quick Actions Row (Profile, Wishlist, Cart) - HIGH FIDELITY LIME/PURPLE */}
+              <div className="grid grid-cols-3 gap-4 mb-12">
+                <button onClick={() => { navigate('/profile'); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/80 rounded-3xl hover:bg-white transition-all border border-purple-100/50 shadow-[0_10px_40px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_50px_rgba(122,81,160,0.15)] group relative overflow-hidden backdrop-blur-md">
+                  <div className="absolute inset-0 bg-gradient-to-br from-fario-purple/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-12 h-12 rounded-full bg-fario-purple/10 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-fario-purple transition-all border border-fario-purple/10">
+                    <User size={20} className="text-fario-purple group-hover:text-white" />
                   </div>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-white/60">Cart</span>
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 group-hover:text-fario-purple">Profile</span>
+                </button>
+                <button onClick={() => { navigate('/wishlist'); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/80 rounded-3xl hover:bg-white transition-all border border-rose-100/50 shadow-[0_10px_40px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_50px_rgba(244,63,94,0.15)] group relative overflow-hidden backdrop-blur-md">
+                  <div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-rose-500 transition-all border border-rose-500/10">
+                    <Heart size={20} className="text-rose-500 group-hover:text-white" />
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 group-hover:text-rose-500">Wishlist</span>
+                </button>
+                <button onClick={() => { setIsCartDrawerOpen(true); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-4 bg-white/80 rounded-3xl hover:bg-white transition-all border border-lime-100/50 shadow-[0_10px_40px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_50px_rgba(217,249,157,0.3)] group relative overflow-hidden backdrop-blur-md">
+                  <div className="absolute inset-0 bg-gradient-to-br from-fario-lime/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-12 h-12 rounded-full bg-fario-lime/30 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-fario-lime transition-all border border-fario-lime/20 relative">
+                    <ShoppingBag size={20} className="text-fario-dark" />
+                    {cartCount > 0 && <span className="absolute -top-1 -right-1 w-4 h-4 text-[8px] flex items-center justify-center font-black bg-rose-500 text-white border-2 border-white rounded-full shadow-lg">{cartCount}</span>}
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 group-hover:text-fario-dark">Cart</span>
                 </button>
               </div>
 
-              <nav className="flex flex-col gap-6 md:gap-8">
-                {NAV_ITEMS.map((item: any, idx: number) => (
-                  <MotionDiv
-                    key={item.path}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.06 }}
-                  >
-                    <NavLink
-                      to={item.path}
-                      end={item.path === '/'}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={({ isActive }: any) => `
-                           text-3xl md:text-5xl font-black font-heading uppercase tracking-tighter flex items-center justify-between group
-                           ${isActive ? 'text-fario-lime' : 'text-white/40'}
-                         `}
+              {/* Navigation Links - MASSIVE TYPOGRAPHY WITH LUXURY HOVER */}
+              <nav className="flex flex-col gap-4 relative">
+                {/* Visual connecting line */}
+                <div className="absolute left-[28px] md:left-[36px] top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent z-[-1]" />
+
+                {NAV_ITEMS.map((item: any, idx: number) => {
+                  const isActive = item.path === '/'
+                    ? location.pathname === '/'
+                    : location.pathname.startsWith(item.path);
+
+                  return (
+                    <MotionDiv
+                      key={item.path}
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.1, type: "spring", stiffness: 200, damping: 20 }}
                     >
-                      <div className="flex items-center gap-4">
-                        <span className={`p-2 rounded-lg ${location.pathname === item.path ? 'bg-fario-lime/10 text-fario-lime' : 'bg-white/5 text-white/20 group-hover:text-white/40'}`}>
-                          {getIcon(item.icon)}
-                        </span>
-                        {item.label}
-                      </div>
-                      {location.pathname === item.path && <ArrowRight size={24} className="text-fario-lime md:w-8 md:h-8" />}
-                    </NavLink>
-                  </MotionDiv>
-                ))}
+                      <NavLink
+                        to={item.path}
+                        end={item.path === '/'}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`
+                          group flex items-center justify-between p-4 rounded-[2rem] border transition-all duration-300 relative overflow-hidden backdrop-blur-sm
+                          ${isActive ? 'bg-white shadow-[0_20px_50px_rgba(0,0,0,0.06)] border-gray-100 ring-4 ring-white/50' : 'bg-transparent border-transparent hover:bg-white/50'}
+                        `}
+                      >
+                        {isActive && (
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-fario-lime/20 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
+                        )}
+                        <div className="flex items-center gap-6 relative z-10">
+                          <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm ${isActive ? 'bg-fario-dark text-white scale-110 shadow-[0_10px_30px_rgba(19,44,51,0.3)]' : 'bg-white text-gray-400 group-hover:text-fario-purple group-hover:scale-105 border border-gray-100/50'}`}>
+                            {getIcon(item.icon)}
+                          </div>
+                          <span className={`text-4xl sm:text-5xl md:text-6xl font-black font-heading uppercase tracking-tighter transition-colors ${isActive ? 'text-fario-dark' : 'text-gray-400 group-hover:text-fario-purple'}`}>
+                            {item.label}
+                          </span>
+                        </div>
+                        {isActive && (
+                          <MotionDiv layoutId="mobile-nav-indicator" className="relative z-10 bg-gray-50 rounded-full p-2 border border-gray-100">
+                            <ArrowRight size={24} strokeWidth={3} className="text-fario-purple" />
+                          </MotionDiv>
+                        )}
+                      </NavLink>
+                    </MotionDiv>
+                  );
+                })}
               </nav>
+
+              {/* Bottom Decoration */}
+              <div className="mt-auto pt-16 pb-6 text-center">
+                <div className="w-24 h-1.5 bg-gray-200 mx-auto rounded-full" />
+                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-400 mt-6">Fario Exclusives</p>
+              </div>
             </div>
           </MotionDiv>
         )}

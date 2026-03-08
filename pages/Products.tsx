@@ -345,7 +345,7 @@ const Products: React.FC = () => {
   );
 
   return (
-    <div className="pt-[70px] lg:pt-24 pb-10 lg:pb-20 min-h-screen bg-gray-50 font-sans text-gray-800 relative isolate">
+    <div className="pt-[60px] lg:pt-[74px] pb-10 lg:pb-20 min-h-screen bg-gray-50 font-sans text-gray-800 relative isolate">
       {/* EVOLUTION MESH BACKGROUND - CLEAN PERFORMANCE AESTHETIC */}
       <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
         {/* Soft Multi-Tone Atmosphere */}
@@ -368,7 +368,7 @@ const Products: React.FC = () => {
       <div className="container mx-auto px-2 md:px-6 max-w-[1600px] relative">
 
         {/* TOP BAR */}
-        <div className="sticky top-16 lg:top-20 z-30 bg-white/90 backdrop-blur-md border-b border-gray-100 py-2 lg:py-4 mb-4 flex flex-wrap gap-2 lg:gap-4 items-center justify-between transition-all">
+        <div className="sticky top-[60px] lg:top-[84px] z-30 bg-white/90 backdrop-blur-md border-b border-gray-100 py-2 lg:py-4 mb-4 flex flex-wrap gap-2 lg:gap-4 items-center justify-between transition-all">
           <div className="flex items-center gap-4 flex-grow max-w-xl">
             <div className="relative w-full group">
               <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-fario-purple transition-colors" size={18} />
@@ -377,7 +377,7 @@ const Products: React.FC = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search products..."
-                className="w-full pl-8 pr-4 py-1.5 lg:py-2 bg-transparent border-b border-gray-200 text-sm font-black uppercase tracking-widest focus:border-fario-purple outline-none transition-all placeholder:text-gray-300 italic"
+                className="w-full pl-8 pr-4 py-1.5 lg:py-2 bg-transparent border-b border-gray-200 text-sm font-black uppercase tracking-widest focus:border-fario-purple outline-none transition-all placeholder:text-gray-500 italic"
               />
             </div>
           </div>

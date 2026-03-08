@@ -15,7 +15,7 @@ export const HomeEditorial = () => {
     return (
         <section ref={ref} className="py-8 md:py-24 overflow-hidden" style={{ background: BG_MID }}>
             <div className="container mx-auto px-4 md:px-12 lg:px-20">
-                <div className="flex flex-col md:grid md:grid-cols-12 gap-8 md:gap-10 items-start md:items-end">
+                <div className="flex flex-col md:grid md:grid-cols-12 gap-12 md:gap-10 items-start md:items-end">
                     {/* Tall left image */}
                     <motion.div style={{ y: y1 }} className="w-full md:w-auto md:col-span-4 h-[28vh] md:h-[40vh] lg:h-[68vh] relative">
                         <Tilt cls="h-full">
@@ -37,10 +37,10 @@ export const HomeEditorial = () => {
                             <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.4em] mb-5"
                                 style={{ color: PURPLE }}
                             >New Collection 2026</motion.p>
-                            <div className="overflow-hidden mb-6">
+                            <div className="overflow-hidden mb-6 w-full">
                                 <motion.h2 variants={maskUp}
-                                    className="font-heading font-black uppercase tracking-tighter leading-[0.9] md:leading-tight"
-                                    style={{ fontSize: 'clamp(32px, 8vw, 66px)', color: DARK_TXT }}
+                                    className="font-heading font-black uppercase tracking-tighter leading-[0.9] md:leading-tight break-words"
+                                    style={{ fontSize: 'clamp(28px, 11vw, 66px)', color: DARK_TXT }}
                                 >The Art<br />of Motion</motion.h2>
                             </div>
                             <motion.p variants={fadeUp} className="text-xs md:text-base leading-relaxed md:leading-loose opacity-70 mb-5 md:mb-8" style={{ color: DARK_TXT }}>
@@ -56,7 +56,7 @@ export const HomeEditorial = () => {
                     </div>
 
                     {/* Right stacked images */}
-                    <motion.div style={{ y: y2 }} className="hidden md:flex md:col-span-4 flex-col gap-4">
+                    <motion.div style={{ y: y2 }} className="flex md:col-span-4 flex-col gap-4 mt-8 md:mt-0">
                         <Tilt cls="h-[42vh] rounded-2xl overflow-hidden">
                             <PImg src={HL3.b} alt="Urban Glide" px={32} cls="h-full w-full" />
                         </Tilt>

@@ -499,7 +499,7 @@ const ProductDetail: React.FC = () => {
                   </div>
 
                   {/* Thumbnails */}
-                  <div className="grid grid-cols-4 md:grid-cols-7 gap-3">
+                  <div className="flex md:grid overflow-x-auto md:overflow-visible md:grid-cols-7 gap-3 pb-2 md:pb-0 no-scrollbar snap-x">
                      {gallery.map((img: string, idx: number) => (
                         <button
                            key={idx}
@@ -510,7 +510,7 @@ const ProductDetail: React.FC = () => {
                               searchParams.set('color', idx.toString());
                               setSearchParams(searchParams, { replace: true });
                            }}
-                           className={`aspect-square rounded-xl bg-white border-2 flex items-center justify-center p-2 transition-all overflow-hidden ${activeImage === img ? 'border-fario-purple ring-2 ring-fario-purple/10 scale-105 shadow-md' : 'border-gray-100 hover:border-gray-200'}`}
+                           className={`w-[72px] md:w-auto flex-shrink-0 snap-start aspect-square rounded-xl bg-white border-2 flex items-center justify-center p-2 transition-all overflow-hidden ${activeImage === img ? 'border-fario-purple ring-2 ring-fario-purple/10 scale-105 shadow-md' : 'border-gray-100 hover:border-gray-200'}`}
                         >
                            <img src={img || '/placeholder.png'} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                         </button>
@@ -535,7 +535,7 @@ const ProductDetail: React.FC = () => {
                      )}
                   </div>
 
-                  <h1 className="text-4xl md:text-5xl font-black font-heading text-gray-900 mb-2 uppercase italic tracking-tighter leading-[0.9] order-2 lg:order-none">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-gray-900 mb-2 uppercase italic tracking-tighter leading-[0.9] order-2 lg:order-none">
                      {product.name}
                   </h1>
 
@@ -598,38 +598,38 @@ const ProductDetail: React.FC = () => {
                            </div>
 
                            {/* Products row */}
-                           <div className="flex items-center gap-3 mb-4">
+                           <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-3 mb-4">
                               {/* Product A */}
-                              <div className="flex flex-col items-center gap-1.5 flex-1">
-                                 <div className="w-16 h-16 bg-white rounded-xl border border-gray-100 flex items-center justify-center p-2 shadow-sm">
+                              <div className="flex flex-col items-center gap-1.5 flex-1 min-w-[70px]">
+                                 <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-xl border border-gray-100 flex items-center justify-center p-1.5 shadow-sm">
                                     <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
                                  </div>
                                  <span className="text-[9px] font-bold text-gray-700 uppercase tracking-wide text-center line-clamp-1 w-full">{product.name}</span>
-                                 <span className="text-xs font-black text-gray-900">Rs. {product.price}</span>
+                                 <span className="text-[10px] sm:text-xs font-black text-gray-900">Rs. {product.price}</span>
                               </div>
 
                               {/* Plus */}
-                              <div className="flex flex-col items-center">
-                                 <div className="w-7 h-7 rounded-full bg-fario-purple/10 flex items-center justify-center">
-                                    <Plus size={14} className="text-fario-purple" />
+                              <div className="flex flex-col items-center px-1">
+                                 <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-fario-purple/10 flex items-center justify-center">
+                                    <Plus size={12} className="text-fario-purple" />
                                  </div>
                               </div>
 
                               {/* Product B */}
-                              <div className="flex flex-col items-center gap-1.5 flex-1">
-                                 <div className="w-16 h-16 bg-white rounded-xl border border-gray-100 flex items-center justify-center p-2 shadow-sm cursor-pointer hover:border-rose-300 transition-colors" onClick={() => navigate(`/products/${comboProduct.id}`)}>
+                              <div className="flex flex-col items-center gap-1.5 flex-1 min-w-[70px]">
+                                 <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-xl border border-gray-100 flex items-center justify-center p-1.5 shadow-sm cursor-pointer hover:border-rose-300 transition-colors" onClick={() => navigate(`/products/${comboProduct.id}`)}>
                                     <img src={comboProduct.image} alt={comboProduct.name} className="w-full h-full object-contain mix-blend-multiply" />
                                  </div>
                                  <span className="text-[9px] font-bold text-gray-700 uppercase tracking-wide text-center line-clamp-1 w-full">{comboProduct.name}</span>
-                                 <span className="text-xs font-black text-gray-900">Rs. {comboProduct.price}</span>
+                                 <span className="text-[10px] sm:text-xs font-black text-gray-900">Rs. {comboProduct.price}</span>
                               </div>
 
-                              {/* Equals + Total */}
-                              <div className="flex flex-col items-center gap-1">
-                                 <span className="text-[9px] font-bold text-gray-400 uppercase">=</span>
-                                 <div className="text-center">
-                                    <div className="text-base font-black text-fario-purple">Rs. {bundlePrice}</div>
-                                    <div className="text-[9px] font-bold text-gray-400 line-through">Rs. {combined}</div>
+                              {/* Equals + Total (Breaks to new line if totally squished) */}
+                              <div className="flex sm:flex-col items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 px-2 min-w-full sm:min-w-fit justify-center pt-2 sm:pt-0 border-t border-fario-purple/10 sm:border-0">
+                                 <span className="text-[12px] font-black text-gray-400 uppercase hidden sm:block">=</span>
+                                 <div className="text-center flex flex-row-reverse sm:flex-col items-center gap-2 sm:gap-0">
+                                    <div className="text-sm xl:text-base font-black text-fario-purple">Rs. {bundlePrice}</div>
+                                    <div className="text-[10px] font-bold text-gray-400 line-through">Rs. {combined}</div>
                                  </div>
                               </div>
                            </div>
@@ -671,22 +671,22 @@ const ProductDetail: React.FC = () => {
                   </div>
 
                   {/* SERVICE ICONS */}
-                  <div className="grid grid-cols-4 gap-2 mb-8 border-b border-gray-100 pb-8 order-8 lg:order-none">
-                     <div className="text-center">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-2 mb-8 border-b border-gray-100 pb-8 order-8 lg:order-none">
+                     <div className="text-center flex flex-col items-center justify-start">
                         <div className="w-10 h-10 mx-auto bg-gray-50 rounded-full flex items-center justify-center text-gray-700 mb-2"><RotateCcw size={18} /></div>
-                        <p className="text-[10px] font-bold text-gray-600 leading-tight">7 Days Return</p>
+                        <p className="text-[10px] font-bold text-gray-600 leading-tight w-24">7 Days Return</p>
                      </div>
-                     <div className="text-center">
+                     <div className="text-center flex flex-col items-center justify-start">
                         <div className="w-10 h-10 mx-auto bg-gray-50 rounded-full flex items-center justify-center text-gray-700 mb-2"><ShieldCheck size={18} /></div>
-                        <p className="text-[10px] font-bold text-gray-600 leading-tight">1 Year Warranty</p>
+                        <p className="text-[10px] font-bold text-gray-600 leading-tight w-24">1 Year Warranty</p>
                      </div>
-                     <div className="text-center">
+                     <div className="text-center flex flex-col items-center justify-start">
                         <div className="w-10 h-10 mx-auto bg-gray-50 rounded-full flex items-center justify-center text-gray-700 mb-2"><Truck size={18} /></div>
-                        <p className="text-[10px] font-bold text-gray-600 leading-tight">Free Delivery</p>
+                        <p className="text-[10px] font-bold text-gray-600 leading-tight w-24">Free Delivery</p>
                      </div>
-                     <div className="text-center">
+                     <div className="text-center flex flex-col items-center justify-start">
                         <div className="w-10 h-10 mx-auto bg-gray-50 rounded-full flex items-center justify-center text-gray-700 mb-2"><CheckCircle2 size={18} /></div>
-                        <p className="text-[10px] font-bold text-gray-600 leading-tight">Authentic</p>
+                        <p className="text-[10px] font-bold text-gray-600 leading-tight w-24">Authentic</p>
                      </div>
                   </div>
 
@@ -703,7 +703,7 @@ const ProductDetail: React.FC = () => {
                            <Ruler size={12} /> Size Guide
                         </button>
                      </div>
-                     <div className="grid grid-cols-5 gap-2">
+                     <div className="flex flex-wrap gap-2">
                         {sizes.map(size => (
                            <button
                               key={size}
@@ -715,7 +715,7 @@ const ProductDetail: React.FC = () => {
                               }}
                               disabled={!isStockAvailable}
                               className={`
-                         h-12 rounded-xl border text-[11px] font-black uppercase transition-all
+                         h-12 w-[calc(25%-6px)] sm:w-auto px-4 rounded-xl border text-[11px] font-black uppercase transition-all
                          ${selectedSize === size
                                     ? 'bg-gray-900 text-white border-gray-900 shadow-lg scale-105'
                                     : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-900'}

@@ -24,8 +24,8 @@ const CinematicCard = ({ item, i }: { item: any, i: number }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.8, ease: E }}
-            /* Mobile: fixed small height in horizontal scroll. Desktop: normal aspect ratio */
-            className="relative flex-shrink-0 w-[200px] h-[260px] md:w-auto md:h-auto md:aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden group cursor-pointer"
+            /* Mobile: larger fixed height in horizontal scroll. Desktop: normal aspect ratio */
+            className="relative flex-shrink-0 w-[280px] h-[360px] md:w-auto md:h-auto md:aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden group cursor-pointer"
         >
             <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000">
                 <source src={item.vid} type="video/mp4" />

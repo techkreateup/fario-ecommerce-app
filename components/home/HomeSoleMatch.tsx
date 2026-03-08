@@ -193,20 +193,20 @@ export const HomeSoleMatch: React.FC = () => {
                                 <div className="text-3xl mb-3">{q.emoji}</div>
                                 <h3 className="text-xl font-black text-white mb-6">{q.q}</h3>
 
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-2 gap-2 xs:gap-3">
                                     {q.options.map((opt) => (
                                         <motion.button
                                             key={opt.key}
                                             onClick={() => choose(opt.key)}
                                             whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                                            className="rounded-2xl p-3 md:p-4 text-left transition-all duration-300"
+                                            className="rounded-xl xs:rounded-2xl p-2.5 md:p-4 flex flex-col items-start gap-1 md:gap-2 text-left transition-all duration-300"
                                             style={{
                                                 background: selected === opt.key ? '#d9f99d' : 'rgba(255,255,255,0.05)',
                                                 border: `1px solid ${selected === opt.key ? '#d9f99d' : 'rgba(255,255,255,0.08)'}`,
                                             }}
                                         >
-                                            <div className="text-2xl mb-2">{opt.icon}</div>
-                                            <div className="text-xs font-black uppercase tracking-wider leading-tight"
+                                            <div className="text-xl md:text-2xl">{opt.icon}</div>
+                                            <div className="text-[9px] xs:text-[10px] md:text-xs font-black uppercase tracking-wider leading-tight w-full break-words"
                                                 style={{ color: selected === opt.key ? '#0f0820' : 'rgba(255,255,255,0.75)' }}>
                                                 {opt.label}
                                             </div>

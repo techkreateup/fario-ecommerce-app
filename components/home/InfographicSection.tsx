@@ -223,7 +223,7 @@ const InfographicSection: React.FC = () => {
           <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-fario-lime/5 rounded-full blur-[80px] pointer-events-none"></div>
 
           {/* Controls — compact on mobile */}
-          <div className="lg:w-1/2 flex flex-col justify-center space-y-0.5 md:space-y-1 relative z-10">
+          <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-1 relative z-10">
             {features.map((feature, idx) => (
               <motion.button
                 key={feature.id}
@@ -251,8 +251,8 @@ const InfographicSection: React.FC = () => {
             ))}
           </div>
 
-          {/* Visualization Viewport — HIDDEN on mobile, visible lg+ */}
-          <div className="hidden lg:flex lg:w-1/2 min-h-[400px] bg-black/40 rounded-[2.5rem] border border-white/10 relative items-center justify-center overflow-hidden">
+          {/* Visualization Viewport — Visible on all sizes */}
+          <div className="flex w-full lg:w-1/2 min-h-[320px] md:min-h-[400px] bg-black/40 rounded-3xl xl:rounded-[2.5rem] border border-white/10 relative items-center justify-center overflow-hidden mt-2 lg:mt-0">
 
             {/* Tech Overlay Lines -> Rounded for Shoe Aesthetic */}
             <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 rounded-tl-2xl opacity-40" style={{ borderColor: LIME }}></div>

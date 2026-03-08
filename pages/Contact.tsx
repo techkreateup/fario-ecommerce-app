@@ -125,7 +125,7 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <span className="bg-white border border-gray-200 px-5 py-2 text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-8 inline-block text-fario-dark shadow-sm">Get In Touch</span>
-            <h1 className="text-5xl md:text-7xl font-black text-fario-dark mb-6 uppercase tracking-tighter font-heading leading-[0.9]">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-fario-dark mb-6 uppercase tracking-tighter font-heading leading-[0.9]">
               Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-fario-purple to-indigo-600">FARIO</span>
             </h1>
             <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">
@@ -146,7 +146,7 @@ const Contact: React.FC = () => {
             <MotionDiv
               key={idx}
               variants={cardVariants}
-              className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-start group h-full"
+              className="bg-white p-6 md:p-8 rounded-[2rem] border border-gray-100 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-start group h-full"
             >
               <div className={`w-14 h-14 ${card.bg} rounded-2xl flex items-center justify-center ${card.text} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                 {card.icon}
@@ -168,7 +168,7 @@ const Contact: React.FC = () => {
         </MotionDiv>
 
         {/* --- Main Interaction Section --- */}
-        <section className="bg-fario-dark rounded-[3rem] p-10 lg:p-20 relative overflow-hidden text-white shadow-2xl">
+        <section className="bg-fario-dark rounded-[3rem] p-6 md:p-10 lg:p-20 relative overflow-hidden text-white shadow-2xl">
           <div className="absolute inset-0 bg-topo-pattern opacity-10 invert pointer-events-none" />
           <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-fario-purple/20 rounded-full blur-[100px] pointer-events-none" />
 
@@ -216,7 +216,7 @@ const Contact: React.FC = () => {
 
             {/* Right Column: Contact Form */}
             <MotionDiv
-              className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[2.5rem] p-8 lg:p-10"
+              className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[2.5rem] p-6 md:p-8 lg:p-10"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}

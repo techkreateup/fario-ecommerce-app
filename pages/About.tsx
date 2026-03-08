@@ -170,7 +170,7 @@ const About: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
+                className="bg-white p-6 md:p-8 rounded-[2rem] border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 bg-fario-light rounded-2xl flex items-center justify-center mb-6 text-fario-dark group-hover:bg-fario-purple group-hover:text-white transition-colors">
                   {point.icon}
@@ -184,7 +184,7 @@ const About: React.FC = () => {
 
         {/* --- CORE PURPOSE, MISSION, VISION --- */}
         <section className="mb-32">
-          <div className="bg-white rounded-[3rem] p-10 lg:p-20 shadow-2xl border border-gray-100 relative overflow-hidden">
+          <div className="bg-white rounded-[3rem] p-6 md:p-10 lg:p-20 shadow-2xl border border-gray-100 relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-fario-purple/5 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
 
@@ -206,7 +206,7 @@ const About: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
                 {/* Mission Protocol */}
                 <MotionDiv
-                  className="bg-fario-light/50 p-10 rounded-[2.5rem] border border-gray-100"
+                  className="bg-fario-light/50 p-6 md:p-10 rounded-[2.5rem] border border-gray-100"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -232,7 +232,7 @@ const About: React.FC = () => {
 
                 {/* Vision Protocol */}
                 <MotionDiv
-                  className="bg-fario-light/50 p-10 rounded-[2.5rem] border border-gray-100"
+                  className="bg-fario-light/50 p-6 md:p-10 rounded-[2.5rem] border border-gray-100"
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -267,7 +267,7 @@ const About: React.FC = () => {
             <p className="text-gray-500">Partnering with prestigious institutions across Tamil Nadu.</p>
           </div>
 
-          <div className="bg-white rounded-[2rem] shadow-xl border border-gray-100 p-8">
+          <div className="bg-white rounded-[2rem] shadow-xl border border-gray-100 p-6 md:p-8">
             <div className="flex flex-wrap justify-center gap-6">
               {partners.map((partner, i) => (
                 <MotionDiv
@@ -288,7 +288,7 @@ const About: React.FC = () => {
 
         {/* --- ENTERPRISE ACCESS --- */}
         <section id="enterprise" className="mb-24">
-          <div className="bg-fario-dark rounded-[3rem] p-10 lg:p-20 relative overflow-hidden text-white shadow-2xl">
+          <div className="bg-fario-dark rounded-[3rem] p-6 md:p-10 lg:p-20 relative overflow-hidden text-white shadow-2xl">
             <div className="absolute inset-0 bg-topo-pattern opacity-10 invert pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
@@ -316,7 +316,7 @@ const About: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-[2.5rem] p-8 lg:p-12">
+              <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-[2.5rem] p-6 md:p-8 lg:p-12">
                 {!formSubmitted ? (
                   <form onSubmit={handleFormSubmit} className="space-y-5">
                     <div className="space-y-2">
