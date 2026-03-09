@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { orderService } from '../../services/orderService';
 
 export const ProfileOrders: React.FC = () => {
     const { user } = useAuth();
@@ -21,6 +22,25 @@ export const ProfileOrders: React.FC = () => {
     const [trackingOpen, setTrackingOpen] = useState<string | null>(null);
     const [feedbackType, setFeedbackType] = useState<'product' | 'seller' | null>(null);
     const [isDownloading, setIsDownloading] = useState<string | null>(null);
+
+    const handleDeleteOrder = async (orderId: string) => {
+        if (!user || !user.id) {
+            alert('Please log in to delete orders');
+            return;
+        }
+        try {
+            const result = await orderService.archiveOrder(orderId);
+            if (result.success) {
+                alert('Order deleted successfully');
+                window.location.reload();
+            } else {
+                alert('Failed to delete order');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('Failed to delete order');
+        }
+    };
 
     const handleInvoice = (orderId: string) => {
         setIsDownloading(orderId);
@@ -190,8 +210,8 @@ export const ProfileOrders: React.FC = () => {
                             </div>
 
                             {/* Archive Footer */}
-                            <div className="bg-white border-t border-gray-100 px-6 py-3 text-xs font-bold text-fario-purple hover:underline cursor-pointer flex justify-between">
-                                <span>Archive Order</span>
+                            <div className="bg-white border-t border-gray-100 px-6 py-3 text-xs font-bold text-red-600 hover:underline flex justify-end">
+                                <span className="cursor-pointer" onClick={() => handleDeleteOrder(order.id)}>Delete Order</span>
                             </div>
                         </div>
                     ))

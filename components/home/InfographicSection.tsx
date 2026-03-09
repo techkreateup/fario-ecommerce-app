@@ -252,20 +252,20 @@ const InfographicSection: React.FC = () => {
           </div>
 
           {/* Visualization Viewport — Visible on all sizes */}
-          <div className="flex w-full lg:w-1/2 min-h-[320px] md:min-h-[400px] bg-black/40 rounded-3xl xl:rounded-[2.5rem] border border-white/10 relative items-center justify-center overflow-hidden mt-2 lg:mt-0">
+          <div className="flex w-full lg:w-1/2 min-h-[220px] sm:min-h-[320px] md:min-h-[400px] bg-black/40 rounded-3xl xl:rounded-[2.5rem] border border-white/10 relative items-center justify-center overflow-hidden mt-4 lg:mt-0">
 
             {/* Tech Overlay Lines -> Rounded for Shoe Aesthetic */}
-            <div className="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 rounded-tl-2xl opacity-40" style={{ borderColor: LIME }}></div>
-            <div className="absolute bottom-8 right-8 w-12 h-12 border-b-2 border-r-2 rounded-br-2xl opacity-40" style={{ borderColor: LIME }}></div>
+            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 w-8 h-8 sm:w-12 sm:h-12 border-t-2 border-l-2 rounded-tl-2xl opacity-40" style={{ borderColor: LIME }}></div>
+            <div className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 w-8 h-8 sm:w-12 sm:h-12 border-b-2 border-r-2 rounded-br-2xl opacity-40" style={{ borderColor: LIME }}></div>
 
-            <div className="absolute top-8 right-8 text-xs font-bold font-heading opacity-60 tracking-widest" style={{ color: LIME }}>
+            <div className="absolute top-4 right-4 sm:top-8 sm:right-8 text-[9px] sm:text-xs font-bold font-heading opacity-60 tracking-widest" style={{ color: LIME }}>
               MATERIAL.LAB // 0{activeIdx + 1}
             </div>
 
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIdx}
-                className="w-full h-full p-12 max-w-sm"
+                className="w-full h-full p-8 sm:p-12 max-w-[220px] sm:max-w-sm flex items-center justify-center"
                 initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}

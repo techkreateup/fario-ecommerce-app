@@ -65,15 +65,8 @@ const Products: React.FC = () => {
   // Unique Options generation - Hardcoded main categories
   const allCategories = ['MEN', 'WOMEN', 'KIDS', 'SCHOOL'];
 
-  const allColors = useMemo(() => {
-    const colors = new Set<string>();
-    allProducts.forEach(p => {
-      const productColors = Array.isArray(p.colors) ? p.colors :
-        typeof p.colors === 'string' ? JSON.parse(p.colors) : [];
-      productColors.forEach((c: string) => colors.add(c));
-    });
-    return Array.from(colors);
-  }, [allProducts]);
+  // Define a clean, neat list of top 10 core colors for the filter UI
+  const allColors = ['Black', 'White', 'Grey', 'Navy', 'Red', 'Blue', 'Green', 'Purple', 'Orange', 'Olive'];
 
   const allSizes = useMemo(() => {
     const sizes = new Set<string>();
@@ -129,7 +122,10 @@ const Products: React.FC = () => {
       const productSizes = Array.isArray(p.sizes) ? p.sizes :
         typeof p.sizes === 'string' ? JSON.parse(p.sizes) : [];
 
-      const matchColor = filters.colors.length === 0 || productColors.some((c: string) => filters.colors.includes(c));
+      // Substring match for colors, so 'Black' filter matches 'Triple Black', 'Black/Red' etc.
+      const matchColor = filters.colors.length === 0 || productColors.some((c: string) =>
+        filters.colors.some(fc => c.toLowerCase().includes(fc.toLowerCase()))
+      );
       const matchSize = filters.sizes.length === 0 || productSizes.some((s: string) => filters.sizes.includes(s));
 
       let matchPrice = true;
@@ -268,10 +264,10 @@ const Products: React.FC = () => {
         <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
           {allColors.map(color => {
             const colorMap: Record<string, string> = {
-              'Black': '#000000', 'White': '#ffffff', 'Lime': '#d9ff00',
+              'Black': '#000000', 'White': '#ffffff', 'Green': '#22c55e',
               'Purple': '#7a51a0', 'Blue': '#2563eb', 'Grey': '#71717a',
               'Orange': '#f97316', 'Navy': '#000080', 'Red': '#dc2626',
-              'Olive': '#808000', 'Charcoal': '#36454F'
+              'Olive': '#808000'
             };
             const bg = colorMap[color] || color;
             const isSelected = filters.colors.includes(color);

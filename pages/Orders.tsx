@@ -57,25 +57,25 @@ const Orders: React.FC = () => {
     // ============================================================================
 
     /**
-     * Archive Order Handler
+     * Delete Order Handler
      */
-    const handleArchiveOrder = async (orderId: string) => {
+    const handleDeleteOrder = async (orderId: string) => {
         if (!user || !user.id) {
-            toast.error('Please log in to archive orders');
+            toast.error('Please log in to delete orders');
             return;
         }
 
         try {
             const result = await orderService.archiveOrder(orderId);
             if (result.success) {
-                toast.success('Order archived successfully');
+                toast.success('Order deleted successfully');
                 // Supabase realtime channel in CartProvider refreshes orders automatically
             } else {
-                toast.error('Failed to archive order');
+                toast.error('Failed to delete order');
             }
         } catch (error) {
-            console.error('Archive error:', error);
-            toast.error('Failed to archive order');
+            console.error('Delete error:', error);
+            toast.error('Failed to delete order');
         }
     };
 
@@ -366,12 +366,12 @@ const Orders: React.FC = () => {
                                     </div>
 
                                     {/* Footer */}
-                                    <div className="bg-gray-50/50 p-3 border-t border-gray-200 text-xs font-medium text-purple-700 flex items-center gap-2">
+                                    <div className="bg-gray-50/50 p-3 border-t border-gray-200 text-xs font-medium text-red-600 flex items-center justify-end gap-2">
                                         <span
-                                            onClick={() => handleArchiveOrder(order.id)}
+                                            onClick={() => handleDeleteOrder(order.id)}
                                             className="font-bold cursor-pointer hover:underline"
                                         >
-                                            Archive Order
+                                            Delete Order
                                         </span>
                                     </div>
                                 </div>

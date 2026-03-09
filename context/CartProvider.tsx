@@ -344,7 +344,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         } catch { /* fallback to anon key */ }
 
         const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/orders?user_id=eq.${userId}&select=*&order=createdat.desc`,
+          `${SUPABASE_URL}/rest/v1/orders?user_id=eq.${userId}&isarchived=eq.false&select=*&order=createdat.desc`,
           {
             headers: {
               'apikey': SUPABASE_KEY,
