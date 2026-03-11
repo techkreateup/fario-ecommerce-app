@@ -292,26 +292,28 @@ const ProductDetail: React.FC = () => {
                      onClick={(e: any) => e.stopPropagation()}
                   >
                      <h3 className="text-xl font-black font-heading uppercase italic tracking-tighter mb-6">Size Specification</h3>
-                     <table className="w-full text-sm text-left">
-                        <thead>
-                           <tr className="border-b border-gray-100">
-                              <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">UK/India</th>
-                              <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">US</th>
-                              <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">EU</th>
-                              <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">CM</th>
-                           </tr>
-                        </thead>
-                        <tbody className="font-medium text-gray-600">
-                           {[4, 5, 6, 7, 8, 9, 10].map(s => (
-                              <tr key={s} className="border-b border-gray-50 last:border-0 hover:bg-gray-50">
-                                 <td className="py-3 pl-2">{s}</td>
-                                 <td className="py-3">{s + 1}</td>
-                                 <td className="py-3">{36 + s}</td>
-                                 <td className="py-3">{22 + (s * 0.5)}</td>
+                     <div className="overflow-x-auto -mx-2 px-2 md:mx-0 md:px-0">
+                        <table className="w-full text-sm text-left min-w-[320px]">
+                           <thead>
+                              <tr className="border-b border-gray-100">
+                                 <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">UK/India</th>
+                                 <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">US</th>
+                                 <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">EU</th>
+                                 <th className="pb-2 font-black uppercase text-[10px] tracking-widest text-gray-400">CM</th>
                               </tr>
-                           ))}
-                        </tbody>
-                     </table>
+                           </thead>
+                           <tbody className="font-medium text-gray-600">
+                              {[4, 5, 6, 7, 8, 9, 10].map(s => (
+                                 <tr key={s} className="border-b border-gray-50 last:border-0 hover:bg-gray-50">
+                                    <td className="py-3 pl-2">{s}</td>
+                                    <td className="py-3">{s + 1}</td>
+                                    <td className="py-3">{36 + s}</td>
+                                    <td className="py-3">{22 + (s * 0.5)}</td>
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </table>
+                     </div>
                      <button className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full" onClick={() => setShowSizeGuide(false)}><ArrowLeft size={20} /></button>
                   </MotionDiv>
                </div>
@@ -933,11 +935,11 @@ const ProductDetail: React.FC = () => {
 
             {/* PRODUCT REVIEWS SECTION - PREMIUM FARIO STYLE */}
             <div className="mt-24 pt-16 border-t border-stone-100">
-               <div className="flex items-center justify-between mb-12">
+               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 md:mb-12">
                   <h2 className="text-3xl font-bold font-serif text-stone-900 tracking-tight">
                      What People Say
                   </h2>
-                  <button onClick={() => setShowReviewModal(true)} className="hidden md:flex items-center gap-2 px-6 py-3 bg-stone-900 text-white rounded-xl font-bold text-xs hover:bg-stone-800 transition-all shadow-lg shadow-stone-900/10">
+                  <button onClick={() => setShowReviewModal(true)} className="flex items-center justify-center gap-2 px-6 py-3 bg-stone-900 text-white rounded-xl font-bold text-xs hover:bg-stone-800 transition-all shadow-lg shadow-stone-900/10 w-full sm:w-auto">
                      <MessageSquare size={16} /> Add Your Voice
                   </button>
                </div>

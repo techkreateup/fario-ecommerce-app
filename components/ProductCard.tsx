@@ -203,14 +203,14 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                 <div className="p-1.5 md:p-4 flex flex-col flex-grow bg-white">
 
                     {/* Mobile: just name + price — clean, Comet-style */}
-                    <div className="md:hidden flex flex-col h-full justify-between">
-                        <h3 className="text-[10px] font-bold text-black leading-tight line-clamp-2 mb-0.5">
+                    <div className="md:hidden flex flex-col h-full justify-between gap-1">
+                        <h3 className="text-[9px] xs:text-[10px] font-bold text-black leading-tight line-clamp-2">
                             {name}
                         </h3>
-                        <div className="flex items-center gap-1.5 mt-auto">
-                            <span className="text-xs font-black text-black tracking-tight">Rs. {price.toLocaleString()}</span>
+                        <div className="flex items-center flex-wrap gap-1 mt-auto">
+                            <span className="text-[11px] xs:text-xs font-black text-black tracking-tight">Rs. {price.toLocaleString()}</span>
                             {originalPrice && (
-                                <span className="text-[8px] font-bold text-rose-500">({Math.round(((originalPrice - price) / originalPrice) * 100)}% off)</span>
+                                <span className="text-[7px] xs:text-[8px] font-bold text-rose-500 line-through md:no-underline">({Math.round(((originalPrice - price) / originalPrice) * 100)}% off)</span>
                             )}
                         </div>
                     </div>

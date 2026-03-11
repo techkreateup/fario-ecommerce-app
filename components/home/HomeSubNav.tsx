@@ -51,7 +51,7 @@ export const HomeSubNav = () => {
             ref={navRef}
             onMouseLeave={() => setOpenIndex(null)}
         >
-            <div className="container mx-auto px-4 lg:px-10 h-16 flex items-center justify-center gap-6 md:gap-10 lg:gap-16 flex-wrap overflow-x-auto no-scrollbar relative">
+            <div className="container mx-auto px-2 lg:px-10 h-16 flex items-center justify-start md:justify-center gap-4 md:gap-10 lg:gap-16 flex-nowrap overflow-x-auto no-scrollbar relative">
 
                 {/* Decorative glowing orb behind categories */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[30px] bg-purple-400/10 blur-2xl pointer-events-none rounded-full" />
@@ -61,12 +61,12 @@ export const HomeSubNav = () => {
                     return (
                         <button
                             key={idx}
-                            className={`relative text-[11px] md:text-sm lg:text-[15px] font-black uppercase tracking-[0.1em] lg:tracking-[0.2em] flex items-center gap-2 transition-all duration-300 h-full px-2 ${isOpen ? 'text-[#7a51a0] scale-105 drop-shadow-md' : 'text-[#1a0d2e] hover:text-[#7a51a0] hover:scale-105'}`}
+                            className={`relative text-[10px] md:text-sm lg:text-[15px] font-black uppercase tracking-[0.05em] md:tracking-[0.1em] lg:tracking-[0.2em] flex items-center gap-1.5 transition-all duration-300 h-full px-2 whitespace-nowrap shrink-0 ${isOpen ? 'text-[#7a51a0] scale-105 drop-shadow-md' : 'text-[#1a0d2e] hover:text-[#7a51a0] hover:scale-105'}`}
                             onMouseEnter={() => setOpenIndex(idx)}
                             onClick={() => setOpenIndex(isOpen ? null : idx)}
                         >
                             {col.title}
-                            {isOpen ? <ChevronUp size={16} className="transition-transform duration-300" /> : <ChevronDown size={14} className="opacity-50 transition-transform duration-300 group-hover:opacity-100" />}
+                            {isOpen ? <ChevronUp size={14} className="transition-transform duration-300" /> : <ChevronDown size={14} className="opacity-50 transition-transform duration-300 group-hover:opacity-100" />}
 
                             {/* Active indicator line */}
                             {isOpen && (

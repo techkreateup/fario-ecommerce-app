@@ -472,29 +472,31 @@ const Checkout: React.FC = () => {
                                 <div className="p-4 md:p-6">
                                     <div className="space-y-6 mb-8">
                                         {cartItems.map(item => (
-                                            <div key={item.cartId} className="flex gap-6 border-b border-gray-100 pb-6 last:border-0 last:pb-0">
-                                                <div className="w-24 h-24 flex-shrink-0 relative bg-gray-50 rounded-lg p-2">
-                                                    <img src={item.image} className="w-full h-full object-contain mix-blend-multiply" alt="" />
-                                                    <div className="absolute top-0 left-0 bg-gray-100 text-[10px] px-1 rounded text-gray-500 border border-gray-200">Qty: {item.quantity}</div>
-                                                </div>
-                                                <div className="flex-1">
-                                                    <h4 className="font-medium text-gray-900 text-sm mb-1">{item.name}</h4>
-                                                    <div className="text-xs text-gray-500 mb-2">{item.selectedSize}, {item.selectedColor}</div>
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        <span className="text-sm font-gray-500 line-through">Rs. {Math.round(item.price * 1.2).toLocaleString('en-IN')}</span>
-                                                        <span className="font-bold text-lg text-gray-900">{formatPrice(item.price)}</span>
-                                                        <span className="text-xs font-bold text-green-600">20% Off</span>
+                                            <div key={item.cartId} className="flex flex-col sm:flex-row gap-4 md:gap-6 border-b border-gray-100 pb-6 last:border-0 last:pb-0">
+                                                <div className="flex gap-4 md:gap-6 flex-1">
+                                                    <div className="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 relative bg-gray-50 rounded-lg p-2">
+                                                        <img src={item.image} className="w-full h-full object-contain mix-blend-multiply" alt="" />
+                                                        <div className="absolute top-0 left-0 bg-gray-100 text-[10px] px-1 rounded text-gray-500 border border-gray-200">Qty: {item.quantity}</div>
                                                     </div>
-                                                    <div className="text-[10px] text-gray-500">
-                                                        Seller: <span className="font-bold text-gray-700">Fario Retail</span>
-                                                        <img src="/fario-logo-white.png" className="w-12 h-3 object-contain inline-block ml-2 opacity-0" alt="Fario Assured" onError={(e) => {
-                                                            e.currentTarget.style.display = 'none';
-                                                            e.currentTarget.parentElement!.insertAdjacentHTML('beforeend', '<span class="bg-gray-100 text-gray-400 text-[9px] px-1 rounded ml-1 border border-gray-200">ASSURED</span>');
-                                                        }} />
+                                                    <div className="flex-1">
+                                                        <h4 className="font-medium text-gray-900 text-sm mb-1">{item.name}</h4>
+                                                        <div className="text-xs text-gray-500 mb-2">{item.selectedSize}, {item.selectedColor}</div>
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <span className="text-sm font-gray-500 line-through">Rs. {Math.round(item.price * 1.2).toLocaleString('en-IN')}</span>
+                                                            <span className="font-bold text-lg text-gray-900">{formatPrice(item.price)}</span>
+                                                            <span className="text-xs font-bold text-green-600">20% Off</span>
+                                                        </div>
+                                                        <div className="text-[10px] text-gray-500 hidden md:block">
+                                                            Seller: <span className="font-bold text-gray-700">Fario Retail</span>
+                                                            <img src="/fario-logo-white.png" className="w-12 h-3 object-contain inline-block ml-2 opacity-0" alt="Fario Assured" onError={(e) => {
+                                                                e.currentTarget.style.display = 'none';
+                                                                e.currentTarget.parentElement!.insertAdjacentHTML('beforeend', '<span class="bg-gray-100 text-gray-400 text-[9px] px-1 rounded ml-1 border border-gray-200">ASSURED</span>');
+                                                            }} />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="text-[12px] font-bold text-gray-900">
-                                                    Delivery by <span className="text-green-600">Tomorrow, Sun</span> <span className="text-gray-400 mx-1">|</span> <span className="text-green-600">Free</span> <span className="line-through text-gray-400">Rs. 40</span>
+                                                <div className="text-[11px] md:text-[12px] font-bold text-gray-900 sm:text-right pt-2 sm:pt-0 border-t sm:border-0 border-gray-50">
+                                                    Delivery by <span className="text-green-600">Tomorrow, Sun</span> <span className="text-gray-400 mx-1">|</span> <span className="text-green-600">Free</span> <span className="line-through text-gray-400 hidden sm:inline">Rs. 40</span>
                                                 </div>
                                             </div>
                                         ))}

@@ -37,23 +37,23 @@ function TripleSlide({ title, sub, desc, bg, color, accent, images, link, badge 
             </div>
 
             {/* IMAGES */}
-            <div className="relative z-10 w-full lg:w-[60%] flex items-center justify-center min-h-[50vh] lg:min-h-[75vh] pt-16 lg:pt-0 px-4 lg:px-0">
-                <div className="relative w-full h-full flex items-center justify-center">
+            <div className="relative z-10 w-full lg:w-[60%] flex items-center justify-center min-h-[50vh] lg:min-h-[75vh] pt-20 lg:pt-0 px-4 lg:px-0">
+                <div className="relative w-full max-w-[100vw] lg:max-w-none h-full flex items-center justify-center">
                     {/* Image 1: Bottom Left Staggered */}
-                    <div className="absolute -left-4 lg:-left-12 lg:-bottom-10 z-10 scale-[0.65] lg:scale-95 rotate-[-20deg]">
-                        <img src={images[1]} alt="Side 1" className="w-[300px] lg:w-[480px] object-contain drop-shadow-2xl" />
+                    <div className="absolute left-0 lg:-left-12 bottom-0 lg:-bottom-10 z-10 lg:scale-95 rotate-[-20deg]">
+                        <img src={images[1]} alt="Side 1" className="w-[50vw] sm:w-[40vw] lg:w-[480px] object-contain drop-shadow-2xl opacity-80 lg:opacity-100" />
                     </div>
                     {/* Image 2: Main Center */}
-                    <div className="relative z-20 scale-[0.9] lg:scale-100 translate-y-[-10%] lg:translate-y-0">
-                        <img src={images[0]} alt="Main Product" className="w-[400px] lg:w-[650px] object-contain drop-shadow-[0_45px_90px_rgba(0,0,0,0.2)]" />
+                    <div className="relative z-20 translate-y-[-10%] lg:translate-y-0">
+                        <img src={images[0]} alt="Main Product" className="w-[85vw] sm:w-[60vw] lg:w-[650px] object-contain drop-shadow-[0_45px_90px_rgba(0,0,0,0.2)]" />
                     </div>
                     {/* Image 3: Top Right Staggered */}
-                    <div className="absolute -right-4 lg:-right-12 lg:-top-10 z-10 scale-[0.65] lg:scale-95 rotate-[15deg]">
-                        <img src={images[2]} alt="Side 2" className="w-[300px] lg:w-[480px] object-contain drop-shadow-2xl" />
+                    <div className="absolute right-0 lg:-right-12 top-0 lg:-top-10 z-10 lg:scale-95 rotate-[15deg]">
+                        <img src={images[2]} alt="Side 2" className="w-[50vw] sm:w-[40vw] lg:w-[480px] object-contain drop-shadow-2xl opacity-80 lg:opacity-100" />
                     </div>
 
                     {badge && (
-                        <div className="absolute top-[20%] right-[10%] bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 shadow-2xl hidden lg:block">
+                        <div className="absolute top-[10%] lg:top-[20%] right-[10%] bg-white/10 backdrop-blur-md p-2 lg:p-3 rounded-xl lg:rounded-2xl border border-white/20 shadow-2xl hidden md:block">
                             <p className="text-[10px] font-black uppercase tracking-tighter text-white">{badge}</p>
                         </div>
                     )}
