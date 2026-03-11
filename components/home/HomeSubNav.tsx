@@ -93,20 +93,41 @@ export const HomeSubNav = () => {
                                 <h3 className="text-sm font-black uppercase tracking-widest text-[#1a0d2e] pb-2 border-b border-purple-100 text-center">
                                     {MENU_DATA[openIndex].title}
                                 </h3>
-                                <ul className="flex flex-col gap-3 text-center">
-                                    {MENU_DATA[openIndex].links.map((link, lIdx) => (
-                                        <li key={lIdx}>
-                                            <Link
-                                                to={`/products?category=${encodeURIComponent(link)}`}
-                                                className="text-sm font-medium text-gray-500 hover:text-[#7a51a0] transition-colors relative group inline-block"
-                                                onClick={() => setOpenIndex(null)}
-                                            >
-                                                {link}
-                                                <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#7a51a0] transition-all group-hover:w-full"></span>
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                                {MENU_DATA[openIndex].links.length > 8 ? (
+                                    <div className="flex flex-wrap justify-center gap-x-12 gap-y-4">
+                                        {Array.from({ length: Math.ceil(MENU_DATA[openIndex].links.length / 4) }).map((_, cIdx) => (
+                                            <ul key={cIdx} className="flex flex-col gap-3 text-left">
+                                                {MENU_DATA[openIndex].links.slice(cIdx * 4, (cIdx + 1) * 4).map((link, lIdx) => (
+                                                    <li key={lIdx}>
+                                                        <Link
+                                                            to={`/products?category=${encodeURIComponent(link)}`}
+                                                            className="text-sm font-medium text-gray-500 hover:text-[#7a51a0] transition-colors relative group inline-block whitespace-nowrap"
+                                                            onClick={() => setOpenIndex(null)}
+                                                        >
+                                                            {link}
+                                                            <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#7a51a0] transition-all group-hover:w-full"></span>
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <ul className="flex flex-col gap-3 text-center">
+                                        {MENU_DATA[openIndex].links.map((link, lIdx) => (
+                                            <li key={lIdx}>
+                                                <Link
+                                                    to={`/products?category=${encodeURIComponent(link)}`}
+                                                    className="text-sm font-medium text-gray-500 hover:text-[#7a51a0] transition-colors relative group inline-block whitespace-nowrap"
+                                                    onClick={() => setOpenIndex(null)}
+                                                >
+                                                    {link}
+                                                    <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#7a51a0] transition-all group-hover:w-full"></span>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </div>
                         </div>
                     </motion.div>
