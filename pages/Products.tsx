@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 
 import {
   Search,
   SlidersHorizontal, X, RotateCcw,
-  LayoutGrid, List, ChevronDown
+  LayoutGrid, List, ChevronDown, Truck
 } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
 import { useCart } from '../context/CartProvider';
@@ -32,6 +33,11 @@ function useDebounce<T>(value: T, delay: number): T {
 const Products: React.FC = () => {
   const { addToCart, products: contextProducts, isLoading: contextLoading } = useCart();
   const { searchTerm: globalSearchTerm, setSearchTerm: setGlobalSearchTerm } = useSearch();
+  const [searchParams] = useSearchParams();
+
+  const categoryParam = searchParams.get('category');
+  const AVAILABLE_CATEGORIES = ["Formal Shoes", "Casual Shoes", "Sports Shoes", "Sneakers"];
+  const isComingSoon = categoryParam && !AVAILABLE_CATEGORIES.includes(categoryParam);
 
   // State
   // Use context products directly. 
@@ -495,6 +501,41 @@ const Products: React.FC = () => {
             {loading ? (
               <div className="flex justify-center py-40">
                 <LoadingSpinner size="lg" message="Loading inventory..." color="#6366f1" />
+              </div>
+            ) : isComingSoon ? (
+              <div className="flex flex-col items-center justify-center py-20">
+                <div className="bg-white border border-gray-100 rounded-3xl p-10 max-w-sm w-full text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
+
+                  {/* Subtle top accent line */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-100 via-[#7a51a0] to-purple-100 opacity-50" />
+
+                  {/* Icon Area */}
+                  <div className="w-16 h-16 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6 relative overflow-hidden border border-gray-100">
+                    <motion.div
+                      animate={{ x: ["-100%", "250%"] }}
+                      transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
+                      className="text-[#7a51a0]"
+                    >
+                      <Truck size={24} strokeWidth={1.5} />
+                    </motion.div>
+                  </div>
+
+                  {/* Minimal Text */}
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight">
+                    {categoryParam}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-8 font-medium">
+                    This collection is arriving soon. We're currently building the inventory.
+                  </p>
+
+                  {/* Simple Button */}
+                  <button
+                    onClick={() => { window.location.href = '/products'; }}
+                    className="w-full py-3.5 bg-gray-900 text-white text-[11px] font-bold uppercase tracking-widest rounded-xl hover:bg-[#7a51a0] transition-colors shadow-sm"
+                  >
+                    Browse Available Styles
+                  </button>
+                </div>
               </div>
             ) : filteredSortedProducts.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-32 text-center">

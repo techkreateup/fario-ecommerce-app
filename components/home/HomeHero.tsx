@@ -10,7 +10,19 @@ import { HomeTicker } from './HomeTicker';
 // ═══════════════════════════════════════════════════════
 
 // Universal Triple-Image Component Pattern
-function TripleSlide({ title, sub, desc, bg, color, accent, images, link, badge }) {
+interface TripleSlideProps {
+    title: string;
+    sub: string;
+    desc: string;
+    bg: string;
+    color: string;
+    accent: string;
+    images: string[];
+    link: string;
+    badge?: string;
+}
+
+function TripleSlide({ title, sub, desc, bg, color, accent, images, link, badge }: TripleSlideProps) {
     return (
         <div className="relative flex flex-col-reverse lg:flex-row items-center overflow-hidden"
             style={{ minHeight: '88vh', background: bg }}>
@@ -22,7 +34,7 @@ function TripleSlide({ title, sub, desc, bg, color, accent, images, link, badge 
                 <p className="text-base italic" style={{ color: accent, fontFamily: 'Georgia, serif' }}>✦ {sub}</p>
                 <h1 className="font-black uppercase leading-[0.85] tracking-tight"
                     style={{ color: color, fontSize: 'clamp(44px, 7vw, 84px)' }}>
-                    {title.split(' ').map((word, i) => (
+                    {title.split(' ').map((word: string, i: number) => (
                         <span key={i} className={i === 1 ? `block text-[${accent}]` : "block"}>{word}</span>
                     ))}
                 </h1>

@@ -60,12 +60,14 @@ export default function Home() {
       {/* AI Sole Match */}
       <HomeSoleMatch />
 
-      {/* Early Access / Waitlist Section */}
-      <HomeEarlyAccess />
+      {/* Fresh Drops / New Arrivals Section */}
+      <HomeFeaturedProducts />
 
       <HomeVideoBreak />
       <HomeEditorial />
-      <HomeFeaturedProducts />
+
+      {/* Early Access / Waitlist Section */}
+      <HomeEarlyAccess />
       <HomeTrustStrip />
       <HomeSpinWheel />
 

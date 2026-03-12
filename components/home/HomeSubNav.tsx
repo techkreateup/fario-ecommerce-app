@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+export const AVAILABLE_CATEGORIES = ["Formal Shoes", "Casual Shoes", "Sports Shoes", "Sneakers"];
+
 const MENU_DATA = [
     {
         title: "Men",
@@ -33,6 +35,25 @@ const MENU_DATA = [
 export const HomeSubNav = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const navRef = useRef<HTMLDivElement>(null);
+
+    const renderLink = (link: string, lIdx: number) => {
+        const isAvailable = AVAILABLE_CATEGORIES.includes(link);
+        return (
+            <li key={lIdx}>
+                <Link
+                    to={`/products?category=${encodeURIComponent(link)}`}
+                    className={`text-sm font-medium transition-colors relative group inline-flex items-center gap-2 whitespace-nowrap ${isAvailable ? 'text-gray-500 hover:text-[#7a51a0]' : 'text-gray-400 hover:text-gray-500'}`}
+                    onClick={() => setOpenIndex(null)}
+                >
+                    {link}
+                    {!isAvailable && (
+                        <span className="text-[8px] font-bold uppercase tracking-wider bg-purple-50 text-purple-400 px-1.5 py-0.5 rounded-sm">Soon</span>
+                    )}
+                    {isAvailable && <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#7a51a0] transition-all group-hover:w-full"></span>}
+                </Link>
+            </li>
+        );
+    };
 
     // Close on click outside
     useEffect(() => {
@@ -97,35 +118,13 @@ export const HomeSubNav = () => {
                                     <div className="flex flex-wrap justify-center gap-x-12 gap-y-4">
                                         {Array.from({ length: Math.ceil(MENU_DATA[openIndex].links.length / 4) }).map((_, cIdx) => (
                                             <ul key={cIdx} className="flex flex-col gap-3 text-left">
-                                                {MENU_DATA[openIndex].links.slice(cIdx * 4, (cIdx + 1) * 4).map((link, lIdx) => (
-                                                    <li key={lIdx}>
-                                                        <Link
-                                                            to={`/products?category=${encodeURIComponent(link)}`}
-                                                            className="text-sm font-medium text-gray-500 hover:text-[#7a51a0] transition-colors relative group inline-block whitespace-nowrap"
-                                                            onClick={() => setOpenIndex(null)}
-                                                        >
-                                                            {link}
-                                                            <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#7a51a0] transition-all group-hover:w-full"></span>
-                                                        </Link>
-                                                    </li>
-                                                ))}
+                                                {MENU_DATA[openIndex].links.slice(cIdx * 4, (cIdx + 1) * 4).map((link, lIdx) => renderLink(link, lIdx))}
                                             </ul>
                                         ))}
                                     </div>
                                 ) : (
                                     <ul className="flex flex-col gap-3 text-center">
-                                        {MENU_DATA[openIndex].links.map((link, lIdx) => (
-                                            <li key={lIdx}>
-                                                <Link
-                                                    to={`/products?category=${encodeURIComponent(link)}`}
-                                                    className="text-sm font-medium text-gray-500 hover:text-[#7a51a0] transition-colors relative group inline-block whitespace-nowrap"
-                                                    onClick={() => setOpenIndex(null)}
-                                                >
-                                                    {link}
-                                                    <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#7a51a0] transition-all group-hover:w-full"></span>
-                                                </Link>
-                                            </li>
-                                        ))}
+                                        {MENU_DATA[openIndex].links.map((link, lIdx) => renderLink(link, lIdx))}
                                     </ul>
                                 )}
                             </div>
