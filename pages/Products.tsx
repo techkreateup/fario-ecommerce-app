@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 import {
   Search,
@@ -34,6 +34,7 @@ const Products: React.FC = () => {
   const { addToCart, products: contextProducts, isLoading: contextLoading } = useCart();
   const { searchTerm: globalSearchTerm, setSearchTerm: setGlobalSearchTerm } = useSearch();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const categoryParam = searchParams.get('category');
   const AVAILABLE_CATEGORIES = ["Formal Shoes", "Casual Shoes", "Sports Shoes", "Sneakers"];
@@ -530,7 +531,7 @@ const Products: React.FC = () => {
 
                   {/* Simple Button */}
                   <button
-                    onClick={() => { window.location.href = '/products'; }}
+                    onClick={() => { navigate('/products'); }}
                     className="w-full py-3.5 bg-gray-900 text-white text-[11px] font-bold uppercase tracking-widest rounded-xl hover:bg-[#7a51a0] transition-colors shadow-sm"
                   >
                     Browse Available Styles
