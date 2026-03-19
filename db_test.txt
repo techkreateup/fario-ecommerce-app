@@ -1,0 +1,5 @@
+content_manifests status: 200
+content_manifests data: [{"id":"838536a8-5c84-47f4-8e14-80f3d938f2fa","code":"WELCOME10","discounttype":"percentage","discountvalue":10,"minordervalue":500,"maxdiscount":1000,"usagelimit":100,"usedcount":0,"isactive":true,"validfrom":"2026-02-18T08:11:02.877796+00:00","validuntil":null,"createdat":"2026-02-18T08:11:02.877796+00:00","updatedat":"2026-02-18T08:11:02.877796+00:00"}]
+
+coupons status: 200
+coupons data: [{"id":"838536a8-5c84-47f4-8e14-80f3d938f2fa","code":"WELCOME10","discounttype":"percentage","discountvalue":10,"minordervalue":500,"maxdiscount":1000,"usagelimit":100,"usedcount":0,"isactive":true,"validfrom":"2026-02-18T08:11:02.877796+00:00","validuntil":null,"createdat":"2026-02-18T08:11:02.877796+00:00","updatedat":"2026-02-18T08:11:02.877796+00:00"}]

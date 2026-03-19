@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupons Verification</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        .loading {
+            background: #e0f2fe;
+            color: #075985;
+            border: 1px solid #7dd3fc;
+        }
+
+        pre {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎟️ Coupons Table Verification</h1>
+    <div id="status" class="status loading">Connecting to Supabase...</div>
+    <div id="result"></div>
+
+    <script>
+        const SUPABASE_URL = 'https://csyiiksxpmbehiiovlbg.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
+
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function verify() {
+            const statusEl = document.getElementById('status');
+            const resultEl = document.getElementById('result');
+
+            try {
+                const { data, error } = await client
+                    .from('coupons')
+                    .select('*')
+                    .limit(5);
+
+                if (error) {
+                    if (error.code === '42P01') {
+                        statusEl.className = 'status error';
+                        statusEl.textContent = '❌ TABLE MISSING: The "coupons" table does not exist.';
+                    } else {
+                        throw error;
+                    }
+                    resultEl.innerHTML = `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+                } else {
+                    statusEl.className = 'status success';
+                    statusEl.textContent = `✅ SUCCESS! Found ${data.length} coupons in the database.`;
+
+                    if (data.length > 0) {
+                        resultEl.innerHTML = `
+                            <h3>Sample Data:</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    } else {
+                        resultEl.innerHTML = '<p>Table exists but is currently empty.</p>';
+                    }
+                }
+            } catch (err) {
+                statusEl.className = 'status error';
+                statusEl.textContent = '❌ CONNECTION FAILED: ' + (err.message || 'Unknown error');
+                resultEl.innerHTML = `<pre>${JSON.stringify(err, null, 2)}</pre>`;
+            }
+        }
+
+        verify();
+    </script>
+</body>
+
+</html>
