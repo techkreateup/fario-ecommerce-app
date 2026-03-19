@@ -51,7 +51,7 @@ interface CartContextType {
 
   // Returns System
   returns: ReturnRequest[];
-  addReturn: (request: ReturnRequest) => void;
+  addReturn: (request: ReturnRequest) => Promise<string | null>;
 
   // Wallet & Loyalty
   walletBalance: number;
@@ -1098,7 +1098,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
           if (!user) {
             toast.error("Please login to request a return");
-            return;
+            return null;
           }
 
           const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
@@ -1112,7 +1112,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             authToken = '';
           }
 
-          const response = await fetch(`${SUPABASE_URL}/rest/v1/returns`, {
+          // Use RPC instead of direct insert to ensure order status and timeline are updated correctly
+          const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/create_return_request`, {
             method: 'POST',
             headers: {
               'apikey': SUPABASE_KEY,
@@ -1122,24 +1123,32 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             },
             cache: 'no-store',
             body: JSON.stringify({
-              id: req.id,
-              user_id: user.id,
-              order_id: req.orderId,
-              items: req.items,
-              reason: req.reason,
-              method: req.method,
-              status: 'Pending',
-              refund_amount: req.refundAmount,
-              created_at: new Date().toISOString()
+              p_order_id: req.orderId,
+              p_user_id: user.id,
+              p_items: req.items,
+              p_reason: req.reason,
+              p_refund_method: req.method === 'credit' ? 'wallet' : 'source'
             })
           });
 
-          if (!response.ok) throw new Error(await response.text());
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: 'Request failed' }));
+            throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+          }
+
+          const result = await response.json();
+          if (result.success === false) {
+            throw new Error(result.message || 'Return request failed');
+          }
 
           toast.success('Return request submitted successfully');
+          setRefreshTrigger(prev => prev + 1); // Trigger refresh of orders list
+          return result.return_id;
         } catch (e: unknown) {
           console.error('Return request failed:', e);
-          toast.error(`Failed to submit return: ${e instanceof Error ? e.message : String(e)}`);
+          const msg = e instanceof Error ? e.message : String(e);
+          toast.error(`Return failed: ${msg}`);
+          throw e; // Re-throw to handle in the component
         }
       },
       submitReview: async (orderId, rating, comment) => {
