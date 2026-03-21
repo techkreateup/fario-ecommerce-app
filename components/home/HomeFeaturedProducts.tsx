@@ -1,132 +1,109 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Heart, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { BG_LIGHT, BG_WHITE, DARK_TXT, PURPLE, MILKY, LIME, PUR_BORDER, E, PRODUCTS, HL3 } from './HomeConstants';
+import { BG_LIGHT, DARK_TXT, PURPLE, E, PRODUCTS } from './HomeConstants';
 import { stg12, fadeUp, maskUp } from './HomeCommon';
-import { Tilt } from './HomeCommon';
 
 const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
     const [hov, setHov] = useState(false);
-    const [wish, setWish] = useState(false);
-    const disc = Math.round((1 - p.price / p.orig) * 100);
-
     return (
         <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ delay: i * 0.07, duration: 0.6, ease: E }}
+            viewport={{ once: true, margin: "-20px" }}
+            transition={{ delay: i * 0.05, duration: 0.5, ease: E }}
+            className="group cursor-pointer flex flex-col"
+            onMouseEnter={() => setHov(true)}
+            onMouseLeave={() => setHov(false)}
         >
-            <Tilt cls="flex-shrink-0 w-[220px] md:w-[300px] snap-start">
-                <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-                    className="rounded-2xl overflow-hidden"
-                    style={{ background: BG_WHITE, border: `1px solid ${PUR_BORDER}`, boxShadow: hov ? '0 20px 50px rgba(122,81,160,0.15)' : '0 4px 20px rgba(122,81,160,0.06)', transition: 'box-shadow 0.3s' }}
-                >
-                    <div className="relative aspect-[3/3.5] md:aspect-[3/4] overflow-hidden">
-                        {p.tag && (
-                            <motion.span className="absolute top-3 left-3 z-20 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
-                                style={{ background: LIME, color: DARK_TXT }}
-                                animate={{ scale: [1, 1.06, 1] }} transition={{ repeat: Infinity, duration: 2 }}
-                            >{p.tag}</motion.span>
-                        )}
-                        <span className="absolute top-3 right-10 z-20 text-[9px] font-black px-2 py-0.5 rounded-full"
-                            style={{ background: `${PURPLE}22`, color: PURPLE }}
-                        >-{disc}%</span>
+            {/* Image Container with exactly 12px border radius -> MyDesignation style */}
+            <div className="relative w-full aspect-[3/4] overflow-hidden rounded-[12px] bg-[#F3F3F3] mb-4">
+                <motion.img
+                    src={p.img}
+                    alt={p.name}
+                    className="w-full h-full object-cover"
+                    animate={{ scale: hov ? 1.05 : 1 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                />
 
-                        <motion.img src={p.img} alt={p.name}
-                            animate={{ opacity: hov ? 0 : 1, scale: hov ? 1.1 : 1 }} transition={{ duration: 0.4 }}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            onError={e => { (e.target as HTMLImageElement).src = HL3.a; }}
-                        />
-                        <motion.img src={p.alt} alt={p.name}
-                            animate={{ opacity: hov ? 1 : 0, scale: hov ? 1 : 0.95 }} transition={{ duration: 0.4 }}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            onError={e => { (e.target as HTMLImageElement).src = HL3.b; }}
-                        />
-                        <motion.div animate={{ opacity: hov ? 1 : 0 }} className="absolute inset-0 pointer-events-none rounded-none"
-                            style={{ boxShadow: `inset 0 0 0 2px ${PURPLE}` }}
-                        />
-                        <motion.button onClick={() => setWish(w => !w)}
-                            whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.7 }}
-                            className="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center rounded-full"
-                            style={{ background: `${BG_WHITE}DD`, backdropFilter: 'blur(12px)' }}
-                        >
-                            <Heart size={13} className={wish ? 'fill-red-400 text-red-400' : ''} style={{ color: wish ? undefined : PURPLE }} />
-                        </motion.button>
-                        <motion.div initial={{ y: '100%' }} animate={{ y: hov ? '0%' : '100%' }}
-                            transition={{ duration: 0.28, ease: E }}
-                            className="absolute bottom-0 inset-x-0 z-20"
-                        >
-                            <button className="w-full py-3 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2"
-                                style={{ background: PURPLE, color: MILKY }}
-                            ><ShoppingBag size={13} /> Add to Cart</button>
-                        </motion.div>
+                {/* Badge top-left */}
+                {p.tag && (
+                    <div className="absolute top-3 left-3 px-2.5 py-1 text-[10px] sm:text-xs font-bold tracking-wider text-white z-10 whitespace-nowrap"
+                         style={{ backgroundColor: DARK_TXT }}>
+                        {p.tag}
                     </div>
-                    <div className="p-3 md:p-5">
-                        <p className="text-[10px] uppercase tracking-[0.25em] mb-1" style={{ color: PURPLE }}>{p.sub}</p>
-                        <h3 className="font-heading font-black uppercase text-sm tracking-wide mb-2" style={{ color: DARK_TXT }}>{p.name}</h3>
-                        <div className="flex items-center gap-2">
-                            <span className="font-bold" style={{ color: DARK_TXT }}>Rs. {p.price.toLocaleString('en-IN')}</span>
-                            <span className="line-through text-xs opacity-40" style={{ color: DARK_TXT }}>Rs. {p.orig.toLocaleString('en-IN')}</span>
-                        </div>
+                )}
+                
+                {/* Sale percentage badge on the right if needed */}
+                {p.orig && (
+                    <div className="absolute top-3 right-3 z-20 text-[9px] font-black px-2 py-0.5 rounded-full"
+                        style={{ background: `${PURPLE}22`, color: PURPLE }}>
+                        -{Math.round((1 - p.price / p.orig) * 100)}%
                     </div>
+                )}
+
+                {/* Add to Cart Overlay on Desktop Hover - MyDesignation Style */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: hov ? 1 : 0, y: hov ? 0 : 20 }}
+                    className="absolute bottom-4 left-0 right-0 justify-center hidden lg:flex z-10"
+                >
+                    <button className="w-[85%] py-3 bg-white text-black font-bold text-xs tracking-widest uppercase shadow-xl hover:bg-[#1a0d2e] hover:text-white transition-colors duration-300 border border-gray-200">
+                        Quick Add
+                    </button>
+                </motion.div>
+            </div>
+
+            {/* Typography details aligned CENTER below image exactly like MyDesignation */}
+            <div className="text-center flex flex-col gap-1.5 px-1">
+                <h3 className="text-sm sm:text-[15px] font-semibold tracking-wide uppercase leading-tight"
+                    style={{ color: DARK_TXT }}>
+                    {p.name}
+                </h3>
+                {p.sub && (
+                    <span className="text-xs font-medium uppercase tracking-widest" style={{ color: PURPLE }}>{p.sub}</span>
+                )}
+                <div className="flex items-center justify-center gap-2 mt-1">
+                    <span className="text-sm font-bold" style={{ color: DARK_TXT }}>
+                        Rs. {p.price.toLocaleString('en-IN')}
+                    </span>
+                    {p.orig && (
+                        <span className="text-xs line-through opacity-50 font-medium text-gray-500">
+                            Rs. {p.orig.toLocaleString('en-IN')}
+                        </span>
+                    )}
                 </div>
-            </Tilt>
+            </div>
         </motion.div>
     );
 };
 
 export const HomeFeaturedProducts = () => {
-    const track = useRef<HTMLDivElement>(null);
-    const [L, setL] = useState(false);
-    const [R, setR] = useState(true);
-    const sync = () => {
-        if (!track.current) return;
-        const { scrollLeft: sl, scrollWidth: sw, clientWidth: cw } = track.current;
-        setL(sl > 4); setR(sl + cw < sw - 5);
-    };
-
     return (
-        <section className="py-12 md:py-24" style={{ background: BG_LIGHT }}>
-            <div className="container mx-auto px-4 md:px-12 lg:px-20">
+        <section className="py-12 md:py-20" style={{ background: BG_LIGHT }}>
+            <div className="container mx-auto px-4 md:px-12 lg:px-20 max-w-[1400px]">
+                {/* Header matching MyDesignation Layout Structure */}
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stg12}
-                    className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 md:mb-14"
+                    className="flex flex-col items-center justify-center mb-10 md:mb-14 text-center"
                 >
-                    <div>
-                        <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.35em] mb-3" style={{ color: PURPLE }}>
-                            Fresh Drops
-                        </motion.p>
-                        <div className="overflow-hidden">
-                            <motion.h2 variants={maskUp}
-                                className="font-heading font-black uppercase tracking-tighter"
-                                style={{ fontSize: 'clamp(28px, 6vw, 80px)', color: DARK_TXT, lineHeight: 0.9 }}
-                            >New<br />Arrivals</motion.h2>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-3 w-full md:w-auto justify-end md:justify-start">
-                        <Link to="/products"
-                            className="hidden md:inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mr-4"
-                            style={{ color: PURPLE }}
-                        >View All <ArrowUpRight size={13} /></Link>
-                        {(['l', 'r'] as const).map(dir => (
-                            <motion.button key={dir}
-                                onClick={() => track.current?.scrollBy({ left: dir === 'l' ? -320 : 320, behavior: 'smooth' })}
-                                whileHover={{ scale: 1.15, background: PURPLE, color: MILKY }}
-                                whileTap={{ scale: 0.85 }}
-                                disabled={dir === 'l' ? !L : !R}
-                                className="w-10 h-10 flex items-center justify-center rounded-full disabled:opacity-20 transition-all"
-                                style={{ border: `1.5px solid ${PUR_BORDER}`, color: PURPLE }}
-                            >{dir === 'l' ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}</motion.button>
-                        ))}
-                    </div>
+                    <motion.h2 variants={maskUp}
+                        className="text-3xl lg:text-4xl font-serif tracking-tight uppercase"
+                        style={{ color: DARK_TXT }}
+                    >Fresh Drops</motion.h2>
+                    <motion.p variants={fadeUp} className="text-sm font-semibold uppercase tracking-[0.2em] mt-2" style={{ color: PURPLE }}>
+                        New Arrivals
+                    </motion.p>
                 </motion.div>
 
-                <div ref={track} onScroll={sync}
-                    className="flex gap-6 overflow-x-auto pb-6 scroll-smooth snap-x"
-                    style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' } as React.CSSProperties}
-                >
+                {/* MyDesignation exactly defined responsive grid */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 mb-10">
                     {PRODUCTS.map((p, i) => <PCard key={p.id} p={p} i={i} />)}
+                </div>
+                
+                <div className="flex justify-center mt-6">
+                    <Link to="/products" className="px-8 py-3 bg-white border border-[#1a0d2e] text-[#1a0d2e] font-bold text-xs tracking-widest uppercase hover:bg-[#1a0d2e] hover:text-white transition-colors duration-300">
+                        View All
+                    </Link>
                 </div>
             </div>
         </section>

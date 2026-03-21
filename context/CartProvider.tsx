@@ -26,11 +26,6 @@ interface CartContextType {
   purgeOrder: (orderId: string) => void;
   archiveOrder: (orderId: string) => void;
   submitReview: (orderId: string, rating: number, comment: string) => void;
-  // Save For Later
-  savedItems: CartItem[];
-  saveForLater: (cartId: string) => void;
-  moveToCart: (cartId: string) => void;
-  removeFromSaved: (cartId: string) => void;
 
   // Catalog Management (Shared between Admin and Client)
   updateProduct: (updatedProduct: EnhancedProduct) => void;
@@ -89,7 +84,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => { productsRef.current = products; }, [products]);
 
   // Restored State Variables
-  const [savedItems, setSavedItems] = useState<CartItem[]>([]);
   const [returns] = useState<ReturnRequest[]>([]);
   const [isLeadPopupOpen, setIsLeadPopupOpen] = useState(false);
   const [hasSubscribed, setHasSubscribed] = useState(false);
@@ -110,8 +104,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.log('📡 Fetching from Supabase via REST API...');
 
         // Direct REST API call - bypasses supabase-js client which hangs in browser
-        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_0JGcI8H61I9z_i3ojVomXw_CM9v3Lgw';
+        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+        if (!SUPABASE_URL || !SUPABASE_KEY) {
+          console.error('Missing Supabase configuration');
+          setIsLoading(false);
+          return;
+        }
 
         const controller = new AbortController();
         const fetchTimeout = setTimeout(() => controller.abort(), 15000); // Reduce to 15s
@@ -248,18 +248,25 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // No LocalStorage initialization - volatile memory for guests
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const lastFetchRef = useRef<Record<string, number>>({});
 
-  // 1. Sync Cart (Supabase for Users, LocalStorage for Guests)
+  // 2. Sync Cart from Supabase
   useEffect(() => {
     let mounted = true;
-
     const fetchCart = async () => {
       if (!user) return;
+      
+      // Guard against rapid re-fetches (max once per 3s per user)
+      const now = Date.now();
+      if ((lastFetchRef.current[`cart-${user.id}`] || 0) > now - 3000) return;
+      lastFetchRef.current[`cart-${user.id}`] = now;
 
       try {
-        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
+        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
         const authToken = session?.access_token || '';
+
+        if (!SUPABASE_URL || !SUPABASE_KEY) throw new Error('Supabase configuration missing');
 
         // Single Query - Supabase JOINS (REST API to avoid SDK hangs)
         const response = await fetch(
@@ -322,16 +329,21 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     fetchCart();
 
     return () => { mounted = false; };
-  }, [user, products, refreshTrigger]);
+  }, [user?.id, refreshTrigger]);
 
 
   // 3. Sync Orders from Supabase (uses own auth listener to avoid race condition)
   useEffect(() => {
     const fetchOrders = async (userId: string) => {
+      // Guard against rapid re-fetches (max once per 5s per user)
+      const now = Date.now();
+      if ((lastFetchRef.current[`orders-${userId}`] || 0) > now - 5000) return;
+      lastFetchRef.current[`orders-${userId}`] = now;
+
       console.log('📦 FETCHING ORDERS for user:', userId);
       try {
-        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
+        const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+        const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
         // Extract auth token from localStorage directly (avoid getSession() hang)
         let authToken = '';
@@ -390,17 +402,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       fetchOrders(user.id);
     }
 
-    // Also listen for auth changes so we catch late SIGNED_IN events
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user?.id && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')) {
-        fetchOrders(session.user.id);
-      } else if (event === 'SIGNED_OUT') {
-        setOrders([]);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [refreshTrigger]);
+    // Data fetching is handled by the dependency on refreshTrigger 
+    // and the manual call in fetchOrders when user changes.
+  }, [user?.id, refreshTrigger]);
 
   // ============================================================================
   // 4. REALTIME SUBSCRIPTIONS (Orders, Cart, Saved Items)
@@ -503,33 +507,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         })
       .subscribe();
 
-    // --- C. SAVED_ITEMS (Wishlist) Realtime ---
-    const savedChannel = supabase
-      .channel(`saved-${userId}`)
-      .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'saved_items', filter: `user_id=eq.${userId}` },
-        (payload: { new: Record<string, any> }) => {
-          console.log('⚡ RT SAVED INSERT:', payload.new.productid);
-          const item = payload.new;
-          const productData = item.productdata || {};
-          setSavedItems(prev => {
-            if (prev.some(i => i.id === item.productid)) return prev;
-            return [...prev, { ...productData, id: item.productid }];
-          });
-        })
-      .on('postgres_changes',
-        { event: 'DELETE', schema: 'public', table: 'saved_items', filter: `user_id=eq.${userId}` },
-        (payload: { old: Record<string, any> }) => {
-          console.log('⚡ RT SAVED DELETE:', payload.old.productid);
-          setSavedItems(prev => prev.filter(i => i.id !== payload.old.productid));
-        })
-      .subscribe();
 
     return () => {
       console.log('🔴 REALTIME: Cleaning up subscriptions');
       ordersChannel.unsubscribe();
       cartChannel.unsubscribe();
-      savedChannel.unsubscribe();
     };
   }, [user?.id]);
 
@@ -668,100 +650,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  // Saved items - keeping existing DB logic but ensuring no local storage fallback
-  const saveForLater = async (cartId: string) => {
-    if (!user) {
-      toast.error('Please login to save items');
-      return;
-    }
-
-    const itemToSave = cartItems.find(item => item.cartId === cartId);
-    if (itemToSave) {
-      // Optimistic Update
-      setCartItems(prev => prev.filter(item => item.cartId !== cartId));
-
-      // 2. DB Sync
-      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
-      const authToken = session?.access_token || '';
-
-      // Remove from Cart DB (REST)
-      await fetch(`${SUPABASE_URL}/rest/v1/cart_items?user_id=eq.${user.id}&product_id=eq.${itemToSave.id}&size=eq.${itemToSave.selectedSize}`, {
-        method: 'DELETE',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`
-        }
-      });
-
-      // Add to Saved DB (REST)
-      const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items`, {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          user_id: user.id,
-          useremail: user.email,
-          productid: itemToSave.id,
-          productdata: itemToSave
-        })
-      });
-
-      if (!response.ok) {
-        toast.error("Failed to save item");
-      } else {
-        toast.info(`${itemToSave.name} saved for later`);
-      }
-    }
-  };
-
-  const moveToCart = async (productId: string) => {
-    if (!user) return;
-
-    const itemToMove = savedItems.find(item => item.id === productId);
-
-    if (itemToMove) {
-      // Add to Cart Logic (calling internal function to handle DB insert)
-      await addToCart(itemToMove, itemToMove.sizes?.[0] || 'OS', itemToMove.colors?.[0] || 'Default');
-
-      // Remove from Saved (REST)
-      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-      const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
-      const authToken = session?.access_token || '';
-
-      await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${authToken || SUPABASE_KEY}`
-        }
-      });
-    }
-  };
-
-  const removeFromSaved = async (productId: string) => {
-    if (!user) return;
-
-    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://csyiiksxpmbehiiovlbg.supabase.co';
-    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzeWlpa3N4cG1iZWhpaW92bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTE1MDgsImV4cCI6MjA4NjYyNzUwOH0.A1i9vqFwd_BsMwtod_uFyR-yJhHGW2Vu7PmacxGT6m4';
-    const authToken = session?.access_token || '';
-
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/saved_items?user_id=eq.${user.id}&productid=eq.${productId}`, {
-      method: 'DELETE',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${authToken || SUPABASE_KEY}`
-      }
-    });
-
-    if (response.ok) {
-      setSavedItems(prev => prev.filter(item => item.id !== productId));
-      toast.info("Item removed from wishlist");
-    }
-  };
 
 
   const placeOrder = async (newOrder: Order): Promise<boolean> => {
@@ -1089,10 +977,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       discountAmount,
       applyCoupon,
       removeCoupon,
-      savedItems,
-      saveForLater,
-      moveToCart,
-      removeFromSaved,
       returns,
       addReturn: async (req) => {
         try {

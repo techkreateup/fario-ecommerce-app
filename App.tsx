@@ -78,30 +78,26 @@ const AuthHandler = () => {
   const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('🔔 App Auth Event:', event);
-      if (event === 'SIGNED_IN') {
-        const isUserAdmin = session?.user?.email === 'reachkreateup@gmail.com' || session?.user?.email === 'kreateuptech@gmail.com';
+    if (isLoading) return;
 
-        // Only redirect if we are on the login page or any path that is essentially a "landing" after auth
-        if (location.pathname === '/login' || location.pathname === '/admin') {
-          if (isUserAdmin) {
-            navigate('/admin/dashboard');
-          } else {
-            navigate('/profile');
-          }
+    // Handle initial redirect/logic if needed on login
+    if (user) {
+      const isUserAdmin = user.email === 'reachkreateup@gmail.com' || user.email === 'kreateuptech@gmail.com';
+      if (location.pathname === '/login' || location.pathname === '/admin') {
+        if (isUserAdmin) {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/profile');
         }
       }
-      if (event === 'SIGNED_OUT') {
-        const protectedPaths = ['/admin', '/profile', '/orders', '/checkout'];
-        if (protectedPaths.some(path => location.pathname.startsWith(path))) {
-          navigate('/');
-        }
+    } else {
+      // Handle logout redirects
+      const protectedPaths = ['/admin', '/profile', '/orders', '/checkout'];
+      if (protectedPaths.some(path => location.pathname.startsWith(path))) {
+        navigate('/');
       }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate, location.pathname]);
+    }
+  }, [user, isLoading, navigate, location.pathname]);
 
   useEffect(() => {
     if (isLoading) return;

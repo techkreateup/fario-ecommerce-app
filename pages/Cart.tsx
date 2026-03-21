@@ -3,6 +3,7 @@ import { ShoppingBag, ChevronRight, CheckCircle2, Gift, Star, TicketPercent, X, 
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartProvider';
+import { useWishlist } from '../context/WishlistContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { validateCoupon } from '../utils/couponUtils';
 
@@ -37,12 +38,11 @@ const Cart: React.FC = () => {
         cartItems,
         updateQuantity,
         removeFromCart,
-        savedItems,
-        saveForLater,
-        moveToCart,
+        addToCart,
         products,
         taxAmount
     } = useCart();
+    const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
 
     // Coupon popup state
     const [showCouponPopup, setShowCouponPopup] = useState(false);
@@ -58,6 +58,20 @@ const Cart: React.FC = () => {
     const [recPage, setRecPage] = useState(1);
     const { user } = useAuth();
     const isAuth = !!user;
+
+    const handleSaveForLater = async (cartId: string) => {
+        const item = cartItems.find(i => i.cartId === cartId);
+        if (item) {
+            await addToWishlist(item as any);
+            removeFromCart(cartId);
+        }
+    };
+
+    const handleMoveToBag = async (product: any) => {
+        if (!product) return;
+        await addToCart(product, product.selectedSize || 'OS', product.selectedColor || 'Default');
+        removeFromWishlist(product.id);
+    };
 
     // Calculations
     const subtotal = useMemo(() =>
@@ -291,7 +305,7 @@ const Cart: React.FC = () => {
                                                     </button>
                                                     <span className="w-px h-3 bg-gray-200" />
                                                     <button
-                                                        onClick={() => saveForLater(item.cartId)}
+                                                        onClick={() => handleSaveForLater(item.cartId)}
                                                         className="hover:text-fario-purple transition-colors"
                                                     >
                                                         Save for later
@@ -312,14 +326,14 @@ const Cart: React.FC = () => {
                                 </div>
 
                                 {/* Saved Items */}
-                                {savedItems.length > 0 ? (
+                                {wishlistItems.length > 0 ? (
                                     <div className="mt-12 pt-8 border-t border-gray-100">
                                         <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                                             Your Items <span className="text-gray-400 font-normal text-base">(Saved for later)</span>
                                         </h2>
                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                            {savedItems.map(item => (
-                                                <div key={item.cartId} className="group bg-white rounded-2xl border border-gray-100 p-4 transition-all hover:border-fario-purple/30 hover:shadow-lg">
+                                            {wishlistItems.map(item => (
+                                                <div key={item.id} className="group bg-white rounded-2xl border border-gray-100 p-4 transition-all hover:border-fario-purple/30 hover:shadow-lg">
                                                     <div className="w-full h-40 bg-gray-50 rounded-xl overflow-hidden mb-4 p-4 relative">
                                                         <img src={item.image} alt={item.name} className="w-full h-full object-contain mix-blend-multiply" />
                                                         <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-[9px] font-bold uppercase tracking-widest text-gray-500">
@@ -330,13 +344,13 @@ const Cart: React.FC = () => {
                                                     <p className="text-xs text-emerald-600 font-bold mb-2">In Stock</p>
                                                     <p className="text-base font-black text-gray-900 mb-3">{formatPrice(item.price)}</p>
                                                     <button
-                                                        onClick={() => moveToCart(item.cartId)}
+                                                        onClick={() => handleMoveToBag(item)}
                                                         className="w-full py-2 rounded-lg bg-gray-900 text-white text-[10px] font-black uppercase tracking-widest hover:bg-fario-purple transition-all"
                                                     >
                                                         Move to Bag
                                                     </button>
                                                     <div className="flex gap-2 mt-3 justify-center">
-                                                        <button onClick={() => removeFromCart(item.cartId)} className="text-[10px] text-gray-400 hover:text-red-500 font-bold uppercase tracking-wide">Delete</button>
+                                                        <button onClick={() => removeFromWishlist(item.id)} className="text-[10px] text-gray-400 hover:text-red-500 font-bold uppercase tracking-wide">Delete</button>
                                                         <button className="text-[10px] text-gray-400 hover:text-fario-purple font-bold uppercase tracking-wide">Compare</button>
                                                     </div>
                                                 </div>

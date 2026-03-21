@@ -10,6 +10,7 @@ import {
     Gift, Home, Briefcase
 } from 'lucide-react';
 import { useCart } from '../../context/CartProvider';
+import { useWishlist } from '../../context/WishlistContext';
 import { useToast } from '../../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import { PRODUCTS, EnhancedProduct } from '../../constants';
@@ -60,7 +61,8 @@ const FAQS = [
 const ProfileDashboard: React.FC = () => {
     const navigate = useNavigate();
     const toast = useToast();
-    const { cartCount, savedItems: wishlistItems, removeFromSaved: removeFromWishlist, addToCart, orders } = useCart();
+    const { cartCount, addToCart, orders } = useCart();
+    const { wishlistItems, removeFromWishlist } = useWishlist();
 
     // Local State
     const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'returns' | 'vault' | 'addresses' | 'payments' | 'settings' | 'help'>('overview');

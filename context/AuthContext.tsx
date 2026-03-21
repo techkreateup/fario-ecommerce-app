@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo, useRef } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 
@@ -21,6 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [sessionState, setSessionState] = useState<any | null>(null);
     const [role, setRole] = useState<UserRole>('user');
     const [isLoading, setIsLoading] = useState(true);
+    const lastTokenRef = useRef<string | null>(null);
 
     const fetchProfile = async (currentUser: User) => {
         try {
@@ -74,10 +75,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                                 const expiresAt = stored.expires_at;
                                 const now = Math.floor(Date.now() / 1000);
 
-                                if (expiresAt && expiresAt > now + 10) { // Give 10s buffer
+                                if (expiresAt && expiresAt > now + 60) { // Relax to 60s buffer
                                     session = stored;
                                 } else {
-                                    console.log('⏳ Stale token detected, waiting for refresh...');
+                                    console.log(`⏳ Token near expiry or stale (expires in ${expiresAt ? expiresAt - now : 'unknown'}s), waiting for SDK refresh...`);
                                 }
                             }
                         }
@@ -112,12 +113,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Listen for Auth Changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('⚡ AUTH CHANGE EVENT:', event);
-
-            // Handle specific events if needed
-            if (event === 'TOKEN_REFRESHED') {
-                console.log('🔄 TOKEN REFRESHED');
+            if (event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+                const newToken = session?.access_token || null;
+                if (newToken === lastTokenRef.current && event === 'TOKEN_REFRESHED') {
+                    // Skip redundant state update if token is identical
+                    return;
+                }
+                lastTokenRef.current = newToken;
             }
+
+            console.log('⚡ AUTH CHANGE EVENT:', event);
 
             if (isAuthMounted) {
                 const currentUser = session?.user ?? null;
@@ -125,15 +130,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setSessionState(session);
 
                 if (currentUser) {
-                    // Non-blocking fetch so UI can render immediately
                     fetchProfile(currentUser).catch(err => console.error('Profile fetch error:', err));
                 } else {
-                    setUser(null);
-                    setSessionState(null);
                     setRole('user');
                 }
-
-                // ALWAYS unblock loading, regardless of profile fetch status
                 setIsLoading(false);
             }
         });
@@ -144,7 +144,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
     }, []);
 
-    const value = {
+    const value = useMemo(() => ({
         user,
         session: sessionState,
         role,
@@ -156,30 +156,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         signOut: async () => {
             console.log('🚪 SIGNING OUT...');
             try {
-                // 1. Clear state immediately
                 setUser(null);
+                setSessionState(null);
                 setRole('user');
+                lastTokenRef.current = null;
 
-                // 2. 🛡️ Force Clear Supabase LocalStorage Tokens
-                // This fixes the "Auto Login on Refresh" bug where the SDK fails to clear the token.
                 Object.keys(localStorage).forEach(key => {
                     if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
-                        console.log(`🧹 Removing stuck token: ${key}`);
                         localStorage.removeItem(key);
                     }
                 });
 
-                // 3. Call SDK SignOut (Best Effort)
-                const { error } = await supabase.auth.signOut();
-                if (error) throw error;
-
-                console.log('✅ SUPABASE SIGNED OUT');
+                await supabase.auth.signOut();
             } catch (err) {
                 console.error('⚠️ SignOut Warning:', err);
-                // Even if network fails, we cleared local storage, so user is effectively logged out.
             }
         }
-    };
+    }), [user, sessionState, role, isLoading]);
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -11,6 +11,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
         autoRefreshToken: true,
         persistSession: true,
-        detectSessionInUrl: true
+        detectSessionInUrl: true,
+        // @ts-ignore - lockOptions exists in @supabase/auth-js but might missing from local type definitions
+        lockOptions: {
+            acquireTimeout: 15000 // 15s instead of default 10s
+        }
     }
 });
