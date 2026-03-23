@@ -38,7 +38,6 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
             return (
                 <MotionDiv
                     ref={ref}
-                    layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
@@ -146,7 +145,6 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
         return (
             <MotionDiv
                 ref={ref}
-                layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
@@ -171,7 +169,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                                 (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x400?text=Image+Error';
                                 (e.target as HTMLImageElement).style.opacity = '0.7';
                             }}
-                            className={`w-full h-full mix-blend-multiply transition-transform duration-700 group-hover:scale-105 ${hasBackground ? 'object-cover' : 'object-contain'}`}
+                            className={`w-full h-full mix-blend-multiply transition-transform duration-700 group-hover:scale-105 object-contain p-4`}
                         />
                     </div>
 
