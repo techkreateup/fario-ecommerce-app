@@ -7,7 +7,6 @@ import { stg12, fadeUp, maskUp } from './HomeCommon';
 import { Tilt } from './HomeCommon';
 
 const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
-    const [hov, setHov] = useState(false);
     const [wish, setWish] = useState(false);
     const disc = Math.round((1 - p.price / p.orig) * 100);
 
@@ -17,14 +16,13 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ delay: i * 0.07, duration: 0.6, ease: E }}
-            className="flex-shrink-0 w-[220px] md:w-[300px] will-change-transform"
+            className="flex-shrink-0 w-[220px] md:w-[300px]"
         >
-            <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-                className="rounded-2xl overflow-hidden transition-shadow duration-300 h-full"
+            <div className="rounded-2xl overflow-hidden"
                 style={{ 
                     background: BG_WHITE, 
                     border: `1px solid ${PUR_BORDER}`, 
-                    boxShadow: hov ? '0 10px 30px rgba(122,81,160,0.12)' : '0 4px 15px rgba(122,81,160,0.05)',
+                    boxShadow: '0 4px 15px rgba(122,81,160,0.05)'
                 }}
             >
                     <div className="relative aspect-[3/3.5] md:aspect-[3/4] overflow-hidden">
@@ -39,17 +37,15 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                         >-{disc}%</span>
 
                         <motion.img src={p.img} alt={p.name}
-                            animate={{ opacity: hov ? 0 : 1, scale: hov ? 1.05 : 1 }} transition={{ duration: 0.4 }}
-                            className="absolute inset-0 w-full h-full object-contain p-4"
+                            className="absolute inset-0 w-full h-full object-cover active:opacity-0 transition-opacity"
                             onError={e => { (e.target as HTMLImageElement).src = HL3.a; }}
                         />
                         <motion.img src={p.alt} alt={p.name}
-                            animate={{ opacity: hov ? 1 : 0, scale: hov ? 1.05 : 1 }} transition={{ duration: 0.4 }}
-                            className="absolute inset-0 w-full h-full object-contain p-4"
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 active:opacity-100 transition-opacity"
                             onError={e => { (e.target as HTMLImageElement).src = HL3.b; }}
                         />
-                        <motion.div animate={{ opacity: hov ? 1 : 0 }} className="absolute inset-0 pointer-events-none rounded-none"
-                            style={{ boxShadow: `inset 0 0 0 2px ${PURPLE}` }}
+                        <div className="absolute inset-0 pointer-events-none rounded-none"
+                            style={{ boxShadow: `inset 0 0 0 1px ${PUR_BORDER}` }}
                         />
                         <motion.button onClick={() => setWish(w => !w)}
                             whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.7 }}
@@ -58,10 +54,7 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                         >
                             <Heart size={13} className={wish ? 'fill-red-400 text-red-400' : ''} style={{ color: wish ? undefined : PURPLE }} />
                         </motion.button>
-                        <motion.div initial={{ y: '100%' }} animate={{ y: hov ? '0%' : '100%' }}
-                            transition={{ duration: 0.28, ease: E }}
-                            className="absolute bottom-0 inset-x-0 z-20"
-                        >
+                        <motion.div className="absolute bottom-0 inset-x-0 z-20">
                             <button className="w-full py-3 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2"
                                 style={{ background: PURPLE, color: MILKY }}
                             ><ShoppingBag size={13} /> Add to Cart</button>

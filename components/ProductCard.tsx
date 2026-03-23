@@ -13,24 +13,12 @@ interface ProductCardProps {
 const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
     ({ product, viewMode = 'grid', onAddToCart }, ref) => {
         const navigate = useNavigate();
-        const [isHovered, setIsHovered] = useState(false);
         const [currentImageIndex, setCurrentImageIndex] = useState(0);
         const { id, name, price, originalPrice, image, gallery, category, rating, inStock, reviewsCount, gender, tagline, description, colors } = product;
 
-        // Carousel Logic on Hover
-        useEffect(() => {
-            let interval: NodeJS.Timeout;
-            if (isHovered && gallery && gallery.length > 0) {
-                interval = setInterval(() => {
-                    setCurrentImageIndex((prev) => (prev + 1) % (gallery.length + 1));
-                }, 1500);
-            } else {
-                setCurrentImageIndex(0);
-            }
-            return () => clearInterval(interval);
-        }, [isHovered, gallery]);
+        // Static Image (Hover Carousel Disabled for Flow)
+        const displayImage = image;
 
-        const displayImage = currentImageIndex === 0 ? image : gallery?.[currentImageIndex - 1] || image;
         const MotionDiv = (motion as any).div;
         const MotionImg = (motion as any).img;
 
@@ -38,13 +26,12 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
             return (
                 <MotionDiv
                     ref={ref}
+                    layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     onClick={() => navigate(`/products/${id}`)}
-                    className="group flex bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-fario-purple/20 transition-all cursor-pointer min-h-[14rem] md:min-h-[16rem]"
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
+                    className="group flex bg-white border border-gray-100 rounded-2xl overflow-hidden transition-all cursor-pointer min-h-[14rem] md:min-h-[16rem]"
                 >
                     <div className="w-48 md:w-72 bg-gray-50 relative flex-shrink-0 flex items-center justify-center p-6">
                         {!inStock && <div className="absolute top-2 left-2 bg-gray-200 text-gray-500 text-[10px] font-bold px-2 py-1 rounded z-20">SOLD OUT</div>}
@@ -63,7 +50,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                                 console.error(`Failed to load image for ${name}:`, displayImage);
                                 (e.target as HTMLImageElement).style.opacity = '0.3';
                             }}
-                            className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500"
                         />
 
                         {colors && colors.length > 1 && (
@@ -145,13 +132,12 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
         return (
             <MotionDiv
                 ref={ref}
+                layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 onClick={() => navigate(`/products/${id}`)}
-                className="group flex flex-col cursor-pointer bg-white rounded-xl md:rounded-3xl border border-gray-200 shadow-sm hover:border-fario-purple/20 hover:shadow-lg transition-all duration-500 overflow-hidden h-full"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                className="group flex flex-col cursor-pointer bg-white rounded-xl md:rounded-3xl border border-gray-200 shadow-sm transition-all duration-500 overflow-hidden h-full"
                 role="button"
                 tabIndex={0}
             >
@@ -159,18 +145,21 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                 <div className="relative aspect-square bg-gray-50 overflow-hidden border-b border-gray-100">
                     <div className={`absolute inset-0 flex items-center justify-center ${hasBackground ? 'p-0' : 'p-4'}`}>
                         <MotionImg
-                            key={currentImageIndex}
                             src={displayImage || 'https://via.placeholder.com/400x400?text=No+Image'}
                             alt={name}
                             loading="lazy"
                             referrerPolicy="no-referrer"
-                            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-                                console.error(`Failed to load image for ${name}:`, displayImage);
-                                (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x400?text=Image+Error';
-                                (e.target as HTMLImageElement).style.opacity = '0.7';
-                            }}
-                            className={`w-full h-full mix-blend-multiply transition-transform duration-700 group-hover:scale-105 object-contain p-4`}
+                            className={`absolute inset-0 w-full h-full mix-blend-multiply transition-opacity duration-300 active:opacity-0 ${hasBackground ? 'object-cover' : 'object-contain'}`}
                         />
+                        {gallery?.[0] && (
+                            <MotionImg
+                                src={gallery[0]}
+                                alt={name}
+                                loading="lazy"
+                                referrerPolicy="no-referrer"
+                                className={`absolute inset-0 w-full h-full mix-blend-multiply opacity-0 active:opacity-100 transition-opacity duration-300 ${hasBackground ? 'object-cover' : 'object-contain'}`}
+                            />
+                        )}
                     </div>
 
                     {/* Variants Indicator */}
@@ -187,14 +176,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                         </div>
                     )}
 
-                    {/* Carousel Indicators */}
-                    {gallery && gallery.length > 0 && isHovered && (
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1 z-20">
-                            {[0, ...gallery].map((_, idx) => (
-                                <div key={idx} className={`w-1.5 h-1.5 rounded-full transition-all ${idx === currentImageIndex ? 'bg-fario-purple w-3' : 'bg-gray-300'}`} />
-                            ))}
-                        </div>
-                    )}
+                    {/* Carousel Indicators Disabled */}
                 </div>
 
                 {/* METADATA - MOBILE COMPACT / DESKTOP FULL */}
