@@ -1,0 +1,125 @@
+admin/Returns.tsx(6,13): error TS6133: 'Filter' is declared but its value is never read.
+admin/Returns.tsx(6,21): error TS6133: 'ExternalLink' is declared but its value is never read.
+admin/Returns.tsx(9,18): error TS6133: 'AnimatePresence' is declared but its value is never read.
+admin/Settings.tsx(4,21): error TS6133: 'Users' is declared but its value is never read.
+admin/Settings.tsx(10,1): error TS6133: 'useCart' is declared but its value is never read.
+admin/stock/BulkModal.tsx(5,1): error TS6133: 'EnhancedProduct' is declared but its value is never read.
+admin/stock/StockManager.tsx(5,11): error TS6133: 'Filter' is declared but its value is never read.
+admin/stock/StockTable.tsx(5,11): error TS6133: 'MoreHorizontal' is declared but its value is never read.
+admin/stock/StockTable.tsx(33,45): error TS6133: 'onUpdateStock' is declared but its value is never read.
+components/ErrorBoundary.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/CategoryGrid.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/Hero.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/HomeCommon.tsx(1,25): error TS6133: 'useState' is declared but its value is never read.
+components/home/HomeCommon.tsx(1,48): error TS6133: 'useEffect' is declared but its value is never read.
+components/home/HomeCommon.tsx(3,18): error TS6133: 'PURPLE' is declared but its value is never read.
+components/home/HomeCommon.tsx(3,26): error TS6133: 'LIME' is declared but its value is never read.
+components/home/HomeCommon.tsx(3,32): error TS6133: 'MILKY' is declared but its value is never read.
+components/home/HomeCommon.tsx(3,39): error TS6133: 'DARK_TXT' is declared but its value is never read.
+components/home/HomeCommon.tsx(3,49): error TS6133: 'PUR_BORDER' is declared but its value is never read.
+components/home/HomeParallaxVideoReel.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/HomeParallaxVideoReel.tsx(5,7): error TS6133: 'PanelA' is declared but its value is never read.
+components/home/HomeParallaxVideoReel.tsx(42,7): error TS6133: 'ChapterDivider' is declared but its value is never read.
+components/home/HomeParallaxVideoReel.tsx(49,7): error TS6133: 'PanelB' is declared but its value is never read.
+components/home/HomeSocialProof.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/HomeTicker.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/HomeTrustStrip.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/HomeVideoBreak.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/HomeVideoBreak.tsx(3,19): error TS6133: 'LIME' is declared but its value is never read.
+components/home/HomeVideoBreak.tsx(3,25): error TS6133: 'MILKY' is declared but its value is never read.
+components/home/HomeVideoBreak.tsx(4,17): error TS6133: 'SplitText' is declared but its value is never read.
+components/home/HomeVideoSticky.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/HomeVideoSticky.tsx(5,25): error TS6133: 'MILKY' is declared but its value is never read.
+components/home/LookbookGrid.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/MarqueeBanner.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/MediaDump.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/PremiumProductCard.tsx(4,36): error TS6133: 'ArrowRight' is declared but its value is never read.
+components/home/pro/EditorialGrid.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/pro/Hero.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/pro/Marquee.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/pro/ProLookbook.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/home/pro/ProLookbook.tsx(3,16): error TS6133: 'X' is declared but its value is never read.
+components/home/pro/ProLookbook.tsx(3,19): error TS6133: 'ArrowRight' is declared but its value is never read.
+components/home/pro/ProLookbook.tsx(6,11): error TS6196: 'LookbookItem' is declared but never used.
+components/home/pro/ProNewsletter.tsx(3,10): error TS6133: 'Mail' is declared but its value is never read.
+components/home/pro/ProNewsletter.tsx(3,23): error TS6133: 'X' is declared but its value is never read.
+components/home/ProductWall.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/SocialFeed.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/TrendingSlider.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+components/home/VideoShowcase.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+components/Newsletter.tsx(2,1): error TS6133: 'React' is declared but its value is never read.
+components/profile/DashboardRecentOrders.tsx(2,65): error TS6133: 'FileText' is declared but its value is never read.
+components/profile/DashboardRecentOrders.tsx(12,68): error TS6133: 'setActiveTab' is declared but its value is never read.
+components/profile/ProfileRecommendations.tsx(2,10): error TS6133: 'Plus' is declared but its value is never read.
+components/profile/ProfileVault.tsx(3,17): error TS6133: 'ShoppingBag' is declared but its value is never read.
+components/profile/ProfileVault.tsx(3,38): error TS6133: 'ArrowRight' is declared but its value is never read.
+components/QuickViewModal.tsx(4,31): error TS6133: 'Check' is declared but its value is never read.
+debug_raw.ts(12,45): error TS7006: Parameter 'p' implicitly has an 'any' type.
+debug_raw.ts(14,29): error TS7006: Parameter 'row' implicitly has an 'any' type.
+debug_raw.ts(14,34): error TS7006: Parameter 'i' implicitly has an 'any' type.
+pages/About.tsx(6,3): error TS6133: 'Building2' is declared but its value is never read.
+pages/About.tsx(7,11): error TS6133: 'Users' is declared but its value is never read.
+pages/About.tsx(8,3): error TS6133: 'ArrowRight' is declared but its value is never read.
+pages/About.tsx(8,30): error TS6133: 'Globe' is declared but its value is never read.
+pages/account/ProfileAddresses.tsx(5,25): error TS6133: 'AlertCircle' is declared but its value is never read.
+pages/account/ProfileAddresses.tsx(6,28): error TS6133: 'Edit3' is declared but its value is never read.
+pages/account/ProfileAddresses.tsx(7,16): error TS6133: 'Globe' is declared but its value is never read.
+pages/account/ProfileAddresses.tsx(7,23): error TS6133: 'Loader2' is declared but its value is never read.
+pages/account/ProfileAddresses.tsx(40,27): error TS6133: 'error' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(1,38): error TS6133: 'useRef' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(4,5): error TS6133: 'User' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(5,41): error TS6133: 'Filter' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(6,5): error TS6133: 'ChevronRight' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(6,25): error TS6133: 'Trash2' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(8,5): error TS6133: 'ArrowRight' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(8,17): error TS6133: 'Smartphone' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(8,51): error TS6133: 'RefreshCw' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(9,5): error TS6133: 'MoreVertical' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(9,26): error TS6133: 'AlertCircle' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(9,39): error TS6133: 'Copy' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(9,45): error TS6133: 'ExternalLink' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(9,59): error TS6133: 'Calendar' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(10,5): error TS6133: 'Gift' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(10,11): error TS6133: 'Home' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(15,20): error TS6133: 'EnhancedProduct' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(18,1): error TS6192: All imports in import declaration are unused.
+pages/account/ProfileDashboard.tsx(63,13): error TS6133: 'cartCount' is declared but its value is never read.
+pages/account/ProfileDashboard.tsx(239,56): error TS6133: 'idx' is declared but its value is never read.
+pages/account/ProfilePayments.tsx(3,42): error TS6133: 'Wallet' is declared but its value is never read.
+pages/account/ProfilePayments.tsx(3,50): error TS6133: 'Trash2' is declared but its value is never read.
+pages/account/ProfilePayments.tsx(9,11): error TS6133: 'navigate' is declared but its value is never read.
+pages/Contact.tsx(13,9): error TS6133: 'handleSubmit' is declared but its value is never read.
+pages/CustomizerPage.tsx(6,16): error TS6133: 'Wand2' is declared but its value is never read.
+pages/CustomizerPage.tsx(6,23): error TS6133: 'Sparkles' is declared but its value is never read.
+pages/CustomizerPage.tsx(6,33): error TS6133: 'Rotate3d' is declared but its value is never read.
+pages/CustomizerPage.tsx(7,20): error TS6133: 'Maximize2' is declared but its value is never read.
+pages/CustomizerPage.tsx(8,17): error TS6133: 'Info' is declared but its value is never read.
+pages/CustomizerPage.tsx(55,23): error TS6133: 'event' is declared but its value is never read.
+pages/InfoPage.tsx(6,12): error TS6133: 'FileText' is declared but its value is never read.
+pages/InfoPage.tsx(7,35): error TS6133: 'ArrowRight' is declared but its value is never read.
+pages/InfoPage.tsx(8,18): error TS6133: 'AlertTriangle' is declared but its value is never read.
+pages/InfoPage.tsx(9,17): error TS6133: 'Sparkles' is declared but its value is never read.
+pages/InfoPage.tsx(11,4): error TS6133: 'Fingerprint' is declared but its value is never read.
+pages/InfoPage.tsx(11,17): error TS6133: 'Database' is declared but its value is never read.
+pages/InfoPage.tsx(11,27): error TS6133: 'ScanFace' is declared but its value is never read.
+pages/InfoPage.tsx(11,37): error TS6133: 'ScrollText' is declared but its value is never read.
+pages/InfoPage.tsx(14,1): error TS6133: 'ASSETS' is declared but its value is never read.
+pages/InfoPage.tsx(25,10): error TS6133: 'y1' is declared but its value is never read.
+pages/InfoPage.tsx(26,10): error TS6133: 'rotate1' is declared but its value is never read.
+pages/InfoPage.tsx(42,10): error TS6133: 'MotionImg' is declared but its value is never read.
+pages/InfoPage.tsx(589,7): error TS6133: 'BarChart3' is declared but its value is never read.
+pages/InfoPage.tsx(590,7): error TS6133: 'Megaphone' is declared but its value is never read.
+pages/Orders.tsx(69,69): error TS2554: Expected 1 arguments, but got 2.
+pages/Orders.tsx(96,17): error TS2554: Expected 3 arguments, but got 4.
+pages/Orders.tsx(133,17): error TS2345: Argument of type 'OrderItem[]' is not assignable to parameter of type 'void[]'.
+  Type 'OrderItem' is not assignable to type 'void'.
+pages/ProfileDashboard.tsx(125,21): error TS2322: Type '{ activeTab: "orders" | "help" | "addresses" | "overview" | "vault" | "payments" | "settings"; setActiveTab: (tab: any) => void; isAuthenticated: boolean; isMobileMenuOpen: boolean; setIsMobileMenuOpen: Dispatch<...>; }' is not assignable to type 'IntrinsicAttributes & SidebarProps'.
+  Property 'isAuthenticated' does not exist on type 'IntrinsicAttributes & SidebarProps'.
+pages/Wishlist.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+scripts/health_check.ts(3,1): error TS6192: All imports in import declaration are unused.
+scripts/health_check.ts(3,10): error TS2305: Module '"../constants"' has no exported member 'SUPABASE_URL'.
+scripts/health_check.ts(3,24): error TS2305: Module '"../constants"' has no exported member 'SUPABASE_ANON_KEY'.
+scripts/health_check.ts(23,7): error TS6133: 'sbUrl' is declared but its value is never read.
+scripts/health_check.ts(24,7): error TS6133: 'sbKey' is declared but its value is never read.
+scripts/health_check.ts(80,19): error TS6133: 'config' is declared but its value is never read.
+scripts/health_check.ts(89,19): error TS6133: 'profiles' is declared but its value is never read.

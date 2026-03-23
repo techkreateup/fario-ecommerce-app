@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fario Fix: Remove Ghost Stock</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f9f9f9;
+            color: #333;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        .step {
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+
+        .step h3 {
+            margin-top: 0;
+            color: #3498db;
+        }
+
+        button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #219150;
+        }
+
+        .code-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: monospace;
+            margin: 10px 0;
+            font-size: 14px;
+            position: relative;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>👻 Operation: Kill 1016 Ghost</h1>
+        <p>Mapla, since I can't log in to your Google Account, follow these simple steps to fix the database.</p>
+
+        <div class="step">
+            <h3>Step 1: Copy the Fix Code</h3>
+            <p>Click the button below to copy the magic spell.</p>
+            <button onclick="copyCode()">📋 COPY CODE</button>
+            <span id="copyMsg" style="margin-left: 10px; color: #27ae60; display: none;">Copied!</span>
+            <pre class="code-box" id="codeBlock">function fixStockColumns() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('FARIO-PRODUCTS');
+  const data = sheet.getDataRange().getValues();
+  // 1. Identify Stock Columns
+  const headers = data[0];
+  const stockIndices = [];
+  let mainStockIndex = -1;
+  const targetHeader = 'stockQuantity';
+
+  headers.forEach((h, i) => {
+    const clean = String(h).toLowerCase().replace(/\s/g, '');
+    if (['stockquantity', 'stock', 'quantity'].includes(clean)) {
+      stockIndices.push(i);
+      if (String(h) === targetHeader) mainStockIndex = i;
+    }
+  });
+
+  if (stockIndices.length < 2) {
+    Logger.log("No duplicate columns found.");
+    return;
+  }
+
+  // 2. Ensure Main Column
+  if (mainStockIndex === -1) {
+    mainStockIndex = stockIndices[0];
+    sheet.getRange(1, mainStockIndex + 1).setValue(targetHeader);
+  }
+
+  // 3. Merge Values (First Positive Wins)
+  for (let r = 1; r < data.length; r++) {
+    const row = data[r];
+    let bestVal = 0;
+    for (const idx of stockIndices) {
+      if (Number(row[idx]) > 0) {
+        bestVal = row[idx];
+        break;
+      }
+    }
+    data[r][mainStockIndex] = bestVal;
+    stockIndices.forEach(idx => {
+      if (idx !== mainStockIndex) data[r][idx] = '';
+    });
+  }
+
+  // 4. Save & Delete
+  sheet.getRange(1, 1, data.length, data[0].length).setValues(data);
+  const indicesToDelete = stockIndices.filter(i => i !== mainStockIndex).sort((a, b) => b - a);
+  indicesToDelete.forEach(idx => {
+    sheet.deleteColumn(idx + 1);
+  });
+}</pre>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Open Google Script</h3>
+            <p>Go to your <a href="https://script.google.com/home" target="_blank">Google Script Dashboard ↗️</a>.</p>
+            <p>Open the project named <b>"Fario Backend"</b> (or whatever you named it).</p>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Paste & Run</h3>
+            <ol>
+                <li>Click the <b>+</b> icon (top left) → <b>Script</b>.</li>
+                <li>Name it <code>Fix</code>.</li>
+                <li>Paste the code you copied.</li>
+                <li>Click <b>💾 Save</b> (Floppy disk icon).</li>
+                <li>Select <code>fixStockColumns</code> from the dropdown menu (top bar).</li>
+                <li>Click <b>▶️ Run</b>.</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>Step 4: Done!</h3>
+            <p>Once the script finishes, verify your Sheet. The duplicate columns should be gone!</p>
+        </div>
+    </div>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById('codeBlock').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const msg = document.getElementById('copyMsg');
+                msg.style.display = 'inline';
+                setTimeout(() => msg.style.display = 'none', 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>
