@@ -11,13 +11,7 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
     const disc = Math.round((1 - p.price / p.orig) * 100);
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ delay: i * 0.07, duration: 0.6, ease: E }}
-            className="flex-shrink-0 w-[220px] md:w-[300px]"
-        >
+        <div className="flex-shrink-0 w-[220px] md:w-[300px]">
             <div className="rounded-2xl overflow-hidden"
                 style={{ 
                     background: BG_WHITE, 
@@ -27,21 +21,20 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
             >
                     <div className="relative aspect-[3/3.5] md:aspect-[3/4] overflow-hidden">
                         {p.tag && (
-                            <motion.span className="absolute top-3 left-3 z-20 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
-                                style={{ background: LIME, color: DARK_TXT }}
-                                animate={{ scale: [1, 1.06, 1] }} transition={{ repeat: Infinity, duration: 2 }}
-                            >{p.tag}</motion.span>
+                            <span className="absolute top-3 left-3 z-20 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-lime-400 text-black">
+                                {p.tag}
+                            </span>
                         )}
                         <span className="absolute top-3 right-10 z-20 text-[9px] font-black px-2 py-0.5 rounded-full"
                             style={{ background: `${PURPLE}22`, color: PURPLE }}
                         >-{disc}%</span>
 
-                        <motion.img src={p.img} alt={p.name}
-                            className="absolute inset-0 w-full h-full object-cover active:opacity-0 transition-opacity"
+                        <img src={p.img} alt={p.name}
+                            className="absolute inset-0 w-full h-full object-cover active:opacity-0 transition-opacity duration-300"
                             onError={e => { (e.target as HTMLImageElement).src = HL3.a; }}
                         />
-                        <motion.img src={p.alt} alt={p.name}
-                            className="absolute inset-0 w-full h-full object-cover opacity-0 active:opacity-100 transition-opacity"
+                        <img src={p.alt} alt={p.name}
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 active:opacity-100 transition-opacity duration-300"
                             onError={e => { (e.target as HTMLImageElement).src = HL3.b; }}
                         />
                         <div className="absolute inset-0 pointer-events-none rounded-none"
@@ -54,11 +47,11 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                         >
                             <Heart size={13} className={wish ? 'fill-red-400 text-red-400' : ''} style={{ color: wish ? undefined : PURPLE }} />
                         </motion.button>
-                        <motion.div className="absolute bottom-0 inset-x-0 z-20">
+                        <div className="absolute bottom-0 inset-x-0 z-20">
                             <button className="w-full py-3 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2"
                                 style={{ background: PURPLE, color: MILKY }}
                             ><ShoppingBag size={13} /> Add to Cart</button>
-                        </motion.div>
+                        </div>
                     </div>
                     <div className="p-3 md:p-5">
                         <p className="text-[10px] uppercase tracking-[0.25em] mb-1" style={{ color: PURPLE }}>{p.sub}</p>
@@ -69,7 +62,7 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                         </div>
                     </div>
                 </div>
-        </motion.div>
+        </div>
     );
 };
 
@@ -119,8 +112,8 @@ export const HomeFeaturedProducts = () => {
                 </motion.div>
 
                 <div ref={track} onScroll={sync}
-                    className="flex gap-6 overflow-x-auto pb-6 scroll-smooth"
-                    style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' } as React.CSSProperties}
+                    className="flex gap-6 overflow-x-auto pb-6"
+                    style={{ msOverflowStyle: 'none', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
                 >
                     {PRODUCTS.map((p, i) => <PCard key={p.id} p={p} i={i} />)}
                 </div>
