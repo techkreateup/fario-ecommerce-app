@@ -378,8 +378,8 @@ const Products: React.FC = () => {
                 key={size}
                 onClick={() => toggleFilter('sizes', size)}
                 className={`aspect-square rounded-xl flex items-center justify-center text-[12px] font-black transition-all border ${isSelected
-                  ? 'bg-gray-900 text-white border-gray-900 shadow-lg'
-                  : 'bg-white text-gray-400 border-gray-100 hover:border-gray-300 hover:text-gray-900'
+                  ? 'bg-[#1a0d2e] text-white border-[#1a0d2e] shadow-lg'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-[#7a51a0]/30 hover:text-[#1a0d2e]'
                   }`}
               >
                 {cleanSize}
@@ -428,29 +428,29 @@ const Products: React.FC = () => {
         <div className="sticky top-[60px] lg:top-[84px] z-30 bg-white/90 backdrop-blur-md border-b border-gray-100 py-2 lg:py-4 mb-4 flex flex-wrap gap-2 lg:gap-4 items-center justify-between transition-all px-4 md:px-0">
           <div className="flex items-center gap-4 flex-grow max-w-xl">
             <div className="relative w-full group">
-              <Search className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-fario-purple transition-colors" size={18} />
+              <Search className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 text-[#7a51a0] group-focus-within:text-[#1a0d2e] transition-colors" size={18} />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search products..."
-                className="w-full pl-10 sm:pl-8 pr-4 py-1.5 lg:py-2 bg-transparent border-b border-gray-200 text-sm font-black uppercase tracking-widest focus:border-fario-purple outline-none transition-all placeholder:text-gray-500 italic"
+                className="w-full pl-10 sm:pl-8 pr-4 py-1.5 lg:py-2 bg-transparent border-b border-gray-200 text-sm font-black uppercase tracking-widest text-[#1a0d2e] focus:border-[#7a51a0] outline-none transition-all placeholder:text-[#1a0d2e]/40 italic"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Layout</span>
+              <span className="text-[10px] font-black text-[#7a51a0] uppercase tracking-widest">Layout</span>
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'text-fario-purple bg-fario-purple/10' : 'text-gray-300 hover:text-gray-600'}`}
+                className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'text-white bg-[#1a0d2e] shadow-sm' : 'text-gray-400 hover:text-[#1a0d2e]'}`}
               >
                 <LayoutGrid size={18} />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'list' ? 'text-fario-purple bg-fario-purple/10' : 'text-gray-400 hover:text-gray-900'}`}
+                className={`p-1.5 rounded-lg transition-all ${viewMode === 'list' ? 'text-white bg-[#1a0d2e] shadow-sm' : 'text-gray-400 hover:text-[#1a0d2e]'}`}
               >
                 <List size={18} />
               </button>
@@ -461,14 +461,14 @@ const Products: React.FC = () => {
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
-                  className="appearance-none bg-transparent text-[10px] font-black uppercase tracking-widest py-1 pr-6 cursor-pointer focus:outline-none text-black border-none"
+                  className="appearance-none bg-transparent text-[10px] font-black uppercase tracking-widest py-1 pr-6 cursor-pointer focus:outline-none text-[#1a0d2e] border-none"
                 >
                   <option value="newest">Newest First</option>
                   <option value="price-low">Value: Low-High</option>
                   <option value="price-high">Value: High-Low</option>
                   <option value="rating">Top Rated</option>
                 </select>
-                <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500" />
+                <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[#7a51a0]" />
               </div>
             </div>
 
@@ -491,7 +491,7 @@ const Products: React.FC = () => {
               exit={{ height: 0, opacity: 0 }}
               className="flex flex-wrap gap-2 mb-4 lg:mb-8 items-center"
             >
-              <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest mr-2">Active Filters:</span>
+              <span className="text-[9px] font-black text-[#7a51a0] uppercase tracking-widest mr-2">Active Filters:</span>
 
               {filters.categories.map(cat => (
                 <button
@@ -546,7 +546,7 @@ const Products: React.FC = () => {
           {/* DESKTOP SIDEBAR (LEFT SIDE) */}
           <div className="hidden lg:block lg:col-span-3 sticky top-40 space-y-8 pr-4">
             <div className="pb-4 border-b border-gray-100">
-              <h2 className="text-lg font-bold text-gray-900">Filters</h2>
+              <h2 className="text-lg font-bold text-[#1a0d2e]">Filters</h2>
             </div>
             <FilterContent isSidebar={true} />
           </div>
