@@ -72,8 +72,18 @@ const Products: React.FC = () => {
   // Unique Options generation - Hardcoded main categories
   const allCategories = ['MEN', 'WOMEN', 'KIDS', 'SCHOOL'];
 
+  // Dynamic Sub-categories (Collections)
+  const SUB_CATEGORIES: Record<string, string[]> = {
+    'MEN': ['Performance', 'Urban Elite', 'Heritage', 'Trail Master'],
+    'WOMEN': ['Luxe Comfort', 'Gym Ready', 'Everday Chic', 'Power Walk'],
+    'KIDS': ['Playground Pro', 'Active Junior', 'Light-Up Series'],
+    'SCHOOL': ['Uniform Standard', 'Sports Day', 'Black Leather Elite']
+  };
+
   // Define a clean, neat list of top 10 core colors for the filter UI
   const allColors = ['Black', 'White', 'Grey', 'Navy', 'Red', 'Blue', 'Green', 'Purple', 'Orange', 'Olive'];
+
+  const [activeCollections, setActiveCollections] = useState<string[]>([]);
 
   const allSizes = useMemo(() => {
     const sizes = new Set<string>();
@@ -135,12 +145,18 @@ const Products: React.FC = () => {
       );
       const matchSize = filters.sizes.length === 0 || productSizes.some((s: string) => filters.sizes.includes(s));
 
+      const matchCollection = activeCollections.length === 0 || activeCollections.some(col => 
+        name.includes(col.toLowerCase()) || 
+        desc.includes(col.toLowerCase()) || 
+        (p.tagline || '').toLowerCase().includes(col.toLowerCase())
+      );
+
       let matchPrice = true;
       if (filters.priceRange === 'Budget') matchPrice = p.price < 5000;
       if (filters.priceRange === 'Mid') matchPrice = p.price >= 5000 && p.price <= 10000;
       if (filters.priceRange === 'Premium') matchPrice = p.price > 10000;
 
-      return matchSearch && matchCategory && matchColor && matchSize && matchPrice;
+      return matchSearch && matchCategory && matchColor && matchSize && matchPrice && matchCollection;
     });
 
     // Sorting
@@ -197,6 +213,7 @@ const Products: React.FC = () => {
   const clearFilters = () => {
     const reset = { categories: [], colors: [], sizes: [], priceRange: 'All' };
     setFilters(reset);
+    setActiveCollections([]);
     localStorage.setItem('fario_filters', JSON.stringify(reset));
     setSearchTerm('');
   };
@@ -228,6 +245,41 @@ const Products: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Dynamic Collections Section */}
+      <AnimatePresence>
+        {filters.categories.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="space-y-4"
+          >
+            <div className="flex flex-col gap-1">
+              <h3 className="text-[11px] font-black uppercase tracking-widest text-gray-900">Refine Collection</h3>
+              <p className="text-[9px] text-gray-400 font-medium">Specific styles for your selection</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {filters.categories.flatMap(cat => SUB_CATEGORIES[cat] || []).map(sub => (
+                <button
+                  key={sub}
+                  onClick={() => {
+                    setActiveCollections(prev => 
+                      prev.includes(sub) ? prev.filter(s => s !== sub) : [...prev, sub]
+                    );
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all border ${activeCollections.includes(sub)
+                    ? 'bg-fario-purple text-white border-fario-purple shadow-sm'
+                    : 'bg-gray-50 text-gray-400 border-transparent hover:border-gray-200'
+                  }`}
+                >
+                  {sub}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <hr className="border-gray-100" />
 
