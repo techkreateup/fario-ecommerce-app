@@ -91,7 +91,7 @@ export const HomeFeaturedProducts = () => {
         <section className="py-12 md:py-24" style={{ background: BG_LIGHT }}>
             <div className="container mx-auto px-4 md:px-12 lg:px-20">
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stg12}
-                    className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 md:mb-14"
+                    className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 md:mb-14"
                 >
                     <div>
                         <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.35em] mb-3" style={{ color: PURPLE }}>

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useScroll } from 'framer-motion';
 
 // Modular Components
@@ -118,8 +118,6 @@ export default function Home() {
       <HomeEarlyAccess />
       <HomeTrustStrip />
       <HomeSpinWheel />
-
-      <div className="hidden md:block h-20" />
       <HomeCinematicGrid />
 
       {/* Monologue — horizontal scroll story */}

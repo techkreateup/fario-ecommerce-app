@@ -104,7 +104,7 @@ const Header: React.FC = () => {
       <header className={`fixed top-0 left-0 right-0 z-[1000] border-b flex items-center ${headerBg}`}>
         <div className="container mx-auto px-4 md:px-6 lg:px-10 relative flex justify-between items-center">
 
-          <NavLink to="/" className="flex items-center gap-3 lg:gap-4 relative z-[60] group">
+          <NavLink to="/" className="flex-1 flex items-center gap-3 lg:gap-4 relative z-[60] group">
             {/* Mobile logo */}
             <div className="block lg:hidden transition-transform duration-300 group-hover:scale-105">
               <Logo size={56} />
@@ -113,25 +113,23 @@ const Header: React.FC = () => {
             <div className="hidden lg:block transition-transform duration-300 group-hover:scale-105">
               <Logo size={76} />
             </div>
-            <div className="flex flex-col justify-center leading-none">
+            <div className="flex flex-col justify-center leading-none items-start">
               <span className="font-black text-[1.7rem] lg:text-[2.6rem] tracking-tight font-heading text-gray-900 uppercase leading-[0.9]">
                 FARIO
               </span>
-              <span className="text-[7px] lg:text-[9.5px] font-extrabold uppercase tracking-[0.5em] lg:tracking-[0.7em] text-fario-purple mt-1">
+              <span className="text-[7px] lg:text-[9.5px] font-extrabold uppercase tracking-[0.5em] lg:tracking-[0.7em] text-fario-purple mt-1 w-full text-center lg:text-left">
                 STEP IN, STAND OUT
               </span>
             </div>
           </NavLink>
 
-          {/* CENTER NAVIGATION */}
-          <nav className="hidden lg:flex items-center gap-2 absolute left-1/2 -translate-x-1/2" onMouseLeave={() => setHoveredNav(null)}>
+          {/* CENTER NAVIGATION - Use flex-0 to keep it centered between two flex-1 containers */}
+          <nav className="hidden lg:flex items-center justify-center" onMouseLeave={() => setHoveredNav(null)}>
             <div className="flex items-center relative p-1.5 bg-gray-50/50 backdrop-blur-md rounded-full border border-gray-100">
               {NAV_ITEMS.map((item: any) => {
                 const isActive = item.path === '/'
                   ? location.pathname === '/'
                   : location.pathname.startsWith(item.path);
-
-                const isProducts = item.path === '/products';
 
                 return (
                   <div key={item.path} className="relative group" onMouseEnter={() => setHoveredNav(item.path)}>
@@ -158,14 +156,13 @@ const Header: React.FC = () => {
                       )}
                       {item.label}
                     </NavLink>
-
                   </div>
                 )
               })}
             </div>
           </nav>
 
-          <div className="flex items-center gap-4 md:gap-5 relative z-[60]">
+          <div className="flex-1 flex items-center justify-end gap-4 md:gap-5 relative z-[60]">
 
             {/* USER DROPDOWN (Hidden on smallest screens to reduce congestion) */}
             <div className="relative hidden sm:block" ref={profileMenuRef}>

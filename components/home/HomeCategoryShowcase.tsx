@@ -67,10 +67,10 @@ const ProductCard = ({ p, i }: { p: Product; i: number }) => {
 export const HomeCategoryShowcase: React.FC<HomeCategoryShowcaseProps> = ({ title, subtitle, products, bgColor = "#FFFEF5" }) => {
     return (
         <section
-            className="py-12 md:py-20 border-b border-gray-100/50 transition-colors duration-500"
+            className="py-12 md:py-24 border-b border-gray-100/50 transition-colors duration-500"
             style={{ backgroundColor: bgColor }}
         >
-            <div className="container mx-auto px-4 md:px-12 lg:px-24">
+            <div className="container mx-auto px-4 md:px-12 lg:px-20">
                 {/* Neat Headers */}
                 <div className="mb-10 text-center">
                     <motion.div
