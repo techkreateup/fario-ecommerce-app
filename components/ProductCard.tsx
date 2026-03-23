@@ -143,7 +143,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
             >
                 {/* IMAGE GRID UNIT */}
                 <div className="relative aspect-square bg-gray-50 overflow-hidden border-b border-gray-100">
-                    <div className={`absolute inset-0 flex items-center justify-center ${hasBackground ? 'p-0' : 'p-4'}`}>
+                    <div className={`absolute inset-0 flex items-center justify-center ${hasBackground ? 'p-0' : 'p-1 md:p-4'}`}>
                         <MotionImg
                             src={displayImage || 'https://via.placeholder.com/400x400?text=No+Image'}
                             alt={name}

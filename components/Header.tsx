@@ -9,7 +9,7 @@ import {
   X,
   ChevronDown,
   Menu, ArrowRight, Edit3, Heart,
-  Home as HomeIcon, Info, Mail
+  Home as HomeIcon, Info, Mail, Search
 } from 'lucide-react';
 import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
@@ -162,7 +162,13 @@ const Header: React.FC = () => {
             </div>
           </nav>
 
-          <div className="flex-1 flex items-center justify-end gap-4 md:gap-5 relative z-[60]">
+          <div className="flex-1 flex items-center justify-end gap-3 md:gap-5 relative z-[60]">
+            {/* SEARCH ICON - Mobile only, toggles bar */}
+            <button className="lg:hidden p-2.5 text-fario-purple hover:bg-purple-100 rounded-full transition-colors"
+              onClick={() => navigate('/products')}
+            >
+              <Search size={22} />
+            </button>
 
             {/* USER DROPDOWN (Hidden on smallest screens to reduce congestion) */}
             <div className="relative hidden sm:block" ref={profileMenuRef}>
@@ -263,6 +269,19 @@ const Header: React.FC = () => {
             >
               <Menu size={22} />
             </button>
+          </div>
+        </div>
+ 
+        {/* MOBILE SECONDARY ROW: Persistent Search BAR (Amazon Style) */}
+        <div className="lg:hidden w-full px-4 pb-3 pt-1">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a51a0] opacity-60" size={16} />
+            <input
+              type="text"
+              placeholder="Search Fario..."
+              onFocus={() => navigate('/products')}
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-purple-100 rounded-xl text-xs font-bold uppercase tracking-widest text-[#1a0d2e] outline-none shadow-sm placeholder:text-[#1a0d2e]/30"
+            />
           </div>
         </div>
       </header>

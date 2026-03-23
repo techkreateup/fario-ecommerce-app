@@ -30,43 +30,43 @@ function TripleSlide({ title, sub, desc, bg, color, accent, images, link, badge 
                 style={{ background: accent }} />
 
             {/* TEXT */}
-            <div className="relative z-30 w-full lg:w-[40%] px-8 lg:px-20 pb-16 lg:pb-0 pt-8 lg:pt-0 flex flex-col gap-4">
-                <p className="text-base italic" style={{ color: accent, fontFamily: 'Georgia, serif' }}>✦ {sub}</p>
+            <div className="relative z-30 w-full lg:w-[40%] px-6 lg:px-20 pb-16 lg:pb-0 pt-8 lg:pt-0 flex flex-col items-center lg:items-start text-center lg:text-left gap-4">
+                <p className="text-sm lg:text-base italic" style={{ color: accent, fontFamily: 'Georgia, serif' }}>✦ {sub}</p>
                 <h1 className="font-black uppercase leading-[0.85] tracking-tight"
-                    style={{ color: color, fontSize: 'clamp(44px, 7vw, 84px)' }}>
+                    style={{ color: color, fontSize: 'clamp(38px, 8vw, 84px)' }}>
                     {title.split(' ').map((word: string, i: number) => (
                         <span key={i} className={i === 1 ? `block text-[${accent}]` : "block"}>{word}</span>
                     ))}
                 </h1>
-                <p className="text-sm leading-relaxed max-w-sm opacity-70" style={{ color: color }}>
+                <p className="text-[11px] lg:text-sm leading-relaxed max-w-[280px] lg:max-w-sm opacity-70" style={{ color: color }}>
                     {desc}
                 </p>
                 <Link to={link}
-                    className="self-start px-10 py-4 rounded-full font-black text-sm uppercase tracking-[0.15em] text-white hover:scale-105 transition-transform mt-2"
+                    className="self-center lg:self-start px-8 lg:px-10 py-3.5 lg:py-4 rounded-full font-black text-[12px] lg:text-sm uppercase tracking-[0.15em] text-white hover:scale-105 transition-transform mt-2"
                     style={{ background: accent, boxShadow: `0 10px 30px ${accent}66` }}>
                     Explore Store
                 </Link>
             </div>
 
             {/* IMAGES */}
-            <div className="relative z-10 w-full lg:w-[60%] flex items-center justify-center min-h-[50vh] lg:min-h-[75vh] pt-20 lg:pt-0 px-4 lg:px-0">
+            <div className="relative z-10 w-full lg:w-[60%] flex items-center justify-center min-h-[40vh] lg:min-h-[75vh] pt-12 lg:pt-0 px-4 lg:px-0">
                 <div className="relative w-full max-w-[100vw] lg:max-w-none h-full flex items-center justify-center">
-                    {/* Image 1: Bottom Left Staggered */}
-                    <div className="absolute left-0 lg:-left-12 bottom-0 lg:-bottom-10 z-10 lg:scale-95 rotate-[-20deg]">
-                        <img src={images[1]} alt="Side 1" className="w-[50vw] sm:w-[40vw] lg:w-[480px] object-contain drop-shadow-2xl opacity-80 lg:opacity-100" />
+                    {/* Image 1: Bottom Left Staggered - Hidden on XS to avoid clutter */}
+                    <div className="absolute left-[-10%] lg:-left-12 bottom-0 lg:-bottom-10 z-10 scale-75 lg:scale-95 rotate-[-20deg] hidden sm:block">
+                        <img src={images[1]} alt="Side 1" className="w-[50vw] lg:w-[480px] object-contain drop-shadow-2xl opacity-80 lg:opacity-100" />
                     </div>
                     {/* Image 2: Main Center */}
-                    <div className="relative z-20 translate-y-[-10%] lg:translate-y-0">
-                        <img src={images[0]} alt="Main Product" className="w-[85vw] sm:w-[60vw] lg:w-[650px] object-contain drop-shadow-[0_45px_90px_rgba(0,0,0,0.2)]" />
+                    <div className="relative z-20 translate-y-[-5%] lg:translate-y-0">
+                        <img src={images[0]} alt="Main Product" className="w-[85vw] sm:w-[50vw] lg:w-[650px] object-contain drop-shadow-[0_45px_90px_rgba(0,0,0,0.2)]" />
                     </div>
-                    {/* Image 3: Top Right Staggered */}
-                    <div className="absolute right-0 lg:-right-12 top-0 lg:-top-10 z-10 lg:scale-95 rotate-[15deg]">
-                        <img src={images[2]} alt="Side 2" className="w-[50vw] sm:w-[40vw] lg:w-[480px] object-contain drop-shadow-2xl opacity-80 lg:opacity-100" />
+                    {/* Image 3: Top Right Staggered - Hidden on XS to avoid clutter */}
+                    <div className="absolute right-[-10%] lg:-right-12 top-0 lg:-top-10 z-10 scale-75 lg:scale-95 rotate-[15deg] hidden sm:block">
+                        <img src={images[2]} alt="Side 2" className="w-[50vw] lg:w-[480px] object-contain drop-shadow-2xl opacity-80 lg:opacity-100" />
                     </div>
 
                     {badge && (
-                        <div className="absolute top-[10%] lg:top-[20%] right-[10%] bg-white/10 backdrop-blur-md p-2 lg:p-3 rounded-xl lg:rounded-2xl border border-white/20 shadow-2xl hidden md:block">
-                            <p className="text-[10px] font-black uppercase tracking-tighter text-white">{badge}</p>
+                        <div className="absolute top-[5%] lg:top-[20%] right-[5%] bg-white/10 backdrop-blur-md p-1.5 lg:p-3 rounded-lg lg:rounded-2xl border border-white/20 shadow-2xl hidden md:block">
+                            <p className="text-[9px] font-black uppercase tracking-tighter text-white">{badge}</p>
                         </div>
                     )}
                 </div>

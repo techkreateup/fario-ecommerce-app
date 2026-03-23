@@ -133,9 +133,9 @@ const Footer: React.FC = () => {
           </MotionDiv>
         </div>
 
-        <div className="border-t border-white/10 pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
+        <div className="border-t border-white/10 pt-8 text-center flex flex-col md:flex-row justify-between items-center text-gray-400 text-[10px] md:text-xs">
           <p>© {new Date().getFullYear()} FARIO. All rights reserved.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
+          <div className="flex gap-6 mt-4 md:mt-0 font-bold uppercase tracking-widest">
             <span>Made with ♥ in Coimbatore</span>
           </div>
         </div>

@@ -40,7 +40,7 @@ export const HomeEarlyAccess: React.FC = () => {
             </div>
 
             <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div className="flex flex-col lg:grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
                     
                     {/* LEFT COLUMN: Narrative & Trust */}
                     <div className="lg:col-span-7">
@@ -61,13 +61,14 @@ export const HomeEarlyAccess: React.FC = () => {
                             </p>
 
                             {/* Stats Grid */}
-                            <div className="grid grid-cols-3 gap-6 md:gap-10">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 md:gap-10">
                                 {stats.map((s, i) => (
                                     <motion.div 
                                         key={s.label}
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2 + (i * 0.1), duration: 0.5 }}
+                                        className={i === 2 ? "col-span-2 sm:col-span-1" : ""}
                                     >
                                         <div className="text-3xl md:text-4xl font-black text-white mb-1 font-heading italic">{s.value}</div>
                                         <div className="text-[10px] font-black uppercase tracking-widest text-lime-400/80">{s.label}</div>
