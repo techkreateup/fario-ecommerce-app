@@ -70,14 +70,16 @@ const Products: React.FC = () => {
   // Wishlist state moved to CartContext
 
   // Unique Options generation - Hardcoded main categories
-  const allCategories = ['MEN', 'WOMEN', 'KIDS', 'SCHOOL'];
+  const allCategories = ['MEN', 'WOMEN', 'KIDS', 'SCHOOL', 'BAGS / ACCESSORIES', 'SALE / NEW ARRIVALS'];
 
   // Dynamic Sub-categories (Collections)
   const SUB_CATEGORIES: Record<string, string[]> = {
     'MEN': ['Performance', 'Urban Elite', 'Heritage', 'Trail Master'],
-    'WOMEN': ['Luxe Comfort', 'Gym Ready', 'Everday Chic', 'Power Walk'],
+    'WOMEN': ['Luxe Comfort', 'Gym Ready', 'Everyday Chic', 'Power Walk'],
     'KIDS': ['Playground Pro', 'Active Junior', 'Light-Up Series'],
-    'SCHOOL': ['Uniform Standard', 'Sports Day', 'Black Leather Elite']
+    'SCHOOL': ['Uniform Standard', 'Sports Day', 'Black Leather Elite'],
+    'BAGS / ACCESSORIES': ['Backpacks', 'Duffels', 'Tech Pouches', 'Wallets', 'Caps & Belts'],
+    'SALE / NEW ARRIVALS': ['Last Chance', 'Seasonal Drop', 'Limited Edition', 'Fresh Arrivals']
   };
 
   // Define a clean, neat list of top 10 core colors for the filter UI
@@ -227,8 +229,8 @@ const Products: React.FC = () => {
       {/* Category Section */}
       <div className="space-y-4">
         <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">Shop by Category</h3>
-          <p className="text-[10px] text-gray-400 font-medium">Filter products by type</p>
+          <h3 className="text-sm font-black uppercase tracking-widest text-[#1a0d2e]">Shop by Category</h3>
+          <p className="text-[10px] text-[#7a51a0] font-bold">Filter products by type</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {allCategories.map(cat => (
@@ -236,8 +238,8 @@ const Products: React.FC = () => {
               key={cat}
               onClick={() => toggleFilter('categories', cat)}
               className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${filters.categories.includes(cat)
-                ? 'bg-gray-900 text-white border-gray-900 shadow-lg scale-105'
-                : 'bg-white text-gray-500 border-gray-100 hover:border-gray-300 hover:text-gray-900'
+                ? 'bg-[#1a0d2e] text-white border-[#1a0d2e] shadow-lg scale-105'
+                : 'bg-white text-gray-700 border-gray-200 hover:border-[#7a51a0]/50 hover:text-[#1a0d2e]'
                 }`}
             >
               {cat}
@@ -256,8 +258,8 @@ const Products: React.FC = () => {
             className="space-y-4"
           >
             <div className="flex flex-col gap-1">
-              <h3 className="text-[11px] font-black uppercase tracking-widest text-gray-900">Refine Collection</h3>
-              <p className="text-[9px] text-gray-400 font-medium">Specific styles for your selection</p>
+              <h3 className="text-[11px] font-black uppercase tracking-widest text-[#1a0d2e]">Refine Collection</h3>
+              <p className="text-[9px] text-[#7a51a0] font-bold">Specific styles for your selection</p>
             </div>
             <div className="flex flex-wrap gap-2">
               {filters.categories.flatMap(cat => SUB_CATEGORIES[cat] || []).map(sub => (
@@ -268,9 +270,9 @@ const Products: React.FC = () => {
                       prev.includes(sub) ? prev.filter(s => s !== sub) : [...prev, sub]
                     );
                   }}
-                  className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all border ${activeCollections.includes(sub)
-                    ? 'bg-fario-purple text-white border-fario-purple shadow-sm'
-                    : 'bg-gray-50 text-gray-400 border-transparent hover:border-gray-200'
+                  className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all border ${activeCollections.includes(sub)
+                    ? 'bg-[#7a51a0] text-white border-[#7a51a0] shadow-sm'
+                    : 'bg-gray-100 text-[#1a0d2e]/60 border-transparent hover:border-[#7a51a0]/30'
                   }`}
                 >
                   {sub}
@@ -286,8 +288,8 @@ const Products: React.FC = () => {
       {/* Price Range */}
       <div className="space-y-4">
         <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">Price Range</h3>
-          <p className="text-[10px] text-gray-400 font-medium">Find products within your budget</p>
+          <h3 className="text-sm font-black uppercase tracking-widest text-[#1a0d2e]">Price Range</h3>
+          <p className="text-[10px] text-[#7a51a0] font-bold">Find products within your budget</p>
         </div>
         <div className="space-y-3">
           {['All', 'Budget', 'Mid', 'Premium'].map(range => {
@@ -317,8 +319,8 @@ const Products: React.FC = () => {
       {/* Colors */}
       <div className="space-y-4">
         <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">Available Colors</h3>
-          <p className="text-[10px] text-gray-400 font-medium">Select your preferred color</p>
+          <h3 className="text-sm font-black uppercase tracking-widest text-[#1a0d2e]">Available Colors</h3>
+          <p className="text-[10px] text-[#7a51a0] font-bold">Select your preferred color</p>
         </div>
         <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
           {allColors.map(color => {
@@ -364,8 +366,8 @@ const Products: React.FC = () => {
       {/* Size Grid */}
       <div className="space-y-4">
         <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">Size Selection</h3>
-          <p className="text-[10px] text-gray-400 font-medium">Choose your perfect fit</p>
+          <h3 className="text-sm font-black uppercase tracking-widest text-[#1a0d2e]">Size Selection</h3>
+          <p className="text-[10px] text-[#7a51a0] font-bold">Choose your perfect fit</p>
         </div>
         <div className="grid grid-cols-4 gap-2">
           {allSizes.map(size => {
