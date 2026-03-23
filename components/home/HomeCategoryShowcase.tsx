@@ -68,7 +68,7 @@ export const HomeCategoryShowcase: React.FC<HomeCategoryShowcaseProps> = ({ titl
     return (
         <section
             className="py-12 md:py-24 border-b border-gray-100/50 transition-colors duration-500"
-            style={{ backgroundColor: bgColor }}
+            style={{ background: bgColor }}
         >
             <div className="container mx-auto px-4 md:px-12 lg:px-20">
                 {/* Neat Headers */}

@@ -67,7 +67,7 @@ export default function Home() {
       <HomeCategoryShowcase
         title="Ethnic Lineup"
         subtitle="Heritage Meets Performance"
-        bgColor="#FFF2DF"
+        bgColor="linear-gradient(135deg, #FFF2DF 0%, #F9DCC4 100%)"
         products={[
           { id: 'et1', name: 'Royal Jutti v1', price: 4499, img: 'https://i.pinimg.com/1200x/6d/ae/65/6dae65a3e10973731bf889f145bba4b9.jpg' },
           { id: 'et2', name: 'Maharaja Elite', price: 5999, img: 'https://i.pinimg.com/1200x/31/b9/45/31b94549b339429a6920ee6c8a75890c.jpg' },
@@ -79,7 +79,7 @@ export default function Home() {
       <HomeCategoryShowcase
         title="Casual Daily"
         subtitle="Everyday Essentials"
-        bgColor="#E5F1FF"
+        bgColor="linear-gradient(135deg, #E5F1FF 0%, #C0E4FF 100%)"
         products={[
           { id: 'ca1', name: 'Urban Lite', price: 2499, img: 'https://i.pinimg.com/1200x/a1/7d/9a/a17d9a900eea4d103ca31d2a3d25483c.jpg' },
           { id: 'ca2', name: 'Street Glide', price: 3499, img: 'https://i.pinimg.com/474x/46/84/8a/46848a848742fd7ea4d70d93e2ad4d07.jpg' },
@@ -91,7 +91,7 @@ export default function Home() {
       <HomeCategoryShowcase
         title="Formal Edge"
         subtitle="Executive Performance"
-        bgColor="#F2F2F2"
+        bgColor="linear-gradient(135deg, #F2F2F2 0%, #E0E0E0 100%)"
         products={[
           { id: 'fo1', name: 'Oxen Pro', price: 8499, img: 'https://i.pinimg.com/1200x/d6/a3/8c/d6a38c3cc17309559c2bcbbd0d15de37.jpg' },
           { id: 'fo2', name: 'Derby Stealth', price: 9999, img: 'https://i.pinimg.com/736x/83/70/55/837055da43d0f35d173e140a22f01cec.jpg' },
@@ -103,7 +103,7 @@ export default function Home() {
       <HomeCategoryShowcase
         title="Sports Tech"
         subtitle="Peak Performance"
-        bgColor="#EAFFE5"
+        bgColor="linear-gradient(135deg, #EAFFE5 0%, #D1FFC2 100%)"
         products={[
           { id: 'sp1', name: 'AeroPulse', price: 14999, img: 'https://i.pinimg.com/1200x/ae/f3/da/aef3dac4a6dd157a28445c3d0963a514.jpg' },
           { id: 'sp2', name: 'Nova Runner', price: 12499, img: 'https://i.pinimg.com/1200x/84/5d/68/845d6832ff4678d443f6daa6b76517d3.jpg' },
