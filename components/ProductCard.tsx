@@ -268,4 +268,4 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
 
 ProductCard.displayName = 'ProductCard';
 
-export default ProductCard;
+export default React.memo(ProductCard);
