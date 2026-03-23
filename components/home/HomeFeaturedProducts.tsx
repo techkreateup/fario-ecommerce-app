@@ -17,12 +17,17 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ delay: i * 0.07, duration: 0.6, ease: E }}
+            className="flex-shrink-0 w-[220px] md:w-[300px]"
         >
-            <Tilt cls="flex-shrink-0 w-[220px] md:w-[300px]">
-                <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-                    className="rounded-2xl overflow-hidden"
-                    style={{ background: BG_WHITE, border: `1px solid ${PUR_BORDER}`, boxShadow: hov ? '0 20px 50px rgba(122,81,160,0.15)' : '0 4px 20px rgba(122,81,160,0.06)', transition: 'box-shadow 0.3s' }}
-                >
+            <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+                className="rounded-2xl overflow-hidden transition-all duration-300"
+                style={{ 
+                    background: BG_WHITE, 
+                    border: `1px solid ${PUR_BORDER}`, 
+                    boxShadow: hov ? '0 10px 30px rgba(122,81,160,0.12)' : '0 4px 15px rgba(122,81,160,0.05)',
+                    transform: hov ? 'translateY(-4px)' : 'translateY(0)'
+                }}
+            >
                     <div className="relative aspect-[3/3.5] md:aspect-[3/4] overflow-hidden">
                         {p.tag && (
                             <motion.span className="absolute top-3 left-3 z-20 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
@@ -35,12 +40,12 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                         >-{disc}%</span>
 
                         <motion.img src={p.img} alt={p.name}
-                            animate={{ opacity: hov ? 0 : 1, scale: hov ? 1.1 : 1 }} transition={{ duration: 0.4 }}
+                            animate={{ opacity: hov ? 0 : 1, scale: hov ? 1.05 : 1 }} transition={{ duration: 0.4 }}
                             className="absolute inset-0 w-full h-full object-cover"
                             onError={e => { (e.target as HTMLImageElement).src = HL3.a; }}
                         />
                         <motion.img src={p.alt} alt={p.name}
-                            animate={{ opacity: hov ? 1 : 0, scale: hov ? 1 : 0.95 }} transition={{ duration: 0.4 }}
+                            animate={{ opacity: hov ? 1 : 0, scale: hov ? 1.05 : 1 }} transition={{ duration: 0.4 }}
                             className="absolute inset-0 w-full h-full object-cover"
                             onError={e => { (e.target as HTMLImageElement).src = HL3.b; }}
                         />
@@ -72,7 +77,6 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
                         </div>
                     </div>
                 </div>
-            </Tilt>
         </motion.div>
     );
 };

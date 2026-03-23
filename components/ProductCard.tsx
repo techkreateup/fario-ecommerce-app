@@ -43,7 +43,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     onClick={() => navigate(`/products/${id}`)}
-                    className="group flex bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:border-fario-purple/20 transition-all cursor-pointer min-h-[14rem] md:min-h-[16rem]"
+                    className="group flex bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-fario-purple/20 transition-all cursor-pointer min-h-[14rem] md:min-h-[16rem]"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
@@ -64,7 +64,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                                 console.error(`Failed to load image for ${name}:`, displayImage);
                                 (e.target as HTMLImageElement).style.opacity = '0.3';
                             }}
-                            className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110"
+                            className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
                         />
 
                         {colors && colors.length > 1 && (
@@ -151,7 +151,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 onClick={() => navigate(`/products/${id}`)}
-                className="group flex flex-col cursor-pointer bg-white rounded-xl md:rounded-3xl border border-gray-200 shadow-sm hover:border-fario-purple/30 hover:shadow-xl transition-all duration-500 overflow-hidden h-full"
+                className="group flex flex-col cursor-pointer bg-white rounded-xl md:rounded-3xl border border-gray-200 shadow-sm hover:border-fario-purple/20 hover:shadow-lg transition-all duration-500 overflow-hidden h-full"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 role="button"
