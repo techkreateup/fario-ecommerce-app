@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { HomeTicker } from './HomeTicker';
 
-// High-end Typography & Left-Aligned Text Layout (70/30 Split mapping)
 const SLIDES = [
   {
     id: '1',
@@ -18,7 +17,6 @@ const SLIDES = [
     image: "/fario-ecommerce-app/assets/hero/hero-sneakers-v2.png",
     link: "/products?category=Sneakers",
     btnText: "SHOP SNEAKERS →",
-    accent: "rgba(255,255,255,0.15)"
   },
   {
     id: '2',
@@ -32,7 +30,6 @@ const SLIDES = [
     image: "/fario-ecommerce-app/assets/hero/hero-heels-v2.png",
     link: "/products?category=Heels",
     btnText: "SHOP HEELS →",
-    accent: "rgba(255,255,255,0.15)"
   },
   {
     id: '3',
@@ -46,7 +43,6 @@ const SLIDES = [
     image: "/fario-ecommerce-app/assets/hero/hero-running-v2.png",
     link: "/products?category=Sports",
     btnText: "SHOP RUNNING →",
-    accent: "rgba(255,255,255,0.15)"
   },
   {
     id: '4',
@@ -60,14 +56,13 @@ const SLIDES = [
     image: "/fario-ecommerce-app/assets/hero/hero-casual-v2.png",
     link: "/products?category=Casual",
     btnText: "SHOP CASUAL →",
-    accent: "rgba(255,255,255,0.15)"
   }
 ];
 
 export const HomeHero = () => {
     const [idx, setIdx] = useState(0);
 
-    // Auto slide change exactly every 2000 ms (2 seconds) as requested
+    // Auto slide change exactly every 2000 ms (2 seconds)
     useEffect(() => {
         const t = setInterval(() => setIdx(i => (i + 1) % SLIDES.length), 2000);
         return () => clearInterval(t);
@@ -76,43 +71,57 @@ export const HomeHero = () => {
     const currentSlide = SLIDES[idx];
 
     return (
-        <section className="relative overflow-hidden w-full h-[65vh] md:h-[75vh] lg:h-[900px] bg-[#050505]">
+        <section className="relative overflow-hidden w-full h-[65vh] md:h-[75vh] lg:h-[800px] bg-[#030303]">
             <AnimatePresence mode="wait">
                 <motion.div 
                     key={currentSlide.id}
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 w-full h-full flex"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1.2, ease: 'easeOut' }} // Smooth fade
                 >
-                    {/* Full Width Background Image. Image naturally has product on the right (30%) */}
-                    <div 
-                        className="absolute inset-0 w-full h-full bg-cover bg-center md:bg-[center_right_-5vw] bg-no-repeat"
-                        style={{ backgroundImage: `url(${currentSlide.image})` }}
-                    />
-                    
-                    {/* Subtle Gradient Background Overlay: Heavy left (for text), transparent right (for image overlap) */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#000000]/95 via-[#000000]/50 to-transparent" />
+                    {/* 
+                      RIGHT SIDE IMAGE: Constrained to maintain pixel density.
+                      We use a CSS gradient mask to blend it perfectly into the black background on the left.
+                    */}
+                    <div className="absolute right-0 top-0 w-full md:w-[75%] h-full">
+                        {/* 
+                          Gradient overlay that simulates masking: 
+                          Solid black on the left side fading to transparent on the right, 
+                          creating a seamless blend between CSS background and image. 
+                        */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/80 to-transparent z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent z-10 h-32 bottom-0" />
+                        
+                        <img 
+                            src={currentSlide.image} 
+                            alt="Hero Product"
+                            className="w-full h-full object-cover object-right md:object-center opacity-90"
+                        />
+                    </div>
 
-                    {/* 70% Text Left Container */}
-                    <div className="relative z-20 container mx-auto px-6 lg:px-16 h-full flex flex-col justify-center w-full">
-                        <div className="w-full lg:w-[70%] text-left">
+                    {/* 
+                      LEFT SIDE TEXT: DOM-based for infinite resolution and perfect framing.
+                      Width locked to 60% so it never overflows onto the rigid parts of the image. 
+                    */}
+                    <div className="relative z-20 w-full max-w-[1920px] mx-auto px-6 lg:px-20 h-full flex flex-col justify-center">
+                        <div className="w-full md:w-[65%] lg:w-[60%] text-left mt-10">
                             <motion.h1 
-                                initial={{ x: -30, opacity: 0 }}
+                                initial={{ x: -25, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-white font-black uppercase tracking-tighter leading-[1.05] mb-5 drop-shadow-2xl"
-                                style={{ fontSize: 'clamp(48px, 9vw, 110px)' }}
+                                className="text-white font-black uppercase tracking-tighter leading-[1.05] mb-6"
+                                style={{ fontSize: 'clamp(44px, 8vw, 100px)' }}
                             >
                                 {currentSlide.title}
                             </motion.h1>
                             
                             <motion.p 
-                                initial={{ x: -20, opacity: 0 }}
+                                initial={{ x: -15, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
-                                className="text-white/80 text-[14px] md:text-xl lg:text-[22px] font-medium tracking-wide mb-10 whitespace-pre-line leading-relaxed max-w-xl"
+                                className="text-white/70 text-[15px] md:text-xl lg:text-[22px] font-normal tracking-wide mb-12 whitespace-pre-line leading-relaxed max-w-lg"
                             >
                                 {currentSlide.sub}
                             </motion.p>
@@ -124,10 +133,10 @@ export const HomeHero = () => {
                             >
                                 <Link 
                                     to={currentSlide.link}
-                                    className="inline-flex items-center gap-2 px-10 py-5 bg-white text-black font-black text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all duration-300 transform hover:scale-105 shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
+                                    className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-extrabold text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-neutral-200 transition-all duration-300 shadow-[0_15px_30px_rgba(255,255,255,0.15)]"
                                 >
                                     {currentSlide.btnText.replace(' →', '')}
-                                    <span className="text-lg leading-none transform translate-y-[-1px] font-light">→</span>
+                                    <span className="text-xl leading-none transform translate-y-[-1px] font-light">→</span>
                                 </Link>
                             </motion.div>
                         </div>
@@ -138,27 +147,27 @@ export const HomeHero = () => {
             {/* Navigation buttons */}
             <button 
                 onClick={() => setIdx(i => (i - 1 + SLIDES.length) % SLIDES.length)}
-                className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-none bg-black/20 hover:bg-black/60 backdrop-blur-md flex items-center justify-center transition-all border border-white/10 group hidden md:flex"
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full border border-white/20 hover:bg-white/10 flex items-center justify-center transition-all hidden lg:flex group"
             >
-                <ChevronLeft size={24} className="text-white opacity-70 group-hover:opacity-100 transition-opacity" />
+                <ChevronLeft size={24} className="text-white opacity-50 group-hover:opacity-100 transition-opacity" />
             </button>
             <button 
                 onClick={() => setIdx(i => (i + 1) % SLIDES.length)}
-                className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-none bg-black/20 hover:bg-black/60 backdrop-blur-md flex items-center justify-center transition-all border border-white/10 group hidden md:flex"
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full border border-white/20 hover:bg-white/10 flex items-center justify-center transition-all hidden lg:flex group"
             >
-                <ChevronRight size={24} className="text-white opacity-70 group-hover:opacity-100 transition-opacity" />
+                <ChevronRight size={24} className="text-white opacity-50 group-hover:opacity-100 transition-opacity" />
             </button>
 
             {/* Luxury Minimalist Dot Navigation */}
-            <div className="absolute bottom-[60px] lg:bottom-[80px] left-6 lg:left-16 z-50 flex items-center gap-4">
+            <div className="absolute bottom-12 lg:bottom-16 left-6 lg:left-20 z-50 flex items-center gap-4">
                 {SLIDES.map((s, i) => (
                     <button 
                         key={s.id} 
                         onClick={() => setIdx(i)}
-                        className="relative h-[2px] overflow-hidden transition-all duration-300"
+                        className="relative h-[3px] overflow-hidden transition-all duration-300"
                         style={{
                             width: idx === i ? '60px' : '30px', 
-                            background: 'rgba(255,255,255,0.2)'
+                            background: 'rgba(255,255,255,0.15)'
                         }}
                     >
                         {/* Progress Bar Effect */}
