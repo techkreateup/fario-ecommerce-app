@@ -280,7 +280,7 @@ const ProductDetail: React.FC = () => {
    const MotionImg = (motion as any).img;
 
    return (
-      <div className="pt-20 md:pt-24 pb-32 md:pb-40 min-h-screen bg-white relative selection:bg-fario-purple/30">
+      <div className="pt-16 md:pt-24 pb-36 md:pb-40 min-h-screen bg-white relative selection:bg-fario-purple/30">
 
          {/* SIZE GUIDE MODAL */}
          <AnimatePresence>
@@ -443,7 +443,7 @@ const ProductDetail: React.FC = () => {
                <div className="lg:col-span-7 space-y-4 lg:sticky lg:top-24">
                   {/* Main Image Stage */}
                   <div
-                     className="bg-gray-50 border border-gray-100 rounded-[2rem] relative overflow-hidden aspect-square lg:aspect-[4/3] flex items-center justify-center group cursor-zoom-in"
+                     className="bg-gray-50 border border-gray-100 rounded-2xl md:rounded-[2rem] relative overflow-hidden aspect-square md:aspect-[4/3] flex items-center justify-center group cursor-zoom-in"
                      onMouseMove={handleMouseMove}
                      onMouseEnter={() => setIsZoomed(true)}
                      onMouseLeave={() => setIsZoomed(false)}
@@ -500,8 +500,8 @@ const ProductDetail: React.FC = () => {
                      </div>
                   </div>
 
-                  {/* Thumbnails */}
-                  <div className="flex md:grid overflow-x-auto md:overflow-visible md:grid-cols-7 gap-3 pb-2 md:pb-0 no-scrollbar snap-x">
+                  {/* Thumbnails — horizontal scroll on mobile, grid on md+ */}
+                  <div className="flex overflow-x-auto md:grid md:grid-cols-7 gap-2.5 pb-2 md:pb-0 scrollbar-hide snap-x snap-mandatory">
                      {gallery.map((img: string, idx: number) => (
                         <button
                            key={idx}
@@ -512,7 +512,7 @@ const ProductDetail: React.FC = () => {
                               searchParams.set('color', idx.toString());
                               setSearchParams(searchParams, { replace: true });
                            }}
-                           className={`w-[72px] md:w-auto flex-shrink-0 snap-start aspect-square rounded-xl bg-white border-2 flex items-center justify-center p-2 transition-all overflow-hidden ${activeImage === img ? 'border-fario-purple ring-2 ring-fario-purple/10 scale-105 shadow-md' : 'border-gray-100 hover:border-gray-200'}`}
+                          className={`w-[64px] md:w-auto flex-shrink-0 snap-start aspect-square rounded-xl bg-white border-2 flex items-center justify-center p-1.5 transition-all overflow-hidden ${activeImage === img ? 'border-fario-purple ring-2 ring-fario-purple/10 scale-105 shadow-md' : 'border-gray-100 hover:border-gray-200'}`}
                         >
                            <img src={img || '/placeholder.png'} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                         </button>
@@ -521,7 +521,7 @@ const ProductDetail: React.FC = () => {
                </div>
 
                {/* RIGHT: INFO PANEL */}
-               <div className="lg:col-span-5 flex flex-col h-full pb-16 md:pb-0">
+               <div className="lg:col-span-5 flex flex-col h-full pb-4 md:pb-0">
                   <div className="flex items-center gap-3 mb-4 order-1 lg:order-none">
                      <span className="bg-gray-900 text-white text-[9px] font-black uppercase tracking-[0.3em] px-3 py-1.5 rounded-md shadow-lg">
                         {product.category}
@@ -730,8 +730,8 @@ const ProductDetail: React.FC = () => {
                      </div>
                   </div>
 
-                  {/* Actions */}
-                  <div className="flex gap-4 mt-auto order-10 lg:order-none pt-4 lg:pt-0">
+                  {/* Actions — hidden on mobile (shown in sticky bar), visible on md+ */}
+                  <div className="hidden md:flex gap-4 mt-auto pt-4 lg:pt-0">
                      <Button
                         onClick={handleAddToCart}
                         disabled={!isStockAvailable}
@@ -1121,17 +1121,38 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* MOBILE STICKY BOTTOM BAR */}
-            <div className="fixed bottom-0 left-0 right-0 p-4 pb-24 bg-white/90 backdrop-blur-md border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] md:hidden z-[90]">
-               <div className="flex gap-3">
+            <div className="fixed bottom-0 left-0 right-0 z-[90] md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-8px_32px_rgba(0,0,0,0.08)]"
+              style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
+               <div className="flex items-center gap-3 px-4 pt-3 pb-1">
+                  {/* Price + size info */}
+                  <div className="flex-1 min-w-0">
+                     <div className="flex items-baseline gap-2">
+                        <span className="text-lg font-black text-gray-900">Rs. {product.price}</span>
+                        {product.originalPrice && product.originalPrice > product.price && (
+                           <span className="text-xs text-rose-500 font-bold">{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF</span>
+                        )}
+                     </div>
+                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest truncate">
+                        {selectedSize ? `Size: ${selectedSize}` : 'Select a size above ↑'}
+                     </p>
+                  </div>
+
+                  {/* Wishlist */}
+                  <button onClick={() => toggleWishlist(product)} className="p-3 border-2 border-gray-100 rounded-xl active:scale-95 transition-transform flex-shrink-0">
+                     <Heart size={20} className={isWishlisted ? 'fill-rose-500 text-rose-500' : 'text-gray-400'} />
+                  </button>
+
+                  {/* Add to Cart */}
                   <Button
                      onClick={handleAddToCart}
                      disabled={!isStockAvailable}
-                     className="flex-1 py-4 text-xs font-black uppercase tracking-[0.2em] shadow-lg rounded-xl"
+                     className="flex-shrink-0 px-6 py-3.5 text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg"
                   >
-                     {isStockAvailable ? 'Add to Cart' : 'Sold Out'}
+                     {isStockAvailable ? <><ShoppingCart size={16} /> Add to Cart</> : 'Sold Out'}
                   </Button>
                </div>
             </div>
+
 
          </div>
       </div>

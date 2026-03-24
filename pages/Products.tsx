@@ -402,7 +402,7 @@ const Products: React.FC = () => {
   );
 
   return (
-    <div className="pt-[60px] lg:pt-[74px] pb-10 lg:pb-20 min-h-screen bg-gray-50 font-sans text-gray-800 relative isolate">
+    <div className="pt-[60px] lg:pt-[74px] pb-24 lg:pb-20 min-h-screen bg-gray-50 font-sans text-gray-800 relative isolate">
       {/* EVOLUTION MESH BACKGROUND - CLEAN PERFORMANCE AESTHETIC */}
       <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
         {/* Soft Multi-Tone Atmosphere */}
@@ -424,58 +424,52 @@ const Products: React.FC = () => {
 
       <div className="container mx-auto px-2 md:px-6 max-w-[1600px] relative">
 
-        {/* TOP BAR */}
-        <div className="sticky top-[60px] lg:top-[84px] z-30 bg-white/90 backdrop-blur-md border-b border-gray-100 py-2 lg:py-4 mb-4 flex flex-wrap gap-2 lg:gap-4 items-center justify-between transition-all px-4 md:px-0">
-          <div className="flex items-center gap-4 flex-grow max-w-xl">
-            <div className="relative w-full group">
-              <Search className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 text-[#7a51a0] group-focus-within:text-[#1a0d2e] transition-colors" size={18} />
+        {/* TOP BAR — Mobile-first, single row on mobile, expanded on desktop */}
+        <div className="sticky top-[60px] lg:top-[84px] z-30 bg-white/90 backdrop-blur-md border-b border-gray-100 py-2.5 lg:py-4 mb-4 px-4 md:px-0 transition-all">
+          <div className="flex items-center gap-3 w-full">
+
+            {/* Search — fills available space */}
+            <div className="relative flex-grow min-w-0 group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a51a0] group-focus-within:text-[#1a0d2e] transition-colors pointer-events-none" size={16} />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search products..."
-                className="w-full pl-10 sm:pl-8 pr-4 py-1.5 lg:py-2 bg-transparent border-b border-gray-200 text-sm font-black uppercase tracking-widest text-[#1a0d2e] focus:border-[#7a51a0] outline-none transition-all placeholder:text-[#1a0d2e]/40 italic"
+                className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#1a0d2e] focus:border-[#7a51a0] outline-none transition-all placeholder:text-gray-400"
               />
             </div>
-          </div>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2">
-              <span className="text-[10px] font-black text-[#7a51a0] uppercase tracking-widest">Layout</span>
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'text-white bg-[#1a0d2e] shadow-sm' : 'text-gray-400 hover:text-[#1a0d2e]'}`}
-              >
+            {/* Desktop layout toggle */}
+            <div className="hidden md:flex items-center gap-1.5">
+              <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'text-white bg-[#1a0d2e]' : 'text-gray-400 hover:text-[#1a0d2e]'}`}>
                 <LayoutGrid size={18} />
               </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'list' ? 'text-white bg-[#1a0d2e] shadow-sm' : 'text-gray-400 hover:text-[#1a0d2e]'}`}
-              >
+              <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'list' ? 'text-white bg-[#1a0d2e]' : 'text-gray-400 hover:text-[#1a0d2e]'}`}>
                 <List size={18} />
               </button>
-                        <div className="hidden md:flex items-center gap-2">
-              <div className="relative group">
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value)}
-                  className="appearance-none bg-transparent text-[10px] font-black uppercase tracking-widest py-1 pr-6 cursor-pointer focus:outline-none text-[#1a0d2e] border-none"
-                >
-                  <option value="newest">Newest First</option>
-                  <option value="price-low">Value: Low-High</option>
-                  <option value="price-high">Value: High-Low</option>
-                  <option value="rating">Top Rated</option>
-                </select>
-                <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[#7a51a0]" />
-              </div>
             </div>
 
-            {/* Title / Feed Info for Mobile */}
-            <div className="lg:hidden flex flex-col">
-                 <h1 className="text-sm font-black uppercase tracking-tighter text-[#1a0d2e]">{categoryParam || 'ALL PRODUCTS'}</h1>
-                 <p className="text-[9px] font-bold text-[#7a51a0] uppercase tracking-widest">{filteredSortedProducts.length} STYLES FOUND</p>
+            {/* Desktop sort */}
+            <div className="hidden md:flex relative items-center">
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="appearance-none bg-transparent text-[10px] font-black uppercase tracking-widest py-1 pr-6 cursor-pointer focus:outline-none text-[#1a0d2e] border-none"
+              >
+                <option value="newest">Newest First</option>
+                <option value="price-low">Price: Low-High</option>
+                <option value="price-high">Price: High-Low</option>
+                <option value="rating">Top Rated</option>
+              </select>
+              <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[#7a51a0]" />
             </div>
-          </div>  </div>
+
+            {/* Mobile: product count badge */}
+            <div className="md:hidden flex-shrink-0 text-right">
+              <p className="text-[9px] font-black text-[#7a51a0] uppercase tracking-widest whitespace-nowrap">{filteredSortedProducts.length} items</p>
+            </div>
+          </div>
         </div>
 
         {/* ACTIVE FILTERS BAR */}
@@ -600,7 +594,7 @@ const Products: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className={`relative ${viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-10 px-0.5 sm:px-0' : 'flex flex-col gap-6'}`}>
+              <div className={`relative ${viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6 lg:gap-10 px-1 sm:px-0' : 'flex flex-col gap-4'}`}>
                 <AnimatePresence mode="popLayout">
                   {visibleProducts.map((product, index) => (
                     <ProductCard
