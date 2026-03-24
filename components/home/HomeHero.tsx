@@ -13,7 +13,7 @@ const SLIDES = [
       </>
     ),
     sub: "Discover premium sneakers\nbuilt for comfort, speed\nand everyday fashion.",
-    image: "/fario-ecommerce-app/assets/hero/cot-sneaker.png",
+    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=100&w=2574&auto=format&fit=crop", // Ultra crisp 4k sneaker
     link: "/products?category=Sneakers",
     btnText: "SHOP SNEAKERS →",
     textColor: "text-black",
@@ -30,13 +30,13 @@ const SLIDES = [
       </>
     ),
     sub: "Elegant heels designed\nfor confidence, comfort\nand timeless fashion.",
-    image: "/fario-ecommerce-app/assets/hero/hero-heels-v2.png", // TEMP PLACEHOLDER
+    image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=100&w=2680&auto=format&fit=crop", // Ultra crisp luxury heel
     link: "/products?category=Heels",
     btnText: "SHOP HEELS →",
-    textColor: "text-white", // Temp: v2 image is dark, switch to black when quota allows new generation
-    subColor: "text-neutral-300",
-    bgColor: "bg-[#030303]",
-    btnClass: "bg-white text-black hover:bg-neutral-200"
+    textColor: "text-black", 
+    subColor: "text-neutral-600",
+    bgColor: "bg-[#EAE8E3]", // Elegant warm silk tone
+    btnClass: "bg-black text-white hover:bg-neutral-800"
   },
   {
     id: '3',
@@ -47,12 +47,12 @@ const SLIDES = [
       </>
     ),
     sub: "Performance running shoes\nbuilt for speed, endurance\nand ultimate comfort.",
-    image: "/fario-ecommerce-app/assets/hero/hero-running-v2.png",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=100&w=2670&auto=format&fit=crop", // Iconic high-contrast dark sneaker
     link: "/products?category=Sports",
     btnText: "SHOP RUNNING →",
     textColor: "text-white",
     subColor: "text-neutral-300",
-    bgColor: "bg-[#030303]",
+    bgColor: "bg-[#111111]", // Deep cyberpunk dark
     btnClass: "bg-white text-black hover:bg-neutral-200"
   },
   {
@@ -64,13 +64,13 @@ const SLIDES = [
       </>
     ),
     sub: "Casual footwear made\nfor daily life, style\nand unbeatable comfort.",
-    image: "/fario-ecommerce-app/assets/hero/hero-casual-v2.png", // TEMP PLACEHOLDER
+    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=100&w=2624&auto=format&fit=crop", // Soft casual boot
     link: "/products?category=Casual",
     btnText: "SHOP CASUAL →",
-    textColor: "text-white",
-    subColor: "text-neutral-300",
-    bgColor: "bg-[#030303]",
-    btnClass: "bg-white text-black hover:bg-neutral-200"
+    textColor: "text-black",
+    subColor: "text-neutral-600",
+    bgColor: "bg-[#D9D9D9]", // Soft grey
+    btnClass: "bg-black text-white hover:bg-neutral-800"
   }
 ];
 
@@ -82,7 +82,7 @@ export const HomeHero = () => {
     const currentSlide = SLIDES[idx];
 
     return (
-        <section className={`relative overflow-hidden w-full h-[65vh] md:h-[75vh] lg:h-[800px] transition-colors duration-1000 ${SLIDES[idx].bgColor}`}>
+        <section className={`relative overflow-hidden w-full h-[75vh] min-h-[500px] max-h-[600px] transition-colors duration-1000 ${SLIDES[idx].bgColor}`}>
             <AnimatePresence mode="wait">
                 <motion.div 
                     key={currentSlide.id}
@@ -104,17 +104,22 @@ export const HomeHero = () => {
                     transition={{ duration: 0.8, ease: 'easeOut' }} // Smooth swipe transition
                 >
                     {/* 
-                      FULL BACKGROUND IMAGE (No CSS Masking)
-                      The CoT assets natively incorporate the 70/30 framing, empty space, and lighting logic.
-                      Only a subtle bottom gradient remains for the Ticker readability.
+                      RIGHT SIDE IMAGE MASKED: Ultra-crisp Unsplash 4k photos.
+                      Confined physically to the right 75% to prevent heavy object stretch.
+                      A gradient explicitly blending colors from left to right creates the text space.
                     */}
-                    <div className="absolute inset-0 w-full h-full">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 h-32 bottom-0" />
+                    <div className="absolute right-0 top-0 w-full md:w-[75%] lg:w-[65%] h-full">
+                        {/* The dynamic mask matching the section background colour */}
+                        <div 
+                            className="absolute inset-0 z-10 pointer-events-none" 
+                            style={{ background: 'linear-gradient(to right, currentColor 0%, transparent 60%)', color: 'inherit' }}
+                        ></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 h-32 bottom-0 pointer-events-none" />
                         
                         <img 
                             src={currentSlide.image} 
                             alt="Hero Product"
-                            className="w-full h-full object-cover object-right md:object-center"
+                            className="w-full h-full object-cover object-center lg:object-right-bottom mix-blend-normal"
                         />
                     </div>
 
