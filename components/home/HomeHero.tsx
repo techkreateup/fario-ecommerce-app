@@ -140,31 +140,31 @@ function Slide3() {
 // ── SLIDE 4: Men's - Midnight Force ──
 function Slide4() {
     return (
-        <div className="relative flex flex-col-reverse lg:flex-row items-center overflow-hidden"
-            style={{ minHeight: '88vh', background: '#080C14' }}>
+        <div className="relative flex flex-col-reverse lg:flex-row items-center overflow-hidden min-h-[85vh] lg:min-h-[88vh]"
+            style={{ background: '#080C14' }}>
             <div className="absolute right-0 top-0 h-full flex gap-3 w-full lg:w-[48%] overflow-hidden pointer-events-none opacity-40 lg:opacity-100">
                 {[0.9, 0.65, 0.4, 0.2].map((op, i) => (
                     <div key={i} className="flex-1 h-full" style={{ background: '#3b82f6', opacity: op }} />
                 ))}
             </div>
 
-            <div className="relative z-20 w-full lg:w-[45%] px-8 lg:px-20 pb-16 lg:pb-0 pt-8 lg:pt-0 flex flex-col gap-4">
+            <div className="relative z-20 w-full lg:w-[45%] px-6 lg:px-20 pb-16 lg:pb-0 pt-8 lg:pt-0 flex flex-col items-center lg:items-start text-center lg:text-left gap-4">
                 <p className="text-[10px] font-black uppercase tracking-[0.45em] text-[#3b82f6]">Men's Collection</p>
-                <h1 className="font-black uppercase leading-[0.82] tracking-tight text-white" style={{ fontSize: 'clamp(52px, 9vw, 100px)' }}>
+                <h1 className="font-black uppercase leading-[0.82] tracking-tight text-white" style={{ fontSize: 'clamp(44px, 9vw, 100px)' }}>
                     <span className="block">MIDNIGHT</span>
                     <span className="block text-[#3b82f6]">FORCE</span>
                 </h1>
-                <p className="text-sm leading-relaxed max-w-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    Zero-gravity cushioning. Midnight edition carbon mesh. Only 500 units crafted globally.
+                <p className="text-[11px] lg:text-sm leading-relaxed max-w-[280px] lg:max-w-xs opacity-50 text-white">
+                    Zero-gravity cushioning. Midnight edition carbon mesh. Crafted for the global pioneer.
                 </p>
-                <Link to="/products" className="self-start px-10 py-4 rounded-full font-black text-sm uppercase tracking-[0.15em] hover:scale-105 transition-transform mt-2"
+                <Link to="/products" className="self-center lg:self-start px-10 py-4 rounded-full font-black text-[12px] lg:text-sm uppercase tracking-[0.15em] hover:scale-105 transition-transform mt-2"
                     style={{ background: '#3b82f6', color: '#080C14' }}>Get Yours</Link>
             </div>
 
-            <div className="relative z-10 w-full lg:w-[55%] flex items-center justify-center min-h-[45vh] lg:min-h-screen pt-16 lg:pt-0">
+            <div className="relative z-10 w-full lg:w-[55%] flex items-center justify-center min-h-[40vh] lg:min-h-screen pt-12 lg:pt-0 px-4">
                 <img src="https://lh3.googleusercontent.com/d/1JAkZKl652biLyzUdO5X05Y4s7a1AsqPU"
-                    alt="Midnight Force" className="w-[85%] lg:w-[100%] max-w-[650px] object-contain -rotate-[12deg]"
-                    style={{ filter: 'drop-shadow(0 50px 100px rgba(59,130,246,0.5))' }} />
+                    alt="Midnight Force" className="w-[85vw] lg:w-[100%] max-w-[650px] object-contain -rotate-[8deg] lg:-rotate-[12deg]"
+                    style={{ filter: 'drop-shadow(0 40px 80px rgba(59,130,246,0.4))' }} />
             </div>
         </div>
     );

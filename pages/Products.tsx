@@ -454,9 +454,7 @@ const Products: React.FC = () => {
               >
                 <List size={18} />
               </button>
-            </div>
-
-            <div className="flex items-center gap-2">
+                        <div className="hidden md:flex items-center gap-2">
               <div className="relative group">
                 <select
                   value={sortOption}
@@ -472,14 +470,12 @@ const Products: React.FC = () => {
               </div>
             </div>
 
-            {/* Mobile Filter Toggle */}
-            <button
-              onClick={() => setIsFilterPanelOpen(true)}
-              className="lg:hidden flex items-center justify-center p-2 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors border border-gray-100"
-            >
-              <SlidersHorizontal size={20} />
-            </button>
-          </div>
+            {/* Title / Feed Info for Mobile */}
+            <div className="lg:hidden flex flex-col">
+                 <h1 className="text-sm font-black uppercase tracking-tighter text-[#1a0d2e]">{categoryParam || 'ALL PRODUCTS'}</h1>
+                 <p className="text-[9px] font-bold text-[#7a51a0] uppercase tracking-widest">{filteredSortedProducts.length} STYLES FOUND</p>
+            </div>
+          </div>  </div>
         </div>
 
         {/* ACTIVE FILTERS BAR */}
@@ -604,7 +600,7 @@ const Products: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className={`relative ${viewMode === 'grid' ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-6 md:gap-x-6 md:gap-y-10 px-1 sm:px-0' : 'flex flex-col gap-6'}`}>
+              <div className={`relative ${viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-10 px-0.5 sm:px-0' : 'flex flex-col gap-6'}`}>
                 <AnimatePresence mode="popLayout">
                   {visibleProducts.map((product, index) => (
                     <ProductCard
@@ -622,7 +618,31 @@ const Products: React.FC = () => {
         </div>
       </div>
 
-      {/* MOBILE FILTER MODAL */}
+      {/* MOBILE TACTILE BOTTOM TOOLBAR */}
+      <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[40] flex items-center bg-[#1a0d2e]/95 rounded-full p-1 shadow-[0_20px_40px_rgba(0,0,0,0.4)] border border-white/10 backdrop-blur-xl">
+           <button 
+             onClick={() => setIsFilterPanelOpen(true)}
+             className="flex items-center gap-2 px-6 py-3 text-white border-r border-white/10 active:scale-95 transition-transform"
+           >
+             <SlidersHorizontal size={16} className="text-fario-lime" />
+             <span className="text-[10px] font-black uppercase tracking-widest text-[#f3e8ff]">Filter</span>
+           </button>
+           <div className="relative px-6 py-3 flex items-center gap-2">
+                <ChevronDown size={14} className="text-fario-lime" />
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className="appearance-none bg-transparent text-[10px] font-black uppercase tracking-widest text-[#f3e8ff] focus:outline-none pr-4"
+                >
+                  <option value="newest" className="text-black">Newest</option>
+                  <option value="price-low" className="text-black">Price: Low</option>
+                  <option value="price-high" className="text-black">Price: High</option>
+                  <option value="rating" className="text-black">Rating</option>
+                </select>
+           </div>
+      </div>
+
+      {/* MOBILE FILTER MODAL (RESTORED) */}
       <AnimatePresence>
         {isFilterPanelOpen && (
           <>
@@ -631,28 +651,28 @@ const Products: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsFilterPanelOpen(false)}
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[100] lg:hidden"
+              className="fixed inset-0 bg-black/60 backdrop-blur-md z-[500] lg:hidden"
             />
             <MotionDiv
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white z-[101] shadow-2xl flex flex-col lg:hidden"
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-[85vw] max-w-sm bg-white z-[501] shadow-2xl flex flex-col lg:hidden"
             >
-              <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-900">Filters</h2>
-                <button onClick={() => setIsFilterPanelOpen(false)} className="p-2 hover:bg-gray-50 rounded-full transition-colors">
-                  <X size={20} className="text-gray-500" />
+              <div className="p-6 border-b border-purple-50 flex items-center justify-between">
+                <h2 className="text-lg font-black text-[#1a0d2e] uppercase tracking-tight">Filters</h2>
+                <button onClick={() => setIsFilterPanelOpen(false)} className="p-2 hover:bg-purple-50 rounded-full transition-colors active:scale-90">
+                  <X size={20} className="text-[#7a51a0]" />
                 </button>
               </div>
-              <div className="flex-grow overflow-y-auto p-6">
+              <div className="flex-grow overflow-y-auto p-6 scrollbar-hide">
                 <FilterContent />
               </div>
-              <div className="p-6 border-t border-gray-100 bg-white">
+              <div className="p-6 border-t border-purple-50 bg-white">
                 <button
                   onClick={() => setIsFilterPanelOpen(false)}
-                  className="w-full py-3 bg-gray-900 text-white rounded-lg font-medium text-sm shadow-md active:scale-95 transition-transform"
+                  className="w-full py-4 bg-[#1a0d2e] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl active:scale-95 transition-all"
                 >
                   Show Results
                 </button>

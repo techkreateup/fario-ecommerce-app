@@ -136,8 +136,9 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => navigate(`/products/${id}`)}
-                className="group flex flex-col cursor-pointer bg-white rounded-xl md:rounded-3xl border border-gray-200 shadow-sm transition-all duration-500 overflow-hidden h-full"
+                className="group flex flex-col cursor-pointer bg-white rounded-xl md:rounded-3xl border border-gray-100 shadow-sm transition-all duration-300 overflow-hidden h-full active:bg-gray-50/50"
                 role="button"
                 tabIndex={0}
             >
@@ -169,9 +170,9 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                         </div>
                     )}
 
-                    {/* Status Badge — desktop only */}
+                    {/* Status Badge */}
                     {originalPrice && (
-                        <div className="absolute top-2 left-2 hidden md:block bg-rose-600 text-white px-2 py-1 rounded-sm text-[8px] font-black uppercase tracking-widest z-20 shadow-lg">
+                        <div className="absolute top-2 left-2 bg-rose-600 text-white px-2 py-0.5 md:py-1 rounded-sm text-[7px] md:text-[8px] font-black uppercase tracking-widest z-20 shadow-lg">
                             Sale
                         </div>
                     )}
@@ -183,14 +184,19 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                 <div className="p-2 md:p-4 flex flex-col flex-grow bg-white">
 
                     {/* Mobile: just name + price — clean, Comet-style */}
-                    <div className="md:hidden flex flex-col h-full justify-between gap-0.5">
-                        <h3 className="text-[10px] font-bold text-black leading-tight line-clamp-2">
-                            {name}
-                        </h3>
-                        <div className="flex items-center flex-wrap gap-1 mt-auto">
-                            <span className="text-[11px] font-black text-black tracking-tight">Rs. {price.toLocaleString()}</span>
+                    <div className="md:hidden flex flex-col h-full justify-between gap-1">
+                        <div>
+                            <h3 className="text-[11px] font-extrabold text-[#1a0d2e] leading-tight line-clamp-1">
+                                {name}
+                            </h3>
+                            {tagline && (
+                                <p className="text-[8px] text-gray-400 font-medium uppercase tracking-wider line-clamp-1 mt-0.5">{tagline}</p>
+                            )}
+                        </div>
+                        <div className="flex items-center flex-wrap gap-1.5 mt-auto">
+                            <span className="text-[12px] font-black text-fario-purple tracking-tight">Rs. {price.toLocaleString()}</span>
                             {originalPrice && (
-                                <span className="text-[8px] font-bold text-rose-500 line-through">({Math.round(((originalPrice - price) / originalPrice) * 100)}% off)</span>
+                                <span className="text-[9px] font-bold text-rose-500 line-through">Rs. {originalPrice.toLocaleString()}</span>
                             )}
                         </div>
                     </div>

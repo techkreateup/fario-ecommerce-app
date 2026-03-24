@@ -24,6 +24,7 @@ const Header: React.FC = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
 
   const { user, signOut } = useAuth();
@@ -64,20 +65,18 @@ const Header: React.FC = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsProfileMenuOpen(false);
+    setIsSearchOpen(false);
   }, [location.pathname]);
 
   const handleSignOut = async () => {
-    console.log('🎯 LOGOUT CLICKED');
     try {
       setIsProfileMenuOpen(false);
       await signOut();
-      console.log('👋 LOGOUT SUCCESSFUL');
       if (isAdminPage) {
         navigate('/');
       }
     } catch (err) {
-      console.error('🔥 LOGOUT ATTEMPT FAILED:', err);
-      alert('Sign out encountered an error. Please refresh the page.');
+      console.error('Logout failed:', err);
     }
   };
 
@@ -94,83 +93,59 @@ const Header: React.FC = () => {
   const isAdminPage = location.pathname.startsWith('/admin');
   if (isAdminPage) return null;
 
-  // LIGHT PURPLE THEME
   const headerBg = 'bg-[#f3e8ff]/95 backdrop-blur-xl shadow-sm h-16 lg:h-24 border-b border-purple-200/50';
-  const textColor = 'text-gray-950';
-
 
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-[1000] border-b flex items-center ${headerBg}`}>
-        <div className="container mx-auto px-4 md:px-6 lg:px-10 relative flex justify-between items-center">
+        <div className="container mx-auto px-4 md:px-6 lg:px-10 relative flex justify-between items-center w-full">
 
           <NavLink to="/" className="flex-1 flex items-center gap-3 lg:gap-4 relative z-[60] group">
-            {/* Mobile logo */}
             <div className="block lg:hidden transition-transform duration-300 group-hover:scale-105">
-              <Logo size={56} />
+              <Logo size={48} />
             </div>
-            {/* Desktop logo */}
             <div className="hidden lg:block transition-transform duration-300 group-hover:scale-105">
               <Logo size={76} />
             </div>
             <div className="flex flex-col justify-center leading-none items-start">
-              <span className="font-black text-[1.7rem] lg:text-[2.6rem] tracking-tight font-heading text-gray-900 uppercase leading-[0.9]">
+              <span className="font-black text-[1.4rem] lg:text-[2.6rem] tracking-tight font-heading text-gray-900 uppercase leading-[0.9]">
                 FARIO
               </span>
-              <span className="text-[7px] lg:text-[9.5px] font-extrabold uppercase tracking-[0.5em] lg:tracking-[0.7em] text-fario-purple mt-1 w-full text-center lg:text-left">
+              <span className="text-[6px] lg:text-[9.5px] font-extrabold uppercase tracking-[0.5em] lg:tracking-[0.7em] text-fario-purple mt-1 w-full text-center lg:text-left">
                 STEP IN, STAND OUT
               </span>
             </div>
           </NavLink>
 
-          {/* CENTER NAVIGATION - Use flex-0 to keep it centered between two flex-1 containers */}
-          <nav className="hidden lg:flex items-center justify-center" onMouseLeave={() => setHoveredNav(null)}>
+          {/* DESKTOP NAV */}
+          <nav className="hidden lg:flex items-center justify-center flex-0" onMouseLeave={() => setHoveredNav(null)}>
             <div className="flex items-center relative p-1.5 bg-gray-50/50 backdrop-blur-md rounded-full border border-gray-100">
               {NAV_ITEMS.map((item: any) => {
-                const isActive = item.path === '/'
-                  ? location.pathname === '/'
-                  : location.pathname.startsWith(item.path);
-
+                const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
                 return (
                   <div key={item.path} className="relative group" onMouseEnter={() => setHoveredNav(item.path)}>
-                    <NavLink
-                      to={item.path}
-                      className={`
-                        relative px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 z-10 block
-                        ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-purple-600'}
-                      `}
-                    >
-                      {isActive && (
-                        <MotionDiv
-                          layoutId="nav-pill-compact"
-                          className="absolute inset-0 bg-fario-purple rounded-full z-[-1] shadow-[0_0_20px_rgba(122,81,160,0.3)]"
-                          transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-                        />
-                      )}
-                      {hoveredNav === item.path && !isActive && (
-                        <MotionDiv
-                          layoutId="nav-hover-compact"
-                          className="absolute inset-0 rounded-full z-[-1] bg-fario-purple/5"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.3 }}
-                        />
-                      )}
+                    <NavLink to={item.path} className={`relative px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 z-10 block ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-purple-600'}`}>
+                      {isActive && <MotionDiv layoutId="nav-pill" className="absolute inset-0 bg-fario-purple rounded-full z-[-1]" transition={{ type: "spring", bounce: 0.15, duration: 0.5 }} />}
+                      {hoveredNav === item.path && !isActive && <MotionDiv layoutId="nav-hover" className="absolute inset-0 rounded-full z-[-1] bg-fario-purple/5" transition={{ type: "spring", bounce: 0.2, duration: 0.3 }} />}
                       {item.label}
                     </NavLink>
                   </div>
-                )
+                );
               })}
             </div>
           </nav>
 
-          <div className="flex-1 flex items-center justify-end gap-3 md:gap-5 relative z-[60]">
-            {/* SEARCH ICON - Mobile only, toggles bar */}
-            <button className="lg:hidden p-2.5 text-fario-purple hover:bg-purple-100 rounded-full transition-colors"
-              onClick={() => navigate('/products')}
+          <div className="flex-1 flex items-center justify-end gap-1 md:gap-5 relative z-[60]">
+            {/* SEARCH TOGGLE (MOBILE) */}
+            <button 
+              className="lg:hidden p-3.5 text-fario-purple active:scale-90 transition-transform"
+              onClick={() => setIsSearchOpen(true)}
+              aria-label="Search"
             >
               <Search size={22} />
             </button>
 
-            {/* USER DROPDOWN (Hidden on smallest screens to reduce congestion) */}
+            {/* USER DROPDOWN (DESKTOP) */}
             <div className="relative hidden sm:block" ref={profileMenuRef}>
               <button
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
@@ -192,40 +167,29 @@ const Header: React.FC = () => {
                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full right-0 mt-4 w-72 bg-fario-dark border border-white/10 rounded-[2rem] shadow-[0_30px_60px_rgba(0,0,0,0.5)] overflow-hidden z-[100] origin-top-right backdrop-blur-3xl"
+                    className="absolute top-full right-0 mt-4 w-72 bg-fario-dark border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden z-[100] origin-top-right backdrop-blur-3xl"
                   >
-                    <div className="p-6 bg-gradient-to-br from-fario-dark to-gray-900 text-white relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-fario-purple/20 rounded-full blur-2xl -mr-10 -mt-10" />
-                      <h4 className="text-xl font-black font-heading uppercase italic tracking-tighter relative z-10 leading-none">
-                        {isLoggedIn ? `Hi, ${userProfile?.name?.split(' ')[0]}` : 'LOG REQUIRED'}
+                    <div className="p-6 bg-gradient-to-br from-fario-dark to-gray-900 text-white">
+                      <h4 className="text-xl font-black font-heading uppercase italic tracking-tighter">
+                        {isLoggedIn ? `Hi, ${userProfile?.name?.split(' ')[0]}` : 'ACCESS'}
                       </h4>
-                      <p className="text-[8px] text-fario-lime uppercase font-black tracking-[0.4em] relative z-10 mt-1.5">
-                        {isLoggedIn ? 'Verified Member' : 'Public Node'}
+                      <p className="text-[8px] text-fario-lime uppercase font-black tracking-[0.4em] mt-1.5">
+                        {isLoggedIn ? 'Verified Member' : 'Guest Node'}
                       </p>
                     </div>
-
                     <div className="p-3 space-y-1">
                       {!isLoggedIn ? (
                         <button onClick={() => navigate('/login')} className="w-full flex items-center justify-between px-5 py-4 rounded-2xl hover:bg-white/5 group transition-all">
-                          <div className="flex items-center gap-4">
-                            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-white/40 group-hover:bg-fario-lime group-hover:text-fario-dark transition-all"><User size={16} /></div>
-                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/80">Authorize</span>
-                          </div>
-                          <ArrowRight size={14} className="text-white/20 group-hover:text-fario-lime group-hover:translate-x-1 transition-all" />
+                          <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/80">Authorize</span>
+                          <ArrowRight size={14} className="text-white/20 group-hover:text-fario-lime transition-all" />
                         </button>
                       ) : (
                         <>
                           <button onClick={() => navigate('/profile')} className="w-full flex items-center justify-between px-5 py-4 rounded-2xl hover:bg-white/5 group transition-all">
-                            <div className="flex items-center gap-4">
-                              <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-white/40 group-hover:bg-fario-purple group-hover:text-white transition-all"><Edit3 size={16} /></div>
-                              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/80">Profile</span>
-                            </div>
-                            <ArrowRight size={14} className="text-white/20 group-hover:text-fario-purple group-hover:translate-x-1 transition-all" />
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/80">Profile</span>
+                            <ArrowRight size={14} className="text-white/20 group-hover:text-fario-purple transition-all" />
                           </button>
-                          <div className="h-px bg-white/10 my-2 mx-4" />
                           <button onClick={handleSignOut} className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl hover:bg-rose-500/10 group transition-all">
-                            <div className="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center transition-all group-hover:bg-rose-500 group-hover:text-white"><LogOut size={16} /></div>
                             <span className="text-[9px] font-black uppercase tracking-[0.2em] text-rose-500">End Session</span>
                           </button>
                         </>
@@ -236,162 +200,85 @@ const Header: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* WISHLIST ICON (Hidden on smallest screens) */}
-            <button
-              onClick={() => navigate('/wishlist')}
-              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/50 border border-purple-200/50 text-purple-600 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple hidden sm:block`}
-            >
-              <Heart size={22} className="transition-all duration-300 group-hover:fill-fario-purple" />
-              {wishlistItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-fario-purple text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(122,81,160,0.5)] border-2 border-[#132c33]">
-                  {wishlistItems.length}
-                </span>
-              )}
+            {/* WISHLIST (DESKTOP) */}
+            <button onClick={() => navigate('/wishlist')} className="relative group p-3 rounded-full text-purple-600 hover:text-white hover:bg-fario-purple transition-all hidden sm:block">
+              <Heart size={22} className="transition-all active:scale-95" />
+              {wishlistItems.length > 0 && <span className="absolute top-2 right-2 w-4 h-4 bg-fario-purple text-white text-[8px] font-black rounded-full flex items-center justify-center border border-white">{wishlistItems.length}</span>}
             </button>
 
             {/* CART ICON */}
-            <button
-              onClick={() => setIsCartDrawerOpen(true)}
-              className={`relative group p-3 rounded-full transition-all duration-300 hover:scale-105 bg-white/50 border border-purple-200/50 text-purple-600 hover:border-fario-purple hover:text-white shadow-sm hover:shadow-lg hover:bg-fario-purple`}
-            >
+            <button onClick={() => setIsCartDrawerOpen(true)} className="relative p-3.5 text-purple-600 active:scale-90 transition-transform" aria-label="Cart">
               <ShoppingBag size={22} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-fario-purple text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(122,81,160,0.5)] border-2 border-[#132c33]">
-                  {cartCount}
-                </span>
-              )}
+              {cartCount > 0 && <span className="absolute top-2 right-2 w-4.5 h-4.5 bg-fario-purple text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white">{cartCount}</span>}
             </button>
 
-            {/* MOBILE TOGGLE */}
-            <button
-              className={`lg:hidden p-3 rounded-full transition-all bg-white/50 border border-purple-200/50 text-purple-600 hover:text-white hover:border-fario-purple hover:bg-fario-purple shadow-sm`}
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
+            {/* MOBILE MENU TOGGLE */}
+            <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-3.5 text-purple-600 active:scale-90 transition-transform" aria-label="Menu">
               <Menu size={22} />
             </button>
           </div>
         </div>
- 
-        {/* MOBILE SECONDARY ROW: Persistent Search BAR (Amazon Style) */}
-        <div className="lg:hidden w-full px-4 pb-3 pt-1">
-          <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a51a0] opacity-60" size={16} />
-            <input
-              type="text"
-              placeholder="Search Fario..."
-              onFocus={() => navigate('/products')}
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-purple-100 rounded-xl text-xs font-bold uppercase tracking-widest text-[#1a0d2e] outline-none shadow-sm placeholder:text-[#1a0d2e]/30"
-            />
-          </div>
-        </div>
       </header>
 
-      {/* MOBILE DRAWER - LEFT ALIGNED, WHITE & PURPLE THEME */}
+      {/* SEARCH OVERLAY (MOBILE) */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <MotionDiv 
+            initial={{ opacity: 0, y: -20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-[2000] bg-white flex flex-col pt-safe"
+          >
+            <div className="p-4 flex items-center gap-4 border-b border-purple-100">
+              <button onClick={() => setIsSearchOpen(false)} className="p-2 text-fario-purple active:scale-90"><ArrowRight size={24} className="rotate-180" /></button>
+              <div className="flex-1 relative">
+                <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-fario-purple/40" size={20} />
+                <input 
+                  autoFocus type="text" placeholder="SEARCH FARIO..." 
+                  onKeyDown={(e) => { if (e.key === 'Enter') { setIsSearchOpen(false); navigate('/products'); } }}
+                  className="w-full pl-8 py-3 bg-transparent text-sm font-black uppercase tracking-widest text-fario-purple outline-none"
+                />
+              </div>
+            </div>
+          </MotionDiv>
+        )}
+      </AnimatePresence>
+
+      {/* MOBILE DRAWER */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop */}
-            <MotionDiv
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 z-[90] bg-fario-dark/40 backdrop-blur-sm"
-            />
-
-            {/* Left Drawer */}
-            <MotionDiv
-              initial={{ opacity: 0, x: '-100%' }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '-100%', opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 bottom-0 w-[75vw] max-w-[300px] z-[100] bg-white shadow-2xl flex flex-col font-sans border-r border-purple-100"
+            <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMobileMenuOpen(false)} className="fixed inset-0 z-[90] bg-fario-dark/40 backdrop-blur-sm" />
+            <MotionDiv 
+              initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="fixed top-0 left-0 bottom-0 w-[80vw] max-w-[300px] z-[100] bg-white flex flex-col border-r border-purple-100 shadow-2xl"
             >
-              {/* Header Area */}
-              <div className="flex justify-between items-center p-5 border-b border-purple-100 bg-white">
-                <div className="flex items-center gap-3">
-                  <Logo size={36} />
-                  <div className="flex flex-col leading-none">
-                    <span className="font-black text-lg tracking-tight font-heading text-fario-purple uppercase leading-[0.9]">FARIO</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 text-fario-purple hover:bg-purple-50 rounded-full transition-colors"
-                  aria-label="Close menu"
-                >
-                  <X size={20} strokeWidth={3} />
-                </button>
+              <div className="flex justify-between items-center p-5 border-b border-purple-100">
+                <div className="flex items-center gap-3"><Logo size={32} /><span className="font-black text-lg text-fario-purple uppercase">FARIO</span></div>
+                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-fario-purple active:scale-90"><X size={20} strokeWidth={3} /></button>
               </div>
-
               <div className="flex-grow overflow-y-auto px-5 py-6">
-                {/* Navigation Links */}
                 <nav className="flex flex-col gap-2 mb-8">
-                  {NAV_ITEMS.map((item: any, idx: number) => {
-                    const isActive = item.path === '/'
-                      ? location.pathname === '/'
-                      : location.pathname.startsWith(item.path);
-
+                  {NAV_ITEMS.map((item: any) => {
+                    const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
                     return (
-                      <NavLink
-                        key={item.path}
-                        to={item.path}
-                        end={item.path === '/'}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-colors ${isActive ? 'bg-fario-purple text-white shadow-md' : 'text-gray-700 hover:bg-purple-50 hover:text-fario-purple'}`}
-                      >
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isActive ? 'bg-white/20 text-white' : 'bg-purple-100 text-fario-purple'}`}>
-                          {getIcon(item.icon)}
-                        </div>
+                      <NavLink key={item.path} to={item.path} onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all ${isActive ? 'bg-fario-purple text-white shadow-lg scale-[1.02]' : 'text-gray-700 hover:bg-purple-50'}`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-purple-100 text-fario-purple'}`}>{getIcon(item.icon)}</div>
                         <span className="font-black uppercase tracking-wider text-sm">{item.label}</span>
                       </NavLink>
                     );
                   })}
                 </nav>
-
-                <hr className="border-purple-100 mb-6" />
-
-                {/* Quick Actions */}
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-fario-purple mb-2 px-1">Account</span>
-
-                  <button onClick={() => { navigate('/profile'); setIsMobileMenuOpen(false); }} className="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-purple-50 hover:text-fario-purple transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-purple-100 text-fario-purple flex items-center justify-center">
-                      <User size={16} />
-                    </div>
-                    <span className="font-bold uppercase text-xs tracking-wider">Profile</span>
-                  </button>
-
-                  <button onClick={() => { navigate('/wishlist'); setIsMobileMenuOpen(false); }} className="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-purple-50 hover:text-fario-purple transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-purple-100 text-fario-purple flex items-center justify-center">
-                      <Heart size={16} />
-                    </div>
-                    <span className="font-bold uppercase text-xs tracking-wider">Wishlist</span>
-                  </button>
-
-                  <button onClick={() => { setIsCartDrawerOpen(true); setIsMobileMenuOpen(false); }} className="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-purple-50 hover:text-fario-purple transition-colors">
-                    <div className="relative w-8 h-8 rounded-full bg-purple-100 text-fario-purple flex items-center justify-center">
-                      <ShoppingBag size={16} />
-                      {cartCount > 0 && <span className="absolute -top-1 -right-1 w-4 h-4 text-[8px] flex items-center justify-center font-black bg-fario-purple text-white border border-white rounded-full">{cartCount}</span>}
-                    </div>
-                    <span className="font-bold uppercase text-xs tracking-wider">Cart</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Bottom Decoration */}
-              <div className="p-5 border-t border-purple-100 text-center bg-purple-50">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-fario-purple">Fario Exclusives</p>
               </div>
             </MotionDiv>
           </>
         )}
       </AnimatePresence>
-      <CartDrawer
-        isOpen={isCartDrawerOpen}
-        onClose={() => setIsCartDrawerOpen(false)}
-      />
+
+      <CartDrawer isOpen={isCartDrawerOpen} onClose={() => setIsCartDrawerOpen(false)} />
     </>
   );
 };
+
 export default Header;
