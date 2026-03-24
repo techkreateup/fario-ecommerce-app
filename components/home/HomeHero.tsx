@@ -8,53 +8,69 @@ const SLIDES = [
     id: '1',
     title: (
       <>
-        STEP INTO<br />
-        <span className="text-white">NEXT LEVEL STYLE</span>
+        <span className="font-semibold tracking-tight">STEP INTO</span><br />
+        <span className="font-black tracking-normal">NEXT LEVEL STYLE</span>
       </>
     ),
     sub: "Discover premium sneakers\nbuilt for comfort, speed\nand everyday fashion.",
-    image: "/fario-ecommerce-app/assets/hero/hero-sneakers-v2.png",
+    image: "/fario-ecommerce-app/assets/hero/cot-sneaker.png",
     link: "/products?category=Sneakers",
     btnText: "SHOP SNEAKERS →",
+    textColor: "text-black",
+    subColor: "text-neutral-600",
+    bgColor: "bg-[#F3F4F6]",
+    btnClass: "bg-black text-white hover:bg-neutral-800"
   },
   {
     id: '2',
     title: (
       <>
-        ELEVATE<br />
-        <span className="text-white">YOUR LOOK</span>
+        <span className="font-semibold tracking-tight">ELEVATE</span><br />
+        <span className="font-black tracking-normal">YOUR LOOK</span>
       </>
     ),
     sub: "Elegant heels designed\nfor confidence, comfort\nand timeless fashion.",
-    image: "/fario-ecommerce-app/assets/hero/hero-heels-v2.png",
+    image: "/fario-ecommerce-app/assets/hero/hero-heels-v2.png", // TEMP PLACEHOLDER
     link: "/products?category=Heels",
     btnText: "SHOP HEELS →",
+    textColor: "text-white", // Temp: v2 image is dark, switch to black when quota allows new generation
+    subColor: "text-neutral-300",
+    bgColor: "bg-[#030303]",
+    btnClass: "bg-white text-black hover:bg-neutral-200"
   },
   {
     id: '3',
     title: (
       <>
-        RUN<br />
-        <span className="text-white">THE FUTURE</span>
+        <span className="font-semibold tracking-tight">RUN</span><br />
+        <span className="font-black tracking-normal">THE FUTURE</span>
       </>
     ),
     sub: "Performance running shoes\nbuilt for speed, endurance\nand ultimate comfort.",
     image: "/fario-ecommerce-app/assets/hero/hero-running-v2.png",
     link: "/products?category=Sports",
     btnText: "SHOP RUNNING →",
+    textColor: "text-white",
+    subColor: "text-neutral-300",
+    bgColor: "bg-[#030303]",
+    btnClass: "bg-white text-black hover:bg-neutral-200"
   },
   {
     id: '4',
     title: (
       <>
-        EVERYDAY<br />
-        <span className="text-white">COMFORT</span>
+        <span className="font-semibold tracking-tight">EVERYDAY</span><br />
+        <span className="font-black tracking-normal">COMFORT</span>
       </>
     ),
     sub: "Casual footwear made\nfor daily life, style\nand unbeatable comfort.",
-    image: "/fario-ecommerce-app/assets/hero/hero-casual-v2.png",
+    image: "/fario-ecommerce-app/assets/hero/hero-casual-v2.png", // TEMP PLACEHOLDER
     link: "/products?category=Casual",
     btnText: "SHOP CASUAL →",
+    textColor: "text-white",
+    subColor: "text-neutral-300",
+    bgColor: "bg-[#030303]",
+    btnClass: "bg-white text-black hover:bg-neutral-200"
   }
 ];
 
@@ -66,7 +82,7 @@ export const HomeHero = () => {
     const currentSlide = SLIDES[idx];
 
     return (
-        <section className="relative overflow-hidden w-full h-[65vh] md:h-[75vh] lg:h-[800px] bg-[#030303]">
+        <section className={`relative overflow-hidden w-full h-[65vh] md:h-[75vh] lg:h-[800px] transition-colors duration-1000 ${SLIDES[idx].bgColor}`}>
             <AnimatePresence mode="wait">
                 <motion.div 
                     key={currentSlide.id}
@@ -88,28 +104,22 @@ export const HomeHero = () => {
                     transition={{ duration: 0.8, ease: 'easeOut' }} // Smooth swipe transition
                 >
                     {/* 
-                      RIGHT SIDE IMAGE: Constrained to maintain pixel density.
-                      We use a CSS gradient mask to blend it perfectly into the black background on the left.
+                      FULL BACKGROUND IMAGE (No CSS Masking)
+                      The CoT assets natively incorporate the 70/30 framing, empty space, and lighting logic.
+                      Only a subtle bottom gradient remains for the Ticker readability.
                     */}
-                    <div className="absolute right-0 top-0 w-full md:w-[75%] h-full">
-                        {/* 
-                          Gradient overlay that simulates masking: 
-                          Solid black on the left side fading to transparent on the right, 
-                          creating a seamless blend between CSS background and image. 
-                        */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/80 to-transparent z-10" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent z-10 h-32 bottom-0" />
+                    <div className="absolute inset-0 w-full h-full">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 h-32 bottom-0" />
                         
                         <img 
                             src={currentSlide.image} 
                             alt="Hero Product"
-                            className="w-full h-full object-cover object-right md:object-center opacity-90"
+                            className="w-full h-full object-cover object-right md:object-center"
                         />
                     </div>
 
                     {/* 
-                      LEFT SIDE TEXT: DOM-based for infinite resolution and perfect framing.
-                      Width locked to 60% so it never overflows onto the rigid parts of the image. 
+                      LEFT SIDE TEXT: Dynamic fonts/colors based on CoT Layout
                     */}
                     <div className="relative z-20 w-full max-w-[1920px] mx-auto px-6 lg:px-20 h-full flex flex-col justify-center">
                         <div className="w-full md:w-[65%] lg:w-[60%] text-left mt-10">
@@ -117,8 +127,8 @@ export const HomeHero = () => {
                                 initial={{ x: -25, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-white font-black uppercase tracking-tighter leading-[1.05] mb-6"
-                                style={{ fontSize: 'clamp(44px, 8vw, 100px)' }}
+                                className={`${currentSlide.textColor} uppercase leading-[1.1] mb-4`}
+                                style={{ fontSize: 'clamp(36px, 6vw, 85px)' }}
                             >
                                 {currentSlide.title}
                             </motion.h1>
@@ -127,7 +137,7 @@ export const HomeHero = () => {
                                 initial={{ x: -15, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
-                                className="text-white/70 text-[15px] md:text-xl lg:text-[22px] font-normal tracking-wide mb-12 whitespace-pre-line leading-relaxed max-w-lg"
+                                className={`${currentSlide.subColor} text-[15px] md:text-xl lg:text-[22px] font-normal tracking-wide mb-10 whitespace-pre-line leading-relaxed max-w-lg`}
                             >
                                 {currentSlide.sub}
                             </motion.p>
@@ -139,7 +149,7 @@ export const HomeHero = () => {
                             >
                                 <Link 
                                     to={currentSlide.link}
-                                    className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-extrabold text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-neutral-200 transition-all duration-300 shadow-[0_15px_30px_rgba(255,255,255,0.15)]"
+                                    className={`inline-flex items-center gap-3 px-10 py-5 font-extrabold text-xs md:text-sm tracking-[0.2em] uppercase transition-all duration-300 shadow-2xl ${currentSlide.btnClass}`}
                                 >
                                     {currentSlide.btnText.replace(' →', '')}
                                     <span className="text-xl leading-none transform translate-y-[-1px] font-light">→</span>
