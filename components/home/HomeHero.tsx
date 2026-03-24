@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { HomeTicker } from './HomeTicker';
 
 const SLIDES = [
@@ -61,12 +60,8 @@ const SLIDES = [
 
 export const HomeHero = () => {
     const [idx, setIdx] = useState(0);
+    // Manual swipe navigation only; auto-play disabled as requested.
 
-    // Auto slide change exactly every 2000 ms (2 seconds)
-    useEffect(() => {
-        const t = setInterval(() => setIdx(i => (i + 1) % SLIDES.length), 2000);
-        return () => clearInterval(t);
-    }, []);
 
     const currentSlide = SLIDES[idx];
 
@@ -75,11 +70,22 @@ export const HomeHero = () => {
             <AnimatePresence mode="wait">
                 <motion.div 
                     key={currentSlide.id}
-                    className="absolute inset-0 w-full h-full flex"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1.2, ease: 'easeOut' }} // Smooth fade
+                    className="absolute inset-0 w-full h-full flex cursor-grab active:cursor-grabbing"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(e, { offset }) => {
+                        const swipe = offset.x;
+                        if (swipe < -50) {
+                            setIdx((i) => (i + 1) % SLIDES.length);
+                        } else if (swipe > 50) {
+                            setIdx((i) => (i - 1 + SLIDES.length) % SLIDES.length);
+                        }
+                    }}
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }} // Smooth swipe transition
                 >
                     {/* 
                       RIGHT SIDE IMAGE: Constrained to maintain pixel density.
@@ -144,19 +150,7 @@ export const HomeHero = () => {
                 </motion.div>
             </AnimatePresence>
 
-            {/* Navigation buttons */}
-            <button 
-                onClick={() => setIdx(i => (i - 1 + SLIDES.length) % SLIDES.length)}
-                className="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full border border-white/20 hover:bg-white/10 flex items-center justify-center transition-all hidden lg:flex group"
-            >
-                <ChevronLeft size={24} className="text-white opacity-50 group-hover:opacity-100 transition-opacity" />
-            </button>
-            <button 
-                onClick={() => setIdx(i => (i + 1) % SLIDES.length)}
-                className="absolute right-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full border border-white/20 hover:bg-white/10 flex items-center justify-center transition-all hidden lg:flex group"
-            >
-                <ChevronRight size={24} className="text-white opacity-50 group-hover:opacity-100 transition-opacity" />
-            </button>
+            {/* Swipe interaction removed the need for chevron navigation buttons */}
 
             {/* Luxury Minimalist Dot Navigation */}
             <div className="absolute bottom-12 lg:bottom-16 left-6 lg:left-20 z-50 flex items-center gap-4">
@@ -170,20 +164,11 @@ export const HomeHero = () => {
                             background: 'rgba(255,255,255,0.15)'
                         }}
                     >
-                        {/* Progress Bar Effect */}
-                        {idx === i && (
-                            <motion.div 
-                                initial={{ width: "0%" }}
-                                animate={{ width: "100%" }}
-                                transition={{ duration: 2, ease: "linear" }}
-                                className="absolute top-0 left-0 h-full bg-white"
-                            />
-                        )}
                     </button>
                 ))}
             </div>
 
-            <div className="absolute bottom-0 w-full z-40 hidden md:block">
+            <div className="absolute bottom-0 lg:bottom-0 left-0 w-full z-50 pb-6 lg:pb-0">
                 <HomeTicker isFooter={true} />
             </div>
         </section>
