@@ -11,7 +11,7 @@ const PCard = ({ p, i }: { p: typeof PRODUCTS[0]; i: number }) => {
     const disc = Math.round((1 - p.price / p.orig) * 100);
 
     return (
-        <div className="flex-shrink-0 w-[220px] md:w-[300px]">
+        <div className="flex-shrink-0 w-[160px] sm:w-[200px] md:w-[300px]">
             <div className="rounded-2xl overflow-hidden"
                 style={{ 
                     background: BG_WHITE, 
@@ -77,7 +77,7 @@ export const HomeFeaturedProducts = () => {
     };
 
     return (
-        <section className="py-12 md:py-24" style={{ background: BG_LIGHT }}>
+        <section className="py-8 md:py-24" style={{ background: BG_LIGHT }}>
             <div className="container mx-auto px-4 md:px-12 lg:px-20">
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stg12}
                     className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-6 mb-8 md:mb-14"
@@ -112,8 +112,8 @@ export const HomeFeaturedProducts = () => {
                 </motion.div>
 
                 <div ref={track} onScroll={sync}
-                    className="flex gap-3 md:gap-6 overflow-x-auto pb-6"
-                    style={{ msOverflowStyle: 'none', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+                    className="flex gap-3 md:gap-6 overflow-x-auto pb-4 md:pb-6"
+                    style={{ msOverflowStyle: 'none', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory' } as React.CSSProperties}
                 >
                     {PRODUCTS.map((p, i) => <PCard key={p.id} p={p} i={i} />)}
                 </div>

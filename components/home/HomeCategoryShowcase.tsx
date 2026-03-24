@@ -67,7 +67,7 @@ const ProductCard = ({ p, i }: { p: Product; i: number }) => {
 export const HomeCategoryShowcase: React.FC<HomeCategoryShowcaseProps> = ({ title, subtitle, products, bgColor = "#FFFEF5" }) => {
     return (
         <section
-            className="py-12 md:py-24 border-b border-gray-100/50 transition-colors duration-500"
+            className="py-8 md:py-24 border-b border-gray-100/50 transition-colors duration-500"
             style={{ background: bgColor }}
         >
             <div className="container mx-auto px-4 md:px-12 lg:px-20">
@@ -91,7 +91,7 @@ export const HomeCategoryShowcase: React.FC<HomeCategoryShowcaseProps> = ({ titl
                 </div>
 
                 {/* Dense 4-Column Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-8">
                     {products.slice(0, 4).map((p, i) => (
                         <ProductCard key={p.id} p={p} i={i} />
                     ))}
