@@ -93,11 +93,11 @@ const Header: React.FC = () => {
   const isAdminPage = location.pathname.startsWith('/admin');
   if (isAdminPage) return null;
 
-  const headerBg = 'bg-[#f3e8ff]/95 backdrop-blur-xl shadow-sm h-16 lg:h-24 border-b border-purple-200/50';
+  const headerBg = 'bg-[#f3e8ff]/95 backdrop-blur-xl shadow-sm h-16 lg:h-24 border-b border-purple-200/50 rounded-b-lg';
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-[1000] border-b flex items-center ${headerBg}`}>
+      <header className={`fixed top-0 left-0 right-0 z-[1000] border-b flex items-center overflow-hidden ${headerBg}`}>
         <div className="container mx-auto px-4 md:px-6 lg:px-10 relative flex justify-between items-center w-full">
 
           <NavLink to="/" className="flex-1 flex items-center gap-3 lg:gap-4 relative z-[60] group">
