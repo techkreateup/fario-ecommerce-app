@@ -126,23 +126,24 @@ export default function Login() {
             if (verifyError) throw verifyError;
 
             if (data.user) {
-                const isAdminEmail = data.user.email?.toLowerCase() === 'reachkreateup@gmail.com' || data.user.email?.toLowerCase() === 'kreateuptech@gmail.com';
-
+                // Remove hardcoded email check! We only fetch from DB!
                 const { error: upsertError } = await supabase.from('profiles').upsert({
                     id: data.user.id,
                     email: data.user.email,
                     name: name,
                     phone: phone,
-                    role: isAdminEmail ? 'admin' : 'user',
                     updatedat: new Date().toISOString()
                 }, { onConflict: 'id' });
 
                 if (upsertError) console.error("Profile upsert failed:", upsertError);
 
+                // Fetch actual role from DB for routing
+                const { data: profile } = await supabase.from('profiles').select('role').eq('id', data.user.id).single();
+
                 toast.success(`Welcome back, ${name}`);
                 await logAction('user_login', { email: data.user.email });
 
-                if (isAdminEmail) {
+                if (profile?.role === 'admin') {
                     navigate('/admin/dashboard');
                 } else {
                     navigate('/profile');

@@ -148,6 +148,7 @@ const Header: React.FC = () => {
             {/* USER DROPDOWN (DESKTOP) */}
             <div className="relative hidden sm:block" ref={profileMenuRef}>
               <button
+                onMouseDown={(e) => e.stopPropagation()}
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                 className={`flex items-center gap-3 p-1.5 rounded-full border transition-all duration-300 hover:shadow-lg ${isProfileMenuOpen ? 'bg-fario-purple text-white border-fario-purple' : 'bg-white/50 border-purple-200/50 hover:bg-white/80'}`}
               >

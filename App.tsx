@@ -75,23 +75,11 @@ const ScrollToTop: React.FC = () => {
 const AuthHandler = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, isLoading } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log('🔔 App Auth Event:', event);
-      if (event === 'SIGNED_IN') {
-        const isUserAdmin = session?.user?.email === 'reachkreateup@gmail.com' || session?.user?.email === 'kreateuptech@gmail.com';
-
-        // Only redirect if we are on the login page or any path that is essentially a "landing" after auth
-        if (location.pathname === '/login' || location.pathname === '/admin') {
-          if (isUserAdmin) {
-            navigate('/admin/dashboard');
-          } else {
-            navigate('/profile');
-          }
-        }
-      }
       if (event === 'SIGNED_OUT') {
         const protectedPaths = ['/admin', '/profile', '/orders', '/checkout'];
         if (protectedPaths.some(path => location.pathname.startsWith(path))) {
@@ -106,14 +94,18 @@ const AuthHandler = () => {
   useEffect(() => {
     if (isLoading) return;
 
-    // Redirect unauthenticated users trying to access protected routes
-    if (!user) {
+    if (user) {
+      if (location.pathname === '/login' || location.pathname === '/admin') {
+        navigate(isAdmin ? '/admin/dashboard' : '/profile');
+      }
+    } else {
+      // Redirect unauthenticated users trying to access protected routes
       const protectedPaths = ['/admin', '/profile', '/orders', '/checkout'];
       if (protectedPaths.some(path => location.pathname.startsWith(path))) {
         navigate('/login');
       }
     }
-  }, [user, isLoading, navigate, location.pathname]);
+  }, [user, isAdmin, isLoading, navigate, location.pathname]);
 
   return null;
 };

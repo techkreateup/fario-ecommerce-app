@@ -7,8 +7,18 @@ import { useToast } from '../context/ToastContext';
 import { Order } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Turnstile } from '@marsidev/react-turnstile';
+import { ErrorBoundary } from 'react-error-boundary';
+import DOMPurify from 'dompurify';
 
-const Checkout: React.FC = () => {
+const CheckoutErrorFallback = ({ error, resetErrorBoundary }: any) => (
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-gray-50">
+        <h2 className="text-2xl font-black text-rose-600 mb-2">Checkout Error</h2>
+        <p className="text-gray-600 mb-6">{error.message}</p>
+        <button onClick={resetErrorBoundary} className="bg-fario-purple text-white px-6 py-2 rounded-lg font-bold">Try Again</button>
+    </div>
+);
+
+const CheckoutInner: React.FC = () => {
     const navigate = useNavigate();
     const toast = useToast();
     const { cartItems, placeOrder, cartTotal, taxAmount, discountAmount, coupon, userCoupons, applyCoupon, removeCoupon } = useCart();
@@ -801,4 +811,10 @@ const Checkout: React.FC = () => {
     );
 };
 
-export default Checkout;
+export default function Checkout() {
+    return (
+        <ErrorBoundary FallbackComponent={CheckoutErrorFallback}>
+            <CheckoutInner />
+        </ErrorBoundary>
+    );
+}

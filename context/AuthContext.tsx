@@ -148,7 +148,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         session: sessionState,
         role,
-        isAdmin: role === 'admin' || user?.email === 'reachkreateup@gmail.com' || user?.email === 'kreateuptech@gmail.com',
+        isAdmin: role === 'admin',
         isLoading,
         refreshProfile: async () => {
             if (user) await fetchProfile(user);
