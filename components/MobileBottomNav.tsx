@@ -17,6 +17,8 @@ const MobileBottomNav: React.FC = () => {
     const isAdmin = location.pathname.startsWith('/admin');
     const isCheckout = location.pathname === '/checkout';
     const isLogin = location.pathname === '/login';
+    const isCart = location.pathname === '/cart';
+    const isProductDetail = location.pathname.startsWith('/products/') && location.pathname.length > 10;
 
     // Auto-hide on scroll — ALL hooks MUST be above any conditional return
     useEffect(() => {
@@ -35,7 +37,7 @@ const MobileBottomNav: React.FC = () => {
     }, [lastScrollY]);
 
     // Hide on certain pages — conditional return AFTER all hooks
-    if (isAdmin || isCheckout || isLogin) return null;
+    if (isAdmin || isCheckout || isLogin || isCart || isProductDetail) return null;
 
     const navItems = [
         { label: 'Home', path: '/', icon: Home },

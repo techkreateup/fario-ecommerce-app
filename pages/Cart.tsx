@@ -155,7 +155,7 @@ const Cart: React.FC = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-            <div className="min-h-screen bg-white font-sans text-gray-800 pt-20 md:pt-24 pb-24 md:pb-32">
+            <div className="min-h-screen bg-white font-sans text-gray-800 pt-20 md:pt-24 pb-40 lg:pb-32">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
                     {/* Page Title */}
