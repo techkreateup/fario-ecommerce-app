@@ -9,7 +9,8 @@ import {
   X,
   ChevronDown,
   Menu, ArrowRight, Edit3, Heart,
-  Home as HomeIcon, Info, Mail, Search
+  Home as HomeIcon, Info, Mail, Search,
+  Package, HelpCircle
 } from 'lucide-react';
 import { useCart } from '../context/CartProvider';
 import { useWishlist } from '../context/WishlistContext';
@@ -86,6 +87,10 @@ const Header: React.FC = () => {
       case 'shopping-bag': return <ShoppingBag size={20} />;
       case 'info': return <Info size={20} />;
       case 'mail': return <Mail size={20} />;
+      case 'heart': return <Heart size={20} />;
+      case 'package': return <Package size={20} />;
+      case 'user': return <User size={20} />;
+      case 'help-circle': return <HelpCircle size={20} />;
       default: return <ArrowRight size={20} />;
     }
   };
@@ -261,10 +266,16 @@ const Header: React.FC = () => {
               </div>
               <div className="flex-grow overflow-y-auto px-5 py-6">
                 <nav className="flex flex-col gap-2 mb-8">
-                  {NAV_ITEMS.map((item: any) => {
+                  {[
+                    ...NAV_ITEMS,
+                    { label: 'Saved Items', path: '/wishlist', icon: 'heart' },
+                    { label: 'My Orders', path: '/profile', icon: 'package' },
+                    { label: 'Support & FAQs', path: '/contact', icon: 'help-circle' },
+                    { label: 'My Profile', path: '/profile', icon: 'user' }
+                  ].map((item: any, index: number) => {
                     const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
                     return (
-                      <NavLink key={item.path} to={item.path} onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all ${isActive ? 'bg-fario-purple text-white shadow-lg scale-[1.02]' : 'text-gray-700 hover:bg-purple-50'}`}>
+                      <NavLink key={item.path + index} to={item.path} onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all ${isActive ? 'bg-fario-purple text-white shadow-lg scale-[1.02]' : 'text-gray-700 hover:bg-purple-50'}`}>
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-purple-100 text-fario-purple'}`}>{getIcon(item.icon)}</div>
                         <span className="font-black uppercase tracking-wider text-sm">{item.label}</span>
                       </NavLink>
