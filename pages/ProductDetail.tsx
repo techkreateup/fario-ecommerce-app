@@ -263,7 +263,7 @@ const ProductDetail: React.FC = () => {
 
    const handleAddToCart = () => {
       if (!selectedSize) {
-         setError('Size Required');
+         toast.error('Please select your size first');
          return;
       }
       setError('');
@@ -273,7 +273,7 @@ const ProductDetail: React.FC = () => {
       // if (!isAuthenticated) { ... }
 
       addToCart(product, selectedSize, product.colors?.[0] || 'Default');
-      navigate('/cart'); // Redirect to Cart
+      navigate('/cart'); 
    };
 
    const MotionDiv = (motion as any).div;
