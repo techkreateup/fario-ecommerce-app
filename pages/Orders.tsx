@@ -222,7 +222,7 @@ const Orders: React.FC = () => {
                                 <div key={order.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:border-gray-300 transition-all">
                                     {/* Order Header */}
                                     <div className="bg-gray-50/80 border-b border-gray-200 p-4 flex flex-col md:flex-row gap-4 justify-between md:items-center text-xs md:text-sm">
-                                        <div className="flex flex-wrap gap-4 md:gap-8">
+                                        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 md:gap-8 w-full md:w-auto">
                                             <div>
                                                 <p className="font-bold text-gray-500 uppercase tracking-wider text-[10px] mb-1">Order Placed</p>
                                                 <p className="font-bold text-gray-700">{order.date}</p>
@@ -249,8 +249,8 @@ const Orders: React.FC = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <p className="font-bold text-gray-500 uppercase tracking-wider text-[10px] mb-1">Order # {order.id}</p>
+                                        <div className="border-t border-gray-200/50 pt-3 mt-1 md:border-0 md:pt-0 md:mt-0">
+                                            <p className="font-bold text-gray-500 uppercase tracking-wider text-[10px] mb-1">Order # <span className="text-gray-900">{order.id}</span></p>
                                             <div className="flex gap-2 text-[#007185] font-medium text-xs">
                                                 <span className="hover:underline hover:text-fario-purple cursor-pointer">View Order Details</span>
                                                 <span className="text-gray-300">|</span>
@@ -279,7 +279,7 @@ const Orders: React.FC = () => {
                                                                 <p className="text-lg font-black text-fario-purple mt-2">{formatPrice(item.price)}</p>
 
                                                                 {/* Mobile Actions */}
-                                                                <div className="md:hidden mt-3 flex flex-col gap-2">
+                                                                <div className="md:hidden mt-4 flex flex-col gap-2.5">
                                                                     <button
                                                                         onClick={() => {
                                                                             const product = products.find(p => p.id === item.id);
@@ -290,29 +290,29 @@ const Orders: React.FC = () => {
                                                                                 toast.error('Product not available');
                                                                             }
                                                                         }}
-                                                                        className="w-full py-2 bg-fario-purple/10 text-fario-purple rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-fario-purple hover:text-white transition-colors flex items-center justify-center gap-2"
+                                                                        className="w-full py-3 bg-fario-purple/10 text-fario-purple rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-fario-purple hover:text-white transition-colors flex items-center justify-center gap-2"
                                                                     >
                                                                         <RefreshCw size={14} /> Buy it again
                                                                     </button>
-                                                                    <div className="grid grid-cols-2 gap-2">
+                                                                    <div className="grid grid-cols-2 gap-2.5">
                                                                         <button
                                                                             onClick={() => { setSelectedOrder(order); setViewState('TRACKING'); }}
-                                                                            className="w-full py-2 bg-white border border-gray-300 text-gray-800 rounded-lg text-xs font-bold shadow-sm"
+                                                                            className="w-full py-2.5 bg-white border border-gray-200 text-gray-800 rounded-xl text-xs font-bold shadow-sm flex flex-col items-center justify-center gap-1"
                                                                         >
-                                                                            Track
+                                                                            Track Package
                                                                         </button>
                                                                         <button
                                                                             onClick={() => { setSelectedOrder(order); setViewState('RETURNS'); }}
-                                                                            className="w-full py-2 bg-white border border-gray-300 text-gray-800 rounded-lg text-xs font-bold shadow-sm"
+                                                                            className="w-full py-2.5 bg-white border border-gray-200 text-gray-800 rounded-xl text-xs font-bold shadow-sm flex flex-col items-center justify-center gap-1"
                                                                         >
-                                                                            Return
+                                                                            Return Items
                                                                         </button>
                                                                     </div>
                                                                     <button
                                                                         onClick={() => { setSelectedOrder(order); setActiveModal('REVIEW'); }}
-                                                                        className="w-full py-2 bg-white border border-gray-300 text-gray-800 rounded-lg text-xs font-bold shadow-sm"
+                                                                        className="w-full py-2.5 bg-white border border-gray-200 text-gray-800 rounded-xl text-xs font-bold shadow-sm"
                                                                     >
-                                                                        Write Review
+                                                                        Write a Product Review
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -543,17 +543,17 @@ const Orders: React.FC = () => {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="ml-0 md:ml-14 pt-6 border-t border-gray-100 flex items-center gap-6">
+                                <div className="ml-0 md:ml-14 pt-6 md:pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                                     <button
                                         onClick={handleSubmitReturn}
                                         disabled={!returnReason || (returnReason === 'Other' && !otherReasonText)}
-                                        className="bg-fario-purple hover:bg-[#684389] text-white px-10 py-4 rounded-xl font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:translate-y-[-2px] active:translate-y-[0px] transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed flex-1 md:flex-none"
+                                        className="bg-fario-purple hover:bg-[#684389] text-white px-10 py-4 rounded-xl font-bold uppercase tracking-widest shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed w-full sm:w-auto text-sm"
                                     >
                                         Confirm Return
                                     </button>
                                     <button
                                         onClick={() => setViewState('ORDERS')}
-                                        className="text-gray-500 hover:text-fario-purple font-bold text-sm uppercase tracking-wide px-4 py-2 hover:bg-gray-50 rounded-lg transition-colors"
+                                        className="text-gray-500 hover:text-fario-purple font-bold text-sm uppercase tracking-wide px-4 py-4 sm:py-2 hover:bg-gray-50 rounded-xl transition-colors w-full sm:w-auto"
                                     >
                                         Cancel
                                     </button>

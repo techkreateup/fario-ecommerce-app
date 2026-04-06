@@ -537,7 +537,7 @@ const ProductDetail: React.FC = () => {
                      )}
                   </div>
 
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-gray-900 mb-2 uppercase italic tracking-tighter leading-[0.9] order-2 lg:order-none">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-gray-900 mb-2 uppercase italic tracking-tighter leading-none md:leading-[0.9] order-2 lg:order-none">
                      {product.name}
                   </h1>
 
@@ -591,7 +591,7 @@ const ProductDetail: React.FC = () => {
                         <MotionDiv
                            initial={{ opacity: 0, y: 12 }}
                            animate={{ opacity: 1, y: 0 }}
-                           className="mb-8 rounded-2xl border border-dashed border-fario-purple/30 bg-fario-purple/5 p-4 md:p-5 order-6 lg:order-none"
+                           className="mb-8 rounded-2xl border border-dashed border-fario-purple/30 bg-fario-purple/5 p-4 order-6 lg:order-none"
                         >
                            {/* Header */}
                            <div className="flex items-center gap-2 mb-4">
@@ -600,7 +600,7 @@ const ProductDetail: React.FC = () => {
                            </div>
 
                            {/* Products row */}
-                           <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-3 mb-4">
+                           <div className="flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-center gap-3 md:gap-4 mb-5">
                               {/* Product A */}
                               <div className="flex flex-col items-center gap-1.5 flex-1 min-w-[70px]">
                                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-xl border border-gray-100 flex items-center justify-center p-1.5 shadow-sm">
@@ -627,9 +627,9 @@ const ProductDetail: React.FC = () => {
                               </div>
 
                               {/* Equals + Total (Breaks to new line if totally squished) */}
-                              <div className="flex sm:flex-col items-center gap-1.5 sm:gap-1 mt-2 sm:mt-0 px-2 min-w-full sm:min-w-fit justify-center pt-2 sm:pt-0 border-t border-fario-purple/10 sm:border-0">
+                              <div className="flex sm:flex-col items-center gap-1.5 sm:gap-1 w-full sm:w-auto mt-2 sm:mt-0 px-2 justify-center pt-3 sm:pt-0 border-t border-fario-purple/10 sm:border-0">
                                  <span className="text-[12px] font-black text-gray-400 uppercase hidden sm:block">=</span>
-                                 <div className="text-center flex flex-row-reverse sm:flex-col items-center gap-2 sm:gap-0">
+                                 <div className="text-center flex flex-row sm:flex-col items-center gap-3 sm:gap-0">
                                     <div className="text-sm xl:text-base font-black text-fario-purple">Rs. {bundlePrice}</div>
                                     <div className="text-[10px] font-bold text-gray-400 line-through">Rs. {combined}</div>
                                  </div>
@@ -1121,7 +1121,7 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* MOBILE STICKY BOTTOM BAR */}
-            <div className="fixed bottom-0 left-0 right-0 z-[90] md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-8px_32px_rgba(0,0,0,0.08)]"
+            <div className="fixed bottom-0 left-0 right-0 z-[90] md:hidden bg-white/80 backdrop-blur-2xl border-t border-gray-200/50 shadow-[0_-8px_32px_rgba(0,0,0,0.08)]"
               style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
                <div className="flex items-center gap-3 px-4 pt-3 pb-1">
                   {/* Price + size info */}
@@ -1146,9 +1146,9 @@ const ProductDetail: React.FC = () => {
                   <Button
                      onClick={handleAddToCart}
                      disabled={!isStockAvailable}
-                     className="flex-shrink-0 px-6 py-3.5 text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg"
+                     className="flex-shrink-0 px-5 sm:px-6 py-3.5 text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-fario-purple/20 bg-fario-purple hover:bg-[#684389]"
                   >
-                     {isStockAvailable ? <><ShoppingCart size={16} /> Add to Cart</> : 'Sold Out'}
+                     {isStockAvailable ? <><ShoppingCart size={16} className="hidden sm:inline-block" /> Add to Cart</> : 'Sold Out'}
                   </Button>
                </div>
             </div>

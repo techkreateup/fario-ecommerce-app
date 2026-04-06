@@ -143,13 +143,13 @@ const ControlCenter: React.FC = () => {
             {/* --- HEADER --- */}
             <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
                 <div className="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <div className="w-9 h-9 bg-[#232f3e] rounded flex items-center justify-center text-white">
-                            <Layout size={20} />
+                    <div className="flex items-center gap-2 md:gap-4 overflow-hidden">
+                        <div className="w-8 h-8 md:w-9 md:h-9 bg-[#232f3e] rounded flex items-center justify-center text-white flex-shrink-0">
+                            <Layout size={18} />
                         </div>
-                        <div>
-                            <h1 className="text-lg font-bold text-[#232f3e] leading-tight">Settings</h1>
-                            <p className="text-xs text-slate-500 font-medium">Administration Console</p>
+                        <div className="min-w-0">
+                            <h1 className="text-sm md:text-lg font-bold text-[#232f3e] leading-tight truncate">Settings</h1>
+                            <p className="text-[10px] md:text-xs text-slate-500 font-medium truncate">Admin Console</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -164,41 +164,41 @@ const ControlCenter: React.FC = () => {
                         <button
                             onClick={handleSave}
                             disabled={isSaving || !hasChanges}
-                            className={`px-6 py-2 rounded-md text-sm font-bold shadow-sm transition-all flex items-center gap-2 ${hasChanges
+                            className={`px-4 md:px-6 py-2 rounded-md text-[11px] md:text-sm font-bold shadow-sm transition-all flex items-center gap-1.5 md:gap-2 ${hasChanges
                                 ? 'bg-[#FFD814] hover:bg-[#F7CA00] text-slate-900 border border-[#FCD200]' // Amazon Yellow
                                 : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
                                 }`}
                         >
-                            {isSaving ? <RefreshCw size={16} className="animate-spin" /> : <Save size={16} />}
-                            Save
+                            {isSaving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
+                            <span className="hidden sm:inline">Save</span>
+                            <span className="sm:hidden">Save</span>
                         </button>
                     </div>
                 </div>
             </header>
 
-            {/* --- LAYOUT --- */}
-            <div className="max-w-[1600px] mx-auto px-6 py-8 flex items-start gap-8">
+            <div className="max-w-[1600px] mx-auto px-4 md:px-6 py-4 md:py-8 flex flex-col md:flex-row items-start gap-4 md:gap-8">
 
                 {/* SIDEBAR NAVIGATION (Pillars) */}
-                <nav className="w-64 flex-shrink-0 sticky top-24 space-y-1">
+                <nav className="w-full md:w-64 flex-shrink-0 sticky top-16 md:top-24 z-20 md:z-10 bg-[#f1f5f9] md:bg-transparent -mx-4 md:mx-0 px-4 md:px-0 py-3 md:py-0 overflow-x-auto no-scrollbar md:overflow-visible flex flex-row md:flex-col gap-1 md:gap-1.5 border-b md:border-b-0 border-slate-200 md:border-transparent">
                     {[
                         { id: 'account', label: 'Account Info', icon: Globe },
-                        { id: 'shipping', label: 'Shipping Settings', icon: Truck },
-                        { id: 'permissions', label: 'User Permissions', icon: Users },
-                        { id: 'notifications', label: 'Notifications', icon: Bell },
-                        { id: 'fba', label: 'Fulfillment by Amazon', icon: Package },
-                        { id: 'security', label: 'Login & Security', icon: ShieldCheck },
-                        { id: 'system', label: 'System Maintenance', icon: Server },
+                        { id: 'shipping', label: 'Shipping', icon: Truck },
+                        { id: 'permissions', label: 'Users', icon: Users },
+                        { id: 'notifications', label: 'Alerts', icon: Bell },
+                        { id: 'fba', label: 'Inventory', icon: Package },
+                        { id: 'security', label: 'Security', icon: ShieldCheck },
+                        { id: 'system', label: 'System', icon: Server },
                     ].map(item => (
                         <button
                             key={item.id}
                             onClick={() => setActiveTab(item.id)}
-                            className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-md transition-all ${activeTab === item.id
-                                ? 'bg-white text-[#232f3e] shadow-sm ring-1 ring-slate-200 border-l-4 border-l-[#7a51a0]'
-                                : 'text-slate-600 hover:bg-white hover:text-[#232f3e]'
+                            className={`flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 text-xs md:text-sm font-medium rounded-full md:rounded-md transition-all whitespace-nowrap flex-shrink-0 ${activeTab === item.id
+                                ? 'bg-white text-[#232f3e] shadow-sm ring-1 ring-slate-200 border-l-0 md:border-l-4 md:border-l-[#7a51a0] text-[#7a51a0] md:text-[#232f3e]'
+                                : 'text-slate-600 hover:bg-white/50 hover:text-[#232f3e]'
                                 }`}
                         >
-                            <item.icon size={18} className={activeTab === item.id ? 'text-[#7a51a0]' : 'text-slate-400'} />
+                            <item.icon size={16} className={activeTab === item.id ? 'text-[#7a51a0]' : 'text-slate-400'} />
                             {item.label}
                         </button>
                     ))}
@@ -220,7 +220,7 @@ const ControlCenter: React.FC = () => {
                             {activeTab === 'account' && (
                                 <>
                                     <Card title="Identity Information">
-                                        <div className="grid grid-cols-2 gap-6">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                             <Field label="Display Name (Storefront)">
                                                 <Input value={settings.storeName} onChange={(v: string) => update('storeName', v)} />
                                             </Field>
@@ -228,13 +228,13 @@ const ControlCenter: React.FC = () => {
                                                 <Input value={settings.legalName} onChange={(v: string) => update('legalName', v)} />
                                             </Field>
                                             <Field label="Merchant Token">
-                                                <div className="font-mono text-sm bg-slate-50 p-2 border border-slate-200 rounded text-slate-600">
+                                                <div className="font-mono text-[11px] md:text-sm bg-slate-50 p-2 border border-slate-200 rounded text-slate-600 break-all">
                                                     {settings.merchantToken}
                                                 </div>
                                             </Field>
                                             <Field label="Primary Region">
-                                                <div className="flex items-center gap-2 text-sm text-slate-700">
-                                                    <Globe size={16} className="text-blue-500" />
+                                                <div className="flex items-center gap-2 text-xs md:text-sm text-slate-700">
+                                                    <Globe size={14} className="text-blue-500" />
                                                     ap-south-1 (Mumbai)
                                                 </div>
                                             </Field>
@@ -255,15 +255,15 @@ const ControlCenter: React.FC = () => {
                                     </Card>
 
                                     <Card title="Deposit Methods">
-                                        <div className="border border-slate-200 rounded-lg p-4 flex items-center justify-between bg-slate-50">
+                                        <div className="border border-slate-200 rounded-lg p-3 md:p-4 flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50 gap-3">
                                             <div className="flex items-center gap-3">
-                                                <CreditCard size={24} className="text-slate-400" />
-                                                <div>
-                                                    <p className="text-sm font-bold text-slate-900">HDFC Bank •••• 8842</p>
-                                                    <p className="text-xs text-slate-500">Default for Amazon.in</p>
+                                                <CreditCard size={24} className="text-slate-400 flex-shrink-0" />
+                                                <div className="min-w-0">
+                                                    <p className="text-sm font-bold text-slate-900 truncate">HDFC Bank •••• 8842</p>
+                                                    <p className="text-[11px] md:text-xs text-slate-500 truncate">Default for Amazon.in</p>
                                                 </div>
                                             </div>
-                                            <button className="text-sm font-medium text-[#007185] hover:underline">Manage</button>
+                                            <button className="text-xs md:text-sm font-bold text-[#007185] hover:underline self-start sm:self-auto">Manage Deposit Information</button>
                                         </div>
                                     </Card>
                                 </>
@@ -273,12 +273,12 @@ const ControlCenter: React.FC = () => {
                             {activeTab === 'shipping' && (
                                 <>
                                     <Card title="General Shipping Settings">
-                                        <div className="grid grid-cols-2 gap-8">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                             <Field label="Default Handling Time" helper="Days needed to pack and ship.">
                                                 <select
                                                     value={settings.handlingTime}
-                                                    onChange={(e) => update('handlingTime', e.target.value)}
-                                                    className="w-full text-sm border-slate-300 rounded-md shadow-sm focus:border-[#7a51a0] focus:ring-[#7a51a0]"
+                                                    onChange={(e: any) => update('handlingTime', e.target.value)}
+                                                    className="w-full text-sm border-slate-300 rounded-md shadow-sm focus:border-[#7a51a0] focus:ring-[#7a51a0] border p-2"
                                                 >
                                                     <option>Same Day</option>
                                                     <option>1 Day</option>
@@ -291,13 +291,13 @@ const ControlCenter: React.FC = () => {
                                         </div>
                                         <div className="mt-6">
                                             <label className="block text-sm font-bold text-slate-900 mb-2">Operating Days</label>
-                                            <div className="flex gap-4">
+                                            <div className="flex flex-wrap gap-x-4 gap-y-2">
                                                 {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
                                                     <label key={day} className="flex items-center gap-2 cursor-pointer">
                                                         <input
                                                             type="checkbox"
                                                             checked={settings.operatingDays.includes(day)}
-                                                            onChange={() => {/* Dummy Logic to toggle */ }}
+                                                            onChange={() => {/* Dummy Logic */ }}
                                                             className="rounded border-slate-300 text-[#7a51a0] focus:ring-[#7a51a0]"
                                                         />
                                                         <span className="text-sm text-slate-600">{day}</span>
@@ -433,12 +433,12 @@ const ControlCenter: React.FC = () => {
                             {activeTab === 'fba' && (
                                 <>
                                     <Card title="FBA General Settings">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                             <Field label="Unfulfillable Inventory">
                                                 <select
                                                     value={settings.unfulfillableAction}
-                                                    onChange={(e) => update('unfulfillableAction', e.target.value as any)}
-                                                    className="w-full text-sm border-slate-300 rounded-md shadow-sm"
+                                                    onChange={(e: any) => update('unfulfillableAction', e.target.value as any)}
+                                                    className="w-full text-sm border-slate-300 rounded-md shadow-sm border p-2"
                                                 >
                                                     <option value="Return">Return to Merchant</option>
                                                     <option value="Dispose">Dispose (Liquidate)</option>
@@ -447,8 +447,8 @@ const ControlCenter: React.FC = () => {
                                             <Field label="Schedule">
                                                 <select
                                                     value={settings.disposalSchedule}
-                                                    onChange={(e) => update('disposalSchedule', e.target.value as any)}
-                                                    className="w-full text-sm border-slate-300 rounded-md shadow-sm"
+                                                    onChange={(e: any) => update('disposalSchedule', e.target.value as any)}
+                                                    className="w-full text-sm border-slate-300 rounded-md shadow-sm border p-2"
                                                 >
                                                     <option value="Weekly">Weekly (Every Friday)</option>
                                                     <option value="Monthly">Monthly (1st)</option>
@@ -580,10 +580,10 @@ const ControlCenter: React.FC = () => {
 
 const Card = ({ title, children }: any) => (
     <div className="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden mb-6">
-        <div className="bg-slate-50/80 border-b border-slate-100 px-6 py-4">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide">{title}</h3>
+        <div className="bg-slate-50/80 border-b border-slate-100 px-4 md:px-6 py-3 md:py-4">
+            <h3 className="text-[11px] md:text-sm font-bold text-slate-800 uppercase tracking-wide">{title}</h3>
         </div>
-        <div className="p-6">
+        <div className="p-4 md:p-6">
             {children}
         </div>
     </div>
@@ -621,9 +621,11 @@ const NotificationGroup = ({ title, children }: any) => (
 );
 
 const SwitchRow = ({ label, checked, onChange, urgent }: any) => (
-    <div className="flex items-center justify-between">
-        <span className={`text-sm ${urgent ? 'text-red-700 font-bold' : 'text-slate-600'}`}>{label}</span>
-        <Switch checked={checked} onChange={onChange} />
+    <div className="flex items-center justify-between gap-4">
+        <span className={`text-[11px] md:text-sm leading-tight ${urgent ? 'text-red-700 font-bold' : 'text-slate-600'}`}>{label}</span>
+        <div className="flex-shrink-0">
+            <Switch checked={checked} onChange={onChange} />
+        </div>
     </div>
 );
 

@@ -331,17 +331,17 @@ const CheckoutInner: React.FC = () => {
                         
                         {/* 1. ADDRESS CARD */}
                         <div className="bg-gradient-to-br from-white via-white to-purple-50/30 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-                            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                                <div className="flex items-center gap-4">
-                                    <span className="flex items-center justify-center w-6 h-6 rounded-md bg-fario-purple text-white text-xs font-bold shadow-sm">1</span>
-                                    <h3 className="font-bold text-sm text-gray-900 tracking-wide uppercase">Delivery Address</h3>
+                            <div className="px-4 md:px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+                                <div className="flex items-center gap-3 md:gap-4">
+                                    <span className="flex items-center justify-center w-6 h-6 rounded-md bg-fario-purple text-white text-xs font-bold shadow-sm flex-shrink-0">1</span>
+                                    <h3 className="font-bold text-sm text-gray-900 tracking-wide uppercase line-clamp-1">Delivery Address</h3>
                                 </div>
                                 {selectedAddressId && !isAddingAddress && editingAddressId === null && (
-                                    <button className="text-xs font-semibold uppercase text-blue-600 hover:text-blue-800" onClick={() => { setIsAddingAddress(false); setAddresses(prev => [...prev]); }}>Change</button>
+                                    <button className="text-xs font-semibold uppercase text-blue-600 hover:text-blue-800 flex-shrink-0 ml-2" onClick={() => { setIsAddingAddress(false); setAddresses(prev => [...prev]); }}>Change</button>
                                 )}
                             </div>
 
-                            <div className="p-6">
+                            <div className="p-4 md:p-6">
                                 {(isAddingAddress || editingAddressId !== null) ? (
                                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                                         <h4 className="font-bold text-gray-900 text-sm mb-4">
@@ -433,7 +433,7 @@ const CheckoutInner: React.FC = () => {
 
                         {/* 2. PAYMENT PROTOCOL CARD */}
                         <div className={`bg-gradient-to-br from-white via-white to-purple-50/30 rounded-lg border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 ${!selectedAddressId ? 'opacity-50 grayscale pointer-events-none' : 'opacity-100'}`}>
-                            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center gap-4">
+                            <div className="px-4 md:px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center gap-3 md:gap-4">
                                 <span className="flex items-center justify-center w-6 h-6 rounded-md bg-fario-purple text-white text-xs font-bold shadow-sm">2</span>
                                 <h3 className="font-bold text-sm text-gray-900 tracking-wide uppercase">Payment Protocol</h3>
                             </div>
@@ -450,8 +450,8 @@ const CheckoutInner: React.FC = () => {
                                             <div
                                                 key={method.id}
                                                 onClick={() => setPaymentMethod(method.id)}
-                                                className={`px-6 py-4 md:px-6 md:py-5 text-sm font-semibold cursor-pointer border-r md:border-r-0 md:border-b border-gray-200 transition-all flex items-center gap-3 relative overflow-hidden whitespace-nowrap min-w-max md:min-w-0 ${paymentMethod === method.id
-                                                    ? 'bg-purple-50 text-fario-purple border-l-4 md:border-l-fario-purple'
+                                                className={`px-4 py-3.5 md:px-6 md:py-5 text-sm font-semibold cursor-pointer border-r md:border-r-0 md:border-b border-gray-200 transition-all flex items-center gap-2 md:gap-3 relative overflow-hidden whitespace-nowrap min-w-max md:min-w-0 ${paymentMethod === method.id
+                                                    ? 'bg-purple-50 text-fario-purple border-b-4 md:border-l-4 md:border-b-0 border-fario-purple'
                                                     : 'text-gray-500 hover:text-gray-700 hover:bg-white'
                                                     }`}
                                             >
@@ -463,7 +463,7 @@ const CheckoutInner: React.FC = () => {
                                     </div>
 
                                     {/* Payment Details Area */}
-                                    <div className="w-full md:w-3/5 p-6 md:p-8 bg-white overflow-hidden relative">
+                                    <div className="w-full md:w-3/5 p-4 md:p-8 bg-white overflow-hidden relative">
                                         <AnimatePresence mode="wait">
                                             {paymentMethod === 'upi' && (
                                                 <motion.div key="upi" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
@@ -564,20 +564,20 @@ const CheckoutInner: React.FC = () => {
 
                             {/* ORDER ITEMS CARD */}
                             <div className="bg-gradient-to-br from-white via-white to-purple-50/30 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-                                <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+                                <div className="px-4 md:px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
                                     <h3 className="font-bold text-sm text-gray-900 tracking-wide uppercase">Order Summary</h3>
                                     <span className="text-xs font-bold text-gray-600 bg-gray-200 px-2 py-1 rounded">{cartItems.length} {cartItems.length === 1 ? 'ITEM' : 'ITEMS'}</span>
                                 </div>
-                                <div className="p-6 max-h-[350px] overflow-y-auto custom-scrollbar">
+                                <div className="p-4 md:p-6 max-h-[350px] overflow-y-auto custom-scrollbar">
                                     <div className="space-y-6">
                                         {cartItems.map(item => (
                                             <div key={item.cartId} className="flex gap-4 group">
-                                                <div className="w-20 h-20 flex-shrink-0 bg-gray-50 rounded border border-gray-100 p-2">
+                                                <div className="w-16 md:w-20 h-16 md:h-20 flex-shrink-0 bg-gray-50 rounded border border-gray-100 p-2">
                                                     <img src={item.image} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
                                                     <h4 className="font-bold text-gray-900 text-sm mb-1 truncate">{item.name}</h4>
-                                                    <p className="text-xs text-gray-500 mb-2">{item.selectedSize} • {item.selectedColor}</p>
+                                                    <p className="text-xs text-gray-500 mb-1 md:mb-2">{item.selectedSize} • {item.selectedColor}</p>
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-2">
                                                             <span className="text-sm font-bold text-gray-900">{formatPrice(item.price)}</span>
@@ -592,7 +592,7 @@ const CheckoutInner: React.FC = () => {
                             </div>
 
                             {/* COUPONS CARD */}
-                            <div className="bg-gradient-to-br from-white via-white to-purple-50/30 rounded-lg border border-gray-200 shadow-sm p-6">
+                            <div className="bg-gradient-to-br from-white via-white to-purple-50/30 rounded-lg border border-gray-200 shadow-sm p-4 md:p-6">
                                 <h3 className="text-sm font-bold uppercase tracking-wide text-gray-900 mb-4 flex items-center justify-between">
                                     Promo Codes {userCoupons?.length > 0 && <span className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">{userCoupons.length} available</span>}
                                 </h3>

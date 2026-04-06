@@ -155,7 +155,7 @@ const Cart: React.FC = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-            <div className="min-h-screen bg-white font-sans text-gray-800 pt-20 md:pt-24 pb-40 lg:pb-32">
+            <div className="min-h-screen bg-white font-sans text-gray-800 pt-20 md:pt-24 pb-32">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
                     {/* Page Title */}
@@ -267,7 +267,7 @@ const Cart: React.FC = () => {
                                             </div>
 
                                             {/* Actions Row */}
-                                            <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-50">
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-auto pt-4 border-t border-gray-50">
                                                 {/* Quantity */}
                                                 <div className="flex items-center bg-gray-50 rounded-lg p-1 text-xs font-bold border border-gray-200">
                                                     <span className="px-2 text-gray-400">Qty:</span>
@@ -282,7 +282,7 @@ const Cart: React.FC = () => {
                                                     </select>
                                                 </div>
 
-                                                <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-wide text-gray-400">
+                                                <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] font-bold uppercase tracking-wide text-gray-400">
                                                     <button
                                                         onClick={() => removeFromCart(item.cartId)}
                                                         className="hover:text-fario-purple transition-colors flex items-center gap-1"
@@ -412,7 +412,7 @@ const Cart: React.FC = () => {
                                                         <button
                                                             onClick={handleApplyCoupon}
                                                             disabled={isValidating || !couponInput}
-                                                            className="px-6 py-2.5 bg-gray-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-fario-purple transition-all disabled:opacity-50 whitespace-nowrap shadow-sm"
+                                                            className="w-full sm:w-auto px-6 py-2.5 bg-gray-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-fario-purple transition-all disabled:opacity-50 whitespace-nowrap shadow-sm"
                                                         >
                                                             {isValidating ? '...' : 'Apply'}
                                                         </button>
@@ -545,7 +545,7 @@ const Cart: React.FC = () => {
 
             {/* MOBILE STICKY CHECKOUT BAR */}
             {cartItems.length > 0 && (
-                <div className="fixed bottom-0 left-0 right-0 p-4 sm:p-5 pb-6 sm:pb-8 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:hidden z-[90] flex flex-col gap-3">
+                <div className="fixed bottom-0 left-0 right-0 p-4 pb-6 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] lg:hidden z-[90] flex flex-col gap-3" style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
                     <div className="flex justify-between items-end px-1">
                         <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Subtotal</span>
                         <span className="text-2xl font-black text-fario-purple tracking-tight leading-none">{formatPrice(finalTotal)}</span>
